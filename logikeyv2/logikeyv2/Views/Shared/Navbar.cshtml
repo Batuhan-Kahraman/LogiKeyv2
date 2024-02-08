@@ -1,0 +1,818 @@
+﻿<nav class="navbar navbar-vertical navbar-expand-lg" style="display:none;">
+    <script>
+        var navbarStyle = window.config.config.phoenixNavbarStyle;
+        if (navbarStyle && navbarStyle !== 'transparent') {
+            document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+        }
+    </script>
+    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+        <!-- scrollbar removed-->
+        <div class="navbar-vertical-content">
+            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+                <li class="nav-item ">
+                    <a class="nav-link active" asp-controller="Home" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Anasayfa</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <!-- Tanımlamalar -->
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="#nv-tanimlamalar" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-tanimlamalar">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="pie-chart"></span></span><span class="nav-link-text">Tanımlamalar</span>
+                            </div>
+                        </a>
+                        <div class="parent-wrapper label-1">
+                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-tanimlamalar">
+                                <li class="collapsed-nav-item-title d-none">Tanımlamalar</li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Sahiplik" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Sahiplik</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Durumlar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Durum</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="AracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Araç Türü</span></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" asp-controller="AracTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Araç Tipi</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Marka" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Marka</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Model" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Model</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Grup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="YakitTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Tipi</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="AkuTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Akü Tipi</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="LastikTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Lastik Tipi</span></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="MasrafTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Tipi</span></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Araç</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" asp-controller="Firma" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Firmalar</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Kullanicilar</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="navbar-vertical-footer"><button class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left text-body fs-5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right text-body fs-5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <span class="navbar-vertical-footer-text ms-2">Menüyü Daralt</span></button></div>
+    </div>
+</nav>
+
+<!-- tema değiştir / proifl -->
+<nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault" style="display:none;">
+    <div class="collapse navbar-collapse justify-content-between">
+        <div class="navbar-logo">
+            <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+            <a class="navbar-brand me-1 me-sm-3" asp-controller="Home" asp-action="Index">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="~/assets/img/icons/favicon.ico" alt="Logikey" width="27" />
+                        <p class="logo-text ms-2 d-none d-sm-block">Logikey</p>
+                    </div>
+                </div>
+            </a>
+
+
+        </div>
+
+        <ul class="navbar-nav navbar-nav-icons flex-row">
+            <li>
+                <div class="theme-control-toggle fa-icon-wait px-2"><input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+            </li>
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                    <div class="avatar avatar-l ">
+                        <img class="rounded-circle " src="~/assets/img/team/40x40/57.webp" alt="" />
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
+                    <div class="card position-relative border-0">
+                        <div class="card-body p-0">
+                            <div class="text-center pt-4 pb-3">
+                                <div class="avatar avatar-xl ">
+                                    <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
+                                </div>
+                                <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                            </div>
+                        </div>
+                        <div class="overflow-auto scrollbar" style="height: 10rem;">
+                            <ul class="nav d-flex flex-column mb-2 pb-1">
+                                <li><a class="nav-link px-3" href="#!"> <span class="me-2 text-body" data-feather="user"></span><span>Profil</span></a></li>
+                                <li><a class="nav-link px-3" href="#!"><span class="me-2 text-body" data-feather="pie-chart"></span>Anasayfa</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="card-footer p-0 border-top border-translucent">
+
+                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+</nav>
+<nav class="navbar navbar-top navbar-slim fixed-top navbar-expand" id="topNavSlim" style="display:none;">
+    <div class="collapse navbar-collapse justify-content-between">
+        <div class="navbar-logo">
+            <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+            <a class="navbar-brand navbar-brand" asp-controller="Home" asp-action="Index">phoenix <span class="text-body-highlight d-none d-sm-inline">slim</span></a>
+        </div>
+        <ul class="navbar-nav navbar-nav-icons flex-row">
+            <li>
+                <div class="theme-control-toggle fa-ion-wait pe-2 theme-control-toggle-slim"><input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="moon"></span><span class="fs-9 fw-bold">Dark</span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="sun"></span><span class="fs-9 fw-bold">Light</span></label></div>
+            </li>
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-link lh-1 pe-0 white-space-nowrap" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" aria-haspopup="true" data-bs-auto-close="outside" aria-expanded="false">Olivia <span class="fa-solid fa-chevron-down fs-10"></span></a>
+                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
+                    <div class="card position-relative border-0">
+                        <div class="card-body p-0">
+                            <div class="text-center pt-4 pb-3">
+                                <div class="avatar avatar-xl ">
+                                    <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
+                                </div>
+                                <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                            </div>
+                        </div>
+                        <div class="overflow-auto scrollbar" style="height: 10rem;">
+                            <ul class="nav d-flex flex-column mb-2 pb-1">
+                                <li><a class="nav-link px-3" href="#!"> <span class="me-2 text-body" data-feather="user"></span><span>Profil</span></a></li>
+                                <li><a class="nav-link px-3" href="#!"><span class="me-2 text-body" data-feather="pie-chart"></span>Anasayfa</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="card-footer p-0 border-top border-translucent">
+                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop" style="display:none;">
+    <div class="navbar-logo">
+        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+        <a class="navbar-brand me-1 me-sm-3" asp-controller="Home" asp-action="Index">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="~/~/assets/img/icons/favicon.ico" alt="Logikey" width="27" />
+                    <p class="logo-text ms-2 d-none d-sm-block">Logikey</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
+        <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Home" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Anasayfa</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Tanımlamalar</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Sahiplik" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Sahiplik</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Durumlar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Durum</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Türü</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Marka" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Marka</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Model" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Model</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Grup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="YakitTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AkuTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Akü Tipi</span></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" asp-controller="LastikTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Lastik Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="MasrafTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Tipi</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Araç</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Firma" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Firmalar</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Kullanicilar</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <ul class="navbar-nav navbar-nav-icons flex-row">
+        <li>
+            <div class="theme-control-toggle fa-icon-wait px-2"><input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                <div class="avatar avatar-l ">
+                    <img class="rounded-circle " src="~/assets/img/team/40x40/57.webp" alt="" />
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
+                <div class="card position-relative border-0">
+                    <div class="card-body p-0">
+                        <div class="text-center pt-4 pb-3">
+                            <div class="avatar avatar-xl ">
+                                <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
+                            </div>
+                            <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                        </div>
+                        <div class="mb-3 mx-3"><input class="form-control form-control-sm" id="statusUpdateInput" type="text" placeholder="Update your status" /></div>
+                    </div>
+                    <div class="overflow-auto scrollbar" style="height: 10rem;">
+                        <ul class="nav d-flex flex-column mb-2 pb-1">
+                            <li><a class="nav-link px-3" href="#!"> <span class="me-2 text-body" data-feather="user"></span><span>Profil</span></a></li>
+                            <li><a class="nav-link px-3" href="#!"><span class="me-2 text-body" data-feather="pie-chart"></span>Anasayfa</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="card-footer p-0 border-top border-translucent">
+
+
+                        <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
+<nav class="navbar navbar-top navbar-slim justify-content-between fixed-top navbar-expand-lg" id="navbarTopSlim" style="display:none;">
+    <div class="navbar-logo">
+        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+        <a class="navbar-brand navbar-brand" asp-controller="Home" asp-action="Index">phoenix <span class="text-body-highlight d-none d-sm-inline">slim</span></a>
+    </div>
+    <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
+        <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Home" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Anasayfa</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Tanımlamalar</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Sahiplik" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Sahiplik</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Durumlar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Durum</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Türü</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Marka" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Marka</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Model" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Model</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Grup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="YakitTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AkuTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Akü Tipi</span></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" asp-controller="LastikTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Lastik Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="MasrafTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Tipi</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Arac</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Firma" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Firmalar</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link active" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Kullanicilar</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <ul class="navbar-nav navbar-nav-icons flex-row">
+        <li>
+            <div class="theme-control-toggle fa-ion-wait pe-2 theme-control-toggle-slim"><input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="moon"></span><span class="fs-9 fw-bold">Dark</span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="sun"></span><span class="fs-9 fw-bold">Light</span></label></div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link lh-1 pe-0 white-space-nowrap" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" aria-haspopup="true" data-bs-auto-close="outside" aria-expanded="false">Olivia <span class="fa-solid fa-chevron-down fs-10"></span></a>
+            <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
+                <div class="card position-relative border-0">
+                    <div class="card-body p-0">
+                        <div class="text-center pt-4 pb-3">
+                            <div class="avatar avatar-xl ">
+                                <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
+                            </div>
+                            <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                        </div>
+                    </div>
+                    <div class="overflow-auto scrollbar" style="height: 10rem;">
+                        <ul class="nav d-flex flex-column mb-2 pb-1">
+                            <li><a class="nav-link px-3" href="#!"> <span class="me-2 text-body" data-feather="user"></span><span>Profil</span></a></li>
+                            <li><a class="nav-link px-3" href="#!"><span class="me-2 text-body" data-feather="pie-chart"></span>Anasayfa</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-footer p-0 border-top border-translucent">
+                        <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
+<nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarCombo" data-navbar-top="combo" data-move-target="#navbarVerticalNav" style="display:none;">
+    <div class="navbar-logo">
+        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+        <a class="navbar-brand me-1 me-sm-3" asp-controller="Home" asp-action="Index">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="~/assets/img/icons/favicon.ico" alt="Logikey" width="27" />
+                    <p class="logo-text ms-2 d-none d-sm-block">Logikey</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
+        <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Tanımlamalar</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Sahiplik" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Sahiplik</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Durumlar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Durum</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Türü</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Marka" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Marka</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Model" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Model</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Grup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="YakitTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AkuTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Akü Tipi</span></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" asp-controller="LastikTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Lastik Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="MasrafTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Tipi</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <ul class="navbar-nav navbar-nav-icons flex-row">
+        <li>
+            <div class="theme-control-toggle fa-icon-wait px-2"><input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                <div class="avatar avatar-l ">
+                    <img class="rounded-circle " src="~/assets/img/team/40x40/57.webp" alt="" />
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
+                <div class="card position-relative border-0">
+                    <div class="card-body p-0">
+                        <div class="text-center pt-4 pb-3">
+                            <div class="avatar avatar-xl ">
+                                <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
+                            </div>
+                            <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                        </div>
+                    </div>
+                    <div class="overflow-auto scrollbar" style="height: 10rem;">
+                        <ul class="nav d-flex flex-column mb-2 pb-1">
+                            <li><a class="nav-link px-3" href="#!"> <span class="me-2 text-body" data-feather="user"></span><span>Profil</span></a></li>
+                            <li><a class="nav-link px-3" href="#!"><span class="me-2 text-body" data-feather="pie-chart"></span>Anasayfa</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="card-footer p-0 border-top border-translucent">
+
+                        <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
+<nav class="navbar navbar-top fixed-top navbar-slim justify-content-between navbar-expand-lg" id="navbarComboSlim" data-navbar-top="combo" data-move-target="#navbarVerticalNav" style="display:none;">
+    <div class="navbar-logo">
+        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+        <a class="navbar-brand navbar-brand" asp-controller="Home" asp-action="Index">phoenix <span class="text-body-highlight d-none d-sm-inline">slim</span></a>
+    </div>
+    <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
+        <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Tanımlamalar</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Sahiplik" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Sahiplik</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Durumlar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Durum</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Türü</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AracTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Araç Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Marka" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Marka</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Model" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Model</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="Grup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="YakitTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="AkuTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Akü Tipi</span></div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" asp-controller="LastikTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Lastik Tipi</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-controller="MasrafTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Tipi</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <ul class="navbar-nav navbar-nav-icons flex-row">
+        <li>
+            <div class="theme-control-toggle fa-ion-wait pe-2 theme-control-toggle-slim"><input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="moon"></span><span class="fs-9 fw-bold">Dark</span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="sun"></span><span class="fs-9 fw-bold">Light</span></label></div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link lh-1 pe-0 white-space-nowrap" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" aria-haspopup="true" data-bs-auto-close="outside" aria-expanded="false">Olivia <span class="fa-solid fa-chevron-down fs-10"></span></a>
+            <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" aria-labelledby="navbarDropdownUser">
+                <div class="card position-relative border-0">
+                    <div class="card-body p-0">
+                        <div class="text-center pt-4 pb-3">
+                            <div class="avatar avatar-xl ">
+                                <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
+                            </div>
+                            <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                        </div>
+                    </div>
+                    <div class="overflow-auto scrollbar" style="height: 10rem;">
+                        <ul class="nav d-flex flex-column mb-2 pb-1">
+                            <li><a class="nav-link px-3" href="#!"> <span class="me-2 text-body" data-feather="user"></span><span>Profil</span></a></li>
+                            <li><a class="nav-link px-3" href="#!"><span class="me-2 text-body" data-feather="pie-chart"></span>Anasayfa</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="card-footer p-0 border-top border-translucent">
+
+                        <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+
+
+
+
+
+
+<script>
+    var navbarTopShape = window.config.config.phoenixNavbarTopShape;
+    var navbarPosition = window.config.config.phoenixNavbarPosition;
+    var body = document.querySelector('body');
+    var navbarDefault = document.querySelector('#navbarDefault');
+    var navbarTop = document.querySelector('#navbarTop');
+    var topNavSlim = document.querySelector('#topNavSlim');
+    var navbarTopSlim = document.querySelector('#navbarTopSlim');
+    var navbarCombo = document.querySelector('#navbarCombo');
+    var navbarComboSlim = document.querySelector('#navbarComboSlim');
+    var dualNav = document.querySelector('#dualNav');
+
+    var documentElement = document.documentElement;
+    var navbarVertical = document.querySelector('.navbar-vertical');
+
+    if (navbarPosition === 'dual-nav') {
+        topNavSlim.remove();
+        navbarTop.remove();
+        navbarVertical.remove();
+        navbarTopSlim.remove();
+        navbarCombo.remove();
+        navbarComboSlim.remove();
+        navbarDefault.remove();
+        dualNav.removeAttribute('style');
+        document.documentElement.setAttribute('data-navigation-type', 'dual');
+
+    } else if (navbarTopShape === 'slim' && navbarPosition === 'vertical') {
+        navbarDefault.remove();
+        navbarTop.remove();
+        navbarTopSlim.remove();
+        navbarCombo.remove();
+        navbarComboSlim.remove();
+        topNavSlim.style.display = 'block';
+        navbarVertical.style.display = 'inline-block';
+        document.documentElement.setAttribute('data-navbar-horizontal-shape', 'slim');
+
+    } else if (navbarTopShape === 'slim' && navbarPosition === 'horizontal') {
+        navbarDefault.remove();
+        navbarVertical.remove();
+        navbarTop.remove();
+        topNavSlim.remove();
+        navbarCombo.remove();
+        navbarComboSlim.remove();
+        navbarTopSlim.removeAttribute('style');
+        document.documentElement.setAttribute('data-navbar-horizontal-shape', 'slim');
+    } else if (navbarTopShape === 'slim' && navbarPosition === 'combo') {
+        navbarDefault.remove();
+        navbarTop.remove();
+        topNavSlim.remove();
+        navbarCombo.remove();
+        navbarTopSlim.remove();
+        navbarComboSlim.removeAttribute('style');
+        navbarVertical.removeAttribute('style');
+        document.documentElement.setAttribute('data-navbar-horizontal-shape', 'slim');
+    } else if (navbarTopShape === 'default' && navbarPosition === 'horizontal') {
+        navbarDefault.remove();
+        topNavSlim.remove();
+        navbarVertical.remove();
+        navbarTopSlim.remove();
+        navbarCombo.remove();
+        navbarComboSlim.remove();
+        navbarTop.removeAttribute('style');
+        document.documentElement.setAttribute('data-navigation-type', 'horizontal');
+    } else if (navbarTopShape === 'default' && navbarPosition === 'combo') {
+        topNavSlim.remove();
+        navbarTop.remove();
+        navbarTopSlim.remove();
+        navbarDefault.remove();
+        navbarComboSlim.remove();
+        navbarCombo.removeAttribute('style');
+        navbarVertical.removeAttribute('style');
+        document.documentElement.setAttribute('data-navigation-type', 'combo');
+
+
+    } else {
+        topNavSlim.remove();
+        navbarTop.remove();
+        navbarTopSlim.remove();
+        navbarCombo.remove();
+        navbarComboSlim.remove();
+        navbarDefault.removeAttribute('style');
+        navbarVertical.removeAttribute('style');
+    }
+
+    var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+    var navbarTop = document.querySelector('.navbar-top');
+    if (navbarTopStyle === 'darker') {
+        navbarTop.setAttribute('data-navbar-appearance', 'darker');
+    }
+
+    var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+    var navbarVertical = document.querySelector('.navbar-vertical');
+    if (navbarVerticalStyle === 'darker') {
+        navbarVertical.setAttribute('data-navbar-appearance', 'darker');
+    }
+</script> 

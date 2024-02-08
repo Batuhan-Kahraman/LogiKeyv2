@@ -1,0 +1,75 @@
+﻿@model EntityLayer.Concrate.Kullanicilar
+
+@{
+    ViewData["Title"] = "Kullanıcı Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+
+                <tr>
+
+                    <td>Adı</td>
+                    <td><input type="text" class="form-control" asp-for="Kullanici_Isim" /></td>
+                    <td>Soyadı</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Kullanici_Soyisim" />
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Eposta</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Kullanici_Eposta" />
+
+                    </td>
+                    <td>Telefon No</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Kullanici_Telefon" />
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Şifre</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Kullanici_Sifre" />
+                    </td>
+                    <td>Kullanıcı Grubu</td>
+                    <td>
+                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Şöfor</option>
+                           
+
+                        </select>
+                    </td>
+                </tr>
+               
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Firmayı Kaydet" />
+        </form>
+
+
+    </div>
+
+</div>

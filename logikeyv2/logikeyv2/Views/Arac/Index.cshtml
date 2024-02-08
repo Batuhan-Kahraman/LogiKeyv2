@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Araç Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Araçlar</h2>
+    <a asp-controller="Arac" asp-action="Ekle">Araç Ekle</a>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+
+</div>
