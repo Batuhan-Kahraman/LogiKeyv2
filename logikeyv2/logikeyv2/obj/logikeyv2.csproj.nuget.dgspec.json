@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj": {}
+    "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj": {
+    "F:\\LogiKeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj",
+        "projectUniqueName": "F:\\LogiKeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj",
         "projectName": "BusinessLayer",
-        "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj",
-        "packagesPath": "C:\\Users\\Seyma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\BusinessLayer\\obj\\",
+        "projectPath": "F:\\LogiKeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "F:\\LogiKeyv2\\logikeyv2\\BusinessLayer\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Seyma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,17 +26,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj"
+              "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj"
               },
-              "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
-                "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
+              "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
+                "projectPath": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
               }
             }
           }
@@ -84,21 +89,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
-        "packagesPath": "C:\\Users\\Seyma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\obj\\",
+        "projectPath": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Seyma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -106,14 +115,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
-                "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
+              "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
+                "projectPath": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
               }
             }
           }
@@ -165,21 +175,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
+    "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
+        "projectUniqueName": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
         "projectName": "EntityLayer",
-        "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
-        "packagesPath": "C:\\Users\\Seyma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\obj\\",
+        "projectPath": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Seyma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -187,6 +201,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -242,21 +257,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj": {
+    "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj",
+        "projectUniqueName": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj",
         "projectName": "logikeyv2",
-        "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj",
-        "packagesPath": "C:\\Users\\Seyma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\logikeyv2\\obj\\",
+        "projectPath": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\logikeyv2.csproj",
+        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
+        "outputPath": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Seyma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -264,20 +283,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj": {
-                "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj"
+              "F:\\LogiKeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj": {
+                "projectPath": "F:\\LogiKeyv2\\logikeyv2\\BusinessLayer\\BusinessLayer.csproj"
               },
-              "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj"
+              "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj"
               },
-              "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
-                "projectPath": "C:\\Users\\Seyma\\OneDrive\\Masaüstü\\logikey2z\\logikeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
+              "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
+                "projectPath": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
               }
             }
           }
@@ -332,7 +352,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

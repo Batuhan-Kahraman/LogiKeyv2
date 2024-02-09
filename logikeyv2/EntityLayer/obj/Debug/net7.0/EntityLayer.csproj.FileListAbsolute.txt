@@ -40,3 +40,17 @@ C:\Users\Seyma\OneDrive\Masaüstü\logikey2z\logikeyv2\logikeyv2\EntityLayer\obj
 C:\Users\Seyma\OneDrive\Masaüstü\logikey2z\logikeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.csproj.CoreCompileInputs.cache
 C:\Users\Seyma\OneDrive\Masaüstü\logikey2z\logikeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.genruntimeconfig.cache
 C:\Users\Seyma\OneDrive\Masaüstü\logikey2z\logikeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\ref\EntityLayer.dll
+F:\LogiKeyv2\logikeyv2\EntityLayer\bin\Debug\net7.0\EntityLayer.deps.json
+F:\LogiKeyv2\logikeyv2\EntityLayer\bin\Debug\net7.0\EntityLayer.runtimeconfig.json
+F:\LogiKeyv2\logikeyv2\EntityLayer\bin\Debug\net7.0\EntityLayer.dll
+F:\LogiKeyv2\logikeyv2\EntityLayer\bin\Debug\net7.0\EntityLayer.pdb
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.csproj.AssemblyReference.cache
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.GeneratedMSBuildEditorConfig.editorconfig
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.AssemblyInfoInputs.cache
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.AssemblyInfo.cs
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.csproj.CoreCompileInputs.cache
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.dll
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\refint\EntityLayer.dll
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.pdb
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\EntityLayer.genruntimeconfig.cache
+F:\LogiKeyv2\logikeyv2\EntityLayer\obj\Debug\net7.0\ref\EntityLayer.dll

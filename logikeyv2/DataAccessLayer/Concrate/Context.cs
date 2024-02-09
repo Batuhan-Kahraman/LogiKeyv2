@@ -44,5 +44,13 @@ namespace DataAccessLayer.Concrate
         public DbSet<KullaniciYetkiler> KullaniciYetkiler { get; set; }
         public DbSet<Moduller> Moduller { get; set; }
         public DbSet<Kullanicilar> Kullanicilar { get; set; }
+        public DbSet<Cari> Cari { get; set; }
+
+        public DbSet<CariGrup> CariGrup { get; set; }
+        public DbSet<CariUcretlendirme> CariUcretlendirme { get; set; }
+        public DbSet<Cari_OdemeYapan> Cari_OdemeYapan { get; set; }
+
+
+
     }
 }

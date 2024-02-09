@@ -29,5 +29,13 @@ namespace BusinessLayer.Abstract
     public interface IKullanicilarService : IGenericService<Kullanicilar> { }
     public interface IModullerService : IGenericService<Moduller> { }
     public interface IAdresOzellikTanimlamaService : IGenericService<AdresOzellikTanimlama> { }
+    public interface ICariService : IGenericService<Cari> { }
+    public interface ICariGrupService : IGenericService<CariGrup> { }
+    public interface ICariUcretlendirmeService : IGenericService<CariUcretlendirme> { }
+
+    public interface ICari_OdemeYapanService : IGenericService<Cari_OdemeYapan> { }
+
+
+
 
 }
