@@ -9,125 +9,209 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = logikeyv2
 build_property.RootNamespace = logikeyv2
-build_property.ProjectDir = F:\LogiKeyv2\logikeyv2\logikeyv2\
+build_property.ProjectDir = C:\Users\Seyma\OneDrive\Masaüstü\LogikeyGithub\logikeyv2\logikeyv2\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = F:\LogiKeyv2\logikeyv2\logikeyv2
+build_property.MSBuildProjectDirectory = C:\Users\Seyma\OneDrive\Masaüstü\LogikeyGithub\logikeyv2\logikeyv2
 build_property._RazorSourceGeneratorDebug = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/AkuTipi/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Models/AracViewModel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TW9kZWxzXEFyYWNWaWV3TW9kZWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/AkuTipi/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWt1VGlwaVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/AracTip/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/AracTip/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJhY1RpcFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/AracTur/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/AracTur/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJhY1R1clxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Arac/Ekle.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Arac/Duzenle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJhY1xEdXplbmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Arac/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJhY1xFa2xlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Arac/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Arac/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJhY1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Cari/Ekle.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Bankalar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFua2FsYXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Birimler/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlyaW1sZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/CariGrup/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyaUdydXBcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Cari/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyaVxFa2xlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Cari/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Cari/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyaVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Durumlar/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Durumlar/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHVydW1sYXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Firma/Ekle.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/EhliyetSinifi/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRWhsaXlldFNpbmlmaVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Firma/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmlybWFcRWtsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Firma/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Firma/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmlybWFcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Home/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Grup/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3J1cFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Home/Privacy.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Kullanici/Ekle.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/KazaTuru/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F6YVR1cnVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Kaza/Duzenle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F6YVxEdXplbmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Kaza/Ekle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F6YVxFa2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Kaza/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F6YVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Kullanici/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpXEVrbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Kullanici/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Kullanici/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS3VsbGFuaWNpXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/LastikTipi/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/LastikTipi/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFzdGlrVGlwaVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Marka/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Marka/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFya2FcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/MasrafTipi/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/MasrafCeza/Ekle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzcmFmQ2V6YVxFa2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/MasrafCeza/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzcmFmQ2V6YVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/MasrafTipi/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzcmFmVGlwaVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Model/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Model/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9kZWxcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Sahiplik/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Sahiplik/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FoaXBsaWtcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Shared/Error.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Shared/Head.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Shared/Head.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEhlYWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Shared/Header.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Shared/Header.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEhlYWRlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Shared/Navbar.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Shared/Navbar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE5hdmJhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Shared/Script.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Shared/Script.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFNjcmlwdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/YakitTipi/Index.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/SurucuCikisNedeni/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VydWN1Q2lraXNOZWRlbmlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/SurucuPozisyon/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VydWN1UG96aXN5b25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Surucu/Duzenle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VydWN1XER1emVubGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Surucu/Ekle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VydWN1XEVrbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Surucu/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VydWN1XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/TasimaTipi/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFzaW1hVGlwaVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/TasinacakUrun/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFzaW5hY2FrVXJ1blxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/UnListesi/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVW5MaXN0ZXNpXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/YakitTipi/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWFraXRUaXBpXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/_ViewImports.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/_ViewStart.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/LogiKeyv2/logikeyv2/logikeyv2/Views/Shared/_Layout.cshtml]
+[C:/Users/Seyma/OneDrive/Masaüstü/LogikeyGithub/logikeyv2/logikeyv2/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-yatk9ykbj9

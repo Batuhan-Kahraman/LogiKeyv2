@@ -12,6 +12,13 @@ namespace EntityLayer.Concrate
         [Key]
         public int Modul_ID { get; set; }
         public string? Modul_Adi { get; set; }
+        public int Firma_ID { get; set; }
+        public int EkleyenKullanici_ID { get; set; }
+        public int DuzenleyenKullanici_ID { get; set; }
+        public DateTime EklemeTarihi { get; set; }
+        public DateTime DuzenlemeTarihi { get; set; }
+        public byte Durum { get; set; }
+
     }
 
 }

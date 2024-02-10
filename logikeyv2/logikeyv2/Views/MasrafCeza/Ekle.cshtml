@@ -1,0 +1,256 @@
+﻿@model EntityLayer.Concrate.MasrafCeza
+
+@{
+    ViewData["Title"] = "Masraf / Ceza Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Masraf / Ceza Ekle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+                <tr>
+                    <td colspan="6">
+                        <select class="form-control" asp-for="Tur" onchange="turDegis(this.value)">
+                            <option value="0">Tür Seçiniz</option>
+                            <option value="1">Masraf</option>
+                            <option value="2">Ceza</option>
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Plaka</td>
+                    <td>
+                        <select class="form-control" asp-for="AracID" id="AracID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Sürücü</td>
+                    <td><input type="date" class="form-control" asp-for="SurucuID" /></td>
+                    <td id="tedarikciTD1" style="display:none;">Tedarikçi</td>
+                    <td id="tedarikciTD2" style="display:none;">
+                        <select class="form-control" asp-for="TedarikciID" id="TedarikciID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Belgeli / Belgesiz</td>
+                    <td>
+                        <select class="form-control" asp-for="YakitTipiID" id="YakitTipiID">
+                            <option value="0">Seçiniz</option>
+
+                        </select>
+                    </td>
+                    <td>Fatura Tarihi</td>
+                    <td>
+                        <input type="date" class="form-control" asp-for="FaturaTarihi" />
+                    </td>
+                    <td>Fatura No</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="FaturaNo" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Araç KM</td>
+                    <td><input type="text" class="form-control" asp-for="AracKM" /></td>
+                  </tr>
+                  <tr>
+                    <td>Masraf Tipi</td>
+                    <td>
+                        <select class="form-control" asp-for="MasrafTipiID" id="MasrafTipiID">
+                            <option value="0">Seçiniz</option>
+
+                        </select>
+                    </td>
+                    <td>Masraf Detay</td>
+                    <td colspan="3">
+                        <textarea class="form-control" asp-for=MasrafDetay></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>KDV Dahil Mi?</td>
+                    <td>
+                        <select class="form-control" asp-for="KdvDahilMi">
+                            <option value="True">Evet</option>
+                            <option value="False">Hayır</option>
+</select>
+
+                    </td>
+                    <td>Miktar</td>
+                    <td><input type="number" class="form-control" asp-for="Miktar" /></td>
+                </tr>
+                <tr>
+                    <td>Birim Fiyat</td>
+                    <td><input type="text" class="form-control" asp-for="BirimFiyat" /></td>
+                </tr>
+                <tr>
+                    <td>Tutar</td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="Tutar" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>KDV</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="KDV" />
+
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>İskonto</td>
+                    <td><input type="number" class="form-control" asp-for="Iskonto" /></td>
+                </tr>
+                <tr>
+                    <td>Toplam Tutar</td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="ToplamTutar" />
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>Notlar</td>
+                    
+                    <td colspan="5">
+                        <textarea rows="2" asp-for="Notlar" class="form-control"></textarea>
+                    </td>
+                </tr>
+              
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Masraf / Ceza Kaydet" />
+        </form>
+
+
+    </div>
+
+</div>
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        //plaka listele
+        $.ajax({
+            url: '../Ajax/PlakaListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#AracID').empty();
+                $('#AracID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#AracID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.plaka // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+        //sürücü listele
+        $.ajax({
+            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#SurucuID').empty();
+                $('#SurucuID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#SurucuID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.isim+ ' '+item.soyisim // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        //yakıt tipi listele
+        $.ajax({
+            url: '../Ajax/YakitTipiListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#YakitTipiID').empty();
+                $('#YakitTipiID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#YakitTipiID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+        //masraf tipi listele
+        $.ajax({
+            url: '../Ajax/MasrafTipiListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#MasrafTipiID').empty();
+                $('#MasrafTipiID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#MasrafTipiID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+        function turDegis(item) {
+            if (item == 1) {
+                document.getElementById("tedarikciTD1").style.display = "";
+                document.getElementById("tedarikciTD2").style.display = "";
+            }
+            else {
+                document.getElementById("tedarikciTD1").style.display = "none";
+                document.getElementById("tedarikciTD2").style.display = "none";
+            }
+        }
+    </script>
+}

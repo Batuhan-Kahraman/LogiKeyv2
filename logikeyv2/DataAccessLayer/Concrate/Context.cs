@@ -49,8 +49,19 @@ namespace DataAccessLayer.Concrate
         public DbSet<CariGrup> CariGrup { get; set; }
         public DbSet<CariUcretlendirme> CariUcretlendirme { get; set; }
         public DbSet<Cari_OdemeYapan> Cari_OdemeYapan { get; set; }
+        public DbSet<EhliyetSinifi> EhliyetSinifi { get; set; }
+        public DbSet<SurucuPozisyon> SurucuPozisyon { get; set; }
+        public DbSet<SurucuCikisNedeni> SurucuCikisNedeni { get; set; }
+        public DbSet<Surucu> Surucu { get; set; }
+        public DbSet<KazaTuru> KazaTuru { get; set; }
+        public DbSet<TasinacakUrun> TasinacakUrun { get; set; }
+        public DbSet<TasimaTipi> TasimaTipi { get; set; }
+        public DbSet<Bankalar> Bankalar { get; set; }
+        public DbSet<Birimler> Birimler { get; set; }
+        public DbSet<Kaza> Kaza { get; set; }
+        public DbSet<MasrafCeza> MasrafCeza { get; set; }
+        public DbSet<UnListesi> UnListesi { get; set; }
 
-
-
+        
     }
 }

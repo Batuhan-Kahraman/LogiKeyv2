@@ -34,8 +34,19 @@ namespace BusinessLayer.Abstract
     public interface ICariUcretlendirmeService : IGenericService<CariUcretlendirme> { }
 
     public interface ICari_OdemeYapanService : IGenericService<Cari_OdemeYapan> { }
-
-
+    public interface ISurucuCikisNedeniService : IGenericService<SurucuCikisNedeni> { }
+    public interface ISurucuPozisyonService : IGenericService<SurucuPozisyon> { }
+    public interface IEhliyetSinifiService : IGenericService<EhliyetSinifi> { }
+    public interface ISurucuService : IGenericService<Surucu> { }
+    public interface IKazaTuruService : IGenericService<KazaTuru> { }
+    public interface ITasinacakUrunService : IGenericService<TasinacakUrun> { }
+    public interface ITasimaTipiService : IGenericService<TasimaTipi> { }
+    public interface IBankalarService : IGenericService<Bankalar> { }
+    public interface IBirimlerService : IGenericService<Birimler> { }
+    public interface IKazaService : IGenericService<Kaza> { }
+    
+    public interface IMasrafCezaService : IGenericService<MasrafCeza> { }
+    public interface IUnListesiService : IGenericService<UnListesi> { }
 
 
 }

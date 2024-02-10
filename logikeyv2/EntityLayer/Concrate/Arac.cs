@@ -10,7 +10,7 @@ namespace EntityLayer.Concrate
     public class Arac
     {
         [Key]
-        public int? ID { get; set; }
+        public int ID { get; set; }
 
         /*Sahiplik*/
         public string? Plaka { get; set; }

@@ -22,6 +22,34 @@ namespace DataAccessLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EntityLayer.Concrate.AdresOzellikTanimlama", b =>
+                {
+                    b.Property<int>("Adres_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Adres_ID"));
+
+                    b.Property<string>("ILCE_KODU")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IL_KODU")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Il")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ilce")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Posta_Kodu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Adres_ID");
+
+                    b.ToTable("AdresOzellikTanimlama");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrate.AkuTipi", b =>
                 {
                     b.Property<int>("ID")
@@ -59,11 +87,11 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("EntityLayer.Concrate.Arac", b =>
                 {
-                    b.Property<int?>("ID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int?>("AkuAdet")
                         .HasColumnType("int");
@@ -446,6 +474,124 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Durumlar");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrate.EhliyetSinifi", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Adi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Durum")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("DuzenlemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DuzenleyenID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirmaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OlusturanId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("EhliyetSinifi");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.Firma", b =>
+                {
+                    b.Property<int>("Firma_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Firma_ID"));
+
+                    b.Property<DateTime>("DuzenlemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EkleyenKullanici_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirmaModul_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Firma_Adres")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Firma_AdresILCE_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Firma_AdresIL_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Firma_CepTel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Firma_Durum")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Firma_TCNO_VKNO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Firma_Tipi")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Firma_Unvan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firma_VergiDairesi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firma_WebSitesi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firma_YetkiliAdi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firma_YetkiliEposta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firma_YetkiliSoyadi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Firma_ID");
+
+                    b.ToTable("Firma");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.FirmaModul", b =>
+                {
+                    b.Property<int>("FirmaModul_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FirmaModul_ID"));
+
+                    b.Property<int>("Firma_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Modul_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("FirmaModul_ID");
+
+                    b.ToTable("FirmaModul");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrate.Grup", b =>
                 {
                     b.Property<int>("ID")
@@ -479,6 +625,142 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Grup");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.Izinler", b =>
+                {
+                    b.Property<int>("Izin_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Izin_ID"));
+
+                    b.Property<byte>("Durum")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("DuzenlemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EkleyenKullanici_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Izin_Adi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Izin_Ekleme_Sil")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("Izin_Guncelleme")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("Izin_Listeleme")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Izin_ID");
+
+                    b.ToTable("Izinler");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.KullaniciGrubu", b =>
+                {
+                    b.Property<int>("KullaniciGrup_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KullaniciGrup_ID"));
+
+                    b.Property<DateTime>("DuzenlemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EkleyenKullanici_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Firma_ID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("KullaniciGrup_Adi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("KullaniciGrup_Durum")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("KullaniciGrup_ID");
+
+                    b.ToTable("KullaniciGrubu");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.KullaniciYetkiler", b =>
+                {
+                    b.Property<int>("Yetki_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Yetki_ID"));
+
+                    b.Property<int>("FirmaModul_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Izinler_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KullaniciGruplari_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Yetki_ID");
+
+                    b.ToTable("KullaniciYetkiler");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.Kullanicilar", b =>
+                {
+                    b.Property<int>("Kullanici_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Kullanici_ID"));
+
+                    b.Property<int>("EkleyenKullanici_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Firma_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KullaniciGrup_ID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Kullanici_Durum")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Kullanici_DuzenlemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Kullanici_Eposta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Kullanici_Isim")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Kullanici_OlusturmaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Kullanici_Sifre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Kullanici_Soyisim")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Kullanici_Telefon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Kullanici_ID");
+
+                    b.ToTable("Kullanicilar");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrate.LastikTipi", b =>
@@ -624,6 +906,22 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Model");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrate.Moduller", b =>
+                {
+                    b.Property<int>("Modul_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Modul_ID"));
+
+                    b.Property<string>("Modul_Adi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Modul_ID");
+
+                    b.ToTable("Moduller");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrate.Sahiplik", b =>
                 {
                     b.Property<int>("ID")
@@ -657,6 +955,76 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Sahiplik");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.SurucuCikisNedeni", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Adi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Durum")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("DuzenlemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DuzenleyenID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirmaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OlusturanId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SurucuCikisNedeni");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrate.SurucuPozisyon", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Adi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Durum")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("DuzenlemeTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DuzenleyenID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirmaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OlusturanId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SurucuPozisyon");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrate.YakitTipi", b =>

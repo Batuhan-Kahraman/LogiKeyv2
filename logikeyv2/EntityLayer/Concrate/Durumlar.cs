@@ -25,5 +25,7 @@ namespace EntityLayer.Concrate
         public int DuzenleyenID { get; set; }
         [Required]
         public DateTime DuzenlemeTarihi { get; set; }
+        
+
     }
 }

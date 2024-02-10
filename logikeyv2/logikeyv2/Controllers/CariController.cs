@@ -20,7 +20,7 @@ namespace logikeyv2.Controllers
         }
         public IActionResult Ekle()
         {
-            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == true);
+            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1);
             ViewBag.CariGrup = CariGrupList;
             return View();
         }

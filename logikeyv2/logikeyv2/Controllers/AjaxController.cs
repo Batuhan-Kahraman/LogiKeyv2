@@ -16,6 +16,12 @@ namespace logikeyv2.Controllers
         ModelManager modelManager = new ModelManager(new EFModelRepository());
         YakitTipiManager yakitTipiManager = new YakitTipiManager(new EFYakitTipiRepository());
         AkuTipiManager akuTipiManager = new AkuTipiManager(new EFAkuTipiRepository());
+        SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
+        EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
+        SurucuManager surucuManager = new SurucuManager(new EFSurucuRepository());
+        KazaTuruManager kazaTuruManager = new KazaTuruManager(new EFKazaTuruRepository());
+        AracManager aracManager = new AracManager(new EFAracRepository());
+        MasrafTipiManager masrafTipiManager = new MasrafTipiManager(new EFMasrafTipiRepository());
         #endregion
         [HttpGet]
         public IActionResult SahiplikListe()
@@ -63,6 +69,42 @@ namespace logikeyv2.Controllers
         public IActionResult AkuTipiListe()
         {
             List<AkuTipi> liste = akuTipiManager.GetAllList(x => x.Durum == true);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult SurucuPozisyonListe()
+        {
+            List<SurucuPozisyon> liste = surucuPozisyonManager.GetAllList(x => x.Durum == true);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult EhliyetSinifiListe()
+        {
+            List<EhliyetSinifi> liste = ehliyetSinifiManager.GetAllList(x => x.Durum == true);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult KazaTuruListe()
+        {
+            List<KazaTuru> liste = kazaTuruManager.GetAllList(x => x.Durum == true);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult SurucuListe()
+        {
+            List<Surucu> liste = surucuManager.GetAllList(x => x.Durum == true);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult PlakaListe()
+        {
+            List<Arac> liste = aracManager.GetAllList(x => x.Durum == true);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult MasrafTipiListe()
+        {
+            List<MasrafTipi> liste = masrafTipiManager.GetAllList(x => x.Durum == true);
             return Json(liste);
         }
     }
