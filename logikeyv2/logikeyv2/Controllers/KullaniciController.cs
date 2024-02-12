@@ -11,7 +11,7 @@ namespace logikeyv2.Controllers
         KullanicilarManager kullaniciManager = new KullanicilarManager(new EFKullanicilarRepository());
         public IActionResult Index()
         {
-            List<Kullanicilar> liste = kullaniciManager.GetAllList(x => x.Kullanici_Durum == true);
+            List<Kullanicilar> liste = kullaniciManager.GetAllList(x => x.Kullanici_Durum == 1);
             return View(liste);
 
         }
@@ -29,7 +29,7 @@ namespace logikeyv2.Controllers
                     try
                     {
 
-                        kullanici.Kullanici_Durum = true;
+                        kullanici.Kullanici_Durum = 1;
                         kullanici.EkleyenKullanici_ID = 1;//değişçek
                         kullanici.Firma_ID = 1;//değişçek
                         kullanici.Kullanici_OlusturmaTarihi = DateTime.UtcNow;

@@ -47,6 +47,8 @@ namespace BusinessLayer.Abstract
     
     public interface IMasrafCezaService : IGenericService<MasrafCeza> { }
     public interface IUnListesiService : IGenericService<UnListesi> { }
-
+    public interface IAracGelirService : IGenericService<AracGelir> { }
+    public interface IAracGiderService : IGenericService<AracGider> { }
+    public interface ITasimaService : IGenericService<Tasima> { }
 
 }

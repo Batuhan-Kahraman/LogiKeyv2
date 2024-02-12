@@ -17,7 +17,7 @@ namespace EntityLayer.Concrate
         public string? Kullanici_Eposta { get; set; }
         public string? Kullanici_Sifre { get; set; }
         public string? Kullanici_Telefon { get; set; }
-        public bool Kullanici_Durum { get; set; }
+        public byte Kullanici_Durum { get; set; }
         public DateTime Kullanici_OlusturmaTarihi { get; set; }
         public DateTime Kullanici_DuzenlemeTarihi { get; set; }
         public int Firma_ID { get; set; }

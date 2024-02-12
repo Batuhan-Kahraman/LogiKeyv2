@@ -25,12 +25,12 @@ namespace EntityLayer.Concrate
         public string? MasrafDetay {  get; set; }
         public bool? KdvDahilMi { get; set; }
         public int? Miktar { get; set; }   
-        public float? BirimFiyat { get; set; }
-        public float Tutar { get; set; }    
-        public float? KDV { get; set; }
+        public decimal? BirimFiyat { get; set; }
+        public decimal? Tutar { get; set; }    
+        public decimal? KDV { get; set; }
         public int? YakitTipiID { get; set; }
-        public double? Iskonto { get; set; }
-        public double? ToplamTutar { get; set; }
+        public decimal? Iskonto { get; set; }
+        public decimal? ToplamTutar { get; set; }
         public string? Notlar { get; set; }
 
 
