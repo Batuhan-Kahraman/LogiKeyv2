@@ -13,7 +13,7 @@ namespace EntityLayer.Concrate
         public int ID { get; set; }
         
         public int? SurucuPozisyonID {  get; set; }
-        public int? CariID { get; set; }
+        public string? Sifre { get; set; }
 
         public string? Isim { get; set; }
         public string? Soyisim { get; set; }

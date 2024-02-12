@@ -94,7 +94,7 @@ namespace logikeyv2.Controllers
                     {
                         Surucu item = surucuManager.GetByID(surucu.ID);
                         item.SurucuPozisyonID = surucu.SurucuPozisyonID;
-                        item.CariID= surucu.CariID;
+                        item.Sifre= surucu.Sifre;
                         item.Isim=surucu.Isim;
                         item.Soyisim=surucu.Soyisim;
                         item.TC=surucu.TC;

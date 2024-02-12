@@ -61,7 +61,10 @@ namespace DataAccessLayer.Concrate
         public DbSet<Kaza> Kaza { get; set; }
         public DbSet<MasrafCeza> MasrafCeza { get; set; }
         public DbSet<UnListesi> UnListesi { get; set; }
+        public DbSet<AracGelir> AracGelir { get; set; }
+        public DbSet<AracGider> AracGider { get; set; }
+        public DbSet<Tasima> Tasima { get; set; }
 
-        
+
     }
 }

@@ -135,7 +135,11 @@
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="KullaniciGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
+                                    </a>
+                                </li>
 
                             </ul>
                         </div>
@@ -152,7 +156,7 @@
                 <li class="nav-item ">
                     <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Sürücü</span>
+                            <span class="nav-link-text">Kullanıcı / Sürücü</span>
                         </div>
                     </a>
                 </li>
@@ -172,13 +176,42 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item ">
+               @*  <li class="nav-item ">
                     <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Kullanicilar</span>
+                            <span class="nav-link-text">Kullanıcılar</span>
+                        </div>
+                    </a>
+                </li> *@
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Cari</span>
                         </div>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Ceza ve Masraflar</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGelirListesi" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Araç Gelir</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGiderListesi" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Araç Gider</span>
+                        </div>
+                    </a>
+                </li>
+              
             </ul>
         </div>
     </div>
@@ -197,7 +230,7 @@
             <a class="navbar-brand me-1 me-sm-3" asp-controller="Home" asp-action="Index">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center">
-                        <img src="~/assets/img/icons/favicon.ico" alt="Logikey" width="27" />
+                        <img src="~/assets/img/LogikeyLogo.png" alt="Logikey" width="55" />
                         <p class="logo-text ms-2 d-none d-sm-block">Logikey</p>
                     </div>
                 </div>
@@ -225,7 +258,7 @@
                                 <div class="avatar avatar-xl ">
                                     <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
                                 </div>
-                                <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                                <h6 class="mt-2 text-body-emphasis">Demo Hesap</h6>
                             </div>
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -269,7 +302,7 @@
                                 <div class="avatar avatar-xl ">
                                     <img class="rounded-circle " src="~/assets/img/team/72x72/57.webp" alt="" />
                                 </div>
-                                <h6 class="mt-2 text-body-emphasis">Jerry Seinfield</h6>
+                                <h6 class="mt-2 text-body-emphasis">Demo Hesap</h6>
                             </div>
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -419,7 +452,11 @@
                             <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="KullaniciGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item ">
@@ -430,9 +467,11 @@
                 </a>
             </li>
 
-            <li>
+            <li class="nav-item ">
                 <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Sürücü</span></div>
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Kullanıcı / Sürücü</span>
+                    </div>
                 </a>
             </li>
 
@@ -450,10 +489,38 @@
                     </div>
                 </a>
             </li>
-            <li class="nav-item ">
+           @*  <li class="nav-item ">
                 <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center">
-                        <span class="nav-link-text">Kullanicilar</span>
+                        <span class="nav-link-text">Kullanıcılar</span>
+                    </div>
+                </a>
+            </li> *@
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Cari</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Ceza ve Masraflar</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGelirListesi" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Araç Gelir</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGiderListesi" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Araç Gider</span>
                     </div>
                 </a>
             </li>
@@ -624,6 +691,11 @@
                             <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="KullaniciGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item ">
@@ -634,9 +706,11 @@
                 </a>
             </li>
 
-            <li>
+            <li class="nav-item ">
                 <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Sürücü</span></div>
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Kullanıcı / Sürücü</span>
+                    </div>
                 </a>
             </li>
 
@@ -654,10 +728,39 @@
                     </div>
                 </a>
             </li>
-            <li class="nav-item ">
+           @*  <li class="nav-item ">
                 <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center">
-                        <span class="nav-link-text">Kullanicilar</span>
+                        <span class="nav-link-text">Kullanıcılar</span>
+                    </div>
+                </a>
+            </li> *@
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Cari</span>
+                    </div>
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Ceza ve Masraflar</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGelirListesi" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Araç Gelir</span>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGiderListesi" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Araç Gider</span>
                     </div>
                 </a>
             </li>
@@ -819,6 +922,11 @@
                             <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="KullaniciGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -976,6 +1084,11 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UnListesi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="KullaniciGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
                         </a>
                     </li>
                 </ul>
