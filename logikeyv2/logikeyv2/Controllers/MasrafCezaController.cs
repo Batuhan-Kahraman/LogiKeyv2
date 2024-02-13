@@ -16,8 +16,33 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<MasrafCeza> viewModel = MasrafCezaManager.GetAllList(x => x.Durum == true);
-               
+            List<MasrafCezaViewModel> viewModel = MasrafCezaManager.GetAllList(x => x.Durum == true)
+    .GroupJoin(
+        AracManager.GetAllList(x => x.Durum == true),
+        masraf => masraf.AracID,
+        arac => arac.ID,
+        (masraf, aracGroup) => new { masraf, aracGroup }
+    )
+    .SelectMany(
+        result => result.aracGroup.DefaultIfEmpty(),
+        (result, arac) => new { result.masraf, arac }
+    )
+    .GroupJoin(
+        SurucuManager.GetAllList(x => x.Durum == true),
+        result => result.masraf.SurucuID,
+        surucu => surucu.ID,
+        (result, surucuGroup) => new { result.masraf, result.arac, surucuGroup }
+    )
+    .SelectMany(
+        result => result.surucuGroup.DefaultIfEmpty(),
+        (result, surucu) => new MasrafCezaViewModel
+        {
+            MasrafCeza = result.masraf,
+            Plaka = result.arac?.Plaka,
+            Surucu = surucu != null ? surucu.Isim + " " + surucu.Soyisim : ""
+        }
+    )
+    .ToList();
 
             return View(viewModel);
         }
@@ -37,16 +62,13 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        MasrafCeza item = new MasrafCeza();
-                        item.Durum = true;
-
-
-                        item.FirmaID = 1;//değişçek
-                        item.OlusturmaTarihi = DateTime.Now;
-                        item.DuzenlemeTarihi = DateTime.Now;
-                        item.OlusturanId = 1;//değişcek
-                        item.DuzenleyenID = 1;//değişcek
-                        MasrafCezaManager.TAdd(item);
+                        masrafCeza.Durum = true;
+                        masrafCeza.FirmaID = 1;//değişçek
+                        masrafCeza.OlusturmaTarihi = DateTime.Now;
+                        masrafCeza.DuzenlemeTarihi = DateTime.Now;
+                        masrafCeza.OlusturanId = 1;//değişcek
+                        masrafCeza.DuzenleyenID = 1;//değişcek
+                        MasrafCezaManager.TAdd(masrafCeza);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");
@@ -78,7 +100,26 @@ namespace logikeyv2.Controllers
                     try
                     {
                         MasrafCeza item = MasrafCezaManager.GetByID(masrafCeza.ID);
+
+                        item.AracID = masrafCeza.AracID;
+                        item.SurucuID= masrafCeza.SurucuID;
+                        item.TedarikciID= masrafCeza.TedarikciID;
+                        item.FaturaTarihi = masrafCeza.FaturaTarihi;
+                        item.FaturaNo=masrafCeza.FaturaNo;
+                        item.AracKM=masrafCeza.AracKM;
+                        item.MasrafTipiID = masrafCeza.MasrafTipiID;
+                        item.MasrafDetay = masrafCeza.MasrafDetay;
+                        item.KdvDahilMi = masrafCeza.KdvDahilMi;
+                        item.Miktar=masrafCeza.Miktar;
+                        item.BirimFiyat = masrafCeza.BirimFiyat;
+                        item.Tutar = masrafCeza.Tutar;
+                        item.KDV=masrafCeza.KDV;
+                        item.YakitTipiID = masrafCeza.YakitTipiID;
+                        item.Iskonto=masrafCeza.Iskonto;
+                        item.ToplamTutar = masrafCeza.ToplamTutar;
+                        item.Notlar = masrafCeza.Notlar;
                         
+
 
                         item.FirmaID = 1;//değişçek
                         item.DuzenlemeTarihi = DateTime.Now;

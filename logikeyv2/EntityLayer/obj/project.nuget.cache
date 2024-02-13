@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ErPJHvY8c1z1b1hitIfGfagJwTR6ipIBz6DezLKIxRegA6yw5JbIqN5sT9+dOzqMZzJcOBGveiO8v4JsSkOXdQ==",
+  "dgSpecHash": "PW8/X1JWvXy7JOOCNcf4kQnwnvUvaH1VHCzGQqZW6Mc8QJud8N6TmRHtQ5bXDLKQKOXcx9kxAmTXL6PacOFNLQ==",
   "success": true,
   "projectFilePath": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
   "expectedPackageFiles": [
@@ -55,6 +55,7 @@
     "C:\\Users\\Asus\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.resources.resourcemanager\\4.3.0\\system.resources.resourcemanager.4.3.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
@@ -70,7 +71,9 @@
     "C:\\Users\\Asus\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\Asus\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
+    "C:\\Users\\Asus\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512",
+    "C:\\Users\\Asus\\.nuget\\packages\\tesseract.net.sdk\\4.6.411\\tesseract.net.sdk.4.6.411.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,10 +1,23 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
+using DataAccessLayer.Migrations;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Patagames.Ocr.Enums;
+using Patagames.Ocr;
+using Tesseract;
+using System.Reflection.Metadata;
+using PdfSharp.Pdf.IO;
+using PdfSharp.Drawing;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Windows.Media.Ocr;
+using Windows.Storage;
+using Syncfusion.OCRProcessor;
+using Syncfusion.Pdf.Parsing;
 
 namespace logikeyv2.Controllers
 {
@@ -76,9 +89,18 @@ namespace logikeyv2.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Arac arac)
+        public IActionResult AracEkle(Arac arac)
         {
-            using (var context = new Context())
+            if (HttpContext.Items.ContainsKey("TempData"))
+            {
+                Arac arac2 = TempData["Arac"] as Arac;
+
+                return View(arac2);
+            }
+            else
+            {
+
+                using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
@@ -103,7 +125,50 @@ namespace logikeyv2.Controllers
                 }
             }
             return View(arac);
+            }
         }
+        [HttpPost]
+        public async Task<IActionResult> RuhsatEkleAsync(IFormFile file)
+        {
+            if (file != null && file.Length > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ocr", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyToAsync(stream);
+                }
+              
+                using (var engine = new TesseractEngine("./wwwroot/tessdata", "tur", EngineMode.Default))
+                {
+                    // Resmi yükleyin
+                    using (var img = Pix.LoadFromFile(filePath))
+                    {
+                        // OCR işlemini gerçekleştirin
+                        using (var page = engine.Process(img))
+                        {
+                            // Elde edilen metni alın
+                            string text = page.GetText();
+
+                            // Metni ekrana yazdırın
+                            Console.WriteLine("OCR Sonucu:");
+                            Console.WriteLine(text);
+                        }
+                    }
+                }
+                Arac arac = new Arac();
+                arac.Plaka = "12 aa 50";
+
+                TempData["Arac"] = arac;
+               
+                return RedirectToAction("Ekle", "Arac"); // Redirect to home or any other page after successful upload
+            }
+            return RedirectToAction("Ekle", "Arac");
+        }
+
+
+        
 
         public IActionResult Duzenle(int AracID)
         {

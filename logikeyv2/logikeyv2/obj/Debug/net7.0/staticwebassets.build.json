@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RQENoC4s90GmQAl6jAZ+/4kATMP3e0I0ijon+Fr2cl8=",
+  "Hash": "dCt0mj8pFasNaaaIhft+R2fpB7bsxHyHy7zUCEcuC5Q=",
   "Source": "logikeyv2",
   "BasePath": "_content/logikeyv2",
   "Mode": "Default",
@@ -9537,6 +9537,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\img\\team\\avatar-placeholder.webp"
     },
     {
+      "Identity": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\assets\\img\\zil.png",
+      "SourceId": "logikeyv2",
+      "SourceType": "Discovered",
+      "ContentRoot": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\",
+      "BasePath": "_content/logikeyv2",
+      "RelativePath": "assets/img/zil.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\zil.png"
+    },
+    {
       "Identity": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\assets\\js\\calendar.js",
       "SourceId": "logikeyv2",
       "SourceType": "Discovered",
@@ -10674,6 +10691,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\tessdata\\tur.traineddata",
+      "SourceId": "logikeyv2",
+      "SourceType": "Discovered",
+      "ContentRoot": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\",
+      "BasePath": "_content/logikeyv2",
+      "RelativePath": "tessdata/tur.traineddata",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\tessdata\\tur.traineddata"
     },
     {
       "Identity": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\vendors\\anchorjs\\anchor.min.js",
