@@ -2,13 +2,15 @@
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using Microsoft.AspNetCore.Mvc;
+using Tesseract;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace logikeyv2.Controllers
 {
     public class AjaxController : Controller
     {
         #region tanimlamalar
-        SahiplikManager sahiplikManager=new SahiplikManager(new EFSahiplikRepository());
+        SahiplikManager sahiplikManager = new SahiplikManager(new EFSahiplikRepository());
         GrupManager grupManager = new GrupManager(new EFGrupRepository());
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
         AracTipManager aracTipManager = new AracTipManager(new EFAracTipRepository());
@@ -44,7 +46,7 @@ namespace logikeyv2.Controllers
         [HttpGet]
         public IActionResult AracTipListe(int AracTurID)
         {
-            List<AracTip> liste = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID==AracTurID);
+            List<AracTip> liste = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID == AracTurID);
             return Json(liste);
         }
         [HttpGet]
@@ -107,5 +109,9 @@ namespace logikeyv2.Controllers
             List<MasrafTipi> liste = masrafTipiManager.GetAllList(x => x.Durum == true);
             return Json(liste);
         }
+     
+
+
     }
+
 }

@@ -2237,6 +2237,10 @@
       "PackagePath": "staticwebassets\\assets\\img\\team\\avatar.webp"
     },
     {
+      "Id": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\assets\\img\\zil.png",
+      "PackagePath": "staticwebassets\\assets\\img\\zil.png"
+    },
+    {
       "Id": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\assets\\js\\calendar.js",
       "PackagePath": "staticwebassets\\assets\\js\\calendar.js"
     },
@@ -2503,6 +2507,10 @@
     {
       "Id": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\tessdata\\tur.traineddata",
+      "PackagePath": "staticwebassets\\tessdata\\tur.traineddata"
     },
     {
       "Id": "F:\\LogiKeyv2\\logikeyv2\\logikeyv2\\wwwroot\\vendors\\anchorjs\\anchor.min.js",
