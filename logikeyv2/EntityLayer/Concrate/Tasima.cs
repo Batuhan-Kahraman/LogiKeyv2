@@ -31,7 +31,13 @@ namespace EntityLayer.Concrate
         public decimal AracGoz4 { get; set; }
         public decimal AracGoz5 { get; set; }
         public decimal AracGoz6 { get; set; }
-        public int Birim_ID { get; set; }
+        public int Birim1_ID { get; set; }
+        public int Birim2_ID { get; set; }
+        public int Birim3_ID { get; set; }
+        public int Birim4_ID { get; set; }
+        public int Birim5_ID { get; set; }
+        public int Birim6_ID { get; set; }
+
         public decimal UrunBirimFiyat { get; set; }
         public decimal Goz1Miktar { get; set; }
         public decimal Goz2Miktar { get; set; }
@@ -53,6 +59,8 @@ namespace EntityLayer.Concrate
         public int IndirilenAdres_IL_ID { get; set; }
         public int IndirilenAdres_ILCE_ID { get; set; }
         public DateTime AliciFirmaTarihSaat { get; set; }
+        public decimal Birim_SeferFiyat { get; set; }
+        public decimal ToplamYuklenenMiktar { get; set; }
         public decimal NakliyeBedelTutar_KDVsiz { get; set; }
         public decimal NakliyeBedelTutar_KDV { get; set; }
         public decimal NakliyeBedeliToplam_KDVli { get; set; }
@@ -62,5 +70,6 @@ namespace EntityLayer.Concrate
         public DateTime OlusturmaTarihi { get; set; }
         public DateTime DuzenlemeTarihi { get; set; }
         public byte Durum { get; set; }
+        public int TasimaTipi_ID { get; set; }
     }
 }

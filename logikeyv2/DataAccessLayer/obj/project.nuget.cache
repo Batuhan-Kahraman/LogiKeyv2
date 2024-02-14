@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dafurehL6YlzkL4fqeyH7CesVp2g1BezmReF3g6HupaQd9RYZXpyIlo35sMvFe3+BTp7wSkK5/liJY75Q2vIvg==",
+  "dgSpecHash": "TgXuheZCsFsmW7vkqI69Rfg4u773YzJE2H/E8oowDY9jZ8ZjS3SyJcrtKW9YnFnrZn1xmt3lSKQgwBaniJwq8Q==",
   "success": true,
-  "projectFilePath": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
+  "projectFilePath": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Asus\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
