@@ -3672,11 +3672,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
+      "projectUniqueName": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
       "projectName": "DataAccessLayer",
-      "projectPath": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
+      "projectPath": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\DataAccessLayer\\DataAccessLayer.csproj",
       "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-      "outputPath": "F:\\LogiKeyv2\\logikeyv2\\DataAccessLayer\\obj\\",
+      "outputPath": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\DataAccessLayer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3698,8 +3698,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
-              "projectPath": "F:\\LogiKeyv2\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
+            "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
+              "projectPath": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\EntityLayer\\EntityLayer.csproj"
             }
           }
         }

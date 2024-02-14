@@ -1,0 +1,408 @@
+﻿@model EntityLayer.Concrate.Tasima
+
+@{
+    ViewData["Title"] = "Taşıma Ekle";
+}
+
+
+<div class="col-lg-10 col-xxl-11">
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post" action="AracEkle">
+            <table class="table table-borderless">
+                <tr>
+                    <td>Araç</td>
+                    <td>
+                        <select class="form-control" asp-for="Arac_ID" id="Arac_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var arac in ViewBag.Araclar)
+                            {
+                                <option value="@arac.ID">@arac.Plaka</option>
+
+                            }
+                        </select>
+                    </td>
+                   
+                    <td>Taşıma Tipi</td>
+                    <td>
+                        <select class="form-control" asp-for="TasimaTipi_ID" id="TasimaTipi_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var tasimatip in ViewBag.tasimaTipi)
+                            {
+                                <option value="@tasimatip.ID">@tasimatip.Adi</option>
+
+                            }
+                        </select>
+                    </td>
+                    <td>Araç Türü</td>
+                    <td>
+                        <select class="form-control" asp-for="AracTuru_ID" id="AracTuru_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var aracTur in ViewBag.aracTur)
+                            {
+                                <option value="@aracTur.ID">@aracTur.Adi</option>
+
+
+                            }
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sürücü 1 Ekle</td>
+                    <td>
+                        <select class="form-control" asp-for="Surucu1_ID" id="Surucu1_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var surucu in ViewBag.Suruculer)
+                            {
+                                <option value="@surucu.ID">@surucu.Isim-@surucu.Soyisim</option>
+
+                            }
+                        </select>
+                    </td>
+                    <td>Sürücü 2 Ekle</td>
+                    <td>
+                        <select class="form-control" asp-for="Surucu2_ID" id="Surucu2_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var surucu in ViewBag.Suruculer)
+                            {
+                                <option value="@surucu.ID">@surucu.Isim-@surucu.Soyisim</option>
+
+                            }
+                        </select>
+                    </td>
+                    <td>Sürücü 3 Ekle</td>
+                    <td>
+                        <select class="form-control" asp-for="Surucu3_ID" id="Surucu3_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var surucu in ViewBag.Suruculer)
+                            {
+                                <option value="@surucu.ID">@surucu.Isim-@surucu.Soyisim</option>
+
+                            }
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Çekici Plakası</td>
+                    <td>
+                       
+                        <select class="form-control" asp-for="CekiciPlaka_ID" id="CekiciPlaka_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var arac in ViewBag.Araclar)
+                            {
+                                <option value="@arac.ID">@arac.Plaka</option>
+
+                            }
+                        </select>
+                    </td>
+                    <td>Dorse Ekle</td>
+                    <td>
+                        <select asp-for="DorseTipi_ID" class=" form-control" id="DorseTipi_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">ADR Lİ Dorse</option>
+                            <option value="2">ADR SİZ Dorse</option>
+                            <option value="3">Sal Dorse</option>
+
+                        </select>
+                    </td>
+                    <td>Dorse Plakası</td>
+                    <td>
+                        <select asp-for="DorsePlaka_ID" class=" form-control" id="Arac_ID">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var arac in ViewBag.Araclar)
+                            {
+                                <option value="@arac.ID">@arac.Plaka</option>
+                            }
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Göz 1</td>
+                    <td><input type="text" class="form-control" asp-for="AracGoz1" /></td>
+
+                    <td>Göz 2</td>
+                    <td><input type="text" class="form-control" asp-for="AracGoz2" /></td>
+                    <td>Göz 3</td>
+                    <td><input type="text" class="form-control" asp-for="AracGoz3" /></td>
+                </tr>
+                <tr>
+                    <td>Göz 4</td>
+                    <td><input type="text" class="form-control" asp-for="AracGoz4" /></td>
+                    <td>Göz 5</td>
+                    <td><input type="text" class="form-control" asp-for="AracGoz5" /></td>
+                    <td>Göz 6</td>
+                    <td><input type="text" class="form-control" asp-for="AracGoz6" /></td>
+                </tr>
+                <!-- teknik bilgi -->
+                <tr>
+                   
+                    <td>Un Seç</td>
+                    <td>
+                        <select asp-for="Un_ID" class=" form-control" id="Un_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Bk4545</option>
+
+                            @foreach (var Un in ViewBag.UnListesi)
+                            {
+                                <option value="@Un.Un_ID">@Un.Un_No</option>
+                            }
+                        </select>
+                    </td>
+                    <td>Ürün Seç</td>
+                    <td>
+                        <select asp-for="Cari_Odeme_Yapan_ID" class=" form-control" id="TasinacakUrun_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Alıcı</option>
+                            <option value="2">Gönderici</option>
+
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Ücretlendirme</td>
+                    <td>
+                        <select asp-for="Ucretlendirme_ID" class=" form-control" id="Ucretlendirme_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Birim Fiyat</option>
+                            <option value="2">Sefer</option>
+
+                        </select>
+                    </td>
+                    <td>Birim veya Sefer Fiyatı</td>
+                    <td><input type="text" class="form-control" asp-for="Birim_SeferFiyat" /></td>
+
+                </tr>
+
+                <!-- Ruhsat -->
+                <tr>
+                   
+                    <td>Göz 1</td>
+                    <td><input type="text" class="form-control" asp-for="Goz1Miktar" /></td>
+                    <td>Birim</td>
+
+                    <td>
+                        <select asp-for="Birim1_ID" class=" form-control" id="Birim_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Litre</option>
+                            <option value="2">Km</option>
+                        </select>
+                    </td>
+                    <td>Miktar 1</td>
+                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari1" /></td>
+                </tr>
+                <tr>
+
+                    <td>Göz 2</td>
+                    <td><input type="text" class="form-control" asp-for="Goz2Miktar" /></td>
+                    <td>Birim</td>
+
+                    <td>
+                        <select asp-for="Birim2_ID" class=" form-control" id="Birim_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Litre</option>
+                            <option value="2">Km</option>
+                        </select>
+                    </td>
+                    <td>Miktar 2</td>
+                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari2" /></td>
+                </tr>
+                <tr>
+
+                    <td>Göz 3</td>
+                    <td><input type="text" class="form-control" asp-for="Goz3Miktar" /></td>
+                    <td>Birim</td>
+
+                    <td>
+                        <select asp-for="Birim3_ID" class=" form-control" id="Birim_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Litre</option>
+                            <option value="2">Km</option>
+                        </select>
+                    </td>
+                    <td>Miktar 3</td>
+                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari3" /></td>
+                </tr>
+                <tr>
+
+                    <td>Göz 4</td>
+                    <td><input type="text" class="form-control" asp-for="Goz4Miktar" /></td>
+                    <td>Birim</td>
+
+                    <td>
+                        <select asp-for="Birim4_ID" class=" form-control" id="Birim_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Litre</option>
+                            <option value="2">Km</option>
+                        </select>
+                    </td>
+                    <td>Miktar 4</td>
+                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari4" /></td>
+                </tr>
+                <tr>
+
+                    <td>Göz 5</td>
+                    <td><input type="text" class="form-control" asp-for="Goz5Miktar" /></td>
+                    <td>Birim</td>
+
+                    <td>
+                        <select asp-for="Birim5_ID" class=" form-control" id="Birim_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Litre</option>
+                            <option value="2">Km</option>
+                        </select>
+                    </td>
+                    <td>Miktar 5</td>
+                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari5" /></td>
+                </tr>
+                <tr>
+
+                    <td>Göz 6</td>
+                    <td><input type="text" class="form-control" asp-for="Goz6Miktar" /></td>
+                    <td>Birim</td>
+
+                    <td>
+                        <select asp-for="Birim6_ID" class=" form-control" id="Birim_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Litre</option>
+                            <option value="2">Km</option>
+                        </select>
+                    </td>
+                    <td>Miktar 6</td>
+                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari6" /></td>
+                </tr>
+                <tr>
+
+                    <td>Toplam Yüklenen Miktar</td>
+                    <td colspan="5"><input type="text" class="form-control" asp-for="ToplamYuklenenMiktar" /></td>
+
+
+                </tr>
+                <!-- Garanti -->
+                <tr>
+                   
+                    <td>Mal Sahibi</td>
+                    <td>
+                        <select asp-for="GondericiCari_ID" class=" form-control" id="GondericiCari_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">SKS Petrol</option>
+                            <option value="2">Kerim Petrol</option>
+                            <option value="2">PATPAN</option>
+
+                        </select>
+                    </td>
+                    <td>Mal Yükleme İl</td>
+                    <td>
+                        <select class="form-control" asp-for="MalYuklemeAdres_IL_ID" id="MalYuklemeAdres_IL_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">izmir</option>
+                        </select>
+                    </td>
+                    <td>Mal Yükleme İlçe</td>
+                    <td>
+                        <select class="form-control" asp-for="MalYuklemeAdres_ILCE_ID" id="MalYuklemeAdres_ILCE_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Konak</option>
+                            <option value="2">Bornova</option>
+                            <option value="3">Karabağlar</option>
+                            <option value="4">Balçova</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
+
+                    <td>Mal Yükleme Tarih Saat</td>
+                    <td colspan="5"><input type="text" class="form-control" asp-for="GondericiFirmaTarihSaat" /></td>
+
+                </tr>
+                <!-- Araç Belgeleri -->
+                <tr>
+                    
+                    <td>Alıcı Firma</td>
+                    <td>
+                        <select asp-for="AliciCari_ID" class=" form-control" id="AliciCari_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">SKS Petrol</option>
+                            <option value="2">Kerim Petrol</option>
+                            <option value="2">PATPAN</option>
+
+                        </select>
+                    </td>
+                    <td>İndirilen İl</td>
+                    <td>
+                        <select class="form-control" asp-for="IndirilenAdres_IL_ID" id="IndirilenAdres_IL_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">izmir</option>
+                        </select>
+                    </td>
+                    <td>İndirilen İlçe</td>
+                    <td>
+                        <select class="form-control" asp-for="IndirilenAdres_ILCE_ID" id="IndirilenAdres_ILCE_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Konak</option>
+                            <option value="2">Bornova</option>
+                            <option value="3">Karabağlar</option>
+                            <option value="4">Balçova</option>
+
+                        </select>
+                    </td>
+
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
+
+                    <td>Alıcı Tarih Saat</td>
+                    <td colspan="5"><input type="text" class="form-control" asp-for="AliciFirmaTarihSaat" /></td>
+
+                </tr>
+                @*  Nakliye hesaplama *@
+                <tr>
+                   
+                    <td>Tutar</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="NakliyeBedelTutar_KDVsiz" />
+                    </td>
+
+                    <td>Kdv</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="NakliyeBedelTutar_KDV" />
+                    </td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
+
+                    <td>Toplam</td>
+                    <td colspan="5"><input type="text" class="form-control" asp-for="NakliyeBedeliToplam_KDVli" /></td>
+
+                </tr>
+           </table>
+            <input type="submit" class="btn btn-success w-100" value="Taşımayı Kaydet" />
+
+       </form>
+    </div>
+</div>
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#uyariModal').modal('show');
+        });
+    </script>
+
+}
