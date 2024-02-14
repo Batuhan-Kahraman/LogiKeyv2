@@ -1,0 +1,152 @@
+﻿@model EntityLayer.Concrate.Cari
+
+@{
+    ViewData["Title"] = "Cari Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Cari Ekle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+
+                <tr>
+
+                    <td>Cari Adı</td>
+                    <td><input type="text" class="form-control" asp-for="Cari_Unvan" /></td>
+                    <td>Cari Tipi</td>
+                    <td>
+                        <select class="form-control" asp-for="Cari_Tipi" id="Cari_Tipi">
+                            <option value="">Seçiniz</option>
+                            <option value="1">Bireysel</option>
+                            <option value="2">Kurumsal</option>
+
+                        </select>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>TC Kimlik No / Vergi Kimlik No</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Cari_TCNO_VergiNo" />
+
+                    </td>
+                    <td>Vergi Dairesi</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Cari_VergiDairesi" />
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>İl</td>
+                    <td>
+                        <select class="form-control" asp-for="Cari_IL_ID" id="Cari_IL_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">izmir</option>
+                        </select>
+                    </td>
+                    <td>İlçe</td>
+                    <td>
+                        <select class="form-control" asp-for="Cari_ILCE_ID" id="Cari_ILCE_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Konak</option>
+                            <option value="2">Bornova</option>
+                            <option value="3">Karabağlar</option>
+                            <option value="4">Balçova</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Adres</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_Adres" /></td>
+
+                </tr>
+                <tr>
+                    <td>Cep Telefon No</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_CepNo" /></td>
+
+                    <td>Cari Grubu</td>
+                    <td>
+                        <select class="form-control" asp-for="Cari_GrupID" id="Cari_GrupID">
+
+                            <option value="0">Seçiniz</option>
+                          
+                        </select>
+                    </td>
+                    <td>Cari Kodu</td>
+                    <td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_Kodu" /></td>
+
+                    
+
+                </tr>
+                <tr>
+
+
+                    <td>Web Sitesi</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_WebSitesi" /></td>
+                    <td>Firma Eposta</td>
+                    <td><input type="text" class="form-control" asp-for="Cari_FirmaEposta" /></td>
+
+                </tr>
+                <tr>
+                    <td>Firma Telefon No</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_FirmaTelefon" /></td>
+                    <td>Yetkili Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_YetkiliAdi" /></td>
+
+                    <td>Yetkili Soyadı</td>
+                    <td><input type="text" class="form-control" asp-for="Cari_YetkiliSoyadi" /></td>
+
+
+
+                </tr>
+                <tr>
+                    <td>Banka Adı 1</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi1" /></td>
+                    <td>Banka IBAN No 1</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN1" /></td>
+
+                </tr>
+                <tr>
+                    <td>Banka Adı 2</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi2" /></td>
+                    <td>Banka IBAN No 2</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN2" /></td>
+
+                </tr>
+                <tr>
+                    <td>Banka Adı 3</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi3" /></td>
+                    <td>Banka IBAN No 3</td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN3" /></td>
+
+                </tr>
+
+
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Firmayı Kaydet" />
+        </form>
+
+
+    </div>
+
+</div>
