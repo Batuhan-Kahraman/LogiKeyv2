@@ -14,7 +14,7 @@ namespace logikeyv2.Controllers
         SurucuManager surucuManager = new SurucuManager(new EFSurucuRepository());
         TasinacakUrunManager tasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
         TasimaManager tasimaManager = new TasimaManager(new EFTasimaRepository());
-        UnListesiManager unListesiManager= new UnListesiManager(new EFUnListesiRepository());
+        UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
         CariManager cariManager = new CariManager(new EFCariRepository());
         CariUcretlendirmeManager ucretlendirme = new CariUcretlendirmeManager(new EFCariUcretlendirmeRepository());
         AracTipManager aracTipManager = new AracTipManager(new EFAracTipRepository());
@@ -24,7 +24,7 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-     
+
 
             var combinedQuery = from tasima in tasimaManager.GetAllList(x => x.Durum == 1)
                                 join arac in aracManager.GetAllList((y => y.Durum == true)) on tasima.Arac_ID equals arac.ID
@@ -33,7 +33,7 @@ namespace logikeyv2.Controllers
                                 join cariodemeyapan in cariManager.GetAllList((y => y.Durum == true)) on tasima.Cari_Odeme_Yapan_ID equals cariodemeyapan.Cari_ID
                                 join carialici in cariManager.GetAllList((y => y.Durum == true)) on tasima.AliciCari_ID equals carialici.Cari_ID
                                 join carigonderici in cariManager.GetAllList((y => y.Durum == true)) on tasima.GondericiCari_ID equals carigonderici.Cari_ID
-                                select new TasimaModel {Tasima=tasima, Arac = arac, Surucu= surucu1,TasinacakUrun= tasinacakUrun, CariOdemeYapan = cariodemeyapan, CariAlici = carialici,CariGonderen= carigonderici };
+                                select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1, TasinacakUrun = tasinacakUrun, CariOdemeYapan = cariodemeyapan, CariAlici = carialici, CariGonderen = carigonderici };
 
             List<TasimaModel> combinedList = combinedQuery.ToList();
             return View(combinedList);
@@ -76,7 +76,7 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-
+                        tasima.AracTip_ID = 1;
                         tasima.Durum = 1;
                         tasima.EkleyenKullanici_ID = 1;//değişçek
                         tasima.DuzenleyenKullanıcı_ID = 1;//değişçek
@@ -95,7 +95,7 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return View(tasima);
+            return RedirectToAction("TasimaEkle", "Tasima");
 
         }
     }

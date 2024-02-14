@@ -152,7 +152,7 @@
                         </div>
                     </a>
                 </li>
-                 <li class="nav-item ">
+                <li class="nav-item ">
                     <a class="nav-link" asp-controller="Tasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-text">Taşıma</span>
@@ -182,12 +182,12 @@
                         </div>
                     </a>
                 </li>
-               @*  <li class="nav-item ">
-                    <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Kullanıcılar</span>
-                        </div>
-                    </a>
+                @*  <li class="nav-item ">
+                <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                <div class="d-flex align-items-center">
+                <span class="nav-link-text">Kullanıcılar</span>
+                </div>
+                </a>
                 </li> *@
                 <li class="nav-item ">
                     <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -217,14 +217,17 @@
                         </div>
                     </a>
                 </li>
-              
+
             </ul>
         </div>
     </div>
-    <div class="navbar-vertical-footer"><button class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center">
+    <div class="navbar-vertical-footer">
+        <button class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left text-body fs-5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right text-body fs-5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            <span class="navbar-vertical-footer-text ms-2">Menüyü Daralt</span></button></div>
+            <span class="navbar-vertical-footer-text ms-2">Menüyü Daralt</span>
+        </button>
+    </div>
     </div>
 </nav>
 
@@ -393,7 +396,7 @@
                     <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5z" />
                     <path d="M2 3h10v2H2zm0 3h4v3H2zm0 4h4v1H2zm0 2h4v1H2zm5-6h2v1H7zm3 0h2v1h-2zM7 8h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2zm-3 2h2v1H7zm3 0h2v1h-2z" />
                 </svg>
-</li>
+            </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
@@ -686,7 +689,7 @@
                             <div class="d-flex align-items-center"><span class="nav-link-text">Sürücü Pozisyon</span></div>
                         </a>
                     </li>
-                    <li >
+                    <li>
                         <a class="nav-link" asp-controller="SurucuCikisNedeni" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-text">Sürücü Çıkış Nedeni</span></div>
                         </a>
@@ -774,12 +777,12 @@
                     </div>
                 </a>
             </li>
-           @*  <li class="nav-item ">
-                <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                        <span class="nav-link-text">Kullanıcılar</span>
-                    </div>
-                </a>
+            @*  <li class="nav-item ">
+            <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+            <div class="d-flex align-items-center">
+            <span class="nav-link-text">Kullanıcılar</span>
+            </div>
+            </a>
             </li> *@
             <li class="nav-item ">
                 <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -1149,12 +1152,12 @@
                     </div>
                 </a>
             </li>
-           @*  <li class="nav-item ">
-                <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                        <span class="nav-link-text">Kullanıcılar</span>
-                    </div>
-                </a>
+            @*  <li class="nav-item ">
+            <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+            <div class="d-flex align-items-center">
+            <span class="nav-link-text">Kullanıcılar</span>
+            </div>
+            </a>
             </li> *@
             <li class="nav-item ">
                 <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">

@@ -11,9 +11,10 @@
                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
             </div>
             <div class="modal-body">
-                <p class="text-body-tertiary lh-lg mb-0">This is a static modal example (meaning its position and display have been overridden). Included are the modal header, modal body (required for padding), and modal footer (optional). </p>
+                <p class="text-body-tertiary lh-lg mb-0">Lütfen ruhsat tarattıktan sonra bilgileri giriniz. Bilgileri girdikten sonra ruhsat taratılması halinde veriler silinecektir. </p>
             </div>
-            <div class="modal-footer"><button class="btn btn-primary" type="button">Okay</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Tamam</button></div>
         </div>
     </div>
 </div>
@@ -73,7 +74,7 @@
     }
 
     <div class="border table-responsive scrollbar p-2">
-        <form method="post" action="AracEkle">
+        <form method="post" enctype="multipart/form-data">
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
@@ -430,35 +431,67 @@
                 </tr>
                 <tr>
                     <td>Araç Ruhsatı</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td><input type="file" name="ruhsat" class="form-control"/></td>
+                    <td colspan="2"></td>
                     <td>Resim 1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td colspan="2"></td>
 
                 </tr>
                 <tr>
                     <td>Trafik Sigortası</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td><input type="file" name="sigorta" class="form-control" /></td>>
+                    <td colspan="2"></td>
                     <td>Resim 2</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td colspan="2"></td>
 
                 </tr>
                 <tr>
                     <td>Kasko Poliçe</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td><input type="file" name="police" class="form-control" /></td>
+                    <td colspan="2"></td>
                     <td>Resim 1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td colspan="2"></td>
 
                 </tr>
 
                 <tr>
                     <td>İş Sözleşmesi</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td><input type="file" name="sozlesme" class="form-control" /></td>
+                    <td colspan="2"></td>
                     <td>Resim 1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td colspan="2"></td>
+
+                </tr>
+                <tr>
+                    <td>3 Yıllık Ara Muayene</td>
+                    <td><input type="file" name="muayene" class="form-control" /></td>
+                    <td colspan="2"></td>
+                    <td>Resim 1</td>
+                    <td colspan="2"></td>
+
+                </tr>
+                <tr>
+                    <td>K1 Yetki Belgesi</td>
+                    <td><input type="file" name="k1" class="form-control" /></td>
+                    <td colspan="2"></td>
+                    <td>Resim 1</td>
+                    <td colspan="2"></td>
+
+                </tr>
+                <tr>
+                    <td>K2 Yetki Belgesi</td>
+                    <td><input type="file" name="k2" class="form-control" /></td>
+                    <td colspan="2"></td>
+                    <td>Resim 1</td>
+                    <td colspan="2"></td>
+
+                </tr>
+                <tr>
+                    <td>MTV</td>
+                    <td><input type="file" name="mtv" class="form-control" /></td>
+                    <td colspan="2"></td>
+                    <td>Resim 1</td>
+                    <td colspan="2"></td>
 
                 </tr>
                 <tr>
@@ -690,9 +723,12 @@
 
 
     </script>
+        @if(Model==null)
+        {
     <script>
         $(document).ready(function () {
             $('#uyariModal').modal('show');
         });
     </script>
+        }
 }

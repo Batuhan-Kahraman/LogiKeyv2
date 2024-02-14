@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {}
+    "C:\\Users\\seymanur.curukcu\\Documents\\GitHub\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
+    "C:\\Users\\seymanur.curukcu\\Documents\\GitHub\\logikeyv2\\EntityLayer\\EntityLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
+        "projectUniqueName": "C:\\Users\\seymanur.curukcu\\Documents\\GitHub\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
         "projectName": "EntityLayer",
-        "projectPath": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
-        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asus\\Desktop\\logikeytasima\\logikeyv2\\EntityLayer\\obj\\",
+        "projectPath": "C:\\Users\\seymanur.curukcu\\Documents\\GitHub\\logikeyv2\\EntityLayer\\EntityLayer.csproj",
+        "packagesPath": "C:\\Users\\seymanur.curukcu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\seymanur.curukcu\\Documents\\GitHub\\logikeyv2\\EntityLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\seymanur.curukcu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,6 +44,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Google.Apis": {
+              "target": "Package",
+              "version": "[1.66.0, )"
+            },
+            "Google.Cloud.Vision.V1": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.0, )"
@@ -90,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

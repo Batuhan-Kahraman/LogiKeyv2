@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Concrate
 {
+    [Serializable]
     public class Arac
     {
         [Key]
@@ -107,6 +108,15 @@ namespace EntityLayer.Concrate
         public int? IseBaslamaSuresi { get; set; }
         public string? IseBaslamaNot { get; set; }
 
+        //belgeler
+        public string? AracRuhsat { get; set; }
+        public string? TrafikSigortasi { get; set; }
+        public string? KaskoPolice { get; set; }
+        public string? IsSozlesmesi { get; set; }
+        public string? AraMuayene { get; set; }
+        public string? MTV { get; set; }
+        public string? K1YetkiBelge { get; set; }
+        public string? K2YetkiBelge { get; set; }
 
 
 

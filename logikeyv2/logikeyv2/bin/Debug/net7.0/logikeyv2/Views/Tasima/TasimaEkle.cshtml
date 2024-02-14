@@ -21,9 +21,12 @@
 
     }
     <div class="border table-responsive scrollbar p-2">
-        <form method="post" action="AracEkle">
+        <form method="post" action="TasimaEkle">
             <table class="table table-borderless">
                 <tr>
+                    <td rowspan="5" colspan="1" style="width:50px; margin-right:10px;background:#02224b" class="vertical-text text-center" style="background:#a9a4a4;">
+                        <h5 style="color:#fff !important;">Araç</h5>
+                    </td>
                     <td>Araç</td>
                     <td>
                         <select class="form-control" asp-for="Arac_ID" id="Arac_ID">
@@ -134,24 +137,26 @@
                 </tr>
                 <tr>
                     <td>Göz 1</td>
-                    <td><input type="text" class="form-control" asp-for="AracGoz1" /></td>
+                    <td><input type="number" class="form-control" asp-for="AracGoz1" /></td>
 
                     <td>Göz 2</td>
-                    <td><input type="text" class="form-control" asp-for="AracGoz2" /></td>
+                    <td><input type="number" class="form-control" asp-for="AracGoz2" /></td>
                     <td>Göz 3</td>
-                    <td><input type="text" class="form-control" asp-for="AracGoz3" /></td>
+                    <td><input type="number" class="form-control" asp-for="AracGoz3" /></td>
                 </tr>
                 <tr>
                     <td>Göz 4</td>
-                    <td><input type="text" class="form-control" asp-for="AracGoz4" /></td>
+                    <td><input type="number" class="form-control" asp-for="AracGoz4" /></td>
                     <td>Göz 5</td>
-                    <td><input type="text" class="form-control" asp-for="AracGoz5" /></td>
+                    <td><input type="number" class="form-control" asp-for="AracGoz5" /></td>
                     <td>Göz 6</td>
-                    <td><input type="text" class="form-control" asp-for="AracGoz6" /></td>
+                    <td><input type="number" class="form-control" asp-for="AracGoz6" /></td>
                 </tr>
                 <!-- teknik bilgi -->
                 <tr>
-                   
+                    <td rowspan="2" colspan="1" style="width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center">
+                        <h5 style="color:#fff !important;"> Ürün</h5>
+                    </td>
                     <td>Un Seç</td>
                     <td>
                         <select asp-for="Un_ID" class=" form-control" id="Un_ID">
@@ -186,15 +191,17 @@
                         </select>
                     </td>
                     <td>Birim veya Sefer Fiyatı</td>
-                    <td><input type="text" class="form-control" asp-for="Birim_SeferFiyat" /></td>
+                    <td><input type="number" class="form-control" asp-for="Birim_SeferFiyat" /></td>
 
                 </tr>
 
                 <!-- Ruhsat -->
                 <tr>
-                   
+                    <td rowspan="7" colspan="1" style="width:50px; margin-right:10px;background:#074699" class="vertical-text text-center">
+                        <h5 style="color:#fff !important;"> Kapasite Dağılımı</h5>
+                    </td>
                     <td>Göz 1</td>
-                    <td><input type="text" class="form-control" asp-for="Goz1Miktar" /></td>
+                    <td><input type="number" class="form-control" asp-for="Goz1Miktar" /></td>
                     <td>Birim</td>
 
                     <td>
@@ -205,12 +212,12 @@
                         </select>
                     </td>
                     <td>Miktar 1</td>
-                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari1" /></td>
+                    <td><input type="number" class="form-control" asp-for="YuklemeMiktari1" /></td>
                 </tr>
                 <tr>
 
                     <td>Göz 2</td>
-                    <td><input type="text" class="form-control" asp-for="Goz2Miktar" /></td>
+                    <td><input type="number" class="form-control" asp-for="Goz2Miktar" /></td>
                     <td>Birim</td>
 
                     <td>
@@ -221,12 +228,12 @@
                         </select>
                     </td>
                     <td>Miktar 2</td>
-                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari2" /></td>
+                    <td><input type="number" class="form-control" asp-for="YuklemeMiktari2" /></td>
                 </tr>
                 <tr>
 
                     <td>Göz 3</td>
-                    <td><input type="text" class="form-control" asp-for="Goz3Miktar" /></td>
+                    <td><input type="number" class="form-control" asp-for="Goz3Miktar" /></td>
                     <td>Birim</td>
 
                     <td>
@@ -237,12 +244,12 @@
                         </select>
                     </td>
                     <td>Miktar 3</td>
-                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari3" /></td>
+                    <td><input type="number" class="form-control" asp-for="YuklemeMiktari3" /></td>
                 </tr>
                 <tr>
 
                     <td>Göz 4</td>
-                    <td><input type="text" class="form-control" asp-for="Goz4Miktar" /></td>
+                    <td><input type="number" class="form-control" asp-for="Goz4Miktar" /></td>
                     <td>Birim</td>
 
                     <td>
@@ -253,12 +260,12 @@
                         </select>
                     </td>
                     <td>Miktar 4</td>
-                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari4" /></td>
+                    <td><input type="number" class="form-control" asp-for="YuklemeMiktari4" /></td>
                 </tr>
                 <tr>
 
                     <td>Göz 5</td>
-                    <td><input type="text" class="form-control" asp-for="Goz5Miktar" /></td>
+                    <td><input type="number" class="form-control" asp-for="Goz5Miktar" /></td>
                     <td>Birim</td>
 
                     <td>
@@ -269,12 +276,12 @@
                         </select>
                     </td>
                     <td>Miktar 5</td>
-                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari5" /></td>
+                    <td><input type="number" class="form-control" asp-for="YuklemeMiktari5" /></td>
                 </tr>
                 <tr>
 
                     <td>Göz 6</td>
-                    <td><input type="text" class="form-control" asp-for="Goz6Miktar" /></td>
+                    <td><input type="number" class="form-control" asp-for="Goz6Miktar" /></td>
                     <td>Birim</td>
 
                     <td>
@@ -285,7 +292,7 @@
                         </select>
                     </td>
                     <td>Miktar 6</td>
-                    <td><input type="text" class="form-control" asp-for="YuklemeMiktari6" /></td>
+                    <td><input type="number" class="form-control" asp-for="YuklemeMiktari6" /></td>
                 </tr>
                 <tr>
 
@@ -296,7 +303,9 @@
                 </tr>
                 <!-- Garanti -->
                 <tr>
-                   
+                    <td rowspan="2" colspan="1" style="width:50px; margin-right:10px;background:#0a4ea5" class="vertical-text text-center">
+                        <h5 style="color:#fff !important;"> Gönderici Firma</h5>
+                    </td>
                     <td>Mal Sahibi</td>
                     <td>
                         <select asp-for="GondericiCari_ID" class=" form-control" id="GondericiCari_ID">
@@ -329,12 +338,14 @@
                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
 
                     <td>Mal Yükleme Tarih Saat</td>
-                    <td colspan="5"><input type="text" class="form-control" asp-for="GondericiFirmaTarihSaat" /></td>
+                    <td colspan="5"><input type="date" class="form-control" asp-for="GondericiFirmaTarihSaat" /></td>
 
                 </tr>
                 <!-- Araç Belgeleri -->
                 <tr>
-                    
+                    <td rowspan="2" colspan="1" style="width:50px; margin-right:10px;background:#0e65d5" class="vertical-text text-center">
+                        <h5 style="color:#fff !important;"> Alıcı Firma</h5>
+                    </td>
                     <td>Alıcı Firma</td>
                     <td>
                         <select asp-for="AliciCari_ID" class=" form-control" id="AliciCari_ID">
@@ -368,20 +379,22 @@
                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
 
                     <td>Alıcı Tarih Saat</td>
-                    <td colspan="5"><input type="text" class="form-control" asp-for="AliciFirmaTarihSaat" /></td>
+                    <td colspan="5"><input type="date" class="form-control" asp-for="AliciFirmaTarihSaat" /></td>
 
                 </tr>
                 @*  Nakliye hesaplama *@
                 <tr>
-                   
+                    <td rowspan="2" colspan="1" style="width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center">
+                        <h5 style="color:#fff !important;"> Nakliye Bedeli</h5>
+                    </td>
                     <td>Tutar</td>
                     <td>
-                        <input type="text" class="form-control" asp-for="NakliyeBedelTutar_KDVsiz" />
+                        <input type="number" class="form-control" asp-for="NakliyeBedelTutar_KDVsiz" />
                     </td>
 
                     <td>Kdv</td>
                     <td>
-                        <input type="text" class="form-control" asp-for="NakliyeBedelTutar_KDV" />
+                        <input type="number" class="form-control" asp-for="NakliyeBedelTutar_KDV" />
                     </td>
                 </tr>
                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
