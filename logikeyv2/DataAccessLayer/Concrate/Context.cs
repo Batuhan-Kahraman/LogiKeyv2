@@ -65,6 +65,9 @@ namespace DataAccessLayer.Concrate
         public DbSet<AracGider> AracGider { get; set; }
         public DbSet<Tasima> Tasima { get; set; }
 
+        public DbSet<Bildirim> Bildirim { get; set; }
+        public DbSet<Duyuru> Duyuru { get; set; }
+
 
     }
 }
