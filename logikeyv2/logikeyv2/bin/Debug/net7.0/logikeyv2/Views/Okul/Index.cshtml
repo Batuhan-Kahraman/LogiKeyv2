@@ -32,8 +32,10 @@
                         <tr>
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Okul Adı</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Adresi</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Telefon No</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Yetkili Adı</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="name">Okul Telefon No</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="name">Okul Müdürü Adı Soyadı</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="name">Okul Müdürü Telefon No</th>
+
                             <th class="sort border-top">
                                 İşlemler
                             </th>
@@ -46,8 +48,10 @@
                             <tr>
                                 <td>@item.Cari_Unvan</td>
                                 <td>@item.Cari_Adres</td>
-                                <td>@item.Cari_CepNo</td>
+                                <td>@item.Cari_FirmaTelefon</td>
                                 <td>@item.Cari_YetkiliAdi @item.Cari_YetkiliSoyadi</td>
+                                <td>@item.Cari_CepNo</td>
+
                                 <td>
                                     <a asp-controller="Okul" asp-action="OkulDuzenle" asp-route-Cari_ID="@item.Cari_ID">
                                         <span class="text-body fs-5" data-feather="edit"></span>

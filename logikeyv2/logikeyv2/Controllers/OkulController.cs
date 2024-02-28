@@ -32,6 +32,8 @@ namespace logikeyv2.Controllers
 
                         cari.Durum = 1;
                         cari.Cari_GrupID = 13;//Okul
+                        cari.Cari_Kodu ="Okulkodu";//Okul
+
                         cari.Cari_TCNO_VergiNo = "11111111111";//Okul modülünde olmadı için sabit değer verildi.
                         cari.Cari_Tipi = 2;//kurumsal
                         cari.Cari_VergiDairesi = "okul";
@@ -75,7 +77,6 @@ namespace logikeyv2.Controllers
                         item.Cari_ILCE_ID = cari.Cari_ILCE_ID;
                         item.Cari_Adres = cari.Cari_Adres;
                         item.Cari_FirmaEposta = cari.Cari_FirmaEposta;
-                        item.Cari_Kodu = cari.Cari_Kodu;
                         item.Cari_WebSitesi = cari.Cari_WebSitesi;
                         item.Cari_CepNo = cari.Cari_CepNo;
                         item.Cari_YetkiliAdi = cari.Cari_YetkiliAdi;
