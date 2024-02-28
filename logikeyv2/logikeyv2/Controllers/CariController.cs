@@ -13,7 +13,7 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<Cari> liste = cariManager.GetAllList(x => x.Durum == true);
+            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1);
            
             return View(liste);
 
@@ -34,7 +34,7 @@ namespace logikeyv2.Controllers
                     try
                     {
 
-                        cari.Durum = true;
+                        cari.Durum = 1;
                         cari.EkleyenKullanici_ID = 1;//değişçek
                         cari.DuzenleyenKullanici_ID = 1;//değişçek
                         cari.Firma_ID = 1;//değişçek

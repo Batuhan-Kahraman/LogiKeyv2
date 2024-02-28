@@ -145,6 +145,29 @@
                         </div>
                     </div>
                 </li>
+                <li>
+                    <!-- Tanımlamalar -->
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="#nv-okullar" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-okullar">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="pie-chart"></span></span><span class="nav-link-text">Okul Modülü</span>
+                            </div>
+                        </a>
+                        <div class="parent-wrapper label-1">
+                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-okullar">
+                                <li class="collapsed-nav-item-title d-none">Okul Modülü</li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Okul" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Okullar</span></div>
+                                    </a>
+                                </li>
+                               
+                                
+
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 <li class="nav-item ">
                     <a class="nav-link" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
@@ -214,20 +237,6 @@
                     <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGiderListesi" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-text">Araç Gider</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" asp-controller="Bildirim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Bildirim</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" asp-controller="Duyuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Duyuru</span>
                         </div>
                     </a>
                 </li>
@@ -755,6 +764,17 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Okul Modülü</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Okul" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Okullar</span></div>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </li>
             <li class="nav-item ">
                 <a class="nav-link active" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center">
@@ -1130,6 +1150,20 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Okul Modülü</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Okul" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Okullar</span></div>
+                        </a>
+                    </li>
+                  
+                </ul>
+            </li>
+
+        
             <li class="nav-item ">
                 <a class="nav-link active" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                     <div class="d-flex align-items-center">
@@ -1497,6 +1531,18 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Okul Modülü</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Okul" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Okullae</span></div>
+                        </a>
+                    </li>
+                
+                </ul>
+            </li>
+          
         </ul>
     </div>
     <ul class="navbar-nav navbar-nav-icons flex-row">
@@ -1789,6 +1835,17 @@
                             <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
                         </a>
                     </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><span class="uil fs-8 me-2 uil-chart-pie"></span>Okul Modülü</a>
+                <ul class="dropdown-menu navbar-dropdown-caret">
+                    <li>
+                        <a class="nav-link active" asp-controller="Okul" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Okullar</span></div>
+                        </a>
+                    </li>
+                  
                 </ul>
             </li>
         </ul>
