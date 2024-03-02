@@ -52,5 +52,7 @@ namespace BusinessLayer.Abstract
     public interface ITasimaService : IGenericService<Tasima> { }
     public interface IBildirimService : IGenericService<Bildirim> { }
     public interface IDuyuruService : IGenericService<Duyuru> { }
+    public interface IOgrenciModuluService : IGenericService<OgrenciModulu> { }
+
 
 }
