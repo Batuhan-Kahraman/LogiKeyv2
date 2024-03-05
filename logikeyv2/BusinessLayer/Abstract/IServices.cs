@@ -53,5 +53,7 @@ namespace BusinessLayer.Abstract
     public interface IBildirimService : IGenericService<Bildirim> { }
     public interface IDuyuruService : IGenericService<Duyuru> { }
     public interface IAracResimlerService : IGenericService<AracResimler> { }
+    public interface IOgrenciModuluService : IGenericService<OgrenciModulu> { }
+
 
 }

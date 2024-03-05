@@ -1,0 +1,184 @@
+﻿@model logikeyv2.Models.OkulOgrenciModel
+
+@{
+    ViewData["Title"] = "Ogrenci Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Öğrenci Ekle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+
+                <tr>
+
+                    <td>Öğrenci Adı</td>
+                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliAdi" /></td>
+                    <td>Öğrenci Soyadı</td>
+                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliSoyadi" /></td>
+
+
+                </tr>
+
+                <tr>
+                    <td>Öğrenci Telefon No</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaTelefon" /></td>
+                    <td>Öğrenci TC Kimlik No</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_TCNO_VergiNo" /></td>
+
+
+
+                </tr>
+                <tr>
+                    <td>Kayıt Başlangıç Tarihi</td>
+                    <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBaslangicTarihi" /></td>
+                    <td>Kayıt Bitiş Tarihi</td>
+                    <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBitisTarihi" /></td>
+
+
+
+                </tr>
+                <tr>
+                    <td>Servis Kullanım Durumu</td>
+                    <td>
+                        <select class="form-control" asp-for="OgrenciModulu.Servis_Kullanim_Durumu" id="Servis_Kullanim_Durumu">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Evet</option>
+                            <option value="2">Hayır</option>
+
+                        </select>
+                    </td>
+                   
+
+
+                </tr>
+                <tr>
+
+                    <td>Okulu</td>
+                    <td>
+                        <select class="form-control" asp-for="OgrenciModulu.CariOkul_ID" id="CariOkul_ID">
+                            <option value="0">Seçiniz</option>
+
+                            @foreach (var item in ViewBag.Okullar)
+                            {
+                                <option value="@item.Cari_ID">@item.Cari_Unvan</option>
+
+                            }
+                        </select>
+                    </td>
+                    <td>Şöfor</td>
+                    <td>
+                        <select class="form-control" asp-for="OgrenciModulu.Sofer_ID" id="Cari_ILCE_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Ahmet Demir</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>İl</td>
+                    <td>
+                        <select class="form-control" asp-for="Ogrenci.Cari_IL_ID" id="Cari_IL_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">izmir</option>
+                        </select>
+                    </td>
+                    <td>İlçe</td>
+                    <td>
+                        <select class="form-control" asp-for="Ogrenci.Cari_ILCE_ID" id="Cari_ILCE_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Konak</option>
+                            <option value="2">Bornova</option>
+                            <option value="3">Karabağlar</option>
+                            <option value="4">Balçova</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Adres</td>
+                    <td colspan="5"> <input type="text" class="form-control" asp-for="Ogrenci.Cari_Adres" /></td>
+
+                </tr>
+                <tr>
+
+
+                    <td>Öğrenci Eposta</td>
+                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaEposta" /></td>
+
+                  
+                </tr>
+
+                <tr>
+                    <td>1. Veli Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Adi" /></td>
+                    <td>1.Veli Soyadı</td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Soyadi" /></td>
+                    <td>1.Veli Telefon No</td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli1TelefonNo" /></td>
+                </tr>
+                <tr>
+                    <td>2. Veli Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Adi" /></td>
+                    <td>2.Veli Soyadı</td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Soyadi" /></td>
+                    <td>2.Veli Telefon No</td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli2TelefonNo" /></td>
+
+                </tr>
+                <tr>
+                    <td>3. Veli Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Adi" /></td>
+                    <td>3.Veli Soyadı</td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Soyadi" /></td>
+                    <td>3.Veli Telefon No</td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli3TelefonNo" /></td>
+                </tr>
+
+            
+                <tr>
+                    <td>Banka Adı 1</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi1" /></td>
+                    <td>Banka IBAN No 1</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN1" /></td>
+
+                </tr>
+                <tr>
+                    <td>Banka Adı 2</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi2" /></td>
+                    <td>Banka IBAN No 2</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN2" /></td>
+
+                </tr>
+                <tr>
+                    <td>Banka Adı 3</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi3" /></td>
+                    <td>Banka IBAN No 3</td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN3" /></td>
+
+                </tr>
+
+
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Öğrenciyi Kaydet" />
+        </form>
+
+
+    </div>
