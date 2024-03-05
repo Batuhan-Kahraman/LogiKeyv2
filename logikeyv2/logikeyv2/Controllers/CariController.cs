@@ -10,6 +10,7 @@ namespace logikeyv2.Controllers
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
         CariGrupManager cariGrupManager = new CariGrupManager(new EFCariGrupRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
 
         public IActionResult Index()
         {
@@ -20,8 +21,13 @@ namespace logikeyv2.Controllers
         }
         public IActionResult Ekle()
         {
-            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1);
+            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 );
             ViewBag.CariGrup = CariGrupList;
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             return View();
         }
         [HttpPost]
@@ -52,7 +58,7 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return View(cari);
+            return RedirectToAction("Index");
         }
     }
 }

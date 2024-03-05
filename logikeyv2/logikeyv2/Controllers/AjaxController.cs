@@ -24,6 +24,9 @@ namespace logikeyv2.Controllers
         KazaTuruManager kazaTuruManager = new KazaTuruManager(new EFKazaTuruRepository());
         AracManager aracManager = new AracManager(new EFAracRepository());
         MasrafTipiManager masrafTipiManager = new MasrafTipiManager(new EFMasrafTipiRepository());
+
+        LastikTipiManager lastikTipiManager = new LastikTipiManager(new EFLastikTipiRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         #endregion
         [HttpGet]
         public IActionResult SahiplikListe()
@@ -109,7 +112,20 @@ namespace logikeyv2.Controllers
             List<MasrafTipi> liste = masrafTipiManager.GetAllList(x => x.Durum == true);
             return Json(liste);
         }
-     
+        [HttpGet]
+        public IActionResult LastikTipListe()
+        {
+            List<LastikTipi> liste = lastikTipiManager.GetAllList(x => x.Durum == true);
+            return Json(liste);
+        }
+
+
+        [HttpGet]
+        public IActionResult IlceListe(string IlKodu)
+        {
+            List<AdresOzellikTanimlama> liste = adresManager.GetAllList(x => x.IL_KODU == IlKodu);
+            return Json(liste);
+        }
 
 
     }

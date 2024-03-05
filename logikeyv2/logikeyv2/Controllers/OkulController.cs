@@ -11,7 +11,7 @@ namespace logikeyv2.Controllers
         CariManager cariManager = new CariManager(new EFCariRepository());
         public IActionResult Index()
         {
-            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID==13);
+            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1);
 
             return View(liste);
         }

@@ -67,9 +67,10 @@ namespace DataAccessLayer.Concrate
 
         public DbSet<Bildirim> Bildirim { get; set; }
         public DbSet<Duyuru> Duyuru { get; set; }
+        public DbSet<AracResimler> AracResimler { get; set; }
         public DbSet<OgrenciModulu> OgrenciModulu { get; set; }
 
-        
+
 
 
     }

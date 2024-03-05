@@ -21,6 +21,7 @@ namespace logikeyv2.Controllers
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
         BirimlerManager birimlerManager = new BirimlerManager(new EFBirimlerRepository());
         TasimaTipiManager tasimaTipiManager = new TasimaTipiManager(new EFTasimaTipiRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
 
         public IActionResult Index()
         {
@@ -51,9 +52,17 @@ namespace logikeyv2.Controllers
             List<Birimler> birimler = birimlerManager.GetAllList(x => x.Durum == true);
             List<TasimaTipi> tasimaTipi = tasimaTipiManager.GetAllList(x => x.Durum == true);
 
+            List<Arac> cekiciPlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID==1);
+            List<Arac> dorsePlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID==4);
+            List<AracTip> dorseListesi = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID==4);
 
+
+            List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID==8);
 
             ViewBag.Araclar = aracListesi;
+            ViewBag.CekiciPlaka = cekiciPlaka;
+            ViewBag.DorsePlaka = dorsePlaka;
+            ViewBag.DorseListe = dorseListesi;
             ViewBag.Suruculer = surucuListesi;
             ViewBag.TasinacakUrun = tasinacakUrun;
             ViewBag.UnListesi = UnListesi;
@@ -62,7 +71,12 @@ namespace logikeyv2.Controllers
             ViewBag.aracTur = aracTur;
             ViewBag.birimler = birimler;
             ViewBag.tasimaTipi = tasimaTipi;
+            ViewBag.AliciListesi = AliciListesi;
+            var adres = adresManager.List();
 
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
 
 
             return View();
