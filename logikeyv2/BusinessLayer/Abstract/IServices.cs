@@ -50,5 +50,8 @@ namespace BusinessLayer.Abstract
     public interface IAracGelirService : IGenericService<AracGelir> { }
     public interface IAracGiderService : IGenericService<AracGider> { }
     public interface ITasimaService : IGenericService<Tasima> { }
+    public interface IBildirimService : IGenericService<Bildirim> { }
+    public interface IDuyuruService : IGenericService<Duyuru> { }
+    public interface IAracResimlerService : IGenericService<AracResimler> { }
 
 }

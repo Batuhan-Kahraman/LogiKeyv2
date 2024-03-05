@@ -59,8 +59,11 @@ namespace EntityLayer.Concrate
         public string? LastikTip1 {  get; set; }
         public string? LastikTip2 {  get; set; }
         public string? LastikTip3 {  get; set; }
+        public int? LastikTipAdet1 { get; set; }
+        public int? LastikTipAdet2 { get; set; }
+        public int? LastikTipAdet3 { get; set; }
         public int? AkuTipID { get; set; }
-        public string? AkuAmperBirim { get; set; }
+        public int? AkuAmper { get; set; }
         public int? AkuAdet { get;set; }
         public string? MotorYagTipi {  get; set; }
         public string MotorYagListesi {  get; set; }
