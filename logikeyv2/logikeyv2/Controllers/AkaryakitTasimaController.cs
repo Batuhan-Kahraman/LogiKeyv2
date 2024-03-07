@@ -21,7 +21,7 @@ namespace logikeyv2.Controllers
         TasimaTipiManager tasimaTipiManager = new TasimaTipiManager(new EFTasimaTipiRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         public IActionResult Index()
-        {
+        { 
 
 
             var combinedQuery = from tasima in tasimaManager.GetAllList(x => x.Durum == 1)
