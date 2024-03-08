@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Concrate;
+using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
@@ -20,8 +21,9 @@ namespace logikeyv2.Controllers
         BirimlerManager birimlerManager = new BirimlerManager(new EFBirimlerRepository());
         TasimaTipiManager tasimaTipiManager = new TasimaTipiManager(new EFTasimaTipiRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+        AkaryakitTasimaManager akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
         public IActionResult Index()
-        { 
+        {
 
 
             var combinedQuery = from tasima in tasimaManager.GetAllList(x => x.Durum == 1)
@@ -81,5 +83,44 @@ namespace logikeyv2.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult TasimaEkle(AkaryakitTasima akaryakitTasima, IFormCollection form)
+        {
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        akaryakitTasima.Goz1UrunID = int.Parse(form["Goz1UrunID"]);
+                        akaryakitTasima.Goz2UrunID = int.Parse(form["Goz2UrunID"]);
+                        akaryakitTasima.Goz3UrunID = int.Parse(form["Goz3UrunID"]);
+                        akaryakitTasima.Goz4UrunID = int.Parse(form["Goz4UrunID"]);
+                        akaryakitTasima.Goz5UrunID = int.Parse(form["Goz5UrunID"]);
+                        akaryakitTasima.Goz6UrunID = int.Parse(form["Goz6UrunID"]);
+
+                        akaryakitTasima.Durum = true;
+                        akaryakitTasima.FirmaID = 1;//değişçek
+                        akaryakitTasima.OlusturmaTarihi = DateTime.Now;
+                        akaryakitTasima.DuzenlemeTarihi = DateTime.Now;
+                        akaryakitTasima.OlusturanId = 1;//değişcek
+                        akaryakitTasima.DuzenleyenID = 1;//değişcek
+                        akaryakitTasimaManager.TAdd(akaryakitTasima);
+
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
+
+                    }
+                    catch (Exception e)
+                    {
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
+                        transaction.Rollback();
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

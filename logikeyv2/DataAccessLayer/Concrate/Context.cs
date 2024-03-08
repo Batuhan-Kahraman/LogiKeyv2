@@ -71,6 +71,11 @@ namespace DataAccessLayer.Concrate
         public DbSet<OgrenciModulu> OgrenciModulu { get; set; }
 
 
+        public DbSet<AkaryakitTasima> AkaryakitTasima { get; set; }
+        public DbSet<AkaryakitTasimaDetay> AkaryakitTasimaDetay { get; set; }
+        public DbSet<AkaryakitTasimaDetayUrun> AkaryakitTasimaDetayUrun { get; set; }
+
+
 
 
     }

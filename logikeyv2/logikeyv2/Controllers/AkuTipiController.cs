@@ -8,7 +8,7 @@ namespace logikeyv2.Controllers
 {
     public class AkuTipiController : Controller
     {
-        AkuTipiManager AkuTipiManager = new AkuTipiManager(new EFAkuTipiRepository());
+        AkuTipiManager AkuTipiManager = new AkuTipiManager(new EFAkaryakitTasimaRepository());
 
 
         public IActionResult Index()
