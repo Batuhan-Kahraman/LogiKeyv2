@@ -258,3 +258,6 @@ logikeyv2/BusinessLayer/bin/Debug/net7.0/BusinessLayer.dll
 /logikeyv2/logikeyv2/obj/logikeyv2.csproj.nuget.dgspec.json
 /logikeyv2/logikeyv2/obj/project.assets.json
 /logikeyv2/logikeyv2/obj/project.nuget.cache
+/logikeyv2/logikeyv2/obj/Debug/net7.0/logikeyv2.RazorAssemblyInfo.cache
+/logikeyv2/logikeyv2/obj/Debug/net7.0/logikeyv2.RazorAssemblyInfo.cs
+/logikeyv2/logikeyv2/obj/Debug/net7.0/project.razor.vs.json
