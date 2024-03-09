@@ -25,8 +25,8 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-
-
+            return View();
+            /*
             var combinedQuery = from tasima in tasimaManager.GetAllList(x => x.Durum == 1)
                                 join arac in aracManager.GetAllList((y => y.Durum == true)) on tasima.Arac_ID equals arac.ID
                                 join surucu1 in surucuManager.GetAllList((y => y.Durum == true)) on tasima.Surucu1_ID equals surucu1.ID
@@ -37,7 +37,7 @@ namespace logikeyv2.Controllers
                                 select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1, TasinacakUrun = tasinacakUrun, CariOdemeYapan = cariodemeyapan, CariAlici = carialici, CariGonderen = carigonderici };
 
             List<TasimaModel> combinedList = combinedQuery.ToList();
-            return View(combinedList);
+            return View(combinedList);*/
         }
         public IActionResult TasimaEkle()
         {

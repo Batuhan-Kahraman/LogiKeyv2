@@ -17,7 +17,7 @@ namespace logikeyv2.Controllers
         MarkaManager markaManager = new MarkaManager(new EFMarkaRepository());
         ModelManager modelManager = new ModelManager(new EFModelRepository());
         YakitTipiManager yakitTipiManager = new YakitTipiManager(new EFYakitTipiRepository());
-        AkuTipiManager akuTipiManager = new AkuTipiManager(new EFAkaryakitTasimaRepository());
+        AkuTipiManager akuTipiManager = new AkuTipiManager(new EFAkuTipiRepository());
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
         SurucuManager surucuManager = new SurucuManager(new EFSurucuRepository());
