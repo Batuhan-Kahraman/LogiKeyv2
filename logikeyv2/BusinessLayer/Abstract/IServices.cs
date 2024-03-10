@@ -59,6 +59,7 @@ namespace BusinessLayer.Abstract
     public interface IAkaryakitTasimaService : IGenericService<AkaryakitTasima> { }
     public interface IAkaryakitTasimaDetayService : IGenericService<AkaryakitTasimaDetay> { }
     public interface IAkaryakitTasimaDetayUrunService : IGenericService<AkaryakitTasimaDetayUrun> { }
+    public interface IAkaryakitFaturaService : IGenericService<AkaryakitFatura> { }
 
 
 }
