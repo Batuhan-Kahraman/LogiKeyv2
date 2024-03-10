@@ -6,7 +6,7 @@
 <div class="col-lg-10 col-xxl-11">
 
     <h2 class="mb-3 lh-sm">Sürücüler</h2>
-    <a asp-controller="Surucu" asp-action="Ekle">Sürücü Ekle</a>
+    <a asp-controller="Surucu" asp-action="Ekle">Kullanıcı Ekle</a>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -51,15 +51,15 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.Surucu.Isim @item.Surucu.Soyisim</td>
+                                <td>@item.Surucu.Kullanici_Isim @item.Surucu.Kullanici_Soyisim</td>
                                 <td>@item.Surucu.CepTelefonu</td>
                                 <td>@item.Pozisyon</td>
                                 <td>@item.EhliyetSinifi</td>
                                 <td>
-                                    <a asp-controller="Surucu" asp-action="Duzenle" asp-route-SurucuID="@item.Surucu.ID">
+                                    <a asp-controller="Surucu" asp-action="Duzenle" asp-route-SurucuID="@item.Surucu.Kullanici_ID">
                                         <span class="text-body fs-5" data-feather="edit"></span>
                                     </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Surucu.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Surucu.Kullanici_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
                                 </td>
                             </tr>
                         }
