@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Concrate;
+using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
@@ -20,18 +21,23 @@ namespace logikeyv2.Controllers
         BirimlerManager birimlerManager = new BirimlerManager(new EFBirimlerRepository());
         TasimaTipiManager tasimaTipiManager = new TasimaTipiManager(new EFTasimaTipiRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+        AkaryakitTasimaManager akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
+        AkaryakitTasimaDetayManager akaryakitTasimaDetayManager = new AkaryakitTasimaDetayManager(new EFAkaryakitTasimaDetayRepository());
+        AkaryakitTasimaDetayUrunManager akaryakitTasimaDetayUrunManager = new AkaryakitTasimaDetayUrunManager(new EFAkaryakitTasimaDetayUrunRepository());
+
+
+
+
         public IActionResult Index()
-        { 
+        {
 
 
-            var combinedQuery = from tasima in tasimaManager.GetAllList(x => x.Durum == 1)
-                                join arac in aracManager.GetAllList((y => y.Durum == true)) on tasima.Arac_ID equals arac.ID
-                                join surucu1 in surucuManager.GetAllList((y => y.Durum == true)) on tasima.Surucu1_ID equals surucu1.ID
-                                join tasinacakUrun in tasinacakUrunManager.GetAllList((y => y.Durum == true)) on tasima.TasinacakUrun_ID equals tasinacakUrun.ID
-                                join cariodemeyapan in cariManager.GetAllList((y => y.Durum == 1)) on tasima.Cari_Odeme_Yapan_ID equals cariodemeyapan.Cari_ID
-                                join carialici in cariManager.GetAllList((y => y.Durum == 1)) on tasima.AliciCari_ID equals carialici.Cari_ID
-                                join carigonderici in cariManager.GetAllList((y => y.Durum == 1)) on tasima.GondericiCari_ID equals carigonderici.Cari_ID
-                                select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1, TasinacakUrun = tasinacakUrun, CariOdemeYapan = cariodemeyapan, CariAlici = carialici, CariGonderen = carigonderici };
+            var combinedQuery = from tasima in akaryakitTasimaManager.GetAllList(x => x.Durum == true)
+                                join arac in aracManager.GetAllList((y => y.Durum == true)) on tasima.AracID equals arac.ID
+                                join surucu1 in surucuManager.GetAllList((y => y.Durum == true)) on tasima.Kullanici1ID equals surucu1.ID
+                                join tasimaTipi in tasimaTipiManager.GetAllList((y => y.Durum == true)) on tasima.TasimaTipiID equals tasimaTipi.ID
+                                join aracTur in aracTurManager.GetAllList((y => y.Durum == true)) on tasima.AracTurID equals aracTur.ID
+                                select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1, TasimaTip = tasimaTipi, AracTur = aracTur };
 
             List<TasimaModel> combinedList = combinedQuery.ToList();
             return View(combinedList);
@@ -81,5 +87,144 @@ namespace logikeyv2.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult TasimaEkle(AkaryakitTasima akaryakitTasima, IFormCollection form)
+        {
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        akaryakitTasima.Goz1UrunID = string.IsNullOrWhiteSpace(form["Goz1UrunID"]) ? 0 : int.Parse(form["Goz1UrunID"]);
+                        akaryakitTasima.Goz2UrunID = string.IsNullOrWhiteSpace(form["Goz2UrunID"]) ? 0 : int.Parse(form["Goz2UrunID"]);
+                        akaryakitTasima.Goz3UrunID = string.IsNullOrWhiteSpace(form["Goz3UrunID"]) ? 0 : int.Parse(form["Goz3UrunID"]);
+                        akaryakitTasima.Goz4UrunID = string.IsNullOrWhiteSpace(form["Goz4UrunID"]) ? 0 : int.Parse(form["Goz4UrunID"]);
+                        akaryakitTasima.Goz5UrunID = string.IsNullOrWhiteSpace(form["Goz5UrunID"]) ? 0 : int.Parse(form["Goz5UrunID"]);
+                        akaryakitTasima.Goz6UrunID = string.IsNullOrWhiteSpace(form["Goz6UrunID"]) ? 0 : int.Parse(form["Goz6UrunID"]);
+
+                        akaryakitTasima.Durum = true;
+                        akaryakitTasima.FirmaID = 1;//değişçek
+                        akaryakitTasima.OlusturmaTarihi = DateTime.Now;
+                        akaryakitTasima.DuzenlemeTarihi = DateTime.Now;
+                        akaryakitTasima.OlusturanId = 1;//değişcek
+                        akaryakitTasima.DuzenleyenID = 1;//değişcek
+                        akaryakitTasimaManager.TAdd(akaryakitTasima);
+
+                        int kayitSayisi = int.Parse(form["KayitSayisi"]);
+
+                        for (var i = 1; i <= kayitSayisi; i++)
+                        {
+                            AkaryakitTasimaDetay akaryakitTasimaDetay = new AkaryakitTasimaDetay();
+
+                            akaryakitTasimaDetay.AkaryakitTasimaID = akaryakitTasima.ID;
+                            akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                            akaryakitTasimaDetay.Durum = true;
+                            akaryakitTasimaDetay.FirmaID = 1;//değişçek
+                            akaryakitTasimaDetay.OlusturmaTarihi = DateTime.Now;
+                            akaryakitTasimaDetay.DuzenlemeTarihi = DateTime.Now;
+                            akaryakitTasimaDetay.OlusturanId = 1;//değişcek
+                            akaryakitTasimaDetay.DuzenleyenID = 1;//değişcek
+                            akaryakitTasimaDetayManager.TAdd(akaryakitTasimaDetay);
+
+                            for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
+                            {
+                                AkaryakitTasimaDetayUrun akaryakitTasimaDetayUrun = new AkaryakitTasimaDetayUrun();
+                                akaryakitTasimaDetayUrun.AkaryakitTasimaID = akaryakitTasima.ID;
+                                akaryakitTasimaDetayUrun.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
+
+                                akaryakitTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+
+                                akaryakitTasimaDetayUrun.Durum = true;
+                                akaryakitTasimaDetayUrun.FirmaID = 1;  // Değişecek
+                                akaryakitTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
+                                akaryakitTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
+                                akaryakitTasimaDetayUrun.OlusturanId = 1;  // Değişecek
+                                akaryakitTasimaDetayUrun.DuzenleyenID = 1;  // Değişecek
+
+                                akaryakitTasimaDetayUrunManager.TAdd(akaryakitTasimaDetayUrun);
+                            }
+
+
+                        }
+
+
+
+
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
+
+                    }
+                    catch (Exception e)
+                    {
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
+                        transaction.Rollback();
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public IActionResult Sil(IFormCollection form)
+        {
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        AkaryakitTasima item = akaryakitTasimaManager.GetByID(int.Parse(form["ID"]));
+                        item.Durum = false;
+                        akaryakitTasimaManager.TUpdate(item);
+
+                        List<AkaryakitTasimaDetay> itemDetay = akaryakitTasimaDetayManager.GetAllList(x => x.AkaryakitTasimaID == int.Parse(form["ID"]));
+                        foreach (var x in itemDetay)
+                        {
+                            x.Durum = false;
+                            akaryakitTasimaDetayManager.TUpdate(x);
+
+                        }
+                        List<AkaryakitTasimaDetayUrun> itemDetayUrun = akaryakitTasimaDetayUrunManager.GetAllList(x => x.AkaryakitTasimaID == int.Parse(form["ID"]));
+                        foreach (var x in itemDetayUrun)
+                        {
+                            x.Durum = false;
+                            akaryakitTasimaDetayUrunManager.TUpdate(x);
+
+                        }
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception e)
+                    {
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
+                        transaction.Rollback();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
+        }
     }
 }

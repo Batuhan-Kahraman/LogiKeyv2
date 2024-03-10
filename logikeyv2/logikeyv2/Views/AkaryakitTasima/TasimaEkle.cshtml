@@ -1,4 +1,4 @@
-﻿@model EntityLayer.Concrate.Tasima
+﻿@model EntityLayer.Concrate.AkaryakitTasima
 
 @{
     ViewData["Title"] = "Taşıma Ekle";
@@ -8,6 +8,8 @@
     var satirVeUrunSayisi = [];
 
     satirVeUrunSayisi.push({ satir: 1, urun: 1 });
+    var GozSayisi = 1;
+    var GozKapasite = [];
 </script>
 
 <div class="col-lg-10 col-xxl-11">
@@ -27,7 +29,9 @@
     }
 
     <div class="border table-responsive scrollbar p-2">
-        <form method="post" action="TasimaEkle">
+        <form method="post" action="TasimaEkle" >
+            <input type="hidden" name="KayitSayisi" id="KayitSayisi" value="1"/>
+            <input type="hidden" name="UrunKayitSayisi"/>
             <table class="table table-borderless">
                 <tr>
                     <td rowspan="6" colspan="1" style="width:50px; margin-right:10px;background:#02224b" class="vertical-text text-center" style="background:#a9a4a4;">
@@ -35,7 +39,7 @@
                     </td>
                     <td>Araç</td>
                     <td>
-                        <select class="form-control" asp-for="Arac_ID" id="Arac_ID">
+                        <select class="form-control" asp-for="AracID" id="Arac_ID" onchange="GozSayisiBul(this.value)">
                             <option value="0">Seçiniz</option>
                             @foreach (var arac in ViewBag.Araclar)
                             {
@@ -47,7 +51,7 @@
 
                     <td>Taşıma Tipi</td>
                     <td>
-                        <select class="form-control" asp-for="TasimaTipi_ID" id="TasimaTipi_ID">
+                        <select class="form-control" asp-for="TasimaTipiID" id="TasimaTipi_ID">
                             <option value="0">Seçiniz</option>
                             @foreach (var tasimatip in ViewBag.tasimaTipi)
                             {
@@ -58,7 +62,7 @@
                     </td>
                     <td>Araç Türü</td>
                     <td>
-                        <select class="form-control" asp-for="AracTuru_ID" id="AracTuru_ID">
+                        <select class="form-control" asp-for="AracTurID" id="AracTuru_ID">
                             <option value="0">Seçiniz</option>
                             @foreach (var aracTur in ViewBag.aracTur)
                             {
@@ -73,7 +77,7 @@
                 <tr>
                     <td>Sürücü 1 Ekle</td>
                     <td>
-                        <select class="form-control" asp-for="Surucu1_ID" id="Surucu1_ID">
+                        <select class="form-control" asp-for="Kullanici1ID" id="Kullanici1ID">
                             <option value="0">Seçiniz</option>
                             @foreach (var surucu in ViewBag.Suruculer)
                             {
@@ -84,7 +88,7 @@
                     </td>
                     <td>Sürücü 2 Ekle</td>
                     <td>
-                        <select class="form-control" asp-for="Surucu2_ID" id="Surucu2_ID">
+                        <select class="form-control" asp-for="Kullanici2ID" id="Kullanici2ID">
                             <option value="0">Seçiniz</option>
                             @foreach (var surucu in ViewBag.Suruculer)
                             {
@@ -95,7 +99,7 @@
                     </td>
                     <td>Sürücü 3 Ekle</td>
                     <td>
-                        <select class="form-control" asp-for="Surucu3_ID" id="Surucu3_ID">
+                        <select class="form-control" asp-for="Kullanici3ID" id="Kullanici3ID">
                             <option value="0">Seçiniz</option>
                             @foreach (var surucu in ViewBag.Suruculer)
                             {
@@ -110,7 +114,7 @@
                     <td>Çekici Plakası</td>
                     <td>
 
-                        <select class="form-control" asp-for="CekiciPlaka_ID" id="CekiciPlaka_ID">
+                        <select class="form-control" asp-for="CekiciPlakaID" id="CekiciPlaka_ID">
                             <option value="0">Seçiniz</option>
                             @foreach (var arac in ViewBag.CekiciPlaka)
                             {
@@ -121,7 +125,7 @@
                     </td>
                     <td>Dorse Ekle</td>
                     <td>
-                        <select asp-for="DorseTipi_ID" class=" form-control" id="DorseTipi_ID">
+                        <select asp-for="DorseID" class=" form-control" id="DorseTipi_ID">
                             <option value="0">Seçiniz</option>
                             @foreach (var arac in ViewBag.DorseListe)
                             {
@@ -133,7 +137,7 @@
                     </td>
                     <td>Dorse Plakası</td>
                     <td>
-                        <select asp-for="DorsePlaka_ID" class=" form-control" id="Arac_ID">
+                        <select asp-for="DorsePlakaID" class=" form-control" id="DorsePlakaID">
                             <option value="0">Seçiniz</option>
                             @foreach (var arac in ViewBag.DorsePlaka)
                             {
@@ -147,28 +151,49 @@
                 <tr>
                     <td>Göz 1</td>
                     <td>
-                        <input type="number" class="form-control bg-light" asp-for="AracGoz1" value="0" readonly />
-                        <input type="text" class="form-control bg-light" name="AracGoz1UrunID" id="AracGoz1UrunID" readonly />
+                        <input type="number" class="form-control bg-light" asp-for="Goz1Kapasite" value="0" readonly />
+                        <input type="hidden" class="form-control bg-light" name="Goz1UrunID" id="AracGoz1UrunID" />
+                        <input type="text" class="form-control bg-light" name="AracGoz1UrunName" id="AracGoz1UrunName" readonly />
                     </td>
 
                     <td>Göz 2</td>
-                    <td><input type="number" class="form-control bg-light" asp-for="AracGoz2" value="0" readonly /><input type="text" class="form-control bg-light" name="AracGoz2UrunID" id="AracGoz2UrunID" readonly /></td>
+                    <td>
+                        <input type="number" class="form-control bg-light" asp-for="Goz2Kapasite" value="0" readonly />
+                        <input type="hidden" class="form-control bg-light" name="Goz2UrunID" id="AracGoz2UrunID" />
+                        <input type="text" class="form-control bg-light" name="AracGoz2UrunName" id="AracGoz2UrunName" readonly />
+                    </td>
                     <td>Göz 3</td>
-                    <td><input type="number" class="form-control bg-light" asp-for="AracGoz3" value="0" readonly /><input type="text" class="form-control bg-light" name="AracGoz3UrunID" id="AracGoz3UrunID" readonly /></td>
+                    <td>
+                        <input type="number" class="form-control bg-light" asp-for="Goz3Kapasite" value="0" readonly />
+                        <input type="hidden" class="form-control bg-light" name="Goz3UrunID" id="AracGoz3UrunID" />
+                        <input type="text" class="form-control bg-light" name="AracGoz3UrunName" id="AracGoz3UrunName" readonly />
+                    </td>
                 </tr>
                 <tr>
                     <td>Göz 4</td>
-                    <td><input type="number" class="form-control bg-light" asp-for="AracGoz4" value="0" readonly /><input type="text" class="form-control bg-light" name="AracGoz4UrunID" id="AracGoz4UrunID" readonly /></td>
+                    <td>
+                        <input type="number" class="form-control bg-light" asp-for="Goz4Kapasite" value="0" readonly />
+                        <input type="hidden" class="form-control bg-light" name="Goz4UrunID" id="AracGoz4UrunID" />
+                        <input type="text" class="form-control bg-light" name="AracGoz4UrunName" id="AracGoz4UrunName" readonly />
+                    </td>
                     <td>Göz 5</td>
-                    <td><input type="number" class="form-control bg-light" asp-for="AracGoz5" value="0" readonly /><input type="text" class="form-control bg-light" name="AracGoz5UrunID" id="AracGoz5UrunID" readonly /></td>
+                    <td>
+                        <input type="number" class="form-control bg-light" asp-for="Goz5Kapasite" value="0" readonly />
+                        <input type="hidden" class="form-control bg-light" name="Goz5UrunID" id="AracGoz5UrunID" />
+                        <input type="text" class="form-control bg-light" name="AracGoz5UrunName" id="AracGoz5UrunName" readonly />
+                    </td>
                     <td>Göz 6</td>
-                    <td><input type="number" class="form-control bg-light" asp-for="AracGoz6" value="0" readonly /><input type="text" class="form-control bg-light" name="AracGoz6UrunID" id="AracGoz6UrunID" readonly /></td>
+                    <td>
+                        <input type="number" class="form-control bg-light" asp-for="Goz6Kapasite" value="0" readonly />
+                        <input type="hidden" class="form-control bg-light" name="Goz6UrunID" id="AracGoz6UrunID" />
+                        <input type="text" class="form-control bg-light" name="AracGoz6UrunName" id="AracGoz6UrunName" readonly />
+                    </td>
                 </tr>
                 <tr>
 
                     <td>Toplam Yüklenen Miktar</td>
                     <td colspan="5"><input type="text" class="form-control bg-light w-100" asp-for="ToplamYuklenenMiktar" id="ToplamYuklenenMiktar" readonly /></td>
-                   
+
 
                 </tr>
             </table>
@@ -185,7 +210,7 @@
                     <div class="accordion-collapse collapse" id="collapse1" aria-labelledby="heading1" data-bs-parent="#accordionExample" style="">
                         <div class="accordion-body pt-0">
                             <table class="table table-borderless" id="kayit1">
-                             
+
 
                                 <!-- Gönderici -->
                                 <tr>
@@ -194,7 +219,7 @@
                                     </td>
                                     <td>Mal Sahibi</td>
                                     <td>
-                                        <select name="GondericiCari_ID[]" class=" form-control" id="GondericiCari_ID1">
+                                        <select name="GondericiCari_ID1[]" class=" form-control" id="GondericiCari_ID1">
                                             <option value="0">Seçiniz</option>
                                             @foreach (var item in ViewBag.GondericiListesi)
                                             {
@@ -206,7 +231,7 @@
                                     </td>
                                     <td>Mal Yükleme İl</td>
                                     <td>
-                                        <select class="form-control" name="MalYuklemeAdres_IL_ID[]" id="MalYuklemeAdres_IL_ID1" onchange="IlDegistir(this.value)">
+                                        <select class="form-control" name="MalYuklemeAdres_IL_ID1[]" id="MalYuklemeAdres_IL_ID1" onchange="IlDegistir(this.value,1)">
                                             <option value="0">Seçiniz</option>
 
                                             @foreach (var item in ViewBag.Iller)
@@ -219,7 +244,7 @@
                                     </td>
                                     <td>Mal Yükleme İlçe</td>
                                     <td>
-                                        <select class="form-control" name="MalYuklemeAdres_ILCE_ID[]" id="MalYuklemeAdres_ILCE_ID1">
+                                        <select class="form-control" name="MalYuklemeAdres_ILCE_ID1[]" id="MalYuklemeAdres_ILCE_ID1">
                                             <option value="0">Seçiniz</option>
 
 
@@ -230,7 +255,7 @@
                                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
 
                                     <td>Mal Yükleme Tarih Saat</td>
-                                    <td colspan="5"><input type="date" class="form-control" name="GondericiFirmaTarihSaat[]" id="GondericiFirmaTarihSaat1" /></td>
+                                    <td colspan="5"><input type="date" class="form-control" name="GondericiFirmaTarihSaat1[]" id="GondericiFirmaTarihSaat1" /></td>
 
                                 </tr>
 
@@ -241,7 +266,7 @@
                                     </td>
                                     <td>Alıcı Firma</td>
                                     <td>
-                                        <select name="AliciCari_ID[]" class=" form-control" id="AliciCari_ID1">
+                                        <select name="AliciCari_ID1[]" class=" form-control" id="AliciCari_ID1">
                                             <option value="0">Seçiniz</option>
 
 
@@ -255,7 +280,7 @@
                                     </td>
                                     <td>İndirilen İl</td>
                                     <td>
-                                        <select class="form-control" name="IndirilenAdres_IL_ID[]" id="IndirilenAdres_IL_ID1" onchange="IndirilenIlDegistir(this.value)">
+                                        <select class="form-control" name="IndirilenAdres_IL_ID1[]" id="IndirilenAdres_IL_ID1" onchange="IndirilenIlDegistir(this.value,1)">
                                             <option value="0">Seçiniz</option>
 
                                             @foreach (var item in ViewBag.Iller)
@@ -267,7 +292,7 @@
                                     </td>
                                     <td>İndirilen İlçe</td>
                                     <td>
-                                        <select class="form-control" name="IndirilenAdres_ILCE_ID[]" id="IndirilenAdres_ILCE_ID1">
+                                        <select class="form-control" name="IndirilenAdres_ILCE_ID1[]" id="IndirilenAdres_ILCE_ID1">
                                             <option value="0">Seçiniz</option>
 
 
@@ -278,10 +303,10 @@
                                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
 
                                     <td>Alıcı Tarih Saat</td>
-                                    <td colspan="5"><input type="date" class="form-control" name="AliciFirmaTarihSaat[]" id="AliciFirmaTarihSaat1" /></td>
+                                    <td colspan="5"><input type="date" class="form-control" name="AliciFirmaTarihSaat1[]" id="AliciFirmaTarihSaat1" /></td>
 
                                 </tr>
-                                
+
                                 <!-- Ürün -->
                                 <tr id="templateRow1_1">
 
@@ -292,7 +317,7 @@
                                         Un Kodu Seç
                                     </td>
                                     <td style="width: 17%;">
-                                        <select name="Un_ID[]" class=" form-control" id="Un_ID1_1">
+                                        <select name="Un_ID1[]" class=" form-control" id="Un_ID1_1">
                                             <option value="0">Seçiniz</option>
 
                                             @foreach (var Un in ViewBag.UnListesi)
@@ -303,7 +328,7 @@
                                     </td>
                                     <td>Ürün Seç</td>
                                     <td>
-                                        <select name="TasinacakUrun_ID[]" class=" form-control" id="TasinacakUrun_ID1_1" onchange="GozlereDagit(1)">
+                                        <select name="TasinacakUrun_ID1[]" class=" form-control" id="TasinacakUrun_ID1_1" onchange="GozlereDagit(1)">
                                             <option value="0">Seçiniz</option>
 
                                             @foreach (var item in ViewBag.TasinacakUrun)
@@ -315,21 +340,22 @@
                                     </td>
 
                                     <td>Yükleme Miktarı</td>
-                                    <td><input type="number" class="form-control" name="YuklemeMiktari[]" onchange="GozlereDagit(1)" id="YuklemeMiktari1_1" /></td>
+                                    <td><input type="number" class="form-control" name="YuklemeMiktari1[]" onchange="GozlereDagit(1)" id="YuklemeMiktari1_1" /></td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;" id="templateRow1_2">
                                     <td>Ödeme Yapan Cari</td>
                                     <td>
-                                        <select name="Cari_Odeme_Yapan[]" class=" form-control" id="Cari_Odeme_Yapan1_1">
+                                        <select name="Cari_Odeme_Yapan1[]" class=" form-control" id="Cari_Odeme_Yapan_1_1" onchange="OdemeYapan(this)">
                                             <option value="0">Seçiniz</option>
                                             <option value="1">Göncerici</option>
                                             <option value="2">Alıcı</option>
                                             <!-- seçilene göre ödeme yapan carinin idsi alınıcak -->
                                         </select>
+                                        <input type="hidden" name="Cari_Odeme_YapanID1[]" class=" form-control" id="Cari_Odeme_Yapan_ID_1_1">
                                     </td>
                                     <td>Ücretlendirme</td>
                                     <td>
-                                        <select name="Ucretlendirme_ID[]" class=" form-control" id="Ucretlendirme_ID1_1">
+                                        <select name="Ucretlendirme_ID1[]" class=" form-control" id="Ucretlendirme_ID1_1" onchange="fiyatHesapla(1)">
                                             <option value="0">Seçiniz</option>
                                             <option value="1">Birim Fiyat</option>
                                             <option value="2">Sefer</option>
@@ -337,33 +363,37 @@
                                         </select>
                                     </td>
                                     <td>Birim veya Sefer Fiyatı</td>
-                                    <td><input type="number" class="form-control" name="Birim_SeferFiyat[]" id="Birim_SeferFiyat1_1" /></td>
+                                    <td><input type="number" class="form-control" name="Birim_SeferFiyat1[]" id="Birim_SeferFiyat1_1" onchange="fiyatHesapla(1)" /></td>
 
                                 </tr>
-                               
+
                                 <tr id="urunEkleTR1">
                                     <td colspan="6"><a class="btn btn-info col-3" onclick="urunEkle(1)">Ürün Ekle</a></td>
                                 </tr>
-                                </table>
+                            </table>
 
                             <table class="table table-borderless">
                                 <!-- Nakliye hesaplama -->
                                 <tr>
-                                    <td colspan="1" style="width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center">
+                                    <td colspan="1" rowspan="2" style="width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center">
                                         <h5 style="color:#fff !important;"> Nakliye Bedeli</h5>
                                     </td>
                                     <td>Tutar(KDV Hariç)</td>
                                     <td>
-                                        <input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz[]" id="NakliyeBedelTutar_KDVsiz1" />
+                                        <input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz1[]" id="NakliyeBedelTutar_KDVsiz1" />
                                     </td>
 
                                     <td>Kdv</td>
                                     <td>
-                                        <input type="number" class="form-control" name="NakliyeBedelTutar_KDV[]" id="NakliyeBedelTutar_KDV1" />
+                                        <input type="number" class="form-control" name="NakliyeBedelTutar_KDV1[]" id="NakliyeBedelTutar_KDV1" />
                                     </td>
                                     <td>Toplam</td>
-                                    <td><input type="text" class="form-control" name="NakliyeBedeliToplam_KDVli[]" id="NakliyeBedeliToplam_KDVli1" /></td>
+                                    <td><input type="text" class="form-control" name="NakliyeBedeliToplam_KDVli1[]" id="NakliyeBedeliToplam_KDVli1" /></td>
 
+                                </tr>
+                                <tr>
+                                    <td>Fiyat</td>
+                                    <td colspan="5"><input type="text" class="form-control" name="Fiyat1[]" id="Fiyat1" readonly /></td>
                                 </tr>
                             </table>
 
@@ -394,7 +424,7 @@
             $('#uyariModal').modal('show');
         });
 
-        function IlDegistir(IlKodu) {
+        function IlDegistir(IlKodu,sira) {
 
             $.ajax({
                 url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
@@ -402,15 +432,15 @@
                 data: { IlKodu: IlKodu },
                 dataType: 'json',
                 success: function (data) {
-                    $('#MalYuklemeAdres_ILCE_ID').empty();
-                    $('#MalYuklemeAdres_ILCE_ID').append($('<option>', {
+                    $('#MalYuklemeAdres_ILCE_ID'+sira).empty();
+                    $('#MalYuklemeAdres_ILCE_ID'+sira).append($('<option>', {
                         value: 0, // Verinin değer özelliği
                         text: "Seçiniz" // Verinin görünen metni
                     }));
                     // Verileri selectbox'a ekle
                     $.each(data, function (index, item) {
                         console.log(item);
-                        $('#MalYuklemeAdres_ILCE_ID').append($('<option>', {
+                        $('#MalYuklemeAdres_ILCE_ID'+sira).append($('<option>', {
                             value: item.ilcE_KODU, // Verinin değer özelliği
                             text: item.ilce // Verinin görünen metni
                         }));
@@ -422,7 +452,7 @@
             });
         }
 
-        function IndirilenIlDegistir(IlKodu) {
+        function IndirilenIlDegistir(IlKodu,sira) {
 
             $.ajax({
                 url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
@@ -430,15 +460,15 @@
                 data: { IlKodu: IlKodu },
                 dataType: 'json',
                 success: function (data) {
-                    $('#IndirilenAdres_ILCE_ID').empty();
-                    $('#IndirilenAdres_ILCE_ID').append($('<option>', {
+                    $('#IndirilenAdres_ILCE_ID'+sira).empty();
+                    $('#IndirilenAdres_ILCE_ID' + sira).append($('<option>', {
                         value: 0, // Verinin değer özelliği
                         text: "Seçiniz" // Verinin görünen metni
                     }));
                     // Verileri selectbox'a ekle
                     $.each(data, function (index, item) {
                         console.log(item);
-                        $('#IndirilenAdres_ILCE_ID').append($('<option>', {
+                        $('#IndirilenAdres_ILCE_ID' + sira).append($('<option>', {
                             value: item.ilcE_KODU, // Verinin değer özelliği
                             text: item.ilce // Verinin görünen metni
                         }));
@@ -453,6 +483,7 @@
         function kaydetEkle() {
             items++;
 
+            document.getElementById("KayitSayisi").value = items;
             satirVeUrunSayisi.push({ satir: items, urun: 1 });
             // Create a new accordion item
             var accordionItem = document.createElement('div');
@@ -488,20 +519,8 @@
             bodyContent.className = 'accordion-body pt-0';
 
 
-            bodyContent.innerHTML = '<table class="table table-borderless" id="kayit'+items+'"> <!--Garanti--> <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0a4ea5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Gönderici Firma </h5 > </td > <td>Mal Sahibi </td > <td><select name="GondericiCari_ID[]" class="form-control" id = "GondericiCari_ID' + items + '" > <option value="0" > Seçiniz </option >'+
-        '@foreach (var item in ViewBag.GondericiListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}'+
-        '</select > </td > <td>Mal Yükleme İl </td > <td><select class="form-control" name = "MalYuklemeAdres_IL_ID[]" id = "MalYuklemeAdres_IL_ID' + items + '" onchange = "IlDegistir(this.value)" > <option value="0" > Seçiniz </option >'+
-        '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option>}'
-        +'</select > </td > <td>Mal Yükleme İlçe </td > <td><select class="form-control" name = "MalYuklemeAdres_ILCE_ID[]" id = "MalYuklemeAdres_ILCE_ID' + items + '" > <option value="0" > Seçiniz </option > </select > </td > </tr > <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;" > <td>Mal Yükleme Tarih Saat </td > <td colspan="5" > <input type="date" class="form-control" name = "GondericiFirmaTarihSaat[]" id = "GondericiFirmaTarihSaat' + items + '" / > </td></tr > <!--Araç Belgeleri--> <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0e65d5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Alıcı Firma </h5></td > <td>Alıcı Firma </td><td><select name="AliciCari_ID[]" class="form-control" id="AliciCari_ID' + items + '"><option value="0">Seçiniz</option >'+
-        '@foreach (var item in ViewBag.AliciListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}'+
-        '</select > </td > <td>İndirilen İl </td > <td><select class="form-control" name = "IndirilenAdres_IL_ID[]" id = "IndirilenAdres_IL_ID' + items + '" onchange = "IndirilenIlDegistir(this.value)" > <option value="0" > Seçiniz </option > '+
-        '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU">@item.Il</option >}'+
-                '</select></td > <td>İndirilen İlçe </td><td><select class="form-control" name="IndirilenAdres_ILCE_ID[]" id="IndirilenAdres_ILCE_ID' + items + '"><option value="0">Seçiniz</option > </select></td > </tr><tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;"><td>Alıcı Tarih Saat</td > <td colspan="5" > <input type="date" class="form-control" name = "AliciFirmaTarihSaat[]" id = "AliciFirmaTarihSaat' + items + '" /> </td></tr ><tr id = "templateRow'+items+'_1" ><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center" ><h5 style="color:#fff !important;" > Ürün </h5></td><td style = "width: 17%;" >Un Kodu Seç</td><td style = "width: 17%;" ><select name="Un_ID[]" class=" form-control" id = "Un_ID'+items+'_1" ><option value="0" > Seçiniz </option>'+
-                '@foreach (var Un in ViewBag.UnListesi){<option value="@Un.Un_ID" > @Un.Un_No - @Un.Un_Isim</option>}'+
-                '</select></td><td > Ürün Seç </td><td><select name="TasinacakUrun_ID[]" class=" form-control" id = "TasinacakUrun_ID'+items+'_1" onchange = "GozlereDagit(1)" ><option value="0" > Seçiniz </option>'+
-        '@foreach (var item in ViewBag.TasinacakUrun){<option value="@item.ID" > @item.Adi</option>}'+
-            '</select></td><td> Yükleme Miktarı </td><td> <input type="number" class="form-control" name = "YuklemeMiktari[]" onchange = "GozlereDagit(1)" id = "YuklemeMiktari'+items+'_1" /> </td></tr><tr style = "border-bottom: 1px solid #ddd; margin-bottom:2%;" id = "templateRow'+items+'_2" ><td>Ödeme Yapan Cari </td><td><select name="Cari_Odeme_Yapan[]" class=" form-control" id = "Cari_Odeme_Yapan'+items+'_1" ><option value="0" > Seçiniz </option><option value = "1" > Göncerici </option><option value = "2" > Alıcı </option></select></td><td > Ücretlendirme </td><td><select name="Ucretlendirme_ID[]" class=" form-control" id = "Ucretlendirme_ID'+items+'_1" ><option value="0" > Seçiniz </option><option value = "1" > Birim Fiyat </option>< option value = "2" > Sefer </option></select></td><td> Birim veya Sefer Fiyatı </td><td> <input type="number" class="form-control" name = "Birim_SeferFiyat[]" id = "Birim_SeferFiyat'+items+'_1" /> </td></tr><tr id = "urunEkleTR'+items+'"><td colspan="6" > <a class="btn btn-info col-3" onclick = "urunEkle('+items+')" > Ürün Ekle </a></td ></tr></table > <table class="table table-bordless" > <tr><td colspan="1" style = "width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Nakliye Bedeli </h5></td > <td>Tutar(KDV Hariç) </td><td><input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz[]" id="NakliyeBedelTutar_KDVsiz' + items + '"/ > </td><td>Kdv</td > <td><input type="number" class="form-control" name = "NakliyeBedelTutar_KDV[]" id = "NakliyeBedelTutar_KDV' + items + '" /> </td><td>Toplam</td > <td><input type="text" class="form-control" name = "NakliyeBedeliToplam_KDVli[]" id = "NakliyeBedeliToplam_KDVli' + items + '" /> </td></tr > </table>';
-
+            bodyContent.innerHTML = '<table class="table table-borderless" id="kayit' + items + '"> <!--Garanti--> <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0a4ea5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Gönderici Firma </h5 > </td > <td>Mal Sahibi </td > <td><select name="GondericiCari_ID'+items+'[]" class="form-control" id = "GondericiCari_ID' + items + '" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.GondericiListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}'
+                + '</select > </td > <td>Mal Yükleme İl </td > <td><select class="form-control" name = "MalYuklemeAdres_IL_ID' + items + '[]" id = "MalYuklemeAdres_IL_ID' + items + '" onchange = "IlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option>}' + ' < /select > </td > <td>Mal Yükleme İlçe < /td > <td><select class="form-control" name = "MalYuklemeAdres_ILCE_ID'+items+'[]" id = "MalYuklemeAdres_ILCE_ID' + items + '" > <option value="0" > Seçiniz </option > </select > </td > </tr > <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;" > <td>Mal Yükleme Tarih Saat </td > <td colspan="5" > <input type="date" class="form-control" name = "GondericiFirmaTarihSaat'+items+'[]" id = "GondericiFirmaTarihSaat' + items + '" / > </td></tr > <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0e65d5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Alıcı Firma < /h5></td > <td>Alıcı Firma < /td><td><select name="AliciCari_ID'+items+'[]" class="form-control" id="AliciCari_ID' + items + '"><option value="0">Seçiniz</option > ' + '@foreach (var item in ViewBag.AliciListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}' + ' < /select > </td > <td>İndirilen İl < /td > <td><select class="form-control" name = "IndirilenAdres_IL_ID'+items+'[]" id = "IndirilenAdres_IL_ID' + items + '" onchange = "IndirilenIlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option > ' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option >}' + ' < /select></td > <td>İndirilen İlçe < /td><td><select class="form-control" name="IndirilenAdres_ILCE_ID'+items+'[]" id="IndirilenAdres_ILCE_ID' + items + '"><option value="0">Seçiniz</option > </select></td > </tr><tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;"><td>Alıcı Tarih Saat</td > <td colspan="5" > <input type="date" class="form-control" name = "AliciFirmaTarihSaat'+items+'[]" id = "AliciFirmaTarihSaat' + items + '" /> </td></tr > <tr id = "templateRow' + items + '_1" > <td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Ürün < /h5></td > <td style = "width: 17%;" > Un Kodu Seç < /td><td style = "width: 17%;" ><select name="Un_ID'+items+'[]" class=" form-control" id = "Un_ID' + items + '_1" ><option value="0" > Seçiniz </option > ' + '@foreach (var Un in ViewBag.UnListesi){<option value="@Un.Un_ID" > @Un.Un_No - @Un.Un_Isim</option>}' + ' < /select></td > <td>Ürün Seç < /td><td><select name="TasinacakUrun_ID'+items+'[]" class=" form-control" id = "TasinacakUrun_ID' + items + '_1" onchange = "GozlereDagit(' + items + ')" ><option value="0" > Seçiniz </option > ' + '@foreach (var item in ViewBag.TasinacakUrun){<option value="@item.ID" > @item.Adi</option>}' + ' < /select></td > <td>Yükleme Miktarı < /td><td> <input type="number" class="form-control" name = "YuklemeMiktari'+items+'[]" onchange = "GozlereDagit(' + items + ');fiyatHesapla(' + items + ');" id = "YuklemeMiktari' + items + '_1" / > </td></tr > <tr style = "border-bottom: 1px solid #ddd; margin-bottom:2%;" id = "templateRow' + items + '_2" > <td>Ödeme Yapan Cari < /td><td><select name="Cari_Odeme_Yapan'+items+'[]" class=" form-control" id = "Cari_Odeme_Yapan_' + items + '_1" onchange="OdemeYapan(this)" ><option value="0" > Seçiniz </option > <option value = "1" > Göncerici < /option><option value = "2" > Alıcı </option > </select><input type="hidden" name="Cari_Odeme_YapanID'+items+'[]" class="form-control" id="Cari_Odeme_Yapan_ID_' + items + '_1"></td > <td>Ücretlendirme < /td><td><select name="Ucretlendirme_ID'+items+'[]" class=" form-control" id="Ucretlendirme_ID' + items + '_1" onchange="fiyatHesapla(' + items + ')"><option value="0"> Seçiniz </option > <option value="1" > Birim Fiyat < /option><option value = "2"> Sefer </option > </select></td > <td>Birim veya Sefer Fiyatı < /td><td> <input type="number" class="form-control" name = "Birim_SeferFiyat'+items+'[]" id = "Birim_SeferFiyat' + items + '_1" onchange="fiyatHesapla(' + items + ')" / > </td></tr > <tr id = "urunEkleTR' + items + '" > <td colspan="6" > <a class="btn btn-info col-3" onclick = "urunEkle(' + items + ')" > Ürün Ekle < /a></td > </tr></table > <table class="table table-bordless" > <tr><td colspan="1" style = "width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Nakliye Bedeli < /h5></td > <td>Tutar(KDV Hariç) < /td><td><input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz'+items+'[]" id="NakliyeBedelTutar_KDVsiz' + items + '"/ > </td><td>Kdv</td > <td><input type="number" class="form-control" name = "NakliyeBedelTutar_KDV'+items+'[]" id = "NakliyeBedelTutar_KDV' + items + '" /> </td><td>Toplam</td > <td><input type="text" class="form-control" name = "NakliyeBedeliToplam_KDVli'+items+'[]" id = "NakliyeBedeliToplam_KDVli' + items + '" /> </td></tr > <tr><td>Fiyat < /td><td colspan="5"><input type="text" class="form-control" name="Fiyat'+items+'[]" id="Fiyat' + items + '" readonly></td > </tr> </table > ';
 
 
             // Append content to the accordion body
@@ -517,38 +536,63 @@
         }
 
         function GozlereDagit(sira) {
-           
-            var GozID = 6;
-            debugger;
 
-            document.getElementById("AracGoz1").value = 0;
-            document.getElementById("AracGoz2").value = 0;
-            document.getElementById("AracGoz3").value = 0;
-            document.getElementById("AracGoz4").value = 0;
-            document.getElementById("AracGoz5").value = 0;
-            document.getElementById("AracGoz6").value = 0;
+            debugger;
+            var toplamYuklenenMiktar = 0;
+            document.getElementById("Goz1Kapasite").value = 0;
+            document.getElementById("Goz2Kapasite").value = 0;
+            document.getElementById("Goz3Kapasite").value = 0;
+            document.getElementById("Goz4Kapasite").value = 0;
+            document.getElementById("Goz5Kapasite").value = 0;
+            document.getElementById("Goz6Kapasite").value = 0;
+            var gozKontrol = 0;
             for (var i = 1; i <= items; i++) {
                 var eleman = satirVeUrunSayisi.find(function (eleman) {
                     return eleman.satir === i;
                 });
                 var urunsayisi = eleman.urun;
                 for (var k = 1; k <= urunsayisi; k++) {
-                    var TasinacakUrun_ID = document.getElementById("TasinacakUrun_ID" +i+"_"+ k).value;
+                    var TasinacakUrun_ID = document.getElementById("TasinacakUrun_ID" + i + "_" + k).value;
                     var YuklemeMiktari = document.getElementById("YuklemeMiktari" + i + "_" + k).value;
-               
-                for (var j = 1; j <= 6; j++) {
-                    if (document.getElementById("AracGoz" + j + "UrunID").value == "" || document.getElementById("AracGoz" + j + "UrunID").value == TasinacakUrun_ID) {
-                        document.getElementById("AracGoz" + j + "UrunID").value = TasinacakUrun_ID;
-                        if (YuklemeMiktari == "")
-                            YuklemeMiktari = 0;
-                        
-                            document.getElementById("AracGoz" + j).value = parseFloat(document.getElementById("AracGoz" + j).value) + parseFloat(YuklemeMiktari);
-                        
-                        break;
+                    var selectElement = document.getElementById("TasinacakUrun_ID" + i + "_" + k);
+                    var selectedOption = selectElement.options[selectElement.selectedIndex];
+                    var selectedText = selectedOption.text;
+
+                    if (YuklemeMiktari == "")
+                        YuklemeMiktari = 0;
+                    else {
+
+                        for (var j = 1; j <= GozSayisi; j++) {
+                            if (document.getElementById("AracGoz" + j + "UrunID").value == "" || document.getElementById("AracGoz" + j + "UrunID").value == TasinacakUrun_ID) {
+
+                                var tutar = parseFloat(document.getElementById("Goz" + j + "Kapasite").value) + parseFloat(YuklemeMiktari);
+                                var elemanGoz = GozKapasite.find(function (elemanGoz) {
+                                    return elemanGoz.goz === j;
+                                });
+                                var kapasite = elemanGoz.kapasite;
+                                if (tutar < kapasite) {
+
+
+                                    document.getElementById("Goz" + j + "Kapasite").value = tutar;
+
+                                    document.getElementById("AracGoz" + j + "UrunID").value = TasinacakUrun_ID;
+
+                                    document.getElementById("AracGoz" + j + "UrunName").value = selectedText;
+                                    gozKontrol = 1;
+                                    toplamYuklenenMiktar = parseFloat(toplamYuklenenMiktar) + parseFloat(YuklemeMiktari);
+                                    break;
+
+                                }
+
+                            }
+                        }
+                        if (gozKontrol == 0) {
+                            alert(selectedText + " Ürünü gözlere dağıtılamadı")
+                        }
                     }
                 }
-                }
-               
+                document.getElementById("ToplamYuklenenMiktar").value = toplamYuklenenMiktar;
+
             }
 
 
@@ -564,17 +608,17 @@
 
             var urunsayisi = satirVeUrunSayisi[bulunanElemanIndex].urun;
 
-                // Urun değerini artır
+            // Urun değerini artır
             urunsayisi += 1;
 
-                // Urun değerini güncelle
+            // Urun değerini güncelle
             satirVeUrunSayisi[bulunanElemanIndex].urun = urunsayisi;
-            
 
-            var table = document.getElementById("kayit"+sira);
+
+            var table = document.getElementById("kayit" + sira);
 
             // Clone the template rows
-            var clonedRow1 = document.getElementById("templateRow"+sira+"_1").cloneNode(true);
+            var clonedRow1 = document.getElementById("templateRow" + sira + "_1").cloneNode(true);
             var clonedRow2 = document.getElementById("templateRow" + sira + "_2").cloneNode(true);
 
             // Update the IDs of the cloned rows
@@ -585,7 +629,7 @@
             clonedRow2.classList.add("cloned-row");
 
             // Find the "Ürün Ekle" button's parent row
-            var buttonRow = document.querySelector('#kayit'+sira+' tr:last-child');
+            var buttonRow = document.querySelector('#kayit' + sira + ' tr:last-child');
 
             // Insert the cloned rows before the button row
             buttonRow.parentNode.insertBefore(clonedRow1, buttonRow);
@@ -594,7 +638,7 @@
 
         function updateIds(row, index) {
             // Update the ID of the cloned rows
-            var newRowId =  index;
+            var newRowId = index;
             row.id = "row" + newRowId;
 
             // Update the IDs of all input fields within the cloned rows
@@ -603,6 +647,12 @@
                 var oldId = input.id;
                 if (oldId) {
                     input.id = oldId.replace(/\d+$/, newRowId);
+                }
+
+
+                var oldName = input.name;
+                if (oldName) {
+                    input.name = oldName.replace(/\d+$/, newRowId);
                 }
                 // Check if it's an input element
                 if (input.tagName.toLowerCase() === 'input') {
@@ -616,7 +666,79 @@
             });
         }
 
-            </script>
+        function fiyatHesapla(sira) {
+            var fiyat = 0;
+
+            var eleman = satirVeUrunSayisi.find(function (eleman) {
+                return eleman.satir === sira;
+            });
+            var urunsayisi = eleman.urun;
+            for (var k = 1; k <= urunsayisi; k++) {
+                var Birim_SeferFiyat = document.getElementById("Birim_SeferFiyat" + sira + "_" + k).value;
+                var Ucretlendirme_ID = document.getElementById("Ucretlendirme_ID" + sira + "_" + k).value;
+                var YuklemeMiktari = document.getElementById("YuklemeMiktari" + sira + "_" + k).value;
+                if (Ucretlendirme_ID == 1) {
+                    fiyat += Birim_SeferFiyat * YuklemeMiktari;
+                }
+                else {
+                    fiyat += Birim_SeferFiyat * 1;
+                }
+            }
+
+            document.getElementById("Fiyat" + sira).value = fiyat;
+        }
+
+        function GozSayisiBul(AracID) {
+            $.ajax({
+                url: '../Ajax/GozSayisiBul', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { AracID: AracID },
+                dataType: 'json',
+                success: function (data) {
+                    var prop = data;
+                    if (prop.goz1 != "" && prop.goz1 != 0 && prop.goz2 == "" && prop.goz2 == 0)
+                        GozSayisi = 1;
+                    else if (prop.goz3 == "" && prop.goz3 == 0)
+                        GozSayisi = 2;
+                    else if (prop.goz4 == "" && prop.goz4 == 0)
+                        GozSayisi = 3;
+                    else if (prop.goz5 == "" && prop.goz5 == 0)
+                        GozSayisi = 4;
+                    else if (prop.goz6 == "" && prop.goz6 == 0)
+                        GozSayisi = 5;
+                    else
+                        GozSayisi = 6;
+
+                    GozKapasite.push({ goz: 1, kapasite: prop.goz1 });
+                    GozKapasite.push({ goz: 2, kapasite: prop.goz2 });
+                    GozKapasite.push({ goz: 3, kapasite: prop.goz3 });
+                    GozKapasite.push({ goz: 4, kapasite: prop.goz4 });
+                    GozKapasite.push({ goz: 5, kapasite: prop.goz5 });
+                    GozKapasite.push({ goz: 6, kapasite: prop.goz6 });
+
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+
+        function OdemeYapan(input) { 
+            debugger;
+            var selectID = input.id;
+            var deger = input.value;
+            var parts = selectID.split('_');
+            var sira = parts[parts.length - 2];
+            var urun = parts[parts.length - 1];
+            if (deger == 1)
+                document.getElementById("Cari_Odeme_Yapan_ID_" + sira + "_" + urun ).value = document.getElementById("GondericiCari_ID" + sira).value;
+            else if (deger == 2)
+                document.getElementById("Cari_Odeme_Yapan_ID_" + sira + "_" + urun ).value = document.getElementById("AliciCari_ID" + sira).value;
+            else
+                alert("Lütfen Ödeme Yapacak Cariyi Seçiniz");
+
+        }
+    </script>
 }
 
 
