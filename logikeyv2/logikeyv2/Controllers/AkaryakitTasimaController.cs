@@ -12,8 +12,7 @@ namespace logikeyv2.Controllers
     public class AkaryakitTasimaController : Controller
     {
         AracManager aracManager = new AracManager(new EFAracRepository());
-        KullanicilarManager kullanicilarManager = new KullanicilarManager(new EFKullanicilarRepository());
-//        SurucuManager surucuManager = new SurucuManager(new EFSurucuRepository());
+        KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
         TasinacakUrunManager tasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
         TasimaManager tasimaManager = new TasimaManager(new EFTasimaRepository());
         UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
@@ -38,7 +37,7 @@ namespace logikeyv2.Controllers
 
             var combinedQuery = from tasima in akaryakitTasimaManager.GetAllList(x => x.Durum == true)
                                 join arac in aracManager.GetAllList((y => y.Durum == true)) on tasima.AracID equals arac.ID
-                                join surucu1 in kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1)) on tasima.Kullanici1ID equals surucu1.Kullanici_ID
+                                join surucu1 in surucuManager.GetAllList((y => y.Kullanici_Durum == 1)) on tasima.Kullanici1ID equals surucu1.Kullanici_ID
                                 join tasimaTipi in tasimaTipiManager.GetAllList((y => y.Durum == true)) on tasima.TasimaTipiID equals tasimaTipi.ID
                                 join aracTur in aracTurManager.GetAllList((y => y.Durum == true)) on tasima.AracTurID equals aracTur.ID
                                 select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1, TasimaTip = tasimaTipi, AracTur = aracTur };
@@ -49,7 +48,7 @@ namespace logikeyv2.Controllers
         public IActionResult TasimaEkle()
         {
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true);
-            List<Kullanicilar> surucuListesi = kullanicilarManager.GetAllList(x => x.Kullanici_Durum == 1);
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true);
             List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1);
             List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1);
@@ -227,7 +226,7 @@ namespace logikeyv2.Controllers
         public IActionResult TasimaDuzenle(int ID)
         {
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true);
-            List<Kullanicilar> surucuListesi = kullanicilarManager.GetAllList(x => x.Kullanici_Durum == 1);
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true);
             List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1);
             List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1);
@@ -335,7 +334,7 @@ namespace logikeyv2.Controllers
         public IActionResult FaturaGoster(int ID)
         {
             AkaryakitTasima tasima = akaryakitTasimaManager.GetByID(ID);
-            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x=>x.AkaryakitTasimaID == ID);
+            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID);
             AkaryakitFaturaViewModel viewModel = new AkaryakitFaturaViewModel
             {
                 Tasima = tasima,
