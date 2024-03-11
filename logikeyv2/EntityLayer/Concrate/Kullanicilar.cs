@@ -11,7 +11,7 @@ namespace EntityLayer.Concrate
     {
         [Key]
         public int Kullanici_ID { get; set; }
-        public int KullaniciGrup_ID { get; set; }
+        public int? KullaniciGrup_ID { get; set; }
         public string? Kullanici_Isim { get; set; }
         public string? Kullanici_Soyisim { get; set; }
         public string? Kullanici_Eposta { get; set; }
@@ -19,8 +19,8 @@ namespace EntityLayer.Concrate
         public byte Kullanici_Durum { get; set; }
         public DateTime Kullanici_OlusturmaTarihi { get; set; }
         public DateTime Kullanici_DuzenlemeTarihi { get; set; }
-        public int Firma_ID { get; set; }
-        public int EkleyenKullanici_ID { get; set; }
+        public int? Firma_ID { get; set; }
+        public int? EkleyenKullanici_ID { get; set; }
         public int? SurucuPozisyonID { get; set; }
 
         public string? TC { get; set; }
@@ -45,7 +45,7 @@ namespace EntityLayer.Concrate
         public DateTime? MeslekiYeterlilikGecTarih { get; set; }
         public string? PsikoTeknikKurumu { get; set; }
         public DateTime? PsikoTeknikGecTarih { get; set; }
-        public int DuzenleyenID { get; set; }
+        public int? DuzenleyenID { get; set; }
 
         public DateTime? BGecerlilikTarih { get; set; }
         public DateTime? BEGecerlilikTarih { get; set; }

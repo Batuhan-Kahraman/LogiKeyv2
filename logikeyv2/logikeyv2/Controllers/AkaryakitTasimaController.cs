@@ -226,7 +226,7 @@ namespace logikeyv2.Controllers
         public IActionResult TasimaDuzenle(int ID)
         {
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true);
-            List<Surucu> surucuListesi = surucuManager.GetAllList(x => x.Durum == true);
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true);
             List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1);
             List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1);
