@@ -52,7 +52,6 @@ namespace DataAccessLayer.Concrate
         public DbSet<EhliyetSinifi> EhliyetSinifi { get; set; }
         public DbSet<SurucuPozisyon> SurucuPozisyon { get; set; }
         public DbSet<SurucuCikisNedeni> SurucuCikisNedeni { get; set; }
-        public DbSet<Surucu> Surucu { get; set; }
         public DbSet<KazaTuru> KazaTuru { get; set; }
         public DbSet<TasinacakUrun> TasinacakUrun { get; set; }
         public DbSet<TasimaTipi> TasimaTipi { get; set; }

@@ -38,6 +38,8 @@ namespace logikeyv2.Controllers
         MarkaManager markaManager = new MarkaManager(new EFMarkaRepository());
         ModelManager modelManager = new ModelManager(new EFModelRepository());
         AracResimlerManager aracResimlerManager = new AracResimlerManager(new EFAracResimRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+
         public IActionResult Index()
         {
             List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true && x.GrupID==3)
@@ -100,6 +102,11 @@ namespace logikeyv2.Controllers
                 Arac arac = JsonConvert.DeserializeObject<Arac>(aracJson);
                 return View(arac);
             }
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             return View();
         }
         [HttpPost]
@@ -156,7 +163,7 @@ namespace logikeyv2.Controllers
                         arac.DuzenlemeTarihi = DateTime.Now;
                         arac.OlusturanId = 1;//değişcek
                         arac.DuzenleyenID = 1;//değişcek
-                        arac.GrupID = 3;
+                   
                         aracManager.TAdd(arac);
 
                         if (resimler != null && resimler.Count() > 0)

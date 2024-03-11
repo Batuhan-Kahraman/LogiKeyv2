@@ -1,11 +1,12 @@
-﻿@using EntityLayer.Concrate;
-@model List<TasimaModel>
+﻿@model List<logikeyv2.Models.SurucuViewModel>
 
 @{
-    ViewData["Title"] = "Akaryakıt Tasima";
+    ViewData["Title"] = "Sofor Hostes Ekle";
 }
 <div class="col-lg-10 col-xxl-11">
-    <h2 class="mb-3 lh-sm">Akaryakıt Taşıma</h2>
+
+    <h2 class="mb-3 lh-sm">Hostes ve Şöförler</h2>
+    <a asp-controller="SoforHostesOkul" asp-action="SoforHostesEkle">Hostes veya Şöför Ekle</a>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -21,23 +22,25 @@
 
     }
 
-    <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["tip","plaka","surucu","tur","miktar","tarih"],"page":5,"pagination":true}'>
-            <div>
-                <a asp-controller="AkaryakitTasima" asp-action="TasimaEkle" class="button-style">Taşıma Ekle</a>
-            </div>
 
+
+    <div class="p-4 code-to-copy">
+        <div id="tableExample3" data-list='{"valueNames":["isim","telefon","pozisyon","ehliyetSinifi"],"page":5,"pagination":true}'>
+            <div class="search-box mb-3 mx-auto">
+                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Ara" aria-label="Ara" />
+                    <span class="fas fa-search search-box-icon"></span>
+                </form>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-sm fs-9 mb-0">
                     <thead>
                         <tr>
-                            <th class="sort border-top border-translucent ps-3" data-sort="plaka">Araç Plaka</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="surucu">Sürücü</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="tip">Taşıma Tipi</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="isim">İsim Soyisim</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="tel">Cep Telefon</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="pozisyon">Pozisyon</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="ehliyetSinifi">Ehliyet Sınıfı</th>
 
-                            <th class="sort border-top border-translucent ps-3" data-sort="tur">Araç Türü</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="miktar">Toplam Yüklenen Miktar</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="tarih">Tarih</th>
                             <th class="sort border-top">
                                 İşlemler
                             </th>
@@ -48,29 +51,20 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.Arac.Plaka</td>
                                 <td>@item.Surucu.Kullanici_Isim @item.Surucu.Kullanici_Soyisim</td>
-                                <td>@item.TasimaTip.Adi</td>
-                                <td>@item.AracTur.Adi</td>
-                                <td>@item.Tasima.ToplamYuklenenMiktar</td>
-                                <td>@item.Tasima.OlusturmaTarihi</td>
-
+                                <td>@item.Surucu.CepTelefonu</td>
+                                <td>@item.Pozisyon</td>
+                                <td>@item.EhliyetSinifi</td>
                                 <td>
-
-                                    <a asp-controller="AkaryakitTasima" asp-action="FaturaGoster" asp-route-ID="@item.Tasima.ID">
-                                        <span class="text-body fs-5" data-feather="file"></span>
-                                    </a>
-                                    <a asp-controller="AkaryakitTasima" asp-action="TasimaDuzenle" asp-route-ID="@item.Tasima.ID">
+                                    <a asp-controller="SoforHostesOkul" asp-action="Duzenle" asp-route-SurucuID="@item.Surucu.Kullanici_ID">
                                         <span class="text-body fs-5" data-feather="edit"></span>
                                     </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Tasima.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Surucu.Kullanici_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-
 
 
                 <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
@@ -79,7 +73,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
                             </div>
-                            <form action="AkaryakitTasima/Sil" method="post">
+                            <form action="SoforHostesOkul/Sil" method="post">
                                 <div class="modal-body">
 
                                     <p class="text-body-tertiary lh-lg mb-0">
@@ -97,7 +91,6 @@
                 </div>
 
 
-
             </div>
             <div class="d-flex justify-content-between mt-3">
                 <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
@@ -109,21 +102,5 @@
         </div>
     </div>
 
-</div>
-<style>
-    .button-style {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff; /* Buton arka plan rengi */
-        color: #fff; /* Buton metin rengi */
-        text-decoration: none;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        margin-bottom: 30px;
-    }
 
-        .button-style:hover {
-            background-color: #0056b3; /* Butonun üzerine gelindiğindeki arka plan rengi */
-        }
-</style>
+</div>

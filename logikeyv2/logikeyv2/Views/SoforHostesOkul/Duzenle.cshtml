@@ -1,11 +1,11 @@
 ﻿@model EntityLayer.Concrate.Kullanicilar
 
 @{
-    ViewData["Title"] = "Kullanıcı Düzenle";
+    ViewData["Title"] = "Sofor Hostes Ekle";
 }
 <div class="col-lg-10 col-xxl-11">
 
-    <h2 class="mb-3 lh-sm">Kullanıcı Düzenle</h2>
+    <h2 class="mb-3 lh-sm">Şöför veya Hostes Ekle</h2>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -18,11 +18,9 @@
                 </div>
             </div>
         </div>
-
     }
 
     <div class="border table-responsive scrollbar p-2">
-  
         <form method="post">
             <input type="hidden" asp-for="Kullanici_ID" />
             <table class="table table-borderless">
@@ -43,8 +41,10 @@
                 <tr>
                     <td>Kullanıcı Grubu</td>
                     <td>
-                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID">
+                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()">
                             <option value="0">Seçiniz</option>
+                            <option value="2">Söför</option>
+                            <option value="4">Hostes</option>
                         </select>
                     </td>
                 </tr>
@@ -65,15 +65,22 @@
                     <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" /></td>
                     <td>Pozisyon</td>
                     <td>
+
                         <select class="form-control" asp-for="SurucuPozisyonID" id="SurucuPozisyonID">
                             <option value="0">Seçiniz</option>
+                            @*   @foreach (var item in ViewBag.SurucuPozisyon)
+                            {
+                            <option value="@item.ID">@item.Adi</option>
+
+                            } *@
+
                         </select>
                     </td>
                     <td>Şifre</td>
-                    <td>
+
                     <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
 
-                    </td>
+
                 </tr>
                 <tr>
                     <td>İşe Giriş Tarihi</td>
@@ -109,11 +116,18 @@
 
                     </td>
                 </tr>
-                <tr>
+                <tr id="hiddenFields">
                     <td>Ehliyet Sınıfı</td>
                     <td>
+
                         <select class="form-control" asp-for="EhliyetSinifiID" id="EhliyetSinifiID">
                             <option value="0">Seçiniz</option>
+                            @*   @foreach (var item in ViewBag.EhliyetSinifi)
+                            {
+                            <option value="@item.ID">@item.Adi</option>
+
+                            } *@
+
                         </select>
 
                     </td>
@@ -135,7 +149,7 @@
                     <td>Banka Iban No</td>
                     <td><input type="text" class="form-control" asp-for="BankaIban" /></td>
                 </tr>
-                <tr>
+                <tr id="hiddenFields2">
                     <td>B Geçerlilik Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="BGecerlilikTarih" /></td>
                     <td>BE Geçerlilik Tarihi</td>
@@ -145,7 +159,7 @@
 
 
                 </tr>
-                <tr>
+                <tr id="hiddenFields3">
 
                     <td>C1E Geçerlilik Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="C1EGecerlilikTarih" /></td>
@@ -158,7 +172,7 @@
 
 
                 </tr>
-                <tr>
+                <tr id="hiddenFields4">
 
                     <td>D1 Geçerlilik Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="D1GecerlilikTarih" /></td>
@@ -171,7 +185,7 @@
 
                 </tr>
 
-                <tr>
+                <tr id="hiddenFields5">
 
                     <td>Mesleki Yeterlilik Geç. Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="MeslekiYeterlilikGecTarih" /></td>
@@ -182,9 +196,8 @@
                 </tr>
 
             </table>
-            <input type="submit" class="btn btn-success w-100" value="Kullanıcıyı Düzenle" />
+            <input type="submit" class="btn btn-success w-100" value="Kullanıcıyı Kaydet" />
         </form>
-
 
 
     </div>
@@ -213,11 +226,6 @@
                         text: item.adi // Verinin görünen metni
                     }));
                 });
-                var SurucuPozisyonID = @Json.Serialize(Model.SurucuPozisyonID);
-
-                if (SurucuPozisyonID !== null) {
-                    document.getElementById("SurucuPozisyonID").value = @Model.SurucuPozisyonID;
-                }
             },
             error: function (error) {
                 console.log('Hata oluştu:', error);
@@ -242,12 +250,6 @@
                         text: item.adi // Verinin görünen metni
                     }));
                 });
-
-                var EhliyetSinifiID = @Json.Serialize(Model.EhliyetSinifiID);
-
-                if (EhliyetSinifiID !== null) {
-                    document.getElementById("EhliyetSinifiID").value = @Model.EhliyetSinifiID;
-                }
             },
             error: function (error) {
                 console.log('Hata oluştu:', error);
@@ -255,4 +257,83 @@
         });
 
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#IlID').change(function () {
+                var ilKodu = $(this).val();
+                if (ilKodu) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/ControllerAdi/GetIlceler",
+                        data: { ilKodu: ilKodu },
+                        success: function (response) {
+                            $('#IlceID').empty();
+                            $('#IlceID').append($('<option>').text('Seçiniz').attr('value', '0'));
+                            $.each(response, function (index, ilce) {
+                                $('#IlceID').append($('<option>').text(ilce.Ilce).attr('value', ilce.Adres_ID));
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                } else {
+                    $('#IlceID').empty();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        #hiddenFields {
+            display: none;
+        }
+
+        #hiddenFields2 {
+            display: none;
+        }
+
+        #hiddenFields3 {
+            display: none;
+        }
+
+        #hiddenFields4 {
+            display: none;
+        }
+
+        #hiddenFields5 {
+            display: none;
+        }
+
+    </style>
+    <script>
+        function toggleFields() {
+
+
+            var selectedOption = document.getElementById("KullaniciGrup_ID");
+            var selectedValue = selectedOption.options[selectedOption.selectedIndex].text;
+            var hiddenFields = document.getElementById("hiddenFields");
+            var hiddenFields2 = document.getElementById("hiddenFields2");
+            var hiddenFields3 = document.getElementById("hiddenFields3");
+            var hiddenFields4 = document.getElementById("hiddenFields4");
+            var hiddenFields5 = document.getElementById("hiddenFields5");
+            console.log(hiddenFields, "hiddenFields");
+            console.log(selectedValue, "selectedValue");
+            if (selectedValue === "Söför") {
+
+                hiddenFields.style.display = "table-row";
+                hiddenFields2.style.display = "table-row";
+                hiddenFields3.style.display = "table-row";
+                hiddenFields4.style.display = "table-row";
+                hiddenFields5.style.display = "table-row";
+            } else {
+                hiddenFields.style.display = "none";
+                hiddenFields2.style.display = "none";
+                hiddenFields3.style.display = "none";
+                hiddenFields4.style.display = "none";
+                hiddenFields5.style.display = "none";
+            }
+        }
+    </script>
+
 }

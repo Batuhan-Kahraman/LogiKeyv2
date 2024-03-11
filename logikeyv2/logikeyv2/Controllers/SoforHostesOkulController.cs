@@ -4,17 +4,17 @@ using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace logikeyv2.Controllers
 {
-    public class SurucuController : Controller
+    public class SoforHostesOkulController : Controller
     {
         KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         KullaniciGrubuManager kullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
-       AdresOzellikTanimlamaManager adresOzellikTanimlamaManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+
         public IActionResult Index()
         {
             List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1)
@@ -47,10 +47,13 @@ namespace logikeyv2.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Ekle()
+        public IActionResult SoforHostesEkle()
         {
-            List<KullaniciGrubu> KullaniciGrubu = kullaniciGrubuManager.GetAllList((y => y.KullaniciGrup_Durum == 1));
-            ViewBag.KullaniciGrubu = KullaniciGrubu;
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true));
             ViewBag.SurucuPozisyon = SurucuPozisyon;
             List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true));
@@ -58,7 +61,7 @@ namespace logikeyv2.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Kullanicilar surucu)
+        public IActionResult SoforHostesEkle(Kullanicilar surucu)
         {
             using (var context = new Context())
             {
@@ -86,19 +89,12 @@ namespace logikeyv2.Controllers
             }
             return View(surucu);
         }
-        public JsonResult GetIlceler(string il)
-        {
-            List<AdresOzellikTanimlama> adres = adresOzellikTanimlamaManager.GetAllList((y => y.Il== il));
-            var ilceler = adres.Select(a => new { a.Adres_ID, a.Ilce }).ToList();
-
-            return Json(ilceler);
-        }
+      
         public IActionResult Duzenle(int SurucuID)
         {
-            Kullanicilar arac = surucuManager.GetByID(SurucuID);
-            return View(arac);
+            Kullanicilar surucuHostes = surucuManager.GetByID(SurucuID);
+            return View(surucuHostes);
         }
-
         [HttpPost]
         public IActionResult Duzenle(Kullanicilar surucu)
         {
@@ -110,31 +106,31 @@ namespace logikeyv2.Controllers
                     {
                         Kullanicilar item = surucuManager.GetByID(surucu.Kullanici_ID);
                         item.SurucuPozisyonID = surucu.SurucuPozisyonID;
-                        item.Kullanici_Sifre= surucu.Kullanici_Sifre;
-                        item.Kullanici_Isim=surucu.Kullanici_Isim;
-                        item.Kullanici_Soyisim=surucu.Kullanici_Soyisim;
-                        item.TC=surucu.TC;
-                        item.GirisTarihi=surucu.GirisTarihi;
+                        item.Kullanici_Sifre = surucu.Kullanici_Sifre;
+                        item.Kullanici_Isim = surucu.Kullanici_Isim;
+                        item.Kullanici_Soyisim = surucu.Kullanici_Soyisim;
+                        item.TC = surucu.TC;
+                        item.GirisTarihi = surucu.GirisTarihi;
                         item.CikisTarihi = surucu.CikisTarihi;
                         item.CikisNedeni = surucu.CikisNedeni;
-                        item.DurumID=surucu.DurumID;
+                        item.DurumID = surucu.DurumID;
                         item.DogumTarihi = surucu.DogumTarihi;
-                        item.Kullanici_Eposta=surucu.Kullanici_Eposta;
-                        item.KanGrubu=surucu.KanGrubu;
+                        item.Kullanici_Eposta = surucu.Kullanici_Eposta;
+                        item.KanGrubu = surucu.KanGrubu;
                         item.CepTelefonu = surucu.CepTelefonu;
-                        item.Adres=surucu.Adres;
-                        item.Notlar=surucu.Notlar;
+                        item.Adres = surucu.Adres;
+                        item.Notlar = surucu.Notlar;
                         item.EhliyetSinifiID = surucu.EhliyetSinifiID;
                         item.EhliyetVerilisTarihi = surucu.EhliyetVerilisTarihi;
                         item.EhliyetVerilisYeri = surucu.EhliyetVerilisYeri;
                         item.EhliyetSonaErisTarihi = surucu.EhliyetSonaErisTarihi;
                         item.EhliyetResmi = surucu.EhliyetResmi;
-                        item.BankaAdi= surucu.BankaAdi;
+                        item.BankaAdi = surucu.BankaAdi;
                         item.BankaIban = surucu.BankaIban;
                         item.MeslekiYeterlilikGecTarih = surucu.MeslekiYeterlilikGecTarih;
                         item.PsikoTeknikGecTarih = surucu.PsikoTeknikGecTarih;
                         item.PsikoTeknikKurumu = surucu.PsikoTeknikKurumu;
-                        item.BGecerlilikTarih=surucu.BGecerlilikTarih;
+                        item.BGecerlilikTarih = surucu.BGecerlilikTarih;
                         item.BEGecerlilikTarih = surucu.BEGecerlilikTarih;
                         item.C1EGecerlilikTarih = surucu.C1EGecerlilikTarih;
                         item.C1GecerlilikTarih = surucu.C1GecerlilikTarih;
@@ -162,7 +158,7 @@ namespace logikeyv2.Controllers
             }
         }
 
-            [HttpPost]
+        [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
             using (var context = new Context())
@@ -191,3 +187,4 @@ namespace logikeyv2.Controllers
         }
     }
 }
+
