@@ -88,16 +88,19 @@
                     <td>
                         <select class="form-control" asp-for="SahiplikID" id="SahiplikID">
                             <option value="0">Seçiniz</option>
+                            <option value="1">Özmal</option>
+                            <option value="4">Taşeron</option>
+                            <option value="5">Kiralık</option>
                         </select>
 
                     </td>
-                 @*    <td>Grup</td>
+                     <td>Grup</td>
                     <td>
                         <select class="form-control" asp-for="GrupID" id="GrupID">
                             <option value="0">Seçiniz</option>
 
                         </select>
-                    </td> *@
+                    </td> 
                 </tr>
                 <tr>
                     <td>Araç Türü</td>
@@ -147,7 +150,7 @@
 
                     </td>
                     <td>Yıl</td>
-                    <td><input type="text" class="form-control" asp-for="Yil" /></td>
+                    <td><input type="number" class="form-control" asp-for="Yil" minlength="4" maxlength="4" /></td>
                 </tr>
                 <tr>
                     <td>Şirketi</td>
@@ -385,13 +388,20 @@
 
                     <td>Verildiği İl</td>
                     <td>
-                        <select class="form-control" asp-for="VerildigiIlID">
+                        <select class="form-control" asp-for="VerildigiIlID" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                <option value="@item.IL_KODU">@item.Il</option>
+                            }
+
                         </select>
+                       
                     </td><!-- todo:iller listelenecek-->
                     <td>Verildiği İlçe</td>
                     <td>
-                        <select class="form-control" asp-for="VerildigiIlceID">
+                        <select class="form-control" asp-for="VerildigiIlceID" id="Cari_ILCE_ID">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td><!-- todo:ilçeler listelenecek-->
@@ -771,6 +781,34 @@
                 console.log('Hata oluştu:', error);
             }
         });
+    
+            function IlDegistir(IlKodu) {
+
+                $.ajax({
+                    url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                    method: 'GET',
+                    data: { IlKodu: IlKodu },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#Cari_ILCE_ID').empty();
+                        $('#Cari_ILCE_ID').append($('<option>', {
+                            value: 0, // Verinin değer özelliği
+                            text: "Seçiniz" // Verinin görünen metni
+                        }));
+                        // Verileri selectbox'a ekle
+                        $.each(data, function (index, item) {
+                            console.log(item);
+                            $('#Cari_ILCE_ID').append($('<option>', {
+                                value: item.ilcE_KODU, // Verinin değer özelliği
+                                text: item.ilce // Verinin görünen metni
+                            }));
+                        });
+                    },
+                    error: function (error) {
+                        console.log('Hata oluştu:', error);
+                    }
+                });
+            }
 
 
     </script>

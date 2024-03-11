@@ -1,12 +1,12 @@
 ﻿@model List<logikeyv2.Models.SurucuViewModel>
 
 @{
-    ViewData["Title"] = "Araç Ekle";
+    ViewData["Title"] = "Sofor Hostes Ekle";
 }
 <div class="col-lg-10 col-xxl-11">
 
-    <h2 class="mb-3 lh-sm">Kullanıcılar</h2>
-    <a asp-controller="Surucu" asp-action="Ekle">Kullanıcı Ekle</a>
+    <h2 class="mb-3 lh-sm">Hostes ve Şöförler</h2>
+    <a asp-controller="SoforHostesOkul" asp-action="SoforHostesEkle">Hostes veya Şöför Ekle</a>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -40,7 +40,7 @@
                             <th class="sort border-top border-translucent ps-3" data-sort="tel">Cep Telefon</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="pozisyon">Pozisyon</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="ehliyetSinifi">Ehliyet Sınıfı</th>
-                            
+
                             <th class="sort border-top">
                                 İşlemler
                             </th>
@@ -56,7 +56,7 @@
                                 <td>@item.Pozisyon</td>
                                 <td>@item.EhliyetSinifi</td>
                                 <td>
-                                    <a asp-controller="Surucu" asp-action="Duzenle" asp-route-SurucuID="@item.Surucu.Kullanici_ID">
+                                    <a asp-controller="SoforHostesOkul" asp-action="Duzenle" asp-route-SurucuID="@item.Surucu.Kullanici_ID">
                                         <span class="text-body fs-5" data-feather="edit"></span>
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Surucu.Kullanici_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
@@ -73,7 +73,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
                             </div>
-                            <form action="Surucu/Sil" method="post">
+                            <form action="SoforHostesOkul/Sil" method="post">
                                 <div class="modal-body">
 
                                     <p class="text-body-tertiary lh-lg mb-0">

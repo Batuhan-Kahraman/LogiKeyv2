@@ -1,11 +1,11 @@
 ﻿@model EntityLayer.Concrate.Kullanicilar
 
 @{
-    ViewData["Title"] = "Kullanıcı Ekle";
+    ViewData["Title"] = "Sofor Hostes Ekle";
 }
 <div class="col-lg-10 col-xxl-11">
 
-    <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
+    <h2 class="mb-3 lh-sm">Şöför veya Hostes Ekle</h2>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -22,6 +22,7 @@
 
     <div class="border table-responsive scrollbar p-2">
         <form method="post">
+            <input type="hidden" asp-for="Kullanici_ID" />
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
@@ -42,17 +43,9 @@
                     <td>
                         <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()">
                             <option value="0">Seçiniz</option>
-                          
-                            @foreach (var item in ViewBag.KullaniciGrubu)
-                            {
-                                <option value="@item.KullaniciGrup_ID">@item.KullaniciGrup_Adi</option>
-
-                            }
+                            <option value="2">Söför</option>
+                            <option value="4">Hostes</option>
                         </select>
-                    </td>
-                    <td>Maaş</td>
-                    <td>
-                        <input type="text" class="form-control" asp-for="Maas" />
                     </td>
                 </tr>
                 <tr>
@@ -72,22 +65,22 @@
                     <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" /></td>
                     <td>Pozisyon</td>
                     <td>
-                        
-                        <select class="form-control" asp-for="SurucuPozisyonID" id="SurucuPozisyonID" >
+
+                        <select class="form-control" asp-for="SurucuPozisyonID" id="SurucuPozisyonID">
                             <option value="0">Seçiniz</option>
-                          @*   @foreach (var item in ViewBag.SurucuPozisyon)
+                            @*   @foreach (var item in ViewBag.SurucuPozisyon)
                             {
-                                <option value="@item.ID">@item.Adi</option>
+                            <option value="@item.ID">@item.Adi</option>
 
                             } *@
-                           
+
                         </select>
                     </td>
                     <td>Şifre</td>
-                    
+
                     <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
 
-                    
+
                 </tr>
                 <tr>
                     <td>İşe Giriş Tarihi</td>
@@ -99,7 +92,7 @@
                 </tr>
                 <tr>
                     <td>Adres</td>
-                    <td> 
+                    <td>
                         <textarea asp-for="Adres" class="form-control"></textarea>
 
                     </td>
@@ -118,7 +111,7 @@
                 </tr>
                 <tr>
                     <td>Not</td>
-                    <td colspan="5"> 
+                    <td colspan="5">
                         <textarea rows="2" asp-for="Notlar" class="form-control"></textarea>
 
                     </td>
@@ -126,15 +119,15 @@
                 <tr id="hiddenFields">
                     <td>Ehliyet Sınıfı</td>
                     <td>
-                        
+
                         <select class="form-control" asp-for="EhliyetSinifiID" id="EhliyetSinifiID">
                             <option value="0">Seçiniz</option>
-                          @*   @foreach (var item in ViewBag.EhliyetSinifi)
+                            @*   @foreach (var item in ViewBag.EhliyetSinifi)
                             {
-                                <option value="@item.ID">@item.Adi</option>
+                            <option value="@item.ID">@item.Adi</option>
 
                             } *@
-                         
+
                         </select>
 
                     </td>
@@ -147,34 +140,34 @@
                         <input type="date" class="form-control" asp-for="EhliyetVerilisYeri" />
                     </td>
                 </tr>
-               
+
                 <tr>
                     <td>Sona Eriş Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="EhliyetSonaErisTarihi" /></td>
+                    <td><input type="date" class="form-control" asp-for="EhliyetSonaErisTarihi" /></td>
                     <td>Banka Adı</td>
-                    <td><input type="text" class="form-control"  asp-for="BankaAdi" /></td>
+                    <td><input type="text" class="form-control" asp-for="BankaAdi" /></td>
                     <td>Banka Iban No</td>
-                    <td ><input type="text" class="form-control" asp-for="BankaIban" /></td>
+                    <td><input type="text" class="form-control" asp-for="BankaIban" /></td>
                 </tr>
                 <tr id="hiddenFields2">
                     <td>B Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="BGecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="BGecerlilikTarih" /></td>
                     <td>BE Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="BEGecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="BEGecerlilikTarih" /></td>
                     <td>C1 Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="C1GecerlilikTarih" /></td>
-                    
+                    <td><input type="date" class="form-control" asp-for="C1GecerlilikTarih" /></td>
+
 
                 </tr>
                 <tr id="hiddenFields3">
 
                     <td>C1E Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="C1EGecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="C1EGecerlilikTarih" /></td>
 
                     <td>C Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="CGecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="CGecerlilikTarih" /></td>
                     <td>CE Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="CEGecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="CEGecerlilikTarih" /></td>
 
 
 
@@ -182,18 +175,18 @@
                 <tr id="hiddenFields4">
 
                     <td>D1 Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="D1GecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="D1GecerlilikTarih" /></td>
 
                     <td>D1E Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="D1EGecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="D1EGecerlilikTarih" /></td>
                     <td>F Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control"  asp-for="FGecerlilikTarih" /></td>
+                    <td><input type="date" class="form-control" asp-for="FGecerlilikTarih" /></td>
 
 
                 </tr>
-                
+
                 <tr id="hiddenFields5">
-                   
+
                     <td>Mesleki Yeterlilik Geç. Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="MeslekiYeterlilikGecTarih" /></td>
                     <td>Psiko Teknik Kurumu</td>
@@ -201,7 +194,7 @@
                     <td>Psiko Teknik Geç. Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="PsikoTeknikGecTarih" /></td>
                 </tr>
-                
+
             </table>
             <input type="submit" class="btn btn-success w-100" value="Kullanıcıyı Kaydet" />
         </form>
@@ -312,11 +305,11 @@
             display: none;
         }
 
-</style>
+    </style>
     <script>
         function toggleFields() {
-           
-         
+
+
             var selectedOption = document.getElementById("KullaniciGrup_ID");
             var selectedValue = selectedOption.options[selectedOption.selectedIndex].text;
             var hiddenFields = document.getElementById("hiddenFields");

@@ -37,7 +37,6 @@ namespace BusinessLayer.Abstract
     public interface ISurucuCikisNedeniService : IGenericService<SurucuCikisNedeni> { }
     public interface ISurucuPozisyonService : IGenericService<SurucuPozisyon> { }
     public interface IEhliyetSinifiService : IGenericService<EhliyetSinifi> { }
-    public interface ISurucuService : IGenericService<Surucu> { }
     public interface IKazaTuruService : IGenericService<KazaTuru> { }
     public interface ITasinacakUrunService : IGenericService<TasinacakUrun> { }
     public interface ITasimaTipiService : IGenericService<TasimaTipi> { }

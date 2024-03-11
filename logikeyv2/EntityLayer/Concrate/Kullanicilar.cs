@@ -56,6 +56,8 @@ namespace EntityLayer.Concrate
         public DateTime? D1GecerlilikTarih { get; set; }
         public DateTime? D1EGecerlilikTarih { get; set; }
         public DateTime? FGecerlilikTarih { get; set; }
+        public decimal? Maas { get; set; }
+        
 
     }
 

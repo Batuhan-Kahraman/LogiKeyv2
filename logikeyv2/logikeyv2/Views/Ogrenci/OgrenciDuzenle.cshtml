@@ -1,7 +1,7 @@
 ﻿@model logikeyv2.Models.OkulOgrenciModel
 
 @{
-    ViewData["Title"] = "Ogrenci Duzenle";
+    ViewData["Title"] = "Ogrenci Düzenle";
 }
 <div class="col-lg-10 col-xxl-11">
 
@@ -84,10 +84,12 @@
                     </td>
                     <td>Şöfor</td>
                     <td>
-                        <select class="form-control" asp-for="OgrenciModulu.Sofer_ID" id="Cari_ILCE_ID">
+                        <select class="form-control" asp-for="OgrenciModulu.Sofer_ID" id="Sofer_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Ahmet Demir</option>
-
+                            @foreach (var item in ViewBag.Sofor)
+                            {
+                                <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
+                            }
                         </select>
                     </td>
                 </tr>
@@ -95,19 +97,21 @@
 
                     <td>İl</td>
                     <td>
-                        <select class="form-control" asp-for="Ogrenci.Cari_IL_ID" id="Cari_IL_ID">
+                        <select class="form-control" asp-for="Ogrenci.Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
-                            <option value="1">izmir</option>
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                <option value="@item.IL_KODU">@item.Il</option>
+                            }
+
                         </select>
                     </td>
                     <td>İlçe</td>
                     <td>
                         <select class="form-control" asp-for="Ogrenci.Cari_ILCE_ID" id="Cari_ILCE_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Konak</option>
-                            <option value="2">Bornova</option>
-                            <option value="3">Karabağlar</option>
-                            <option value="4">Balçova</option>
+
 
                         </select>
                     </td>
@@ -162,24 +166,47 @@
 
                 </tr>
                 <tr>
-                    <td>Banka Adı 2</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi2" /></td>
-                    <td>Banka IBAN No 2</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN2" /></td>
-
-                </tr>
-                <tr>
-                    <td>Banka Adı 3</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi3" /></td>
-                    <td>Banka IBAN No 3</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN3" /></td>
+                    <td>Bu bilgileri fatura için kullan</td>
+                    <td> <input type="checkbox" asp-for="Ogrenci.FaturaDurum" /></td>
 
                 </tr>
 
 
             </table>
-            <input type="submit" class="btn btn-success w-100" value="Öğrenciyi Kaydet" />
+            <input type="submit" class="btn btn-success w-100" value="Öğrenciyi Düzenle" />
         </form>
-
-
     </div>
+
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function IlDegistir(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#Cari_ILCE_ID').empty();
+                    $('#Cari_ILCE_ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Cari_ILCE_ID').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+    </script>
+    }

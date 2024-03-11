@@ -39,7 +39,8 @@ namespace EntityLayer.Concrate
         public DateTime Duzenleme_Tarihi { get; set; }
 
         public byte Durum { get; set; }
-
+        public bool FaturaDurum { get; set; }
+        
 
     }
 }
