@@ -1,0 +1,96 @@
+﻿@model logikeyv2.Models.AkaryakitFaturaViewModel
+
+
+@{
+    int sayac = 1;
+}
+@foreach (var fatura in Model.FaturaList)
+{
+
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <h2 class="mb-0">@sayac .Fatura</h2>
+    </div>
+    <div class="bg-body dark__bg-gray-1100 p-4 mb-4 rounded-2">
+        <div class="row g-4">
+            <div class="col-12 col-lg-3">
+                <div class="row g-4 g-lg-2">
+                    <div class="col-12 col-sm-6 col-lg-12">
+                        <div class="row align-items-center g-0">
+                            <div class="col-auto col-lg-6 col-xl-5">
+                                <h6 class="mb-0 me-3">Fatura No :</h6>
+                            </div>
+                            <div class="col-auto col-lg-6 col-xl-7">
+                                <p class="fs-9 text-body-secondary fw-semibold mb-0">@fatura.FaturaNo</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-12">
+                        <div class="row align-items-center g-0">
+                            <div class="col-auto col-lg-6 col-xl-5">
+                                <h6 class="me-3">Fatura Tarihi :</h6>
+                            </div>
+                            <div class="col-auto col-lg-6 col-xl-7">
+                                <p class="fs-9 text-body-secondary fw-semibold mb-0">@fatura.DuzenlemeTarihi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="px-0">
+        <div class="table-responsive scrollbar">
+            <table class="table fs-9 text-body mb-0">
+                <thead class="bg-body-secondary">
+                    <tr>
+                        <th scope="col" style="min-width: 60px;">Gönderici</th>
+                        <th scope="col" style="min-width: 60px;">Alıcı</th>
+                        <th scope="col" style="min-width: 60px;">Fatura Kesen</th>
+                        <th scope="col" style="min-width: 60px;">Fatura Kesilen</th>
+                        <th scope="col" style="min-width: 60px;">Ürün Adı</th>
+                        <th scope="col" style="min-width: 60px;">Yüükleme Miktarı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var detayFatura = Model.DetayList.SingleOrDefault(d => d.ID == fatura.AkaryakitTasimaDetayID);
+                        var urunFatura = Model.UrunList
+                        .Where(u =>
+                        fatura.AkaryakitTasimaDetayUrunID.Split(';').Select(int.Parse).Contains(u.ID)
+                        )
+                        .ToList();
+                        var faturaKesen = Model.FaturaKesenList
+                        .Where(u => fatura.FaturaKesenID.Split(';').Contains(u.Cari_Unvan));
+
+                        <tr>
+                        <td colspan="6">@detayFatura
+                        </td></tr>
+                        <tr>
+                            <td colspan="6">
+                                @urunFatura
+                        </td></tr>
+                        <tr>
+                            <td colspan="6">
+                                @faturaKesen
+                        </td></tr>
+
+                        foreach (var detay in Model.DetayList)
+                        {
+                            <tr>
+                                <td>@detay.GondericiID</td>
+                                <td>@detay.AliciID</td>
+                                <td>@Model.FaturaKesenList[0].Cari_Unvan</td>
+                                <td>@Model.FaturaKesilenList[0].Cari_Unvan</td>
+                                <td>@Model.UrunList[0].UrunID</td>
+                                <td>@Model.UrunList[0].YuklemeMiktari</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+

@@ -1,11 +1,10 @@
-﻿@using EntityLayer.Concrate;
-@model List<TasimaModel>
+﻿
 
 @{
     ViewData["Title"] = "Akaryakıt Tasima";
 }
 <div class="col-lg-10 col-xxl-11">
-    <h2 class="mb-3 lh-sm">Akaryakıt Taşıma</h2>
+    <h2 class="mb-3 lh-sm">Normal Taşıma</h2>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -45,29 +44,7 @@
                         </tr>
                     </thead>
                     <tbody class="list">
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@item.Arac.Plaka</td>
-                                <td>@item.Surucu.Isim @item.Surucu.Soyisim</td>
-                                <td>@item.TasimaTip.Adi</td>
-                                <td>@item.AracTur.Adi</td>
-                                <td>@item.Tasima.ToplamYuklenenMiktar</td>
-                                <td>@item.Tasima.OlusturmaTarihi</td>
-
-                                <td>
-
-                                    <a asp-controller="AkaryakitTasima" asp-action="FaturaGoster" asp-route-ID="@item.Tasima.ID">
-                                        <span class="text-body fs-5" data-feather="file"></span>
-                                    </a>
-                                    <a asp-controller="AkaryakitTasima" asp-action="TasimaDuzenle" asp-route-ID="@item.Tasima.ID">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Tasima.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
-                                </td>
-                            </tr>
-                        }
+                    
                     </tbody>
                 </table>
 
@@ -79,7 +56,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
                             </div>
-                            <form action="AkaryakitTasima/Sil" method="post">
+                            <form action="NormalTasima/Sil" method="post">
                                 <div class="modal-body">
 
                                     <p class="text-body-tertiary lh-lg mb-0">
