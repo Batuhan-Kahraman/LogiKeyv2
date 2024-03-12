@@ -46,14 +46,17 @@
                                 <th scope="col" style="min-width: 60px;">Fatura Kesilen</th>
                                 <th scope="col" style="min-width: 60px;">Ürün Adı</th>
                                 <th scope="col" style="min-width: 60px;">Yükleme Miktarı</th>
+                                <th scope="col">Ücretlendirme</th>
+                                <th scope="col">Fiyat</th>
+                                <th scope="col">Nakliye KDV Hariç</th>
+                                <th scope="col">Nakliye KDV </th>
+                                <th scope="col">Nakliye KDV Dahil</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             @{
-                                IEnumerable
-                                                <AkaryakitTasimaDetayUrun>
-                                                urunList = ViewBag.TasimaDetayUrun;
+                                IEnumerable <AkaryakitTasimaDetayUrun> urunList = ViewBag.TasimaDetayUrun;
 
                                 var filteredUrunList = urunList.Where(x => x.AkaryakitTasimaDetayID == detay.ID).ToList();
                                 var faturaKesen = fatura.FaturaKesenID.Split(';');
@@ -81,6 +84,22 @@
                                         <td>
                                             @detayUrun.YuklemeMiktari
                                         </td>
+                                            @{
+                                                if(detayUrun.Ucretlendirme==1)
+                                                {
+
+                                                <td>Birim
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>Sefer</td>
+                                            }
+                                        }
+                                        <td>@detayUrun.BirimSeferFiyati</td>
+                                        <td>@detay.NakliyeTutarKDVHaric</td>
+                                        <td>@detay.NakliyeKDV</td>
+                                        <td>@detay.NakliyeToplam</td>
                                     </tr>
                                     i++;
                                 }

@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Concrate;
+using EntityLayer.Concrate;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,37 @@ namespace BusinessLayer.Concrate
                 else
                 {
                     return "";
+                }
+            }
+        }
+
+        public static List<AkaryakitTasimaDetay> AkaryakitTasimaDetayList(int ID)
+        {
+            using (var context = new Context())
+            {
+                List<AkaryakitTasimaDetay> liste = context.AkaryakitTasimaDetay.Where(e => e.AkaryakitTasimaID == ID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public static List<AkaryakitTasimaDetayUrun> AkaryakitTasimaDetayUrunList(int tasimaID,int detayID)
+        {
+            using (var context = new Context())
+            {
+                List<AkaryakitTasimaDetayUrun> liste = context.AkaryakitTasimaDetayUrun.Where(e => e.AkaryakitTasimaID == tasimaID && e.AkaryakitTasimaDetayID==detayID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
                 }
             }
         }
