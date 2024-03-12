@@ -334,7 +334,7 @@ namespace logikeyv2.Controllers
         public IActionResult FaturaGoster(int ID)
         {
             AkaryakitTasima tasima = akaryakitTasimaManager.GetByID(ID);
-            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x=>x.AkaryakitTasimaID == ID);
+            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID);
             AkaryakitFaturaViewModel viewModel = new AkaryakitFaturaViewModel
             {
                 Tasima = tasima,
