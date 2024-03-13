@@ -72,5 +72,35 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+        public static string AracPlaka(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.Arac.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Plaka;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public static string TasimaTipi(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.TasimaTipi.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
     }
 }

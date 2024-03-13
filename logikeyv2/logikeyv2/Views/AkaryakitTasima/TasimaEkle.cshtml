@@ -31,7 +31,7 @@
     <div class="border table-responsive scrollbar p-2">
         <form method="post" action="TasimaEkle">
             <input type="hidden" name="KayitSayisi" id="KayitSayisi" value="1" />
-            <input type="hidden" name="UrunKayitSayisi" />
+            <input type="hidden" name="UrunKayitSayisi"  id="UrunKayitSayisi" ="1"/>
             <table class="table table-borderless">
                 <tr>
                     <td rowspan="6" colspan="1" style="width:50px; margin-right:10px;background:#02224b" class="vertical-text text-center" style="background:#a9a4a4;">
@@ -111,30 +111,6 @@
 
                 </tr>
                 <tr>
-                    <td>Çekici Plakası</td>
-                    <td>
-
-                        <select class="form-control" asp-for="CekiciPlakaID" id="CekiciPlaka_ID">
-                            <option value="0">Seçiniz</option>
-                            @foreach (var arac in ViewBag.CekiciPlaka)
-                            {
-                                <option value="@arac.ID">@arac.Plaka</option>
-
-                            }
-                        </select>
-                    </td>
-                    <td>Dorse Ekle</td>
-                    <td>
-                        <select asp-for="DorseID" class=" form-control" id="DorseTipi_ID">
-                            <option value="0">Seçiniz</option>
-                            @foreach (var arac in ViewBag.DorseListe)
-                            {
-                                <option value="@arac.ID">@arac.Adi</option>
-
-                            }
-
-                        </select>
-                    </td>
                     <td>Dorse Plakası</td>
                     <td>
                         <select asp-for="DorsePlakaID" class=" form-control" id="DorsePlakaID">

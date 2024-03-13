@@ -2,6 +2,7 @@
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using DataAccessLayer.EntityFrameworks;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -105,7 +106,6 @@ namespace logikeyv2.Controllers
                         akaryakitTasima.Goz4UrunID = string.IsNullOrWhiteSpace(form["Goz4UrunID"]) ? 0 : int.Parse(form["Goz4UrunID"]);
                         akaryakitTasima.Goz5UrunID = string.IsNullOrWhiteSpace(form["Goz5UrunID"]) ? 0 : int.Parse(form["Goz5UrunID"]);
                         akaryakitTasima.Goz6UrunID = string.IsNullOrWhiteSpace(form["Goz6UrunID"]) ? 0 : int.Parse(form["Goz6UrunID"]);
-
                         akaryakitTasima.Durum = true;
                         akaryakitTasima.FirmaID = 1;//değişçek
                         akaryakitTasima.OlusturmaTarihi = DateTime.Now;
@@ -113,13 +113,84 @@ namespace logikeyv2.Controllers
                         akaryakitTasima.OlusturanId = 1;//değişcek
                         akaryakitTasima.DuzenleyenID = 1;//değişcek
                         akaryakitTasimaManager.TAdd(akaryakitTasima);
-
-                       
-
-
+                        int kayitSayisi = int.Parse(form["KayitSayisi"]);
+                        for (var i = 1; i <= kayitSayisi; i++)
+                        {
+                            AkaryakitTasimaDetay akaryakitTasimaDetay = new AkaryakitTasimaDetay();
+                            akaryakitTasimaDetay.AkaryakitTasimaID = akaryakitTasima.ID;
+                            akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                            akaryakitTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                            akaryakitTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                            akaryakitTasimaDetay.Durum = true;
+                            akaryakitTasimaDetay.FirmaID = 1;//değişçek
+                            akaryakitTasimaDetay.OlusturmaTarihi = DateTime.Now;
+                            akaryakitTasimaDetay.DuzenlemeTarihi = DateTime.Now;
+                            akaryakitTasimaDetay.OlusturanId = 1;//değişcek
+                            akaryakitTasimaDetay.DuzenleyenID = 1;//değişcek
+                            akaryakitTasimaDetayManager.TAdd(akaryakitTasimaDetay);
+                            AkaryakitFatura akaryakitFatura = new AkaryakitFatura();
+                            akaryakitFatura.FaturaNo = akaryakitTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
+                            akaryakitFatura.AkaryakitTasimaID = akaryakitTasima.ID;
+                            akaryakitFatura.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
+                            akaryakitFatura.Durum = true;
+                            akaryakitFatura.FirmaID = 1;//değişçek
+                            akaryakitFatura.OlusturmaTarihi = DateTime.Now;
+                            akaryakitFatura.DuzenlemeTarihi = DateTime.Now;
+                            akaryakitFatura.OlusturanId = 1;//değişcek
+                            akaryakitFatura.DuzenleyenID = 1;//değişcek
+                            string detayUrunId = "";
+                            string faturaKesenId = "";
+                            string faturaKesilenId = "";
+                            for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
+                            {
+                                AkaryakitTasimaDetayUrun akaryakitTasimaDetayUrun = new AkaryakitTasimaDetayUrun();
+                                akaryakitTasimaDetayUrun.AkaryakitTasimaID = akaryakitTasima.ID;
+                                akaryakitTasimaDetayUrun.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
+                                akaryakitTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+                                akaryakitTasimaDetayUrun.Durum = true;
+                                akaryakitTasimaDetayUrun.FirmaID = 1;  // Değişecek
+                                akaryakitTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
+                                akaryakitTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
+                                akaryakitTasimaDetayUrun.OlusturanId = 1;  // Değişecek
+                                akaryakitTasimaDetayUrun.DuzenleyenID = 1;  // Değişecek
+                                akaryakitTasimaDetayUrunManager.TAdd(akaryakitTasimaDetayUrun);
+                                detayUrunId += akaryakitTasimaDetayUrun.ID + ";";
+                                if (akaryakitTasimaDetayUrun.OdemeYapanCariGrup == 1)
+                                {
+                                    faturaKesenId += akaryakitTasimaDetay.GondericiID + ";";
+                                    faturaKesilenId += akaryakitTasimaDetay.AliciID + ";";
+                                }
+                                else if (akaryakitTasimaDetayUrun.OdemeYapanCariGrup == 2)
+                                {
+                                    faturaKesenId += akaryakitTasimaDetay.AliciID + ";";
+                                    faturaKesilenId += akaryakitTasimaDetay.GondericiID + ";";
+                                }
+                            }
+                            detayUrunId = detayUrunId.Trim(';');
+                            faturaKesenId = faturaKesenId.Trim(';');
+                            faturaKesilenId = faturaKesilenId.Trim(';');
+                            akaryakitFatura.AkaryakitTasimaDetayUrunID = detayUrunId;
+                            akaryakitFatura.FaturaKesenID = faturaKesenId;
+                            akaryakitFatura.FaturaKesilenID = faturaKesilenId;
+                            akaryakitFaturaManager.TAdd(akaryakitFatura);
+                        }
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
-
                     }
                     catch (Exception e)
                     {
@@ -212,6 +283,111 @@ namespace logikeyv2.Controllers
 
                         akaryakitTasimaManager.TUpdate(akaryakitTasima);
 
+
+                        int kayitSayisi = int.Parse(form["KayitSayisi"]);
+
+                        for (var i = 1; i <= kayitSayisi; i++)
+                        {
+                            AkaryakitTasimaDetay akaryakitTasimaDetay;
+                            try
+                            {
+                                int detayID = int.Parse(form["detayID" + i + "[]"]);
+
+                                akaryakitTasimaDetay = akaryakitTasimaDetayManager.GetByID(detayID);
+
+                                akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+
+                                akaryakitTasimaDetay.DuzenlemeTarihi = DateTime.Now;
+                                akaryakitTasimaDetay.DuzenleyenID = 1;//değişcek
+                                akaryakitTasimaDetayManager.TUpdate(akaryakitTasimaDetay);
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                akaryakitTasimaDetay = new AkaryakitTasimaDetay();
+
+                                akaryakitTasimaDetay.AkaryakitTasimaID = akaryakitTasima.ID;
+                                akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                akaryakitTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                                akaryakitTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                                akaryakitTasimaDetay.Durum = true;
+                                akaryakitTasimaDetay.FirmaID = 1;//değişçek
+                                akaryakitTasimaDetay.OlusturmaTarihi = DateTime.Now;
+                                akaryakitTasimaDetay.DuzenlemeTarihi = DateTime.Now;
+                                akaryakitTasimaDetay.OlusturanId = 1;//değişcek
+                                akaryakitTasimaDetay.DuzenleyenID = 1;//değişcek
+                                akaryakitTasimaDetayManager.TAdd(akaryakitTasimaDetay);
+                            }
+
+
+                            for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
+                            {
+                                    var detayUrunID = (form["detayUrunID" + i + "[]"]);
+                                if(detayUrunID.Count()!=0)
+                                { 
+                                    AkaryakitTasimaDetayUrun akaryakitTasimaDetayUrun = akaryakitTasimaDetayUrunManager.GetByID(int.Parse(detayUrunID[j]));
+                                    akaryakitTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+
+                                    akaryakitTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
+                                    akaryakitTasimaDetayUrun.DuzenleyenID = 1;  // Değişecek
+
+                                    akaryakitTasimaDetayUrunManager.TUpdate(akaryakitTasimaDetayUrun);
+                                }
+                                else
+                                {
+                                    AkaryakitTasimaDetayUrun akaryakitTasimaDetayUrun = new AkaryakitTasimaDetayUrun();
+                                    akaryakitTasimaDetayUrun.AkaryakitTasimaID = akaryakitTasima.ID;
+                                    akaryakitTasimaDetayUrun.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
+
+                                    akaryakitTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
+                                    akaryakitTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+
+                                    akaryakitTasimaDetayUrun.Durum = true;
+                                    akaryakitTasimaDetayUrun.FirmaID = 1;  // Değişecek
+                                    akaryakitTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
+                                    akaryakitTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
+                                    akaryakitTasimaDetayUrun.OlusturanId = 1;  // Değişecek
+                                    akaryakitTasimaDetayUrun.DuzenleyenID = 1;  // Değişecek
+
+                                    akaryakitTasimaDetayUrunManager.TAdd(akaryakitTasimaDetayUrun);
+                                }
+                            }
+                        }
+
+
+
+
+
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
 
@@ -287,154 +463,6 @@ namespace logikeyv2.Controllers
 
             return View();
 
-            /*
-
-
-
-
-
-
-
-
-
-
-            AkaryakitFaturaViewModel viewModel = new AkaryakitFaturaViewModel
-            {
-                Tasima = tasima,
-                FaturaList = faturaList,
-                DetayList = new List<AkaryakitTasimaDetay>(),
-                UrunList = new List<AkaryakitTasimaDetayUrun>(),
-                FaturaKesenList = new List<Cari>(),
-                FaturaKesilenList = new List<Cari>()
-            };
-
-            foreach (var fatura in faturaList)
-            {
-                AkaryakitTasimaDetay detay = akaryakitTasimaDetayManager.GetAllList(x => x.ID == fatura.AkaryakitTasimaDetayID).SingleOrDefault();
-                viewModel.DetayList.Add(detay);
-
-                var urunListe = fatura.AkaryakitTasimaDetayUrunID.Split(';');
-                foreach (var urunBilgi in urunListe)
-                {
-                    AkaryakitTasimaDetayUrun urun = akaryakitTasimaDetayUrunManager.GetAllList(x => x.ID == int.Parse(urunBilgi)).SingleOrDefault();
-                    viewModel.UrunList.Add(urun);
-                }
-
-                var faturaKesenListe = fatura.FaturaKesenID.Split(';');
-                foreach (var faturaKesenBilgi in faturaKesenListe)
-                {
-                    Cari faturaKesen = cariManager.GetAllList(x => x.Cari_ID == int.Parse(faturaKesenBilgi)).SingleOrDefault();
-                    viewModel.FaturaKesenList.Add(faturaKesen);
-                }
-
-                var faturaKesilenListe = fatura.FaturaKesilenID.Split(';');
-                foreach (var faturaKesilenBilgi in faturaKesilenListe)
-                {
-                    Cari faturaKesilen = cariManager.GetAllList(x => x.Cari_ID == int.Parse(faturaKesilenBilgi)).SingleOrDefault();
-                    viewModel.FaturaKesilenList.Add(faturaKesilen);
-                }
-            }
-
-            return View(viewModel);
-
-
-
-@foreach (var fatura in Model.FaturaList)
-{
-
-    <div class="d-flex justify-content-between align-items-end mb-4">
-        <h2 class="mb-0">@sayac .Fatura</h2>
-    </div>
-    <div class="bg-body dark__bg-gray-1100 p-4 mb-4 rounded-2">
-        <div class="row g-4">
-            <div class="col-12 col-lg-3">
-                <div class="row g-4 g-lg-2">
-                    <div class="col-12 col-sm-6 col-lg-12">
-                        <div class="row align-items-center g-0">
-                            <div class="col-auto col-lg-6 col-xl-5">
-                                <h6 class="mb-0 me-3">Fatura No :</h6>
-                            </div>
-                            <div class="col-auto col-lg-6 col-xl-7">
-                                <p class="fs-9 text-body-secondary fw-semibold mb-0">@fatura.FaturaNo</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-12">
-                        <div class="row align-items-center g-0">
-                            <div class="col-auto col-lg-6 col-xl-5">
-                                <h6 class="me-3">Fatura Tarihi :</h6>
-                            </div>
-                            <div class="col-auto col-lg-6 col-xl-7">
-                                <p class="fs-9 text-body-secondary fw-semibold mb-0">@fatura.DuzenlemeTarihi</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="px-0">
-        <div class="table-responsive scrollbar">
-            <table class="table fs-9 text-body mb-0">
-                <thead class="bg-body-secondary">
-                    <tr>
-                        <th scope="col" style="min-width: 60px;">Gönderici</th>
-                        <th scope="col" style="min-width: 60px;">Alıcı</th>
-                        <th scope="col" style="min-width: 60px;">Fatura Kesen</th>
-                        <th scope="col" style="min-width: 60px;">Fatura Kesilen</th>
-                        <th scope="col" style="min-width: 60px;">Ürün Adı</th>
-                        <th scope="col" style="min-width: 60px;">Yüükleme Miktarı</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var detayFatura = Model.DetayList.SingleOrDefault(d => d.ID == fatura.AkaryakitTasimaDetayID);
-                        var urunFatura = Model.UrunList
-                        .Where(u =>
-                        fatura.AkaryakitTasimaDetayUrunID.Split(';').Select(int.Parse).Contains(u.ID)
-                        )
-                        .ToList();
-                        var faturaKesen = Model.FaturaKesenList
-                        .Where(u => fatura.FaturaKesenID.Split(';').Contains(u.Cari_Unvan));
-
-                        <tr>
-                            <td colspan="6">
-                                @detayFatura
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">
-                                @urunFatura
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">
-                                @faturaKesen
-                            </td>
-                        </tr>
-
-                        foreach (var detay in Model.DetayList)
-                        {
-                            <tr>
-                                <td>@detay.GondericiID</td>
-                                <td>@detay.AliciID</td>
-                                <td>@Model.FaturaKesenList[0].Cari_Unvan</td>
-                                <td>@Model.FaturaKesilenList[0].Cari_Unvan</td>
-                                <td>@Model.UrunList[0].UrunID</td>
-                                <td>@Model.UrunList[0].YuklemeMiktari</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-}
-
-
-             */
 
         }
     }
