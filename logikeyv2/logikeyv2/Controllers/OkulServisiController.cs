@@ -26,6 +26,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Protobuf;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.SignalR;
 
 namespace logikeyv2.Controllers
 {
@@ -39,10 +40,10 @@ namespace logikeyv2.Controllers
         ModelManager modelManager = new ModelManager(new EFModelRepository());
         AracResimlerManager aracResimlerManager = new AracResimlerManager(new EFAracResimRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
-
+        GrupManager grupManager = new GrupManager(new EFGrupRepository());
         public IActionResult Index()
         {
-            List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true && x.GrupID==3)
+            List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true)
                 .GroupJoin(aracTurManager.GetAllList(x => x.Durum == true),
                     arac => arac.AracTurID,
                     tur => tur.ID,
@@ -107,11 +108,14 @@ namespace logikeyv2.Controllers
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
+            List<Sahiplik> sahiplikList = sahiplikManager.GetAllList(x => x.Durum==true &&  x.FirmaID==1 && x.Adi=="Özmal" || x.Adi == "Taşeron" || x.Adi == "Kiralama");
+
+            ViewBag.sahiplikList = sahiplikList;
             return View();
         }
         [HttpPost]
         public IActionResult Ekle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
-           , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler)
+           , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler,string Grup,string aractur,string aractipi,string Marka, string Model)
         {
 
             using (var context = new Context())
@@ -153,10 +157,67 @@ namespace logikeyv2.Controllers
                         {
                             arac.K2YetkiBelge = DosyaYukle(k2);
                         }
+                       
+                        Grup aracgrup_item = new Grup();
+                        aracgrup_item.Adi = Grup;
+                        aracgrup_item.Durum = true;
+                        aracgrup_item.OlusturanId = 1;
+                        aracgrup_item.DuzenleyenID = 1;
+                        aracgrup_item.OlusturmaTarihi = DateTime.UtcNow;
+                        aracgrup_item.DuzenlemeTarihi = DateTime.UtcNow;
+                        aracgrup_item.FirmaID = 1;
+                        grupManager.TAdd(aracgrup_item);
+                        Grup kullaniciGrup = grupManager.GetAllList(x => x.Adi == aracgrup_item.Adi && x.OlusturmaTarihi == aracgrup_item.OlusturmaTarihi).FirstOrDefault();
+                       
+                        Marka aracMarka_Item = new Marka();
+                        aracMarka_Item.Adi = Marka;
+                        aracMarka_Item.Durum = true;
+                        aracMarka_Item.OlusturanId = 1;
+                        aracMarka_Item.DuzenleyenID = 1;
+                        aracMarka_Item.OlusturmaTarihi = DateTime.UtcNow;
+                        aracMarka_Item.DuzenlemeTarihi = DateTime.UtcNow;
+                        aracMarka_Item.FirmaID = 1;
+                        markaManager.TAdd(aracMarka_Item);
+                        Marka aracMarka = markaManager.GetAllList(x => x.Adi == aracMarka_Item.Adi && x.OlusturmaTarihi == aracMarka_Item.OlusturmaTarihi).FirstOrDefault();
+                       
+                        Model aracModel_Item = new Model();
+                        aracModel_Item.Adi = Model;
+                        aracModel_Item.Durum = true;
+                        aracModel_Item.OlusturanId = 1;
+                        aracModel_Item.DuzenleyenID = 1;
+                        aracModel_Item.OlusturmaTarihi = DateTime.UtcNow;
+                        aracModel_Item.DuzenlemeTarihi = DateTime.UtcNow;
+                        aracModel_Item.FirmaID = 1;
+                        modelManager.TAdd(aracModel_Item);
+                        Model aracModel = modelManager.GetAllList(x => x.Adi == aracModel_Item.Adi && x.OlusturmaTarihi == aracModel_Item.OlusturmaTarihi).FirstOrDefault();
 
+                        AracTip aracTipi_Item = new AracTip();
+                        aracTipi_Item.Adi = aractipi;
+                        aracTipi_Item.Durum = true;
+                        aracTipi_Item.OlusturanId = 1;
+                        aracTipi_Item.DuzenleyenID = 1;
+                        aracTipi_Item.OlusturmaTarihi = DateTime.UtcNow;
+                        aracTipi_Item.DuzenlemeTarihi = DateTime.UtcNow;
+                        aracTipi_Item.FirmaID = 1;
+                        aracTipManager.TAdd(aracTipi_Item);
+                        AracTip aracTipi = aracTipManager.GetAllList(x => x.Adi == aracTipi_Item.Adi && x.OlusturmaTarihi == aracTipi_Item.OlusturmaTarihi).FirstOrDefault();
 
+                        AracTur aracTuru_Item = new AracTur();
+                        aracTuru_Item.Adi = aractur;
+                        aracTuru_Item.Durum = true;
+                        aracTuru_Item.OlusturanId = 1;
+                        aracTuru_Item.DuzenleyenID = 1;
+                        aracTuru_Item.OlusturmaTarihi = DateTime.UtcNow;
+                        aracTuru_Item.DuzenlemeTarihi = DateTime.UtcNow;
+                        aracTuru_Item.FirmaID = 1;
+                        aracTurManager.TAdd(aracTuru_Item);
+                        AracTur aracTuru = aracTurManager.GetAllList(x => x.Adi == aracTuru_Item.Adi && x.OlusturmaTarihi == aracTuru_Item.OlusturmaTarihi).FirstOrDefault();
 
-
+                        arac.AracTurID = aracTuru.ID;
+                        arac.AracTipID = aracTipi.ID;
+                        arac.ModelID = aracModel.ID;
+                        arac.MarkaID = aracMarka.ID;
+                        arac.GrupID = kullaniciGrup.ID;
                         arac.Durum = true;
                         arac.FirmaID = 1;//değişçek
                         arac.OlusturmaTarihi = DateTime.Now;

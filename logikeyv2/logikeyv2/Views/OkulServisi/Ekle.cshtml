@@ -1,7 +1,7 @@
 ﻿@model EntityLayer.Concrate.Arac
 
 @{
-    ViewData["Title"] = "Okul Servisi Ekle";
+    ViewData["Title"] = "Araç Ekle";
 }
 
 <div class="modal fade" id="uyariModal" tabindex="-1" aria-hidden="true">
@@ -24,7 +24,7 @@
 <div class="row mb-3">
     <div class="col-3">
 
-        <input type="button" class="btn btn-success w-100" value="Okul Servisi Ekle" />
+        <input type="button" class="btn btn-success w-100" value="Araç Ekle" />
     </div>
     <div class="col-5 text-center">
         Araç Kayıt Tarihi: @DateTime.Now
@@ -86,34 +86,40 @@
                     <td><input type="text" class="form-control" asp-for="Plaka" /></td>
                     <td>Sahiplik</td>
                     <td>
-                        <select class="form-control" asp-for="SahiplikID" id="SahiplikID">
+                        <select class="form-control" asp-for="SahiplikID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Özmal</option>
-                            <option value="4">Taşeron</option>
-                            <option value="5">Kiralık</option>
+                            @foreach (var item in ViewBag.sahiplikList)
+                            {
+                                <option value="@item.ID">@item.Adi</option>
+                            }
+                           
                         </select>
 
                     </td>
                      <td>Grup</td>
                     <td>
-                        <select class="form-control" asp-for="GrupID" id="GrupID">
+                       @*  <select class="form-control" asp-for="GrupID" id="GrupID">
                             <option value="0">Seçiniz</option>
 
-                        </select>
+                        </select> *@
+                        <input type="text" class="form-control" name="Grup" />
+
                     </td> 
                 </tr>
                 <tr>
                     <td>Araç Türü</td>
                     <td>
-                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value)">
+                       @*  <select class="form-control" asp-for="AracTurID" >
                             <option value="0">Seçiniz</option>
-                        </select>
+                        </select> *@
+                        <input type="text" class="form-control" name="aractur"/>
                     </td>
                     <td>Araç Tipi</td>
                     <td>
-                        <select class="form-control" asp-for="AkuTipID" id="AracTipID">
+                       @*  <select class="form-control" asp-for="AkuTipID" id="AracTipID">
                             <option value="0">Seçiniz</option>
-                        </select>
+                        </select> *@
+                        <input type="text" class="form-control" name="aractipi" />
                     </td>
                     <td>Bakım Periyodu (KM)</td>
                     <td><input type="text" class="form-control" asp-for="BakimPeriyodu" /></td>
@@ -136,31 +142,36 @@
                 </tr>
                 <tr>
                     <td>Marka</td>
-                    <td>
-                        <select class="form-control" asp-for="MarkaID" id="MarkaID" onchange="ModelListele(this.value)">
+                 
+                      @*   <select class="form-control" asp-for="MarkaID" id="MarkaID" onchange="ModelListele(this.value)">
                             <option value="0">Seçiniz</option>
-                        </select>
+                        </select> *@
+                    <td><input type="text" class="form-control" name="Marka" /></td>
 
-                    </td>
+
                     <td>Model</td>
-                    <td>
-                        <select class="form-control" asp-for="ModelID" id="ModelID">
+                    
+                       @*  <select class="form-control" asp-for="ModelID" id="ModelID">
                             <option value="0">Seçiniz</option>
-                        </select>
+                        </select> *@
+                    <td><input type="text" class="form-control" name="Model" /></td>
 
-                    </td>
                     <td>Yıl</td>
                     <td><input type="number" class="form-control" asp-for="Yil" minlength="4" maxlength="4" /></td>
                 </tr>
                 <tr>
                     <td>Şirketi</td>
-                    <td colspan="5">
+                    <td>
                         <select class="form-control" asp-for="SirketID" id="SirketID">
                             <!--  todo:sahipliğe göre cari listelenecek -->
                             <option value="0">Seçiniz</option>
                         </select>
 
                     </td>
+                    <td>Toplam Yolcu Taşıma Kapasitesi</td>
+                  
+                    <td><input type="number" class="form-control" asp-for="KisiKapasite"  /></td>
+
                 </tr>
                 <tr style="display:none;">
                     <!-- Kiralama Şirket -->

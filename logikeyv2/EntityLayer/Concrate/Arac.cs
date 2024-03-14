@@ -121,7 +121,7 @@ namespace EntityLayer.Concrate
         public string? K1YetkiBelge { get; set; }
         public string? K2YetkiBelge { get; set; }
 
-
+        public int? KisiKapasite { get; set; }
 
 
 
