@@ -105,9 +105,10 @@
                 <tr>
                     <td>Araç Türü</td>
                     <td>
-                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value)">
+                       @*  <select class="form-control" asp-for="AracTurID" >
                             <option value="0">Seçiniz</option>
-                        </select>
+                        </select> *@
+                        <input type="text" class="form-control" name="aractur"/>
                     </td>
                     <td>Araç Tipi</td>
                     <td>

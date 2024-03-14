@@ -111,7 +111,7 @@ namespace logikeyv2.Controllers
         }
         [HttpPost]
         public IActionResult Ekle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
-           , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler)
+           , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler,string aractur)
         {
 
             using (var context = new Context())
