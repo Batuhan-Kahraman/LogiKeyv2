@@ -258,6 +258,8 @@ namespace logikeyv2.Controllers
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
+
+
                     try
                     {
                         AkaryakitTasima akaryakitTasima = akaryakitTasimaManager.GetByID(kayit.ID);
@@ -289,6 +291,7 @@ namespace logikeyv2.Controllers
                         for (var i = 1; i <= kayitSayisi; i++)
                         {
                             AkaryakitTasimaDetay akaryakitTasimaDetay;
+                            AkaryakitFatura akaryakitFatura;
                             try
                             {
                                 int detayID = int.Parse(form["detayID" + i + "[]"]);
@@ -311,11 +314,20 @@ namespace logikeyv2.Controllers
                                 akaryakitTasimaDetay.DuzenlemeTarihi = DateTime.Now;
                                 akaryakitTasimaDetay.DuzenleyenID = 1;//değişcek
                                 akaryakitTasimaDetayManager.TUpdate(akaryakitTasimaDetay);
+                                akaryakitFatura = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == kayit.ID && x.AkaryakitTasimaDetayID == detayID).SingleOrDefault();
+                                akaryakitFatura.FaturaNo = akaryakitTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
+                                akaryakitFatura.AkaryakitTasimaID = akaryakitTasima.ID;
+                                akaryakitFatura.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
+                                akaryakitFatura.Durum = true;
+                                akaryakitFatura.FirmaID = 1;//değişçek
+                                akaryakitFatura.OlusturmaTarihi = DateTime.Now;
+                                akaryakitFatura.DuzenlemeTarihi = DateTime.Now;
+                                akaryakitFatura.OlusturanId = 1;//değişcek
+                                akaryakitFatura.DuzenleyenID = 1;//değişcek
                             }
                             catch (ArgumentNullException)
                             {
                                 akaryakitTasimaDetay = new AkaryakitTasimaDetay();
-
                                 akaryakitTasimaDetay.AkaryakitTasimaID = akaryakitTasima.ID;
                                 akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
                                 akaryakitTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
@@ -336,15 +348,27 @@ namespace logikeyv2.Controllers
                                 akaryakitTasimaDetay.OlusturanId = 1;//değişcek
                                 akaryakitTasimaDetay.DuzenleyenID = 1;//değişcek
                                 akaryakitTasimaDetayManager.TAdd(akaryakitTasimaDetay);
+                                akaryakitFatura = new AkaryakitFatura();
+                                akaryakitFatura.FaturaNo = akaryakitTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
+                                akaryakitFatura.AkaryakitTasimaID = akaryakitTasima.ID;
+                                akaryakitFatura.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
+                                akaryakitFatura.Durum = true;
+                                akaryakitFatura.FirmaID = 1;//değişçek
+                                akaryakitFatura.OlusturmaTarihi = DateTime.Now;
+                                akaryakitFatura.DuzenlemeTarihi = DateTime.Now;
+                                akaryakitFatura.OlusturanId = 1;//değişcek
+                                akaryakitFatura.DuzenleyenID = 1;//değişcek
                             }
 
 
+                            string faturaKesenId = "", faturaKesilenId = "";
                             for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
                             {
-                                    var detayUrunID = (form["detayUrunID" + i + "[]"]);
-                                if(detayUrunID.Count()!=0)
-                                { 
-                                    AkaryakitTasimaDetayUrun akaryakitTasimaDetayUrun = akaryakitTasimaDetayUrunManager.GetByID(int.Parse(detayUrunID[j]));
+                                var detayUrunID = (form["detayUrunID" + i + "[]"]);
+                                AkaryakitTasimaDetayUrun akaryakitTasimaDetayUrun;
+                                try
+                                {
+                                    akaryakitTasimaDetayUrun = akaryakitTasimaDetayUrunManager.GetByID(int.Parse(detayUrunID[j]));
                                     akaryakitTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
                                     akaryakitTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
                                     akaryakitTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
@@ -358,9 +382,9 @@ namespace logikeyv2.Controllers
 
                                     akaryakitTasimaDetayUrunManager.TUpdate(akaryakitTasimaDetayUrun);
                                 }
-                                else
+                                catch
                                 {
-                                    AkaryakitTasimaDetayUrun akaryakitTasimaDetayUrun = new AkaryakitTasimaDetayUrun();
+                                    akaryakitTasimaDetayUrun = new AkaryakitTasimaDetayUrun();
                                     akaryakitTasimaDetayUrun.AkaryakitTasimaID = akaryakitTasima.ID;
                                     akaryakitTasimaDetayUrun.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
 
@@ -379,12 +403,34 @@ namespace logikeyv2.Controllers
                                     akaryakitTasimaDetayUrun.OlusturanId = 1;  // Değişecek
                                     akaryakitTasimaDetayUrun.DuzenleyenID = 1;  // Değişecek
 
+
                                     akaryakitTasimaDetayUrunManager.TAdd(akaryakitTasimaDetayUrun);
+                                    akaryakitFatura.AkaryakitTasimaDetayUrunID += ";" + akaryakitTasimaDetayUrun.ID + ";";
+                                }
+
+                                if (akaryakitTasimaDetayUrun.OdemeYapanCariGrup == 1)
+                                {
+                                    faturaKesenId += akaryakitTasimaDetay.GondericiID + ";";
+                                    faturaKesilenId += akaryakitTasimaDetay.AliciID + ";";
+                                }
+                                else if (akaryakitTasimaDetayUrun.OdemeYapanCariGrup == 2)
+                                {
+                                    faturaKesenId += akaryakitTasimaDetay.AliciID + ";";
+                                    faturaKesilenId += akaryakitTasimaDetay.GondericiID + ";";
                                 }
                             }
+
+
+                            akaryakitFatura.AkaryakitTasimaDetayUrunID = akaryakitFatura.AkaryakitTasimaDetayUrunID.Trim(';');
+                            faturaKesenId = faturaKesenId.Trim(';');
+                            faturaKesilenId = faturaKesilenId.Trim(';');
+                            akaryakitFatura.FaturaKesenID = faturaKesenId;
+                            akaryakitFatura.FaturaKesilenID = faturaKesilenId;
+                            if (akaryakitFatura.ID != 0)
+                                akaryakitFaturaManager.TUpdate(akaryakitFatura);
+                            else
+                                akaryakitFaturaManager.TAdd(akaryakitFatura);
                         }
-
-
 
 
 
