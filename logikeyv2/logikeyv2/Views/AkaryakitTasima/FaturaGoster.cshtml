@@ -25,7 +25,34 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="col-12 col-lg-3">
+                    <div class="row g-4 g-lg-2">
+                        <div class="col-12 col-sm-6 col-lg-12">
+                            <div class="row align-items-center g-0">
+                                <div class="col-auto col-lg-6 col-xl-5">
+                                    <h6 class="me-3">Araç Plakası:</h6>
+                                </div>
+                                <div class="col-auto col-lg-6 col-xl-7">
+                                    <p class="fs-9 text-body-secondary fw-semibold mb-0">@Helper.AracPlaka(ViewBag.tasima.AracID)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="row g-4 g-lg-2">
+                        <div class="col-12 col-sm-6 col-lg-12">
+                            <div class="row align-items-center g-0">
+                                <div class="col-auto col-lg-6 col-xl-5">
+                                    <h6 class="me-3">Taşıma Tipi:</h6>
+                                </div>
+                                <div class="col-auto col-lg-6 col-xl-7">
+                                    <p class="fs-9 text-body-secondary fw-semibold mb-0">@Helper.TasimaTipi(ViewBag.tasima.TasimaTipiID)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         IEnumerable  <AkaryakitTasimaDetay>
@@ -46,14 +73,17 @@
                                 <th scope="col" style="min-width: 60px;">Fatura Kesilen</th>
                                 <th scope="col" style="min-width: 60px;">Ürün Adı</th>
                                 <th scope="col" style="min-width: 60px;">Yükleme Miktarı</th>
+                                <th scope="col">Ücretlendirme</th>
+                                <th scope="col">Fiyat</th>
+                                <th scope="col">Nakliye KDV Hariç</th>
+                                <th scope="col">Nakliye KDV </th>
+                                <th scope="col">Nakliye KDV Dahil</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             @{
-                                IEnumerable
-                                                <AkaryakitTasimaDetayUrun>
-                                                urunList = ViewBag.TasimaDetayUrun;
+                                IEnumerable <AkaryakitTasimaDetayUrun> urunList = ViewBag.TasimaDetayUrun;
 
                                 var filteredUrunList = urunList.Where(x => x.AkaryakitTasimaDetayID == detay.ID).ToList();
                                 var faturaKesen = fatura.FaturaKesenID.Split(';');
@@ -81,6 +111,22 @@
                                         <td>
                                             @detayUrun.YuklemeMiktari
                                         </td>
+                                            @{
+                                                if(detayUrun.Ucretlendirme==1)
+                                                {
+
+                                                <td>Birim
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>Sefer</td>
+                                            }
+                                        }
+                                        <td>@detayUrun.BirimSeferFiyati</td>
+                                        <td>@detay.NakliyeTutarKDVHaric</td>
+                                        <td>@detay.NakliyeKDV</td>
+                                        <td>@detay.NakliyeToplam</td>
                                     </tr>
                                     i++;
                                 }
