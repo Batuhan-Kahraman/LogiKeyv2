@@ -63,7 +63,9 @@
 
                         </select>
                     </td>
-                   
+                    <td>Öğrenci Eposta</td>
+                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaEposta" /></td>
+
 
 
                 </tr>
@@ -121,14 +123,7 @@
                     <td colspan="5"> <input type="text" class="form-control" asp-for="Ogrenci.Cari_Adres" /></td>
 
                 </tr>
-                <tr>
-
-
-                    <td>Öğrenci Eposta</td>
-                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaEposta" /></td>
-
-                  
-                </tr>
+            
 
                 <tr>
                     <td>1. Veli Adı</td>
@@ -165,12 +160,73 @@
 
                 </tr>
                   <tr>
-                    <td>Bu bilgileri fatura için kullan</td>
+                    <td>Bu bilgileri fatura için kullanma</td>
                     <td> <input type="checkbox" asp-for="Ogrenci.FaturaDurum" /></td>
                     
                 </tr>
-            
+                <tr id="hiddenFields">
 
+                    <td>Adı</td>
+                    <td><input type="text" class="form-control" name="Adi" /></td>
+                    <td>Soyadı</td>
+                    <td><input type="text" class="form-control" name="Soyadi" /></td>
+
+
+                </tr>
+
+                <tr id="hiddenFields">
+                    <td>Telefon No</td>
+                    <td> <input type="text" class="form-control" name="Telefon" /></td>
+                    <td>TC Kimlik No</td>
+                    <td> <input type="text" class="form-control" name="TC" /></td>
+
+
+
+                </tr>
+                <tr id="hiddenFields">
+
+                    <td>İl</td>
+                    <td>
+                        <select class="form-control" name="il" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
+                            <option value="0">Seçiniz</option>
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                <option value="@item.IL_KODU">@item.Il</option>
+                            }
+
+                        </select>
+                    </td>
+                    <td>İlçe</td>
+                    <td>
+                        <select class="form-control" name="ilce" id="Cari_ILCE_ID">
+                            <option value="0">Seçiniz</option>
+
+
+                        </select>
+                    </td>
+                </tr>
+                <tr id="hiddenFields">
+
+                    <td>Adres</td>
+                    <td colspan="5"> <input type="text" class="form-control" name="Adres" /></td>
+
+                </tr>
+                <tr id="hiddenFields">
+
+
+                    <td>Eposta</td>
+                    <td><input type="text" class="form-control" name="Eposta" /></td>
+
+
+                </tr>
+                <tr id="hiddenFields">
+                    <td>Banka Adı </td>
+                    <td> <input type="text" class="form-control" name="BankaAdi" /></td>
+                    <td>Banka IBAN No </td>
+                    <td> <input type="text" class="form-control" name="BankaIBAN" /></td>
+
+                </tr>
             </table>
             <input type="submit" class="btn btn-success w-100" value="Öğrenciyi Kaydet" />
         </form>
@@ -209,3 +265,32 @@
             }
         </script>
     }
+    <style>
+    #hiddenFields{
+        display:none;
+    }
+    </style>
+<script>
+    // Checkbox durumunu dinleyen fonksiyon
+    function toggleHiddenFields() {
+        var checkbox = document.querySelector('input[name="Ogrenci.FaturaDurum"]');
+        var hiddenFields = document.querySelectorAll('#hiddenFields');
+
+        // Checkbox durumuna göre hiddenFields'ı görünür veya görünmez yap
+        if (checkbox.checked) {
+            hiddenFields.forEach(function (field) {
+                field.style.display = 'table-row'; // veya 'block' olarak değiştirebilirsiniz
+            });
+        } else {
+            hiddenFields.forEach(function (field) {
+                field.style.display = 'none';
+            });
+        }
+    }
+
+    // Sayfa yüklendiğinde durumu kontrol et
+    toggleHiddenFields();
+
+    // Checkbox durumu değiştiğinde toggleHiddenFields fonksiyonunu çağır
+    document.querySelector('input[name="Ogrenci.FaturaDurum"]').addEventListener('change', toggleHiddenFields);
+</script>

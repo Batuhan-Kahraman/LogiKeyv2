@@ -1,12 +1,12 @@
 ﻿@model List<logikeyv2.Models.AracViewModel>
 
 @{
-    ViewData["Title"] = "Okul Servisi Ekle";
+    ViewData["Title"] = "Araç Ekle";
 }
 <div class="col-lg-10 col-xxl-11">
 
-    <h2 class="mb-3 lh-sm">Okul Servisleri</h2>
-    <a asp-controller="OkulServisi" asp-action="Ekle">Okul Servisi Ekle</a>
+    <h2 class="mb-3 lh-sm">Araçlar</h2>
+    <a asp-controller="OkulServisi" asp-action="Ekle">Araç Ekle</a>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
