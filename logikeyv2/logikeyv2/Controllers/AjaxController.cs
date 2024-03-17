@@ -132,6 +132,12 @@ namespace logikeyv2.Controllers
             Arac liste = aracManager.GetAllList(x => x.ID == AracID).SingleOrDefault();
             return Json(liste);
         }
+        [HttpGet]
+        public IActionResult DorseListe()
+        {
+            List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 4);
+            return Json(liste);
+        }
 
 
     }
