@@ -19,6 +19,7 @@ namespace logikeyv2.Controllers
         UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
         CariManager cariManager = new CariManager(new EFCariRepository());
         CariUcretlendirmeManager ucretlendirme = new CariUcretlendirmeManager(new EFCariUcretlendirmeRepository());
+        Cari_OdemeYapanManager cari_OdemeYapanManager = new Cari_OdemeYapanManager(new EFCari_OdemeYapanRepository());
         AracTipManager aracTipManager = new AracTipManager(new EFAracTipRepository());
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
         BirimlerManager birimlerManager = new BirimlerManager(new EFBirimlerRepository());
@@ -28,6 +29,7 @@ namespace logikeyv2.Controllers
         AkaryakitTasimaDetayManager akaryakitTasimaDetayManager = new AkaryakitTasimaDetayManager(new EFAkaryakitTasimaDetayRepository());
         AkaryakitTasimaDetayUrunManager akaryakitTasimaDetayUrunManager = new AkaryakitTasimaDetayUrunManager(new EFAkaryakitTasimaDetayUrunRepository());
         AkaryakitFaturaManager akaryakitFaturaManager = new AkaryakitFaturaManager(new EFAkaryakitFaturaRepository());
+        AkaryakitAracTurManager akaryakitAracTurManager = new AkaryakitAracTurManager(new EFAkaryakitAracTurRepository());
 
 
 
@@ -39,9 +41,7 @@ namespace logikeyv2.Controllers
             var combinedQuery = from tasima in akaryakitTasimaManager.GetAllList(x => x.Durum == true)
                                 join arac in aracManager.GetAllList((y => y.Durum == true)) on tasima.AracID equals arac.ID
                                 join surucu1 in surucuManager.GetAllList((y => y.Kullanici_Durum == 1)) on tasima.Kullanici1ID equals surucu1.Kullanici_ID
-                                join tasimaTipi in tasimaTipiManager.GetAllList((y => y.Durum == true)) on tasima.TasimaTipiID equals tasimaTipi.ID
-                                join aracTur in aracTurManager.GetAllList((y => y.Durum == true)) on tasima.AracTurID equals aracTur.ID
-                                select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1, TasimaTip = tasimaTipi, AracTur = aracTur };
+                                select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1 };
 
             List<TasimaModel> combinedList = combinedQuery.ToList();
             return View(combinedList);
@@ -67,7 +67,11 @@ namespace logikeyv2.Controllers
             List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 8);
             List<Cari> GondericiListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 6);
 
-            ViewBag.Araclar = aracListesi;
+
+            List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x=>x.Durum== true);
+
+
+            //ViewBag.Araclar = aracListesi;
             ViewBag.CekiciPlaka = cekiciPlaka;
             ViewBag.DorsePlaka = dorsePlaka;
             ViewBag.DorseListe = dorseListesi;
@@ -81,13 +85,30 @@ namespace logikeyv2.Controllers
             ViewBag.tasimaTipi = tasimaTipi;
             ViewBag.AliciListesi = AliciListesi;
             ViewBag.GondericiListesi = GondericiListesi;
+            ViewBag.CariOdemeYapan = CariOdemeYapan;
+            ViewBag.Ucretlendirme = Ucretlendirme;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
 
+            var combinedQuery = from arac in aracManager.GetAllList((y => y.Durum == true && y.AracTurID == 13 || y.AracTurID == 1)) 
+                                join tur in aracTurManager.GetAllList((y => y.Durum == true)) on arac.AracTurID equals tur.ID
+                                select new
+                                {
+                                    AracPlakasi = arac.Plaka,
+                                    AracID = arac.ID,
+                                    TurID = tur.ID,
+                                    AracTurAdi = tur.Adi
+                                };
 
+            ViewBag.Araclar = combinedQuery.ToList();
+
+
+            List<AkaryakitAracTur> akaryakitAracTur = akaryakitAracTurManager.List();
+
+            ViewBag.AkaryakitAracTur = akaryakitAracTur;
             return View();
         }
 
@@ -100,6 +121,9 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
+                        string[] aracIDForm = form["AracID"].ToString().Split('|');
+                        int aracID = int.Parse(aracIDForm[0]);
+                        akaryakitTasima.AracID=aracID;
                         akaryakitTasima.Goz1UrunID = string.IsNullOrWhiteSpace(form["Goz1UrunID"]) ? 0 : int.Parse(form["Goz1UrunID"]);
                         akaryakitTasima.Goz2UrunID = string.IsNullOrWhiteSpace(form["Goz2UrunID"]) ? 0 : int.Parse(form["Goz2UrunID"]);
                         akaryakitTasima.Goz3UrunID = string.IsNullOrWhiteSpace(form["Goz3UrunID"]) ? 0 : int.Parse(form["Goz3UrunID"]);
@@ -112,6 +136,8 @@ namespace logikeyv2.Controllers
                         akaryakitTasima.DuzenlemeTarihi = DateTime.Now;
                         akaryakitTasima.OlusturanId = 1;//değişcek
                         akaryakitTasima.DuzenleyenID = 1;//değişcek
+
+                        akaryakitTasima.AracTurID = int.Parse(form["AracTurID"]);
                         akaryakitTasimaManager.TAdd(akaryakitTasima);
                         int kayitSayisi = int.Parse(form["KayitSayisi"]);
                         for (var i = 1; i <= kayitSayisi; i++)
@@ -206,6 +232,7 @@ namespace logikeyv2.Controllers
 
         public IActionResult TasimaDuzenle(int ID)
         {
+
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true);
             List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true);
@@ -225,7 +252,11 @@ namespace logikeyv2.Controllers
             List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 8);
             List<Cari> GondericiListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 6);
 
-            ViewBag.Araclar = aracListesi;
+
+            List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true);
+
+
+            //ViewBag.Araclar = aracListesi;
             ViewBag.CekiciPlaka = cekiciPlaka;
             ViewBag.DorsePlaka = dorsePlaka;
             ViewBag.DorseListe = dorseListesi;
@@ -239,13 +270,30 @@ namespace logikeyv2.Controllers
             ViewBag.tasimaTipi = tasimaTipi;
             ViewBag.AliciListesi = AliciListesi;
             ViewBag.GondericiListesi = GondericiListesi;
+            ViewBag.CariOdemeYapan = CariOdemeYapan;
+            ViewBag.Ucretlendirme = Ucretlendirme;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
 
+            var combinedQuery = from arac in aracManager.GetAllList((y => y.Durum == true && y.AracTurID == 13 || y.AracTurID == 1))
+                                join tur in aracTurManager.GetAllList((y => y.Durum == true)) on arac.AracTurID equals tur.ID
+                                select new
+                                {
+                                    AracPlakasi = arac.Plaka,
+                                    AracID = arac.ID,
+                                    TurID = tur.ID,
+                                    AracTurAdi = tur.Adi
+                                };
 
+            ViewBag.Araclar = combinedQuery.ToList();
+
+
+            List<AkaryakitAracTur> akaryakitAracTur = akaryakitAracTurManager.List();
+
+            ViewBag.AkaryakitAracTur = akaryakitAracTur;
             AkaryakitTasima tasima = akaryakitTasimaManager.GetByID(ID);
 
             return View(tasima);
@@ -263,18 +311,29 @@ namespace logikeyv2.Controllers
                     try
                     {
                         AkaryakitTasima akaryakitTasima = akaryakitTasimaManager.GetByID(kayit.ID);
-                        akaryakitTasima.ToplamYuklenenMiktar = kayit.ToplamYuklenenMiktar;
-                        akaryakitTasima.AracTurID = kayit.AracTurID;
+
+
                         akaryakitTasima.Kullanici1ID = kayit.Kullanici1ID;
                         akaryakitTasima.Kullanici2ID = kayit.Kullanici2ID;
                         akaryakitTasima.Kullanici3ID = kayit.Kullanici3ID;
-                        akaryakitTasima.TasimaTipiID = kayit.TasimaTipiID;
-                        akaryakitTasima.AracID = kayit.AracID;
-                        akaryakitTasima.CekiciPlakaID = kayit.CekiciPlakaID;
-                        akaryakitTasima.DorseID = kayit.DorseID;
+
+                        string[] aracIDForm = form["AracID"].ToString().Split('|');
+                        int aracID = int.Parse(aracIDForm[0]);
+                        akaryakitTasima.AracID = aracID;
                         akaryakitTasima.DorsePlakaID = kayit.DorsePlakaID;
                         akaryakitTasima.DuzenlemeTarihi = DateTime.Now;
                         akaryakitTasima.DuzenleyenID = 1;
+
+                        akaryakitTasima.Goz1Kapasite = kayit.Goz1Kapasite;
+                        akaryakitTasima.Goz2Kapasite = kayit.Goz2Kapasite;
+                        akaryakitTasima.Goz3Kapasite = kayit.Goz3Kapasite;
+                        akaryakitTasima.Goz4Kapasite = kayit.Goz4Kapasite;
+                        akaryakitTasima.Goz5Kapasite = kayit.Goz5Kapasite;
+                        akaryakitTasima.Goz6Kapasite = kayit.Goz6Kapasite;
+
+
+                        akaryakitTasima.AracTurID = int.Parse(form["AracTurID"]);
+                        akaryakitTasima.ToplamYuklenenMiktar = kayit.ToplamYuklenenMiktar;
 
                         akaryakitTasima.Goz1UrunID = string.IsNullOrWhiteSpace(form["Goz1UrunID"]) ? 0 : int.Parse(form["Goz1UrunID"]);
                         akaryakitTasima.Goz2UrunID = string.IsNullOrWhiteSpace(form["Goz2UrunID"]) ? 0 : int.Parse(form["Goz2UrunID"]);

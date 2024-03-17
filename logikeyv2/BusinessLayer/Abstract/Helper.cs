@@ -102,5 +102,35 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+        public static bool AkaryakitAracTurKontrol(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AkaryakitAracTur.FirstOrDefault(e => e.TurID == id);
+                if (entity != null)
+                {
+                    return true ;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public static string AkaryakitAracTur(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AracTur.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi ;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
     }
 }

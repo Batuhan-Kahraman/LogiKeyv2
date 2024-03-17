@@ -60,6 +60,7 @@ namespace BusinessLayer.Abstract
     public interface IAkaryakitTasimaDetayService : IGenericService<AkaryakitTasimaDetay> { }
     public interface IAkaryakitTasimaDetayUrunService : IGenericService<AkaryakitTasimaDetayUrun> { }
     public interface IAkaryakitFaturaService : IGenericService<AkaryakitFatura> { }
+    public interface IAkaryakitAracTurService : IGenericService<AkaryakitAracTur> { }
 
 
 }
