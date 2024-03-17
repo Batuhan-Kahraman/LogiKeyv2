@@ -64,6 +64,7 @@ namespace BusinessLayer.Abstract
     public interface IOgrenciGuzergahService : IGenericService<OgrenciGuzergah> { }
     public interface IOkul_GuzergahService : IGenericService<Okul_Guzergah> { }
     public interface IFaturaOkulService : IGenericService<FaturaOkul> { }
+    public interface ICariHareketService : IGenericService<CariHareket> { }
 
 
 }

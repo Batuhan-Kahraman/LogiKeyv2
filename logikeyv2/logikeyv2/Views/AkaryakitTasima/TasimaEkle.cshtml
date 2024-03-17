@@ -563,6 +563,29 @@
                 document.getElementById("tdDorseSec").style.display = "none";
                 GozSayisiBul(aracID);
             }
+
+
+            $.ajax({
+                url: '../Ajax/TasimaKontrol', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { AracID: aracID },
+                dataType: 'json',
+                success: function (data) {
+                    var prop = data;
+                    console.log(prop);
+                    document.getElementById("Kullanici1ID").value = prop.kullanici1ID;
+                    document.getElementById("Kullanici2ID").value = prop.kullanici2ID;
+                    document.getElementById("Kullanici3ID").value = prop.kullanici3ID;
+                    if (prop.dorsePlakaID != 0) {
+                        console.log(prop.dorsePlakaID);
+                        document.getElementById("DorsePlakaID").value = prop.dorsePlakaID;
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+
         }
 
         function GozlereDagit(sira) {
@@ -751,6 +774,8 @@
                     console.log('Hata oluştu:', error);
                 }
             });
+
+
         }
 
         function OdemeYapan(input) {

@@ -29,6 +29,7 @@ namespace logikeyv2.Controllers
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
         TasinacakUrunManager tasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
+        AkaryakitTasimaManager  akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
         #endregion
         [HttpGet]
         public IActionResult SahiplikListe()
@@ -146,6 +147,13 @@ namespace logikeyv2.Controllers
         {
             TasinacakUrun urun=tasinacakUrunManager.GetByID(UrunID);
             UnListesi liste = unListesiManager.GetAllList(x => x.Un_ID == urun.Un_ID).SingleOrDefault();
+            return Json(liste);
+        }
+
+        [HttpGet]
+        public IActionResult TasimaKontrol(int AracID)
+        {
+            AkaryakitTasima liste = akaryakitTasimaManager.GetAllList(x=>x.AracID==AracID && x.Durum==true).LastOrDefault();
             return Json(liste);
         }
 
