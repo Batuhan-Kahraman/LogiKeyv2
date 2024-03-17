@@ -167,18 +167,18 @@
                 <tr id="hiddenFields">
 
                     <td>Adı</td>
-                    <td><input type="text" class="form-control" name="Adi" /></td>
+                    <td><input type="text" class="form-control" name="Fatura_Adi" /></td>
                     <td>Soyadı</td>
-                    <td><input type="text" class="form-control" name="Soyadi" /></td>
+                    <td><input type="text" class="form-control" name="Fatura_Soyadi" /></td>
 
 
                 </tr>
 
                 <tr id="hiddenFields">
                     <td>Telefon No</td>
-                    <td> <input type="text" class="form-control" name="Telefon" /></td>
+                    <td> <input type="text" class="form-control" name="Fatura_Telefon" /></td>
                     <td>TC Kimlik No</td>
-                    <td> <input type="text" class="form-control" name="TC" /></td>
+                    <td> <input type="text" class="form-control" name="Fatura_TC" /></td>
 
 
 
@@ -187,7 +187,7 @@
 
                     <td>İl</td>
                     <td>
-                        <select class="form-control" name="il" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
+                        <select class="form-control" name="Fatura_il" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
                             @foreach (var item in ViewBag.Iller)
                             {
@@ -199,7 +199,7 @@
                     </td>
                     <td>İlçe</td>
                     <td>
-                        <select class="form-control" name="ilce" id="Cari_ILCE_ID">
+                        <select class="form-control" name="Fatura_ilce" id="Cari_ILCE_ID">
                             <option value="0">Seçiniz</option>
 
 
@@ -209,22 +209,22 @@
                 <tr id="hiddenFields">
 
                     <td>Adres</td>
-                    <td colspan="5"> <input type="text" class="form-control" name="Adres" /></td>
+                    <td colspan="5"> <input type="text" class="form-control" name="Fatura_Adres" /></td>
 
                 </tr>
                 <tr id="hiddenFields">
 
 
                     <td>Eposta</td>
-                    <td><input type="text" class="form-control" name="Eposta" /></td>
+                    <td><input type="text" class="form-control" name="Fatura_Eposta" /></td>
 
 
                 </tr>
                 <tr id="hiddenFields">
                     <td>Banka Adı </td>
-                    <td> <input type="text" class="form-control" name="BankaAdi" /></td>
+                    <td> <input type="text" class="form-control" name="Fatura_BankaAdi" /></td>
                     <td>Banka IBAN No </td>
-                    <td> <input type="text" class="form-control" name="BankaIBAN" /></td>
+                    <td> <input type="text" class="form-control" name="Fatura_BankaIBAN" /></td>
 
                 </tr>
             </table>
