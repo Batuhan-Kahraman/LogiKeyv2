@@ -1,4 +1,4 @@
-﻿using EntityLayer.Concrate;
+using EntityLayer.Concrate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +59,7 @@ namespace BusinessLayer.Abstract
     public interface IAkaryakitTasimaDetayService : IGenericService<AkaryakitTasimaDetay> { }
     public interface IAkaryakitTasimaDetayUrunService : IGenericService<AkaryakitTasimaDetayUrun> { }
     public interface IAkaryakitFaturaService : IGenericService<AkaryakitFatura> { }
+    public interface IAkaryakitAracTurService : IGenericService<AkaryakitAracTur> { }
     public interface IGuzergahService : IGenericService<Guzergah> { }
     public interface IOgrenciGuzergahService : IGenericService<OgrenciGuzergah> { }
     public interface IOkul_GuzergahService : IGenericService<Okul_Guzergah> { }
