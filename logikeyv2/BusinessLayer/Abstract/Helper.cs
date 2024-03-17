@@ -132,5 +132,20 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+        public static string UnAdi(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.UnListesi.FirstOrDefault(e => e.Un_ID == id);
+                if (entity != null)
+                {
+                    return entity.Un_Isim ;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
     }
 }
