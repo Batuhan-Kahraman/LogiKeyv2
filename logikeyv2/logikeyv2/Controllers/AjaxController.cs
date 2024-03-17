@@ -20,7 +20,7 @@ namespace logikeyv2.Controllers
         AkuTipiManager akuTipiManager = new AkuTipiManager(new EFAkuTipiRepository());
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
-        SurucuManager surucuManager = new SurucuManager(new EFSurucuRepository());
+        KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
         KazaTuruManager kazaTuruManager = new KazaTuruManager(new EFKazaTuruRepository());
         AracManager aracManager = new AracManager(new EFAracRepository());
         MasrafTipiManager masrafTipiManager = new MasrafTipiManager(new EFMasrafTipiRepository());
@@ -99,7 +99,7 @@ namespace logikeyv2.Controllers
         [HttpGet]
         public IActionResult SurucuListe()
         {
-            List<Surucu> liste = surucuManager.GetAllList(x => x.Durum == true);
+            List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1);
             return Json(liste);
         }
         [HttpGet]

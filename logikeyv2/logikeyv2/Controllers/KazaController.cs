@@ -11,7 +11,7 @@ namespace logikeyv2.Controllers
     {
         KazaManager KazaManager = new KazaManager(new EFKazaRepository());
         AracManager AracManager=new AracManager(new EFAracRepository());
-        SurucuManager SurucuManager=new SurucuManager(new EFSurucuRepository());
+        KullanicilarManager SurucuManager=new KullanicilarManager(new EFKullanicilarRepository());
 
 
         public IActionResult Index()
@@ -26,9 +26,9 @@ namespace logikeyv2.Controllers
                     (result, arac) => new { result.kaza, arac }
                 )
                 .GroupJoin(
-                    SurucuManager.GetAllList(x => x.Durum == true),
+                    SurucuManager.GetAllList(x => x.Kullanici_Durum == 1),
                     result => result.kaza.SurucuID,
-                    surucu => surucu.ID,
+                    surucu => surucu.Kullanici_ID,
                     (result, surucuGroup) => new { result.kaza, result.arac, surucuGroup }
                 )
                 .SelectMany(
@@ -38,7 +38,7 @@ namespace logikeyv2.Controllers
         {
             Kaza = result.kaza,
             Plaka = result.arac != null ? result.arac.Plaka:"",
-            Surucu = surucu != null ? surucu.Isim+" "+surucu.Soyisim : ""
+            Surucu = surucu != null ? surucu.Kullanici_Isim+" "+surucu.Kullanici_Soyisim : ""
         }
     )
     .ToList();

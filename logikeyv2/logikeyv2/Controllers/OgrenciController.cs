@@ -10,7 +10,9 @@ namespace logikeyv2.Controllers
     public class OgrenciController : Controller
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
+        KullanicilarManager kullanicilarManager = new KullanicilarManager(new EFKullanicilarRepository());
         OgrenciModuluManager ogrenciModuluManager = new OgrenciModuluManager(new EFOgrenciModuluRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
 
         public IActionResult Index()
         {
@@ -28,6 +30,13 @@ namespace logikeyv2.Controllers
         {
             List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13));
             ViewBag.Okullar = okullar;
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5));
+           ViewBag.Sofor= servisSoforleri;
             return View();
         }
         [HttpPost]
@@ -77,9 +86,26 @@ namespace logikeyv2.Controllers
 
         public IActionResult OgrenciDuzenle(int ID)
         {
-            OgrenciModulu ogrenci = ogrenciModuluManager.GetByID(ID);
-            ViewBag.Okullar = cariManager.GetAllList(y => y.Durum == 1 && y.Cari_GrupID == 13);
-            return View(ogrenci);
+            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13));
+            ViewBag.Okullar = okullar;
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5));
+            ViewBag.Sofor = servisSoforleri;
+            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1 && x.ID == ID)
+                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
+                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
+                                select new OkulOgrenciModel { OgrenciModulu = ogrencimodulu, Okul = okul, Ogrenci = ogrenci };
+
+            var combinedModel = combinedQuery.FirstOrDefault();
+
+            return View(combinedModel);
+
+
+
         }
         [HttpPost]
         public IActionResult OgrenciDuzenle(Cari cari)
@@ -102,11 +128,10 @@ namespace logikeyv2.Controllers
                         item.Cari_YetkiliAdi = cari.Cari_YetkiliAdi;
                         item.Cari_YetkiliSoyadi = cari.Cari_YetkiliSoyadi;
                         item.Cari_BankaAdi1 = cari.Cari_BankaAdi1;
-                        item.Cari_BankaAdi2 = cari.Cari_BankaAdi2;
-                        item.Cari_BankaAdi3 = cari.Cari_BankaAdi3;
+                   
                         item.Cari_BankaIBAN1 = cari.Cari_BankaIBAN1;
-                        item.Cari_BankaIBAN2 = cari.Cari_BankaIBAN2;
-                        item.Cari_BankaIBAN3 = cari.Cari_BankaIBAN3;
+                        item.FaturaDurum = cari.FaturaDurum;
+
 
 
 

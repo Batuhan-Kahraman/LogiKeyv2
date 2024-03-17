@@ -12,9 +12,9 @@ namespace EntityLayer.Concrate
         [Key]
         public int KullaniciGrup_ID { get; set; }
         public string? KullaniciGrup_Adi { get; set; }
-        public int Firma_ID { get; set; }
+        public int? Firma_ID { get; set; }
         public byte KullaniciGrup_Durum { get; set; }
-        public int EkleyenKullanici_ID { get; set; }
+        public int? EkleyenKullanici_ID { get; set; }
         public DateTime OlusturmaTarihi { get; set; }
         public DateTime DuzenlemeTarihi { get; set; }
 

@@ -11,8 +11,8 @@ namespace EntityLayer.Concrate
     {
         [Key]
         public int Cari_ID { get; set; }
-        public int Cari_GrupID { get; set; }
-        public int Cari_Tipi { get; set; } //1 Bireysel 2 Kurumsal
+        public int? Cari_GrupID { get; set; }
+        public int? Cari_Tipi { get; set; } //1 Bireysel 2 Kurumsal
         public string? Cari_Unvan { get; set; }
         public string? Cari_TCNO_VergiNo { get; set; }
         public string? Cari_VergiDairesi { get; set; }
@@ -23,8 +23,8 @@ namespace EntityLayer.Concrate
         public string? Cari_WebSitesi { get; set; }
         public string? Cari_FirmaEposta { get; set; }
         public string? Cari_FirmaTelefon { get; set; }
-        public int Cari_IL_ID { get; set; }
-        public int Cari_ILCE_ID { get; set; }
+        public int? Cari_IL_ID { get; set; }
+        public int? Cari_ILCE_ID { get; set; }
         public string? Cari_Adres { get; set; }
         public string? Cari_BankaAdi1 { get; set; }
         public string? Cari_BankaIBAN1 { get; set; }
@@ -39,7 +39,8 @@ namespace EntityLayer.Concrate
         public DateTime Duzenleme_Tarihi { get; set; }
 
         public byte Durum { get; set; }
-
+        public bool FaturaDurum { get; set; }
+        
 
     }
 }

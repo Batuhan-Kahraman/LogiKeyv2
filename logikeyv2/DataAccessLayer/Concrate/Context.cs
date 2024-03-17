@@ -52,7 +52,6 @@ namespace DataAccessLayer.Concrate
         public DbSet<EhliyetSinifi> EhliyetSinifi { get; set; }
         public DbSet<SurucuPozisyon> SurucuPozisyon { get; set; }
         public DbSet<SurucuCikisNedeni> SurucuCikisNedeni { get; set; }
-        public DbSet<Surucu> Surucu { get; set; }
         public DbSet<KazaTuru> KazaTuru { get; set; }
         public DbSet<TasinacakUrun> TasinacakUrun { get; set; }
         public DbSet<TasimaTipi> TasimaTipi { get; set; }
@@ -77,9 +76,10 @@ namespace DataAccessLayer.Concrate
         public DbSet<AkaryakitFatura> AkaryakitFatura { get; set; }
         public DbSet<AkaryakitAracTur> AkaryakitAracTur { get; set; }
 
-
-
-
+        public DbSet<Guzergah> Guzergah { get; set; }
+        public DbSet<Okul_Guzergah> Okul_Guzergah { get; set; }
+        public DbSet<OgrenciGuzergah> OgrenciGuzergah { get; set; }
+        public DbSet<FaturaOkul> FaturaOkul { get; set; }
 
     }
 }

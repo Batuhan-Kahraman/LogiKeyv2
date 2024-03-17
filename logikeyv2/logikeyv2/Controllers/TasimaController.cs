@@ -11,7 +11,7 @@ namespace logikeyv2.Controllers
     public class TasimaController : Controller
     {
         AracManager aracManager = new AracManager(new EFAracRepository());
-        SurucuManager surucuManager = new SurucuManager(new EFSurucuRepository());
+        KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
         TasinacakUrunManager tasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
         TasimaManager tasimaManager = new TasimaManager(new EFTasimaRepository());
         UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
@@ -42,7 +42,7 @@ namespace logikeyv2.Controllers
         public IActionResult TasimaEkle()
         {
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true);
-            List<Surucu> surucuListesi = surucuManager.GetAllList(x => x.Durum == true);
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true);
             List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1);
             List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1);
