@@ -41,6 +41,7 @@ namespace logikeyv2.Controllers
                     {
 
                         cari.Durum = 1;
+                        cari.FaturaDurum = false;
                         cari.EkleyenKullanici_ID = 1;//değişçek
                         cari.DuzenleyenKullanici_ID = 1;//değişçek
                         cari.Firma_ID = 1;//değişçek

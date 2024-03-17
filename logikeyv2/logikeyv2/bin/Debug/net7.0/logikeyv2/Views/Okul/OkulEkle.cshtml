@@ -36,22 +36,20 @@
               
                 <tr>
 
-                    <td>İl</td>
-                    <td>
-                        <select class="form-control" asp-for="Cari_IL_ID" id="Cari_IL_ID">
-                            <option value="0">Seçiniz</option>
-                            <option value="1">izmir</option>
-                        </select>
-                    </td>
+                    <select class="form-control" asp-for="Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
+                        <option value="0">Seçiniz</option>
+                        @foreach (var item in ViewBag.Iller)
+                        {
+
+                            <option value="@item.IL_KODU">@item.Il</option>
+                        }
+
+                    </select>
                     <td>İlçe</td>
                     <td>
                         <select class="form-control" asp-for="Cari_ILCE_ID" id="Cari_ILCE_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Konak</option>
-                            <option value="2">Bornova</option>
-                            <option value="3">Karabağlar</option>
-                            <option value="4">Balçova</option>
-
+                           
                         </select>
                     </td>
                 </tr>
@@ -117,3 +115,35 @@
 
 
 </div>
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            function IlDegistir(IlKodu) {
+
+                $.ajax({
+                    url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                    method: 'GET',
+                    data: { IlKodu: IlKodu },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#Cari_ILCE_ID').empty();
+                        $('#Cari_ILCE_ID').append($('<option>', {
+                            value: 0, // Verinin değer özelliği
+                            text: "Seçiniz" // Verinin görünen metni
+                        }));
+                        // Verileri selectbox'a ekle
+                        $.each(data, function (index, item) {
+                            console.log(item);
+                            $('#Cari_ILCE_ID').append($('<option>', {
+                                value: item.ilcE_KODU, // Verinin değer özelliği
+                                text: item.ilce // Verinin görünen metni
+                            }));
+                        });
+                    },
+                    error: function (error) {
+                        console.log('Hata oluştu:', error);
+                    }
+                });
+            }
+        </script>
+    }

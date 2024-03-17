@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.EntityFramework
 {
-	public class EFSurucuRepository : GenericRepository<Surucu>,ISurucuDal
-	{
-	}
+    public class EFFaturaOkulRepository : GenericRepository<FaturaOkul>, IFaturaOkulDal
+    {
+    }
 }

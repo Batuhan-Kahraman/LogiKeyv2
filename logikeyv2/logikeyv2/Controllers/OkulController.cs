@@ -9,6 +9,8 @@ namespace logikeyv2.Controllers
     public class OkulController : Controller
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+
         public IActionResult Index()
         {
             List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1);
@@ -17,7 +19,11 @@ namespace logikeyv2.Controllers
         }
         public IActionResult OkulEkle()
         {
-            
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             return View();
         }
         [HttpPost]

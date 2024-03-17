@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Abstract
 {
-	public interface ISurucuDal:IGenericDal<Surucu>
-	{
-	}
+    public interface IFaturaOkulDal : IGenericDal<FaturaOkul>
+    {
+    }
 }

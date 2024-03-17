@@ -4,17 +4,20 @@ using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace logikeyv2.Controllers
 {
     public class SurucuController : Controller
     {
-        SurucuManager surucuManager = new SurucuManager(new EFSurucuRepository());
+        KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
+        KullaniciGrubuManager kullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
+       AdresOzellikTanimlamaManager adresOzellikTanimlamaManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         public IActionResult Index()
         {
-            List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Durum == true)
+            List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1)
                 .GroupJoin(ehliyetSinifiManager.GetAllList(x => x.Durum == true),
                     surucu => surucu.EhliyetSinifiID,
                     ehliyetSinifi => ehliyetSinifi.ID,
@@ -46,10 +49,16 @@ namespace logikeyv2.Controllers
 
         public IActionResult Ekle()
         {
+            List<KullaniciGrubu> KullaniciGrubu = kullaniciGrubuManager.GetAllList((y => y.KullaniciGrup_Durum == 1));
+            ViewBag.KullaniciGrubu = KullaniciGrubu;
+            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true));
+            ViewBag.SurucuPozisyon = SurucuPozisyon;
+            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true));
+            ViewBag.EhliyetSinifi = ehliyetSinifi;
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Surucu surucu)
+        public IActionResult Ekle(Kullanicilar surucu)
         {
             using (var context = new Context())
             {
@@ -57,11 +66,11 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        surucu.Durum = true;
-                        surucu.FirmaID = 1;//değişçek
-                        surucu.OlusturmaTarihi = DateTime.Now;
-                        surucu.DuzenlemeTarihi = DateTime.Now;
-                        surucu.OlusturanId = 1;//değişcek
+                        surucu.Kullanici_Durum = 1;
+                        surucu.Firma_ID = 1;//değişçek
+                        surucu.Kullanici_OlusturmaTarihi = DateTime.Now;
+                        surucu.Kullanici_DuzenlemeTarihi = DateTime.Now;
+                        surucu.EkleyenKullanici_ID = 1;//değişcek
                         surucu.DuzenleyenID = 1;//değişcek
                         surucuManager.TAdd(surucu);
                         TempData["Msg"] = "İşlem başarılı.";
@@ -77,14 +86,21 @@ namespace logikeyv2.Controllers
             }
             return View(surucu);
         }
+        public JsonResult GetIlceler(string il)
+        {
+            List<AdresOzellikTanimlama> adres = adresOzellikTanimlamaManager.GetAllList((y => y.Il== il));
+            var ilceler = adres.Select(a => new { a.Adres_ID, a.Ilce }).ToList();
+
+            return Json(ilceler);
+        }
         public IActionResult Duzenle(int SurucuID)
         {
-            Surucu arac = surucuManager.GetByID(SurucuID);
+            Kullanicilar arac = surucuManager.GetByID(SurucuID);
             return View(arac);
         }
 
         [HttpPost]
-        public IActionResult Duzenle(Surucu surucu)
+        public IActionResult Duzenle(Kullanicilar surucu)
         {
             using (var context = new Context())
             {
@@ -92,18 +108,18 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        Surucu item = surucuManager.GetByID(surucu.ID);
+                        Kullanicilar item = surucuManager.GetByID(surucu.Kullanici_ID);
                         item.SurucuPozisyonID = surucu.SurucuPozisyonID;
-                        item.Sifre= surucu.Sifre;
-                        item.Isim=surucu.Isim;
-                        item.Soyisim=surucu.Soyisim;
+                        item.Kullanici_Sifre= surucu.Kullanici_Sifre;
+                        item.Kullanici_Isim=surucu.Kullanici_Isim;
+                        item.Kullanici_Soyisim=surucu.Kullanici_Soyisim;
                         item.TC=surucu.TC;
                         item.GirisTarihi=surucu.GirisTarihi;
                         item.CikisTarihi = surucu.CikisTarihi;
                         item.CikisNedeni = surucu.CikisNedeni;
                         item.DurumID=surucu.DurumID;
                         item.DogumTarihi = surucu.DogumTarihi;
-                        item.Eposta=surucu.Eposta;
+                        item.Kullanici_Eposta=surucu.Kullanici_Eposta;
                         item.KanGrubu=surucu.KanGrubu;
                         item.CepTelefonu = surucu.CepTelefonu;
                         item.Adres=surucu.Adres;
@@ -126,8 +142,8 @@ namespace logikeyv2.Controllers
                         item.D1GecerlilikTarih = surucu.D1GecerlilikTarih;
                         item.D1EGecerlilikTarih = surucu.D1EGecerlilikTarih;
                         item.FGecerlilikTarih = surucu.FGecerlilikTarih;
-
-                        item.DuzenlemeTarihi = DateTime.Now;
+                        item.Maas = surucu.Maas;
+                        item.Kullanici_DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = 1;//değişcek
                         surucuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
@@ -155,8 +171,8 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        Surucu item = surucuManager.GetByID(int.Parse(form["ID"]));
-                        item.Durum = false;
+                        Kullanicilar item = surucuManager.GetByID(int.Parse(form["ID"]));
+                        item.Kullanici_Durum = 0;
                         surucuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
