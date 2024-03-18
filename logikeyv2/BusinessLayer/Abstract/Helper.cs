@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Concrate
 {
-    public class Helper:Context
+    public class Helper : Context
     {
         public static string CariUnvan(int id)
         {
@@ -57,11 +57,11 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
-        public static List<AkaryakitTasimaDetayUrun> AkaryakitTasimaDetayUrunList(int tasimaID,int detayID)
+        public static List<AkaryakitTasimaDetayUrun> AkaryakitTasimaDetayUrunList(int tasimaID, int detayID)
         {
             using (var context = new Context())
             {
-                List<AkaryakitTasimaDetayUrun> liste = context.AkaryakitTasimaDetayUrun.Where(e => e.AkaryakitTasimaID == tasimaID && e.AkaryakitTasimaDetayID==detayID).ToList();
+                List<AkaryakitTasimaDetayUrun> liste = context.AkaryakitTasimaDetayUrun.Where(e => e.AkaryakitTasimaID == tasimaID && e.AkaryakitTasimaDetayID == detayID).ToList();
                 if (liste != null)
                 {
                     return liste;
@@ -109,7 +109,7 @@ namespace BusinessLayer.Concrate
                 var entity = context.AkaryakitAracTur.FirstOrDefault(e => e.TurID == id);
                 if (entity != null)
                 {
-                    return true ;
+                    return true;
                 }
                 else
                 {
@@ -124,11 +124,46 @@ namespace BusinessLayer.Concrate
                 var entity = context.AracTur.FirstOrDefault(e => e.ID == id);
                 if (entity != null)
                 {
-                    return entity.Adi ;
+                    return entity.Adi;
                 }
                 else
                 {
                     return "";
+                }
+            }
+        }
+        public static string UnAdi(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.UnListesi.FirstOrDefault(e => e.Un_ID == id);
+                if (entity != null)
+                {
+                    return entity.Un_Isim;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public static bool CariHareketEkle(CariHareket cariHareket)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+                    context.CariHareket.Add(cariHareket);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
                 }
             }
         }

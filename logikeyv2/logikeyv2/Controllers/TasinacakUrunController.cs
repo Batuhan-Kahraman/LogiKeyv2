@@ -9,11 +9,12 @@ namespace logikeyv2.Controllers
     public class TasinacakUrunController : Controller
     {
         TasinacakUrunManager TasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
-
+        UnListesiManager UnListesiManager = new UnListesiManager(new EFUnListesiRepository());
 
         public IActionResult Index()
         {
             List<TasinacakUrun> liste = TasinacakUrunManager.GetAllList(x => x.Durum == true);
+            ViewBag.UnListesi = UnListesiManager.GetAllList(x=>x.Durum==1);
             return View(liste);
         }
 
@@ -29,6 +30,7 @@ namespace logikeyv2.Controllers
                         TasinacakUrun item = new TasinacakUrun();
                         item.Durum = true;
                         item.Adi = form["Adi"];
+                        item.Un_ID = int.Parse(form["UnID"]);
                         item.FirmaID = 1;//değişçek
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
@@ -61,6 +63,7 @@ namespace logikeyv2.Controllers
                     {
                         TasinacakUrun item = TasinacakUrunManager.GetByID(int.Parse(form["ID"]));
                         item.Adi = form["Adi"];
+                        item.Un_ID = int.Parse(form["UnID"]);
                         item.FirmaID = 1;//değişçek
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = 1;//değişcek

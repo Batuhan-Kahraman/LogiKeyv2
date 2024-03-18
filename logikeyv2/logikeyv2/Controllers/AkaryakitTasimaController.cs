@@ -121,6 +121,7 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
+                        int ToplamFiyat = 0;
                         string[] aracIDForm = form["AracID"].ToString().Split('|');
                         int aracID = int.Parse(aracIDForm[0]);
                         akaryakitTasima.AracID=aracID;
@@ -163,6 +164,7 @@ namespace logikeyv2.Controllers
                             akaryakitTasimaDetay.OlusturanId = 1;//değişcek
                             akaryakitTasimaDetay.DuzenleyenID = 1;//değişcek
                             akaryakitTasimaDetayManager.TAdd(akaryakitTasimaDetay);
+                            ToplamFiyat +=akaryakitTasimaDetay.NakliyeFiyat;
                             AkaryakitFatura akaryakitFatura = new AkaryakitFatura();
                             akaryakitFatura.FaturaNo = akaryakitTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
                             akaryakitFatura.AkaryakitTasimaID = akaryakitTasima.ID;
@@ -214,6 +216,25 @@ namespace logikeyv2.Controllers
                             akaryakitFatura.FaturaKesenID = faturaKesenId;
                             akaryakitFatura.FaturaKesilenID = faturaKesilenId;
                             akaryakitFaturaManager.TAdd(akaryakitFatura);
+
+                            CariHareket cariHareket = new CariHareket {
+                                Kategori = 1,
+                                TabloAdi="AkaryakitFatura",
+                                TabloID=akaryakitFatura.ID,
+                                Tutar= ToplamFiyat,
+                                Durum =true,
+                                FirmaID=1,
+                                OlusturanId=1,
+                                DuzenleyenID=1,
+                                OlusturmaTarihi=DateTime.Now,
+                                DuzenlemeTarihi=DateTime.Now,
+
+
+                            };
+                            Helper.CariHareketEkle(cariHareket);
+
+
+
                         }
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
