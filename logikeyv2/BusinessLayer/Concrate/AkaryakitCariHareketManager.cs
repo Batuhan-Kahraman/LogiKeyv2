@@ -10,46 +10,46 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Concrate
 {
-    public class CariHareketManager:ICariHareketService
+    public class AkaryakitCariHareketManager:IAkaryakitCariHareketService
     {
-        ICariHareketDal _CariHareketDal;
-        public CariHareketManager(ICariHareketDal CariHareketDal)
+        IAkaryakitCariHareketDal _CariHareketDal;
+        public AkaryakitCariHareketManager(IAkaryakitCariHareketDal CariHareketDal)
         {
             _CariHareketDal = CariHareketDal;
         }
 
 
-        public List<CariHareket> GetAllList(Expression<Func<CariHareket, bool>> filter)
+        public List<AkaryakitCariHareket> GetAllList(Expression<Func<AkaryakitCariHareket, bool>> filter)
         {
             return _CariHareketDal.GetAllList(filter);
         }
 
-        public CariHareket GetByID(int id)
+        public AkaryakitCariHareket GetByID(int id)
         {
             return _CariHareketDal.GetByID(id);
         }
 
-        public CariHareket GetByPropertyName(string propertyName, string value)
+        public AkaryakitCariHareket GetByPropertyName(string propertyName, string value)
         {
             return _CariHareketDal.GetByPropertyName(propertyName, value);
         }
 
-        public List<CariHareket> List()
+        public List<AkaryakitCariHareket> List()
         {
             return _CariHareketDal.GetAllList();
         }
 
-        public void TAdd(CariHareket t)
+        public void TAdd(AkaryakitCariHareket t)
         {
             _CariHareketDal.Insert(t);
         }
 
-        public void TDelete(CariHareket t)
+        public void TDelete(AkaryakitCariHareket t)
         {
             _CariHareketDal.Delete(t);
         }
 
-        public void TUpdate(CariHareket t)
+        public void TUpdate(AkaryakitCariHareket t)
         {
             _CariHareketDal.Update(t);
         }

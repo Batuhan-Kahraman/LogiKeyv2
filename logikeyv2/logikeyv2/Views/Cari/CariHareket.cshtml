@@ -1,0 +1,66 @@
+﻿@using BusinessLayer.Concrate
+@using EntityLayer.Concrate
+
+alacak<br /> ------<br />
+@{
+    int sayac = 1;
+    foreach (var grupFatura in ViewBag.Alacak)
+    {
+
+        <div class="bg-body dark__bg-gray-1100 p-4 mb-4 rounded-2">
+            <div class="row g-4">
+
+                <div class="col-12 col-lg-3">
+                    <div class="row g-4 g-lg-2">
+                        <div class="col-12 col-sm-6 col-lg-12">
+                            <div class="row align-items-center g-0">
+                                <div class="col-auto col-lg-6 col-xl-5">
+                                    <h6 class="me-3">Fiş Kesen Cari :</h6>
+                                </div>
+                                <div class="col-auto col-lg-6 col-xl-7">
+                                    <p class="fs-9 text-body-secondary fw-semibold mb-0">@Helper.CariUnvan(grupFatura.FaturaKesilenID)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    }
+
+    <b> borc <br /> ------<br /></b>
+    foreach (var grupFatura in ViewBag.Borc)
+    {
+
+        <div class="bg-body dark__bg-gray-1100 p-4 mb-4 rounded-2">
+            <div class="row g-4">
+
+                <div class="col-12 col-lg-3">
+                    <div class="row g-4 g-lg-2">
+                        <div class="col-12 col-sm-6 col-lg-12">
+                            <div class="row align-items-center g-0">
+                                <div class="col-auto col-lg-6 col-xl-5">
+                                    <h6 class="me-3">Fiş Kesen Cari :</h6>
+                                </div>
+                                <div class="col-auto col-lg-6 col-xl-7">
+                                    <p class="fs-9 text-body-secondary fw-semibold mb-0">@Helper.CariUnvan(grupFatura.FaturaKesenID)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    }
+}
+
+
+

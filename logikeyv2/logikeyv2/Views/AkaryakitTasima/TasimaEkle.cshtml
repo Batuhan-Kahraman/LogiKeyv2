@@ -57,7 +57,7 @@
                             <option value="0">Seçiniz</option>
                             @foreach (var arac in ViewBag.Araclar)
                             {
-                                <option value="@arac.AracID|@arac.TurID">@arac.AracPlakasi - @arac.AracTurAdi</option>
+                                <option value="@arac.AracID|@arac.TurID">@arac.AracPlakasi - @arac.AracTurAdi - @arac.Kapasite LT</option>
 
                             }
                         </select>

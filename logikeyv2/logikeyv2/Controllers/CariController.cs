@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
+using DataAccessLayer.EntityFrameworks;
 using EntityLayer.Concrate;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,12 @@ namespace logikeyv2.Controllers
         CariManager cariManager = new CariManager(new EFCariRepository());
         CariGrupManager cariGrupManager = new CariGrupManager(new EFCariGrupRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+
+        AkaryakitTasimaManager akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
+        AkaryakitTasimaDetayManager akaryakitTasimaDetayManager = new AkaryakitTasimaDetayManager(new EFAkaryakitTasimaDetayRepository());
+        AkaryakitTasimaDetayUrunManager akaryakitTasimaDetayUrunManager = new AkaryakitTasimaDetayUrunManager(new EFAkaryakitTasimaDetayUrunRepository());
+        AkaryakitFaturaManager akaryakitFaturaManager = new AkaryakitFaturaManager(new EFAkaryakitFaturaRepository());
+    
 
         public IActionResult Index()
         {
@@ -60,6 +67,20 @@ namespace logikeyv2.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+
+
+        public IActionResult CariHareket(int CariID)
+        {
+
+            List<AkaryakitFatura> Alacak = akaryakitFaturaManager.GetAllList(x => x.FaturaKesenID == CariID);
+            List<AkaryakitFatura> Borc = akaryakitFaturaManager.GetAllList(x => x.FaturaKesilenID == CariID);
+
+            ViewBag.Alacak = Alacak;
+            ViewBag.Borc = Borc;
+
+
+            return View();
         }
     }
 }

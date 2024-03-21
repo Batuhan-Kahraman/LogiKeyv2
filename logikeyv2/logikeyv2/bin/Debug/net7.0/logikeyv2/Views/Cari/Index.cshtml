@@ -52,6 +52,9 @@
                                 <td>@item.Cari_CepNo</td>
                                 <td>@item.Cari_YetkiliAdi @item.Cari_YetkiliSoyadi</td>
                                 <td>
+                                    <a asp-controller="Cari" asp-action="CariHareket" asp-route-CariID="@item.Cari_ID" title="Cari Hareketleri">
+                                        <span class="text-body fs-5" data-feather="repeat"></span>
+                                    </a>
                                     <a href="#" onclick="Duzenle(@item.Cari_ID, '@item.Cari_Unvan')">
                                         <span class="text-body fs-5" data-feather="edit"></span>
                                     </a>

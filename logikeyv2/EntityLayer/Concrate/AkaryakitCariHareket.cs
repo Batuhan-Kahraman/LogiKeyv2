@@ -7,20 +7,15 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Concrate
 {
-    public class CariHareket
+    public class AkaryakitCariHareket
     {
         [Key]
         public int ID { get; set; }
-        public int Kategori { get; set; }//1:fatura 2:ödeme
-        public string TabloAdi { get; set; }//cari - araç plakası
-
-        public int TabloID { get; set; }
+        public int FaturaID { get; set; }
+        public int OdemeID { get; set; }
+        public int CariID { get; set; }
+        public int PlakaID { get; set; }
         public int Tutar { get; set; }
-        /*
-         tablo adına göre hareketin hangi tabloya ait olduğu belli olacak.
-        tablo id ile hangi kayıt ile ilgili olduğu belli olacak
-         */
-
 
         [Required]
         public int FirmaID { get; set; }

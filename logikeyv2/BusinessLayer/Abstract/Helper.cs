@@ -148,13 +148,36 @@ namespace BusinessLayer.Concrate
             }
         }
 
-        public static bool CariHareketEkle(CariHareket cariHareket)
+        public static bool AkaryakitCariHareketEkle(AkaryakitCariHareket cariHareket)
         {
             using (var context = new Context())
             {
                 try
                 {
-                    context.CariHareket.Add(cariHareket);
+                    context.AkaryakitCariHareket.Add(cariHareket);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool AkaryakitCariHareketTemizle(int FaturaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekUrunler = context.AkaryakitCariHareket.Where(e => e.FaturaID == FaturaID).ToList();
+
+                    context.AkaryakitCariHareket.RemoveRange(silinecekUrunler);
 
                     // Değişiklikleri kaydedin
                     context.SaveChanges();

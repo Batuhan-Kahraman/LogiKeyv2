@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Abstract
 {
-    public interface ICariHareketDal : IGenericDal<CariHareket>
+    public interface IAkaryakitCariHareketDal : IGenericDal<AkaryakitCariHareket>
     {
     }
 }

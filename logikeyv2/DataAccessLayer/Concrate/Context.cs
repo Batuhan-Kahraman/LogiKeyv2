@@ -80,7 +80,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<Okul_Guzergah> Okul_Guzergah { get; set; }
         public DbSet<OgrenciGuzergah> OgrenciGuzergah { get; set; }
         public DbSet<FaturaOkul> FaturaOkul { get; set; }
-        public DbSet<CariHareket> CariHareket { get; set; }
+        public DbSet<AkaryakitCariHareket> AkaryakitCariHareket { get; set; }
 
     }
 }
