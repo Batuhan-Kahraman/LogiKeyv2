@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Concrate
 {
-    public class AkaryakitFatura
+    public class NormalFatura
     {
         [Key]
         public int ID { get; set; }
 
         public string FaturaNo { get; set; }
-        public int AkaryakitTasimaID { get; set; }
-        public int AkaryakitTasimaDetayID { get; set; } 
+        public int NormalTasimaID { get; set; }
+        public int NormalTasimaDetayID { get; set; } 
         public int FaturaKesenID { get; set; } 
         public int FaturaKesilenID { get; set; } 
-        public int AkaryakitTasimaDetayUrunID { get; set; }  
+        public int NormalTasimaDetayUrunID { get; set; }  
         public int Odeme { get; set; }  
 
 

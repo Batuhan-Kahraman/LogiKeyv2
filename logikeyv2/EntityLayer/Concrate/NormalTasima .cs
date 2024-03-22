@@ -7,25 +7,29 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Concrate
 {
-    public class AkaryakitFatura
+    public class NormalTasima
     {
         [Key]
         public int ID { get; set; }
+        public int AracID { get; set; }
+        public int TasimaTipiID { get; set; }
+        public int AracTurID { get; set; }
+        public int Kullanici1ID { get; set; }
+        public int Kullanici2ID { get; set; }
+        public int Kullanici3ID { get; set; }
+        public int CekiciPlakaID { get; set; }
+        public int DorseID { get; set; }
+        public int DorsePlakaID { get; set; }
+     
+        public int ToplamYuklenenMiktar { get; set; }
 
-        public string FaturaNo { get; set; }
-        public int AkaryakitTasimaID { get; set; }
-        public int AkaryakitTasimaDetayID { get; set; } 
-        public int FaturaKesenID { get; set; } 
-        public int FaturaKesilenID { get; set; } 
-        public int AkaryakitTasimaDetayUrunID { get; set; }  
-        public int Odeme { get; set; }  
 
 
         [Required]
         public int FirmaID { get; set; }
         public bool Durum { get; set; }
         [Required]
-        public int OlusturanId { get; set; }
+        public int OlusturanId { get;set; }
         [Required]
         public DateTime OlusturmaTarihi { get; set; }
         [Required]

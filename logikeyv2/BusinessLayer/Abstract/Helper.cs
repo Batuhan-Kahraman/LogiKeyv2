@@ -42,6 +42,63 @@ namespace BusinessLayer.Concrate
             }
         }
 
+        public static AkaryakitTasima AkaryakitTasiCariHareket(int ID)
+        {
+
+            using (var context = new Context())
+            {
+                AkaryakitTasima liste = context.AkaryakitTasima.Where(e => e.ID == ID).SingleOrDefault();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+
+        public static AkaryakitTasimaDetay AkaryakitTasimaDetayCariHareket(int ID)
+        {
+
+            using (var context = new Context())
+            {
+                AkaryakitTasimaDetay liste = context.AkaryakitTasimaDetay.Where(e => e.ID == ID).SingleOrDefault();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        
+        public static AkaryakitTasimaDetayUrun AkaryakitTasimaDetayUrunCariHareket(int ID)
+        {
+
+            using (var context = new Context())
+            {
+                    AkaryakitTasimaDetayUrun liste = context.AkaryakitTasimaDetayUrun.Where(e => e.ID == ID).SingleOrDefault();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+
+
+
         public static List<AkaryakitTasimaDetay> AkaryakitTasimaDetayList(int ID)
         {
             using (var context = new Context())

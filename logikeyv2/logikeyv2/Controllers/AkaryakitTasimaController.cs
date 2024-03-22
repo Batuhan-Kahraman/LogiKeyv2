@@ -194,6 +194,7 @@ namespace logikeyv2.Controllers
                                 akaryakitFatura.FaturaNo = akaryakitTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
                                 akaryakitFatura.AkaryakitTasimaID = akaryakitTasima.ID;
                                 akaryakitFatura.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
+                                akaryakitFatura.Odeme = 0;
                                 akaryakitFatura.Durum = true;
                                 akaryakitFatura.FirmaID = 1;//değişçek
                                 akaryakitFatura.OlusturmaTarihi = DateTime.Now;
@@ -655,5 +656,19 @@ namespace logikeyv2.Controllers
 
         }
     
+        public IActionResult Odeme(int FaturaID)
+        {
+            AkaryakitFatura fatura=akaryakitFaturaManager.GetByID(FaturaID);
+            return View(fatura);
+        }
+        [HttpPost]
+        public IActionResult Odeme(AkaryakitFatura fatura)
+        {
+            AkaryakitFatura kayit=akaryakitFaturaManager.GetByID(fatura.ID);
+            kayit.Odeme = fatura.Odeme;
+            akaryakitFaturaManager.TUpdate(kayit);
+            return RedirectToAction("CariHareket", "Cari", new { CariID = kayit.FaturaKesenID });
+        }
+
     }
 }

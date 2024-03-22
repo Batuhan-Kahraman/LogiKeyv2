@@ -2,6 +2,7 @@
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using DataAccessLayer.EntityFrameworks;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using EntityLayer.Concrate;
 using Microsoft.AspNetCore.Mvc;
 
@@ -73,11 +74,11 @@ namespace logikeyv2.Controllers
         public IActionResult CariHareket(int CariID)
         {
 
-            List<AkaryakitFatura> Alacak = akaryakitFaturaManager.GetAllList(x => x.FaturaKesenID == CariID);
-            List<AkaryakitFatura> Borc = akaryakitFaturaManager.GetAllList(x => x.FaturaKesilenID == CariID);
+            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.FaturaKesenID == CariID);
+            
 
-            ViewBag.Alacak = Alacak;
-            ViewBag.Borc = Borc;
+            ViewBag.Fatura = faturaList;
+            ViewBag.CariID = CariID;
 
 
             return View();

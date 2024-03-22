@@ -45,6 +45,8 @@
                             <th scope="col">Nakliye KDV Hariç</th>
                             <th scope="col">Nakliye KDV </th>
                             <th scope="col">Nakliye KDV Dahil</th>
+                            <th scope="col">Ödeme</th>
+                            <th scope="col">İşlem</th>
                         </tr>
                     </thead>
                     @{
@@ -102,6 +104,8 @@
                                         <td>@detay.NakliyeTutarKDVHaric</td>
                                         <td>@detay.NakliyeKDV</td>
                                         <td>@detay.NakliyeToplam</td>
+                                        <td>@fatura.Odeme</td>
+                                        <td><a asp-controller="AkaryakitTasima" asp-action="Odeme" asp-route-FaturaID="@fatura.ID">Ödeme</a></td>
                                     </tr>
                                     i++;
 
