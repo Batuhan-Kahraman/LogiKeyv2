@@ -92,6 +92,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<NormalTasimaDetayUrun> NormalTasimaDetayUrun { get; set; }
         public DbSet<NormalFatura> NormalFatura { get; set; }
         public DbSet<NormalAracTur> NormalAracTur { get; set; }
+        public DbSet<NormalCariHareket> NormalCariHareket { get; set; }
 
     }
 }

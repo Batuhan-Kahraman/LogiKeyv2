@@ -247,5 +247,116 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+
+
+
+        public static bool NormalCariHareketEkle(NormalCariHareket cariHareket)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+                    context.NormalCariHareket.Add(cariHareket);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool NormalCariHareketTemizle(int FaturaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekUrunler = context.NormalCariHareket.Where(e => e.FaturaID == FaturaID).ToList();
+
+                    context.NormalCariHareket.RemoveRange(silinecekUrunler);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        public static bool NormalAracTurKontrol(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.NormalAracTur.FirstOrDefault(e => e.TurID == id);
+                if (entity != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public static string NormalAracTur(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AracTur.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+
+
+
+        public static List<NormalTasimaDetay> NormalTasimaDetayList(int ID)
+        {
+            using (var context = new Context())
+            {
+                List<NormalTasimaDetay> liste = context.NormalTasimaDetay.Where(e => e.NormalTasimaID == ID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public static List<NormalTasimaDetayUrun> NormalTasimaDetayUrunList(int tasimaID, int detayID)
+        {
+            using (var context = new Context())
+            {
+                List<NormalTasimaDetayUrun> liste = context.NormalTasimaDetayUrun.Where(e => e.NormalTasimaID == tasimaID && e.NormalTasimaDetayID == detayID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

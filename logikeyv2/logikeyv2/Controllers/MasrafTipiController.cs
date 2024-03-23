@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class MasrafTipiController : Controller
     {
         MasrafTipiManager MasrafTipiManager = new MasrafTipiManager(new EFMasrafTipiRepository());
@@ -13,13 +14,16 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<MasrafTipi> liste = MasrafTipiManager.GetAllList(x => x.Durum == true);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<MasrafTipi> liste = MasrafTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
             return View(liste);
         }
 
         [HttpPost]
         public IActionResult Ekle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -29,11 +33,11 @@ namespace logikeyv2.Controllers
                         MasrafTipi item = new MasrafTipi();
                         item.Durum = true;
                         item.Adi = form["Adi"];
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.OlusturanId = 1;//değişcek
-                        item.DuzenleyenID = 1;//değişcek
+                        item.OlusturanId = KullaniciID;
+                        item.DuzenleyenID = KullaniciID;
                         MasrafTipiManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -53,6 +57,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -61,9 +67,9 @@ namespace logikeyv2.Controllers
                     {
                         MasrafTipi item = MasrafTipiManager.GetByID(int.Parse(form["ID"]));
                         item.Adi = form["Adi"];
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         MasrafTipiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -83,6 +89,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -91,6 +99,9 @@ namespace logikeyv2.Controllers
                     {
                         MasrafTipi item = MasrafTipiManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = false;
+                        item.FirmaID = FirmaID;
+                        item.DuzenlemeTarihi = DateTime.Now;
+                        item.DuzenleyenID = KullaniciID;
                         MasrafTipiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class KazaController : Controller
     {
         KazaManager KazaManager = new KazaManager(new EFKazaRepository());
@@ -16,8 +17,9 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<KazaViewModel> viewModel = KazaManager.GetAllList(x => x.Durum == true)
-                .GroupJoin(AracManager.GetAllList(x => x.Durum == true),
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<KazaViewModel> viewModel = KazaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+                .GroupJoin(AracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                     kaza => kaza.AracID,
                     arac => arac.ID,
                     (kaza, aracGroup) => new { kaza, aracGroup })
@@ -26,7 +28,7 @@ namespace logikeyv2.Controllers
                     (result, arac) => new { result.kaza, arac }
                 )
                 .GroupJoin(
-                    SurucuManager.GetAllList(x => x.Kullanici_Durum == 1),
+                    SurucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID),
                     result => result.kaza.SurucuID,
                     surucu => surucu.Kullanici_ID,
                     (result, surucuGroup) => new { result.kaza, result.arac, surucuGroup }
@@ -54,6 +56,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Ekle(Kaza kaza)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -62,11 +66,11 @@ namespace logikeyv2.Controllers
                     {
                         kaza.Durum = true;
 
-                        kaza.FirmaID = 1;//değişçek
+                        kaza.FirmaID = FirmaID;
                         kaza.OlusturmaTarihi = DateTime.Now;
                         kaza.DuzenlemeTarihi = DateTime.Now;
-                        kaza.OlusturanId = 1;//değişcek
-                        kaza.DuzenleyenID = 1;//değişcek
+                        kaza.OlusturanId = KullaniciID;
+                        kaza.DuzenleyenID = KullaniciID;
                         KazaManager.TAdd(kaza);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -91,6 +95,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(Kaza kaza)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -124,10 +130,10 @@ namespace logikeyv2.Controllers
                         item.ServisFirmaTelefonu = kaza.ServisFirmaTelefonu;
                         item.ServisFirmaAdres = kaza.ServisFirmaAdres;
                         item.Notlar = kaza.Notlar;
-                
-      item.FirmaID = 1;//değişçek
+
+                        item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         KazaManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -147,6 +153,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -155,6 +163,9 @@ namespace logikeyv2.Controllers
                     {
                         Kaza item = KazaManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = false;
+                        item.FirmaID = FirmaID;
+                        item.DuzenlemeTarihi = DateTime.Now;
+                        item.DuzenleyenID = KullaniciID;
                         KazaManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

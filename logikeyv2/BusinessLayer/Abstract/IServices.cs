@@ -73,6 +73,9 @@ namespace BusinessLayer.Abstract
     public interface INormalTasimaDetayUrunService : IGenericService<NormalTasimaDetayUrun> { }
     public interface INormalFaturaService : IGenericService<NormalFatura> { }
     public interface INormalAracTurService : IGenericService<NormalAracTur> { }
+    public interface INormalCariHareketService : IGenericService<NormalCariHareket> { }
+
+
 
 
 }

@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class AkaryakitAracTurController : Controller
+    public class NormalAracTurController : Controller
     {
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
-        AkaryakitAracTurManager akaryakitAracTurManager = new AkaryakitAracTurManager(new EFAkaryakitAracTurRepository());
+        NormalAracTurManager NormalAracTurManager = new NormalAracTurManager(new EFNormalAracTurRepository());
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
@@ -25,24 +25,24 @@ namespace logikeyv2.Controllers
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
-                var allItems = context.AkaryakitAracTur.ToList();
-                context.AkaryakitAracTur.RemoveRange(allItems);
+                var allItems = context.NormalAracTur.ToList();
+                context.NormalAracTur.RemoveRange(allItems);
                 context.SaveChanges();
                 var check = form["check"];
 
                 foreach (var id in check)
                 {
                     
-                AkaryakitAracTur item = new AkaryakitAracTur();
+                NormalAracTur item = new NormalAracTur();
                 item.TurID = int.Parse(id);
+
                     item.Durum = true;
                     item.FirmaID = FirmaID;
                     item.DuzenlemeTarihi = DateTime.Now;
                     item.OlusturmaTarihi = DateTime.Now;
                     item.DuzenleyenID = KullaniciID;
                     item.OlusturanId = KullaniciID;
-
-                    akaryakitAracTurManager.TAdd(item);
+                    NormalAracTurManager.TAdd(item);
                 }
             }
             return RedirectToAction("Index");

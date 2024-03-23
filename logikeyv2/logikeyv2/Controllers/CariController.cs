@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class CariController : Controller
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
@@ -22,14 +23,16 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
            
             return View(liste);
 
         }
         public IActionResult Ekle()
         {
-            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 );
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
             ViewBag.CariGrup = CariGrupList;
             var adres = adresManager.List();
 
@@ -41,6 +44,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Ekle(Cari cari)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -50,9 +55,9 @@ namespace logikeyv2.Controllers
 
                         cari.Durum = 1;
                         cari.FaturaDurum = false;
-                        cari.EkleyenKullanici_ID = 1;//değişçek
-                        cari.DuzenleyenKullanici_ID = 1;//değişçek
-                        cari.Firma_ID = 1;//değişçek
+                        cari.EkleyenKullanici_ID = KullaniciID;
+                        cari.DuzenleyenKullanici_ID = KullaniciID;
+                        cari.Firma_ID = FirmaID;
                         cari.Olusturma_Tarihi = DateTime.UtcNow;
                         cari.Duzenleme_Tarihi = DateTime.UtcNow;
                         cariManager.TAdd(cari);
@@ -74,7 +79,8 @@ namespace logikeyv2.Controllers
         public IActionResult CariHareket(int CariID)
         {
 
-            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.FaturaKesenID == CariID);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.FaturaKesenID == CariID && x.FirmaID == FirmaID);
             
 
             ViewBag.Fatura = faturaList;
