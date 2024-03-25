@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class KullaniciGrupController : Controller
     {
         KullaniciGrubuManager KullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
@@ -13,13 +14,16 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<KullaniciGrubu> liste = KullaniciGrubuManager.GetAllList(x => x.KullaniciGrup_Durum == 1);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<KullaniciGrubu> liste = KullaniciGrubuManager.GetAllList(x => x.KullaniciGrup_Durum == 1 && x.Firma_ID == FirmaID);
             return View(liste);
         }
 
         [HttpPost]
         public IActionResult Ekle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -29,10 +33,10 @@ namespace logikeyv2.Controllers
                         KullaniciGrubu item = new KullaniciGrubu();
                         item.KullaniciGrup_Durum = 1;
                         item.KullaniciGrup_Adi = form["Adi"];
-                        item.Firma_ID = 1;//değişçek
+                        item.Firma_ID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.EkleyenKullanici_ID = 1;//değişcek
+                        item.EkleyenKullanici_ID = KullaniciID;
                         KullaniciGrubuManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -52,6 +56,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -60,10 +66,10 @@ namespace logikeyv2.Controllers
                     {
                         KullaniciGrubu item = KullaniciGrubuManager.GetByID(int.Parse(form["ID"]));
                         item.KullaniciGrup_Adi = form["Adi"];
-                        item.Firma_ID = 1;//değişçek
+                        item.Firma_ID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.EkleyenKullanici_ID = 1;//değişcek
+                        item.EkleyenKullanici_ID = KullaniciID;
                         KullaniciGrubuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -83,6 +89,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -91,6 +99,8 @@ namespace logikeyv2.Controllers
                     {
                         KullaniciGrubu item = KullaniciGrubuManager.GetByID(int.Parse(form["ID"]));
                         item.KullaniciGrup_Durum = 0;
+                        item.Firma_ID = FirmaID;
+                        item.DuzenlemeTarihi = DateTime.Now;
                         KullaniciGrubuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

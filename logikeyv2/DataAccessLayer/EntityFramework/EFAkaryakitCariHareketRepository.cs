@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.EntityFramework
 {
-	public class EFCariHareketRepository : GenericRepository<CariHareket>,ICariHareketDal
-	{
+	public class EFAkaryakitCariHareketRepository : GenericRepository<AkaryakitCariHareket>, IAkaryakitCariHareketDal
+    {
 	}
 }

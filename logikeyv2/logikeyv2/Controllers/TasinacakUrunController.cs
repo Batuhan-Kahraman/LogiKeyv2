@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class TasinacakUrunController : Controller
     {
         TasinacakUrunManager TasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
@@ -13,7 +14,9 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<TasinacakUrun> liste = TasinacakUrunManager.GetAllList(x => x.Durum == true);
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<TasinacakUrun> liste = TasinacakUrunManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
             ViewBag.UnListesi = UnListesiManager.GetAllList(x=>x.Durum==1);
             return View(liste);
         }
@@ -21,6 +24,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Ekle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -31,11 +36,11 @@ namespace logikeyv2.Controllers
                         item.Durum = true;
                         item.Adi = form["Adi"];
                         item.Un_ID = int.Parse(form["UnID"]);
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.OlusturanId = 1;//değişcek
-                        item.DuzenleyenID = 1;//değişcek
+                        item.OlusturanId = KullaniciID;
+                        item.DuzenleyenID = KullaniciID;
                         TasinacakUrunManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -55,6 +60,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -64,9 +71,9 @@ namespace logikeyv2.Controllers
                         TasinacakUrun item = TasinacakUrunManager.GetByID(int.Parse(form["ID"]));
                         item.Adi = form["Adi"];
                         item.Un_ID = int.Parse(form["UnID"]);
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         TasinacakUrunManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -86,6 +93,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -94,6 +103,9 @@ namespace logikeyv2.Controllers
                     {
                         TasinacakUrun item = TasinacakUrunManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = false;
+                        item.FirmaID = FirmaID;
+                        item.DuzenlemeTarihi = DateTime.Now;
+                        item.DuzenleyenID = KullaniciID;
                         TasinacakUrunManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

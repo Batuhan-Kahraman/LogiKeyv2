@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class KullaniciController : Controller
     {
         KullanicilarManager kullaniciManager = new KullanicilarManager(new EFKullanicilarRepository());
         public IActionResult Index()
         {
-            List<Kullanicilar> liste = kullaniciManager.GetAllList(x => x.Kullanici_Durum == 1);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Kullanicilar> liste = kullaniciManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID);
             return View(liste);
 
         }
@@ -22,6 +24,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Ekle(Kullanicilar kullanici)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -30,8 +34,9 @@ namespace logikeyv2.Controllers
                     {
 
                         kullanici.Kullanici_Durum = 1;
-                        kullanici.EkleyenKullanici_ID = 1;//değişçek
-                        kullanici.Firma_ID = 1;//değişçek
+                        kullanici.EkleyenKullanici_ID = KullaniciID;
+                        kullanici.Firma_ID = FirmaID;
+                        kullanici.DuzenleyenID = KullaniciID;
                         kullanici.Kullanici_OlusturmaTarihi = DateTime.UtcNow;
                         kullanici.Kullanici_DuzenlemeTarihi = DateTime.UtcNow;
                         kullaniciManager.TAdd(kullanici);

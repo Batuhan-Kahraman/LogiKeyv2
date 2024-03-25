@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class AracGelirGiderController : Controller
     {
         AracGelirManager aracGelirManager = new AracGelirManager(new EFAracGelirRepository());
@@ -14,8 +15,9 @@ namespace logikeyv2.Controllers
         AracManager aracManager = new AracManager(new EFAracRepository());
         public IActionResult AracGelirListesi()
         {
-            var combinedQuery = from aracgelir in aracGelirManager.GetAllList(x => x.Durum == 1)
-                                join arac in aracManager.GetAllList((y => y.Durum == true)) on aracgelir.Arac_ID equals arac.ID
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var combinedQuery = from aracgelir in aracGelirManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID)
+                                join arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on aracgelir.Arac_ID equals arac.ID
                                 select new AracGelirGider { AracGelir = aracgelir, Arac = arac };
 
             List<AracGelirGider> combinedList = combinedQuery.ToList();
@@ -24,8 +26,9 @@ namespace logikeyv2.Controllers
         }
         public IActionResult AracGiderListesi()
         {
-            var combinedQuery1 = from aracgider in aracGiderManager.GetAllList(x => x.Durum == 1)
-                                join arac in aracManager.GetAllList((y => y.Durum == true)) on aracgider.Arac_ID equals arac.ID
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var combinedQuery1 = from aracgider in aracGiderManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID)
+                                join arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on aracgider.Arac_ID equals arac.ID
                                 select new AracGelirGider { AracGider = aracgider, Arac = arac };
 
             List<AracGelirGider> combinedList = combinedQuery1.ToList();
@@ -42,6 +45,9 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult AracGelirEkle(AracGelir aracGelir)
         {
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -50,9 +56,9 @@ namespace logikeyv2.Controllers
                     {
 
                         aracGelir.Durum = 1;
-                        aracGelir.EkleyenKullanici_ID = 1;//değişçek
-                        aracGelir.DuzenleyenKullanıcı_ID = 1;//değişçek
-                        aracGelir.Firma_ID = 1;//değişçek
+                        aracGelir.EkleyenKullanici_ID = KullaniciID;
+                        aracGelir.DuzenleyenKullanıcı_ID = KullaniciID;
+                        aracGelir.Firma_ID = FirmaID;
                         aracGelir.OlusturmaTarihi = DateTime.UtcNow;
                         aracGelir.DuzenlemeTarihi = DateTime.UtcNow;
                         aracGelirManager.TAdd(aracGelir);
@@ -72,6 +78,9 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult AracGiderEkle(AracGider aracGider)
         {
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -80,9 +89,9 @@ namespace logikeyv2.Controllers
                     {
 
                         aracGider.Durum = 1;
-                        aracGider.EkleyenKullanici_ID = 1;//değişçek
-                        aracGider.DuzenleyenKullanıcı_ID = 1;//değişçek
-                        aracGider.Firma_ID = 1;//değişçek
+                        aracGider.EkleyenKullanici_ID = KullaniciID;
+                        aracGider.DuzenleyenKullanıcı_ID = KullaniciID;
+                        aracGider.Firma_ID = FirmaID;
                         aracGider.OlusturmaTarihi = DateTime.UtcNow;
                         aracGider.DuzenlemeTarihi = DateTime.UtcNow;
                         aracGiderManager.TAdd(aracGider);
