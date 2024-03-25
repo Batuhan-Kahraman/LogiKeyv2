@@ -82,5 +82,8 @@ namespace DataAccessLayer.Concrate
         public DbSet<FaturaOkul> FaturaOkul { get; set; }
         public DbSet<CariHareket> CariHareket { get; set; }
 
+        public DbSet<OgrenciTahsilat> OgrenciTahsilat { get; set; }
+        public DbSet<OgrenciTahsilatBilgileri> OgrenciTahsilatBilgileri { get; set; }
+
     }
 }

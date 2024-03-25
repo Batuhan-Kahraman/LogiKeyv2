@@ -66,5 +66,7 @@ namespace BusinessLayer.Abstract
     public interface IFaturaOkulService : IGenericService<FaturaOkul> { }
     public interface ICariHareketService : IGenericService<CariHareket> { }
 
+    public interface IOgrenciTahsilatService : IGenericService<OgrenciTahsilat> { }
+
 
 }
