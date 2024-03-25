@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class BankalarController : Controller
+    public class BankalarController : BaseController
     {
         BankalarManager BankalarManager = new BankalarManager(new EFBankalarRepository());
 

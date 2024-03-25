@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class MarkaController : Controller
+    public class MarkaController : BaseController
     {
         MarkaManager MarkaManager = new MarkaManager(new EFMarkaRepository());
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class KazaTuruController : Controller
+    public class KazaTuruController : BaseController
     {
         KazaTuruManager KazaTuruManager = new KazaTuruManager(new EFKazaTuruRepository());
 

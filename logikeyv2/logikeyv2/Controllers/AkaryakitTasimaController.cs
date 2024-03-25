@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class AkaryakitTasimaController : Controller
+    public class AkaryakitTasimaController : BaseController
     {
         #region tanimlamalar
         AracManager aracManager = new AracManager(new EFAracRepository());
@@ -37,15 +37,15 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
+                        int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
 
-            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+                        var combinedQuery = from tasima in akaryakitTasimaManager.GetAllList(x => x.Durum == true)
+                                            join arac in aracManager.GetAllList((y => y.Durum == true)) on tasima.AracID equals arac.ID
+                                            join surucu1 in surucuManager.GetAllList((y => y.Kullanici_Durum == 1 )) on tasima.Kullanici1ID equals surucu1.Kullanici_ID
+                                            select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1 };
 
-            var combinedQuery = from tasima in akaryakitTasimaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
-                                join arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on tasima.AracID equals arac.ID
-                                join surucu1 in surucuManager.GetAllList((y => y.Kullanici_Durum == 1 && y.Firma_ID == FirmaID)) on tasima.Kullanici1ID equals surucu1.Kullanici_ID
-                                select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1 };
-
-            List<TasimaModel> combinedList = combinedQuery.ToList();
+                        List<TasimaModel> combinedList = combinedQuery.ToList();
+                        return View(combinedList);
             return View(combinedList);
         }
 

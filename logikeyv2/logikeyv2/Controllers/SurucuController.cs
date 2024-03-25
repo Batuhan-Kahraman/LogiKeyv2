@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class SurucuController : Controller
+    public class SurucuController : BaseController
     {
         KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());

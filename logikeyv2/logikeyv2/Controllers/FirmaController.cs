@@ -9,10 +9,11 @@ using System.Text;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class FirmaController : Controller
+    public class FirmaController : BaseController
     {
         FirmaManager firmaManager = new FirmaManager(new EFFirmaRepository());
         KullanicilarManager kullaniciManager = new KullanicilarManager(new EFKullanicilarRepository());
+        ModullerManager modullerManager = new ModullerManager(new EFModullerRepository());
         public IActionResult Index()
         {
             List<Firma> liste = firmaManager.GetAllList(x => x.Firma_Durum == 1);
@@ -21,10 +22,12 @@ namespace logikeyv2.Controllers
         }
         public IActionResult Ekle()
         {
+            List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
+            ViewBag.Moduller = liste;
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Firma firma)
+        public IActionResult Ekle(Firma firma,IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -34,12 +37,15 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
+                        var moduller = form["FirmaModul_ID[]"];
+
                         var hashPswd = ComputeSHA256Hash(firma.Firma_Sifre);
                         firma.Firma_Sifre = hashPswd;
                         firma.Firma_Durum = 1;
                         firma.EkleyenKullanici_ID = KullaniciID;
                         firma.OlusturmaTarihi = DateTime.UtcNow;
                         firma.DuzenlemeTarihi = DateTime.UtcNow;
+                        firma.FirmaModul_ID = moduller;
                         firmaManager.TAdd(firma);
                         Kullanicilar kullanicilar = new Kullanicilar();
                         kullanicilar.KullaniciGrup_ID = 3;
@@ -65,7 +71,7 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return View(firma);
+            return RedirectToAction("Index");
         }
 
         public static string ComputeSHA256Hash(string input)

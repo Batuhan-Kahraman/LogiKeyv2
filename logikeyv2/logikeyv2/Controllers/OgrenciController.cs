@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class OgrenciController : Controller
+    public class OgrenciController : BaseController
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
         KullanicilarManager kullanicilarManager = new KullanicilarManager(new EFKullanicilarRepository());

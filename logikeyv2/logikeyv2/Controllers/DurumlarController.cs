@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class DurumlarController : Controller
+    public class DurumlarController : BaseController
     {
         DurumlarManager DurumlarManager = new DurumlarManager(new EFDurumlarRepository());
 

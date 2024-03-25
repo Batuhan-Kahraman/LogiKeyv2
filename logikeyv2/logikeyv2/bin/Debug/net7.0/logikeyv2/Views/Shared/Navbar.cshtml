@@ -200,8 +200,11 @@
                         </div>
                     </div>
                 </li>
-
-                <li>
+                @{
+                    //akaryakıt modulu
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("3"))
+                    {
+        <li>
                     <!-- Akaryakıt Taşıma -->
                     <div class="nav-item-wrapper">
                         <a class="nav-link dropdown-indicator label-1" href="#nv-akaryakitTasima" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-akaryakitTasima">
@@ -253,10 +256,12 @@
                             </ul>
                         </div>
                     </div>
-                </li>
-
-                <li>
-                    <!-- Akaryakıt Taşıma -->
+                </li>                        
+                    }
+                    //normal modulu
+                     if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("2"))
+                    {         <li>
+                    <!-- Normal Taşıma -->
                     <div class="nav-item-wrapper">
                         <a class="nav-link dropdown-indicator label-1" href="#nv-normalTasima" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-normalSTasima">
                             <div class="d-flex align-items-center">
@@ -308,7 +313,10 @@
                         </div>
                     </div>
                 </li>
-
+                    }
+                    //okul servis modulu
+                     if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("4"))
+                    {
                 <li>
                     <!-- Okul Servisi -->
                     <div class="nav-item-wrapper">
@@ -346,6 +354,12 @@
                         </div>
                     </div>
                 </li>
+                    }
+                }
+        
+
+       
+
 
 
 
@@ -581,7 +595,8 @@
                                 <div class="avatar avatar-xl ">
                                     <img class="rounded-circle " src="~/assets/img/team/avatar.webp" alt="" />
                                 </div>
-                                <h6 class="mt-2 text-body-emphasis">Demo Hesap</h6>
+                                
+                                <h6 class="mt-2 text-body-emphasis"> @ViewBag.Eposta  </h6>
                             </div>
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -593,7 +608,7 @@
                         </div>
                         <div class="card-footer p-0 border-top border-translucent">
 
-                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
+                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" asp-controller="Login" asp-action="Logout"> <span class="me-2" data-feather="log-out"> </span>Çıkış Yap</a></div>
 
                         </div>
                     </div>

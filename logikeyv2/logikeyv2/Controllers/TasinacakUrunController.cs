@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class TasinacakUrunController : Controller
+    public class TasinacakUrunController : BaseController
     {
         TasinacakUrunManager TasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
         UnListesiManager UnListesiManager = new UnListesiManager(new EFUnListesiRepository());

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class SoforHostesOkulController : Controller
+    public class SoforHostesOkulController : BaseController
     {
         KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());

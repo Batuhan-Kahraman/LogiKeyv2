@@ -8,7 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class AjaxController : Controller
+    public class AjaxController : BaseController
     {
         #region tanimlamalar
         SahiplikManager sahiplikManager = new SahiplikManager(new EFSahiplikRepository());

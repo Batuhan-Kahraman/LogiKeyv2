@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class NormalAracTurController : Controller
-    {
+    public class NormalAracTurController : BaseController
+    { 
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
         NormalAracTurManager NormalAracTurManager = new NormalAracTurManager(new EFNormalAracTurRepository());
         public IActionResult Index()
