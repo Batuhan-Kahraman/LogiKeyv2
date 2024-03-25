@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
+using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Tesseract;
 using static System.Net.Mime.MediaTypeNames;
@@ -33,12 +34,15 @@ namespace logikeyv2.Controllers
         AkaryakitTasimaManager  akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
         NormalTasimaManager  normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
         #endregion
+        CariManager cariManager = new CariManager(new EFCariRepository());
+        OgrenciModuluManager ogrenciModuluManager = new OgrenciModuluManager(new EFOgrenciModuluRepository());
         [HttpGet]
         public IActionResult SahiplikListe()
         {
             List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true);
             return Json(liste);
         }
+       
         [HttpGet]
         public IActionResult GrupListe()
         {
