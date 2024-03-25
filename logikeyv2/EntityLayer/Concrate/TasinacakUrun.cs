@@ -13,6 +13,8 @@ namespace EntityLayer.Concrate
         public int ID { get; set; }
         [Required]
         public string Adi { get; set; }
+        public int Un_ID { get; set; }
+
         [Required]
         public int FirmaID { get; set; }
         [Required]

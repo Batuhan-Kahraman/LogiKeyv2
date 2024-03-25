@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class SoforHostesOkulController : Controller
     {
         KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
@@ -17,8 +18,10 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1)
-                .GroupJoin(ehliyetSinifiManager.GetAllList(x => x.Durum == true),
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID)
+                .GroupJoin(ehliyetSinifiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                     surucu => surucu.EhliyetSinifiID,
                     ehliyetSinifi => ehliyetSinifi.ID,
                     (surucu, ehliyetSinifiGroup) => new { surucu, ehliyetSinifiGroup })
@@ -27,7 +30,7 @@ namespace logikeyv2.Controllers
                     (result, ehliyetSinifi) => new { result.surucu, ehliyetSinifi }
             )
             .GroupJoin(
-                    surucuPozisyonManager.GetAllList(x => x.Durum == true),
+                    surucuPozisyonManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                     result => result.surucu.SurucuPozisyonID,
                     surucuPozisyon => surucuPozisyon.ID,
                     (result, surucuPozisyonGroup) => new { result.surucu, result.ehliyetSinifi, surucuPozisyonGroup }
@@ -54,16 +57,20 @@ namespace logikeyv2.Controllers
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             ViewBag.Iller = iller;
-            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true));
+            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
             ViewBag.SurucuPozisyon = SurucuPozisyon;
-            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true));
+            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
             ViewBag.EhliyetSinifi = ehliyetSinifi;
             return View();
         }
         [HttpPost]
         public IActionResult SoforHostesEkle(Kullanicilar surucu)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -71,11 +78,11 @@ namespace logikeyv2.Controllers
                     try
                     {
                         surucu.Kullanici_Durum = 1;
-                        surucu.Firma_ID = 1;//değişçek
+                        surucu.Firma_ID = FirmaID;
                         surucu.Kullanici_OlusturmaTarihi = DateTime.Now;
                         surucu.Kullanici_DuzenlemeTarihi = DateTime.Now;
-                        surucu.EkleyenKullanici_ID = 1;//değişcek
-                        surucu.DuzenleyenID = 1;//değişcek
+                        surucu.EkleyenKullanici_ID = KullaniciID;
+                        surucu.DuzenleyenID = KullaniciID;
                         surucuManager.TAdd(surucu);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -99,6 +106,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(Kullanicilar surucu)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -141,7 +150,7 @@ namespace logikeyv2.Controllers
                         item.FGecerlilikTarih = surucu.FGecerlilikTarih;
                         item.Maas = surucu.Maas;
                         item.Kullanici_DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         surucuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -162,6 +171,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -170,6 +181,9 @@ namespace logikeyv2.Controllers
                     {
                         Kullanicilar item = surucuManager.GetByID(int.Parse(form["ID"]));
                         item.Kullanici_Durum = 0;
+                        item.Firma_ID = FirmaID;
+                        item.Kullanici_DuzenlemeTarihi = DateTime.Now;
+                        item.DuzenleyenID = KullaniciID;
                         surucuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

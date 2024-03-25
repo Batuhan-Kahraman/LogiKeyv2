@@ -30,6 +30,7 @@ using Newtonsoft.Json;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class AracController : Controller
     {
         AracManager aracManager = new AracManager(new EFAracRepository());
@@ -42,8 +43,9 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true)
-                .GroupJoin(aracTurManager.GetAllList(x => x.Durum == true),
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+                .GroupJoin(aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                     arac => arac.AracTurID,
                     tur => tur.ID,
                     (arac, turGroup) => new { arac, turGroup })
@@ -52,7 +54,7 @@ namespace logikeyv2.Controllers
                     (result, tur) => new { result.arac, tur }
                 )
                 .GroupJoin(
-                    aracTipManager.GetAllList(x => x.Durum == true),
+                    aracTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                     result => result.arac.AracTipID,
                     tip => tip.ID,
                     (result, tipGroup) => new { result.arac, result.tur, tipGroup }
@@ -62,7 +64,7 @@ namespace logikeyv2.Controllers
                     (result, tip) => new { result.arac, result.tur, tip }
                 )
                 .GroupJoin(
-                    markaManager.GetAllList(x => x.Durum == true),
+                    markaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                     result => result.arac.MarkaID,
                     marka => marka.ID,
                     (result, markaGroup) => new { result.arac, result.tur, result.tip, markaGroup }
@@ -72,7 +74,7 @@ namespace logikeyv2.Controllers
                     (result, marka) => new { result.arac, result.tur, result.tip, marka }
                 )
                 .GroupJoin(
-                    modelManager.GetAllList(x => x.Durum == true),
+                    modelManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                     result => result.arac.ModelID,
                     model => model.ID,
                     (result, modelGroup) => new { result.arac, result.tur, result.tip, result.marka, modelGroup }
@@ -108,6 +110,9 @@ namespace logikeyv2.Controllers
         public IActionResult Ekle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
             , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler)
         {
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
 
             using (var context = new Context())
             {
@@ -153,11 +158,11 @@ namespace logikeyv2.Controllers
 
 
                         arac.Durum = true;
-                        arac.FirmaID = 1;//değişçek
+                        arac.FirmaID = FirmaID;
                         arac.OlusturmaTarihi = DateTime.Now;
                         arac.DuzenlemeTarihi = DateTime.Now;
-                        arac.OlusturanId = 1;//değişcek
-                        arac.DuzenleyenID = 1;//değişcek
+                        arac.OlusturanId =KullaniciID;
+                        arac.DuzenleyenID = KullaniciID;
                         aracManager.TAdd(arac);
 
                         if (resimler != null && resimler.Count() > 0)
@@ -307,7 +312,7 @@ namespace logikeyv2.Controllers
 
         public IActionResult Duzenle(int AracID)
         {
-            ViewBag.Resimler=aracResimlerManager.GetAllList(x=>x.AracID==AracID);
+            ViewBag.Resimler=aracResimlerManager.GetAllList(x=>x.AracID==AracID );
             Arac arac = aracManager.GetByID(AracID);
             return View(arac);
         }
@@ -316,6 +321,9 @@ namespace logikeyv2.Controllers
         public IActionResult Duzenle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
             , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler)
         {
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -465,7 +473,7 @@ namespace logikeyv2.Controllers
 
 
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         aracManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -485,6 +493,9 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -493,6 +504,9 @@ namespace logikeyv2.Controllers
                     {
                         Arac item = aracManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = false;
+                        item.FirmaID = FirmaID;
+                        item.DuzenlemeTarihi=DateTime.Now;
+                        item.DuzenleyenID=KullaniciID;
                         aracManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

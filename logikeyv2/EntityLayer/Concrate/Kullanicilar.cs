@@ -19,7 +19,7 @@ namespace EntityLayer.Concrate
         public byte Kullanici_Durum { get; set; }
         public DateTime Kullanici_OlusturmaTarihi { get; set; }
         public DateTime Kullanici_DuzenlemeTarihi { get; set; }
-        public int? Firma_ID { get; set; }
+        public int Firma_ID { get; set; }
         public int? EkleyenKullanici_ID { get; set; }
         public int? SurucuPozisyonID { get; set; }
 

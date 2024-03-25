@@ -1,0 +1,117 @@
+﻿@using BusinessLayer.Concrate
+@using EntityLayer.Concrate
+
+
+@{
+    int sayac = 1;
+
+    <div class="bg-body dark__bg-gray-1100 p-4 mb-4 rounded-2">
+        <div class="row g-4">
+
+            <div class="col-12 col-lg-3">
+                <div class="row g-4 g-lg-2">
+                    <div class="col-12 col-sm-6 col-lg-12">
+                        <div class="row align-items-center g-0">
+                            <div class="col-auto col-lg-6 col-xl-5">
+                                <h6 class="me-3">@Helper.CariUnvan(ViewBag.CariID) Cari Hareketi</h6>
+                            </div>
+                            <div class="col-auto col-lg-6 col-xl-7">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="px-0">
+        <div class="table-responsive scrollbar">
+            <table class="table fs-9 text-body mb-0">
+                <thead class="bg-body-secondary">
+                    <tr>
+                        <th scope="col" style="min-width: 60px;">Fiş Kesilen Cari</th>
+                        <th scope="col" style="min-width: 60px;">Gönderici</th>
+                        <th scope="col" style="min-width: 60px;">Alıcı</th>
+                        <th scope="col" style="min-width: 60px;">Ürün Adı</th>
+                        <th scope="col" style="min-width: 60px;">Yükleme Miktarı</th>
+                        <th scope="col">Ücretlendirme</th>
+                        <th scope="col">Fiyat</th>
+                        <th scope="col">Nakliye KDV Hariç</th>
+                        <th scope="col">Nakliye KDV </th>
+                        <th scope="col">Nakliye KDV Dahil</th>
+                        <th scope="col">Ödeme</th>
+                        <th scope="col">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var fatura in ViewBag.Fatura)
+                        {
+
+
+                            AkaryakitTasima tasima = Helper.AkaryakitTasiCariHareket(fatura.AkaryakitTasimaID);
+                            AkaryakitTasimaDetay detay = Helper.AkaryakitTasimaDetayCariHareket(fatura.AkaryakitTasimaDetayID);
+                            AkaryakitTasimaDetayUrun detayUrun = Helper.AkaryakitTasimaDetayUrunCariHareket(fatura.AkaryakitTasimaDetayUrunID);
+
+                            <tr>
+
+
+                                <td>
+                                    @Helper.CariUnvan(fatura.FaturaKesilenID)
+                                </td>
+                                <td>
+                                    @Helper.CariUnvan(detay.GondericiID)
+                                </td>
+                                <td>
+                                    @Helper.CariUnvan(detay.AliciID)
+                                </td>
+                                <td>
+                                    @Helper.UrunAdi(detayUrun.UrunID)
+                                </td>
+                                <td>
+                                    @detayUrun.YuklemeMiktari
+                                </td>
+                                @{
+                                    if (detayUrun.Ucretlendirme == 1)
+                                    {
+
+                                        <td>
+                                            Birim
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>Sefer</td>
+                                    }
+
+                                }
+                                <td>@detayUrun.BirimSeferFiyati</td>
+                                <td>@detay.NakliyeTutarKDVHaric</td>
+                                <td>@detay.NakliyeKDV</td>
+                                <td>@detay.NakliyeToplam</td>
+                                <td>@fatura.Odeme</td>
+                                <td><a asp-controller="AkaryakitTasima" asp-action="Odeme" asp-route-FaturaID="@fatura.ID">Ödeme</a></td>
+                            </tr>
+
+
+
+
+
+
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    sayac++;
+
+
+}
+
+
+
