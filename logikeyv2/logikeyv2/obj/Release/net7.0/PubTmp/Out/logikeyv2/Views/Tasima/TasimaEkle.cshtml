@@ -106,7 +106,7 @@
                        
                         <select class="form-control" asp-for="CekiciPlaka_ID" id="CekiciPlaka_ID">
                             <option value="0">Seçiniz</option>
-                            @foreach (var arac in ViewBag.Araclar)
+                            @foreach (var arac in ViewBag.CekiciPlaka)
                             {
                                 <option value="@arac.ID">@arac.Plaka</option>
 
@@ -117,9 +117,11 @@
                     <td>
                         <select asp-for="DorseTipi_ID" class=" form-control" id="DorseTipi_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">ADR Lİ Dorse</option>
-                            <option value="2">ADR SİZ Dorse</option>
-                            <option value="3">Sal Dorse</option>
+                            @foreach (var arac in ViewBag.DorseListe)
+                            {
+                                <option value="@arac.ID">@arac.Adi</option>
+
+                            }
 
                         </select>
                     </td>
@@ -127,9 +129,10 @@
                     <td>
                         <select asp-for="DorsePlaka_ID" class=" form-control" id="Arac_ID">
                             <option value="0">Seçiniz</option>
-                            @foreach (var arac in ViewBag.Araclar)
+                            @foreach (var arac in ViewBag.DorsePlaka)
                             {
                                 <option value="@arac.ID">@arac.Plaka</option>
+
                             }
                         </select>
                     </td>
@@ -157,7 +160,7 @@
                     <td rowspan="2" colspan="1" style="width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center">
                         <h5 style="color:#fff !important;"> Ürün</h5>
                     </td>
-                    <td>Un Seç</td>
+                    <td>Un Kodu Seç</td>
                     <td>
                         <select asp-for="Un_ID" class=" form-control" id="Un_ID">
                             <option value="0">Seçiniz</option>
@@ -171,10 +174,13 @@
                     </td>
                     <td>Ürün Seç</td>
                     <td>
-                        <select asp-for="Cari_Odeme_Yapan_ID" class=" form-control" id="TasinacakUrun_ID">
+                        <select asp-for="TasinacakUrun_ID" class=" form-control" id="TasinacakUrun_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Alıcı</option>
-                            <option value="2">Gönderici</option>
+
+                            @foreach (var item in ViewBag.TasinacakUrun)
+                            {
+                                <option value="@item.ID">@item.Adi</option>
+                            }
 
                         </select>
                     </td>
@@ -318,19 +324,23 @@
                     </td>
                     <td>Mal Yükleme İl</td>
                     <td>
-                        <select class="form-control" asp-for="MalYuklemeAdres_IL_ID" id="MalYuklemeAdres_IL_ID">
+                        <select class="form-control" asp-for="MalYuklemeAdres_IL_ID" id="MalYuklemeAdres_IL_ID" onchange="IlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
-                            <option value="1">izmir</option>
+                            
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                <option value="@item.IL_KODU">@item.Il</option>
+                            }
+
                         </select>
                     </td>
                     <td>Mal Yükleme İlçe</td>
                     <td>
                         <select class="form-control" asp-for="MalYuklemeAdres_ILCE_ID" id="MalYuklemeAdres_ILCE_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Konak</option>
-                            <option value="2">Bornova</option>
-                            <option value="3">Karabağlar</option>
-                            <option value="4">Balçova</option>
+                         
+
 
                         </select>
                     </td>
@@ -350,27 +360,33 @@
                     <td>
                         <select asp-for="AliciCari_ID" class=" form-control" id="AliciCari_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">SKS Petrol</option>
-                            <option value="2">Kerim Petrol</option>
-                            <option value="2">PATPAN</option>
+
+
+                            @foreach (var item in ViewBag.AliciListesi)
+                            {
+
+                                <option value="@item.Cari_ID">@item.Cari_Unvan</option>
+                            }
 
                         </select>
                     </td>
                     <td>İndirilen İl</td>
                     <td>
-                        <select class="form-control" asp-for="IndirilenAdres_IL_ID" id="IndirilenAdres_IL_ID">
+                        <select class="form-control" asp-for="IndirilenAdres_IL_ID" id="IndirilenAdres_IL_ID" onchange="IndirilenIlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
-                            <option value="1">izmir</option>
+
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                <option value="@item.IL_KODU">@item.Il</option>
+                            }
                         </select>
                     </td>
                     <td>İndirilen İlçe</td>
                     <td>
                         <select class="form-control" asp-for="IndirilenAdres_ILCE_ID" id="IndirilenAdres_ILCE_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Konak</option>
-                            <option value="2">Bornova</option>
-                            <option value="3">Karabağlar</option>
-                            <option value="4">Balçova</option>
+                          
 
                         </select>
                     </td>
@@ -387,7 +403,7 @@
                     <td rowspan="2" colspan="1" style="width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center">
                         <h5 style="color:#fff !important;"> Nakliye Bedeli</h5>
                     </td>
-                    <td>Tutar</td>
+                    <td>Tutar(KDV Hariç)</td>
                     <td>
                         <input type="number" class="form-control" asp-for="NakliyeBedelTutar_KDVsiz" />
                     </td>
@@ -396,11 +412,8 @@
                     <td>
                         <input type="number" class="form-control" asp-for="NakliyeBedelTutar_KDV" />
                     </td>
-                </tr>
-                <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
-
                     <td>Toplam</td>
-                    <td colspan="5"><input type="text" class="form-control" asp-for="NakliyeBedeliToplam_KDVli" /></td>
+                    <td><input type="text" class="form-control" asp-for="NakliyeBedeliToplam_KDVli" /></td>
 
                 </tr>
            </table>
@@ -416,6 +429,60 @@
         $(document).ready(function () {
             $('#uyariModal').modal('show');
         });
-    </script>
 
+        function IlDegistir(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#MalYuklemeAdres_ILCE_ID').empty();
+                    $('#MalYuklemeAdres_ILCE_ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#MalYuklemeAdres_ILCE_ID').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        function IndirilenIlDegistir(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#IndirilenAdres_ILCE_ID').empty();
+                    $('#IndirilenAdres_ILCE_ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#IndirilenAdres_ILCE_ID').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+    </script>
 }

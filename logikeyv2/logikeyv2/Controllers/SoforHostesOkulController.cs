@@ -49,6 +49,7 @@ namespace logikeyv2.Controllers
 
         public IActionResult SoforHostesEkle()
         {
+          
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
