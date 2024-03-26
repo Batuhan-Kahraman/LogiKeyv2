@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class KullaniciGrupController : Controller
+    public class KullaniciGrupController : BaseController
     {
         KullaniciGrubuManager KullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
 

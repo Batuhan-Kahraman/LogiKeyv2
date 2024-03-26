@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class YakitTipiController : Controller
+    public class YakitTipiController : BaseController
     {
         YakitTipiManager YakitTipiManager = new YakitTipiManager(new EFYakitTipiRepository());
 

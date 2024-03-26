@@ -31,7 +31,7 @@ using Newtonsoft.Json;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class AracController : Controller
+    public class AracController : BaseController
     {
         AracManager aracManager = new AracManager(new EFAracRepository());
         SahiplikManager sahiplikManager = new SahiplikManager(new EFSahiplikRepository());

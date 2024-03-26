@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class MasrafCezaController : Controller
+    public class MasrafCezaController : BaseController
     {
         MasrafCezaManager MasrafCezaManager = new MasrafCezaManager(new EFMasrafCezaRepository());
         AracManager AracManager = new AracManager(new EFAracRepository());

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class SurucuPozisyonController : Controller
+    public class SurucuPozisyonController : BaseController
     {
         SurucuPozisyonManager SurucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
 

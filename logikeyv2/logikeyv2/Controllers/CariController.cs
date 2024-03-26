@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class CariController : Controller
+    public class CariController : BaseController
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
         CariGrupManager cariGrupManager = new CariGrupManager(new EFCariGrupRepository());

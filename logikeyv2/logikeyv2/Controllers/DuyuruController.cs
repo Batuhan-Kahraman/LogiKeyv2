@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class DuyuruController : Controller
+    public class DuyuruController : BaseController
     {
         DuyuruManager duyuruManager = new DuyuruManager(new EFDuyuruRepository());
         BildirimManager bildirimManager = new BildirimManager(new EFBildirimRepository());

@@ -10,6 +10,7 @@ namespace logikeyv2.Controllers
     public class LoginController : Controller
     {
         KullanicilarManager kullaniciManager = new KullanicilarManager(new EFKullanicilarRepository());
+        FirmaManager firmaManager = new FirmaManager(new EFFirmaRepository());
         public IActionResult Index()
         {
 
@@ -28,6 +29,14 @@ namespace logikeyv2.Controllers
                 HttpContext.Session.SetInt32("KullaniciID", KullaniciID);
                 HttpContext.Session.SetString("Eposta", item[0].Kullanici_Eposta);
                 HttpContext.Session.SetInt32("FirmaID", FirmaID);
+
+                var modul = firmaManager.GetByID(FirmaID).FirmaModul_ID;
+                if (modul != null)
+                {
+
+                    HttpContext.Session.SetString("Moduller", modul);
+                }
+
 
                 return RedirectToAction("Index", "Home");
             }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class TasimaController : Controller
+    public class TasimaController : BaseController
     {
         AracManager aracManager = new AracManager(new EFAracRepository());
         KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());

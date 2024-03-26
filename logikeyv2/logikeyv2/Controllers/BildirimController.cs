@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class BildirimController : Controller
+    public class BildirimController : BaseController
     {
         BildirimManager BildirimManager = new BildirimManager(new EFBildirimRepository());
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class KullaniciController : Controller
+    public class KullaniciController : BaseController
     {
         KullanicilarManager kullaniciManager = new KullanicilarManager(new EFKullanicilarRepository());
         public IActionResult Index()

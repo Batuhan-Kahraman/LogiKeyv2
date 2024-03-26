@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class AracGelirGiderController : Controller
+    public class AracGelirGiderController : BaseController
     {
         AracGelirManager aracGelirManager = new AracGelirManager(new EFAracGelirRepository());
         AracGiderManager aracGiderManager = new AracGiderManager(new EFAracGiderRepository());

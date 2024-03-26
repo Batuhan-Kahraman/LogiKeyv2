@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class GrupController : Controller
+    public class GrupController : BaseController
     {
         GrupManager GrupManager = new GrupManager(new EFGrupRepository());
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class MasrafTipiController : Controller
+    public class MasrafTipiController : BaseController
     {
         MasrafTipiManager MasrafTipiManager = new MasrafTipiManager(new EFMasrafTipiRepository());
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class EhliyetSinifiController : Controller
+    public class EhliyetSinifiController : BaseController
     {
         EhliyetSinifiManager EhliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class AracTurController : Controller
+    public class AracTurController : BaseController
     {
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
 

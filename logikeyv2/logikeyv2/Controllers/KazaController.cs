@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class KazaController : Controller
+    public class KazaController : BaseController
     {
         KazaManager KazaManager = new KazaManager(new EFKazaRepository());
         AracManager AracManager=new AracManager(new EFAracRepository());
