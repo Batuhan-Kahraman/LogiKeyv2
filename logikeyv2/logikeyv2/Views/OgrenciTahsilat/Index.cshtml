@@ -116,6 +116,7 @@
                                 <form>
                                    <div class="row">
                                       <div class="col">
+
                                         <label class="form-label">Tc No</label>
                                         <input type="text" class="form-control" id="tcNo" aria-label="Tc No" readonly>
                                       </div>
@@ -156,7 +157,8 @@
                                         <div class="row mb-5 ">
                                            
                                             <div class="col-6" id="odemeSekliBox">
-                                                <input type="text" class="form-control" id="odemeInput" readonly>
+                                                <input type="text" class="form-control" id="odemeInput" hidden>
+                                                <input type="datetime" class="form-control" id="taksitTarih" readonly>
 
                                                 <label class="form-label ">Ödeme Şekli Seçin</label>
                                                 <select class="form-control" id="odemeSekli">
@@ -194,6 +196,8 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
+                                <input type="hidden" id="tahsilatId" name="tahsilatId" >
+                                <a type="submit" id="silBtn" class="btn btn-danger"  >Tahsilatı Sil</a>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
                                 <button type="button" class="btn btn-primary" onclick="OdemeKaydet()">Kaydet</button>
                             </div>
@@ -244,9 +248,54 @@
         $(document).ready(function(){
             $("#odemeSekliBox").hide();
         })
+        $("#silBtn").click(function () {
+            var id = $("#tahsilatId").val();
+            console.log("Tahsilat ID: " + id);
+
+            $.ajax({
+                url: '/OgrenciTahsilat/OgrenciTahsilatSil', // Controller'ın endpoint'i
+                method: 'POST',
+                data: { id: id }, // Gönderilecek veri
+                success: function (response) {
+                    // Başarılı işlem durumunda yapılacaklar
+                    console.log(response);
+                    window.location.reload();
+                    // Örneğin başka bir işlem yapabilirsiniz veya bir mesaj gösterebilirsiniz
+                },
+                error: function (error) {
+                    // Hata durumunda yapılacaklar
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        });
         function OdemeSec(id){
             $("#odemeSekliBox").show();
             $("#odemeInput").val(id);
+            console.log(odemeInput)
+            $.ajax({
+                url: '../Ajax/OgrenciTaksitBilgileri', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { id: id},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    if(data.odemeSekli == null){
+                        $("#odemeSekli").val(3);
+
+                    }else{
+                        $("#odemeSekli").val(data.odemeSekli);
+
+                    }
+                    var tarih = data.odemeTarihi.substring(0, 10);
+                    $("#taksitTarih").val(tarih)
+
+
+
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
             
         }
         function OdemeKaydet(){
@@ -260,7 +309,6 @@
                 data: { id: odemeInput, odemeValue: odemeValue },
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
                     if (data.odemeTahsilat.odemeDurumu == true) {
                     $("#odemeDurumu"+odemeInput).text("Ödendi");
                         $("#kalanBorc").val(data.odeme.kalanBorcTutar);
@@ -307,7 +355,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $(".modal-list").empty()
-
+                    console.log(data);
                     $("#tcNo").val(data.ogrenciBilgi.ogrenci.cari_TCNO_VergiNo)
                     $("#adSoyad").val(data.ogrenciBilgi.ogrenci.cari_Unvan)
                     $("#anlasmaTutar").val(data.ogrenciBilgi.ogrenci.cari_TCNO_VergiNo)
@@ -315,6 +363,7 @@
                     $("#anlasmaTarihi").val(data.ogrenciBilgi.ogrenciTahsilat.anlasmaTarihi)
                     $("#vadeBaslangicTarihi").val(data.ogrenciBilgi.ogrenciTahsilat.vadeBaslangicTarihi)
                     $("#taksitSayisi").val(data.ogrenciBilgi.ogrenciTahsilat.taksitSayisi)
+                    $("#tahsilatId").val(data.ogrenciBilgi.ogrenciTahsilat.id)
                     if(data.ogrenciBilgi.ogrenciTahsilat.odemeSekli == "0"){
                         $("#odemeSekli").val("Nakit")
 
@@ -363,9 +412,9 @@
                         newRow.append(cell5);
                         $(".modal-list").append(newRow)
 
-                        
-                     })
-                  
+
+                    })
+
 
                 },
                 error: function (error) {

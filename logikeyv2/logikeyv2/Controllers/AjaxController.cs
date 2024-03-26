@@ -280,6 +280,19 @@ namespace logikeyv2.Controllers
                 }
             }
         }
+        [HttpGet]
+        public IActionResult OgrenciTaksitBilgileri(int id)
+        {
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    var odemeTahsilat = context.OgrenciTahsilatBilgileri.FirstOrDefault(x => x.Id == id);
+
+                    return Json( odemeTahsilat);
+                }
+            }
+        }
     }
 
 }
