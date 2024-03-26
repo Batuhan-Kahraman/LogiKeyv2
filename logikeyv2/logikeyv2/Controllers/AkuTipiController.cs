@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class AkuTipiController : Controller
+    public class AkuTipiController : BaseController
     {
         AkuTipiManager AkuTipiManager = new AkuTipiManager(new EFAkuTipiRepository());
 

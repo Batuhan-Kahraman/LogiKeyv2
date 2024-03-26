@@ -12,7 +12,7 @@ namespace EntityLayer.Concrate
 
           [Key]
         public int Firma_ID { get; set; }
-            public int FirmaModul_ID { get; set; }
+            public string FirmaModul_ID { get; set; }
             public int Firma_Tipi { get; set; }
             public string? Firma_Unvan { get; set; }
             public string? Firma_TCNO_VKNO { get; set; }

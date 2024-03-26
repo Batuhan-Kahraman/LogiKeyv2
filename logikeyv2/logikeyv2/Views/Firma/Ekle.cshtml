@@ -85,14 +85,11 @@
                   
                     <td>Modul</td>
                     <td>
-                        <select class="form-control" asp-for="FirmaModul_ID" id="FirmaModul_ID">
-                            <option value="0">Seçiniz</option>
-                            <option value="1">Stok</option>
-                            <option value="2">Akaryakit</option>
-                            <option value="3">Öğrenci Servisi</option>
-                            <option value="4">Sevkiyat</option>
+                        @foreach(var item in ViewBag.Moduller){
+                            <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID"/>
+                            <label>@item.Modul_Adi</label><br />
+                        }
 
-                        </select>
                     </td>
                     
                   

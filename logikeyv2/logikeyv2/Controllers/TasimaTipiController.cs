@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class TasimaTipiController : Controller
+    public class TasimaTipiController : BaseController
     {
         TasimaTipiManager TasimaTipiManager = new TasimaTipiManager(new EFTasimaTipiRepository());
 

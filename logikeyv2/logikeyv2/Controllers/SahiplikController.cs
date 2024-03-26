@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class SahiplikController : Controller
+    public class SahiplikController : BaseController
     {
         SahiplikManager SahiplikManager = new SahiplikManager(new EFSahiplikRepository());
 

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class ModelController : Controller
+    public class ModelController : BaseController
     {
         ModelManager modelManager = new ModelManager(new EFModelRepository());
 

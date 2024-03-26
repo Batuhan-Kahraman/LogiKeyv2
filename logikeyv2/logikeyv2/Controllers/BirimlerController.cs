@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class BirimlerController : Controller
+    public class BirimlerController : BaseController
     {
         BirimlerManager BirimlerManager = new BirimlerManager(new EFBirimlerRepository());
 

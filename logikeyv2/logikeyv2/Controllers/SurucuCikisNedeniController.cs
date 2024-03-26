@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class SurucuCikisNedeniController : Controller
+    public class SurucuCikisNedeniController : BaseController
     {
         SurucuCikisNedeniManager SurucuCikisNedeniManager = new SurucuCikisNedeniManager(new EFSurucuCikisNedeniRepository());
 

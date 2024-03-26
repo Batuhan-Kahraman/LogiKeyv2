@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class LastikTipiController : Controller
+    public class LastikTipiController : BaseController
     {
         LastikTipiManager LastikTipiManager = new LastikTipiManager(new EFLastikTipiRepository());
 

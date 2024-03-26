@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class UnListesiController : Controller
+    public class UnListesiController : BaseController
     {
         UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
 
