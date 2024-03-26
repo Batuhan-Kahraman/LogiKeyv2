@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class ModullerController : Controller
     {
         ModullerManager ModullerManager = new ModullerManager(new EFModullerRepository());
@@ -13,13 +14,16 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<Moduller> liste = ModullerManager.GetAllList(x => x.Durum == 1);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Moduller> liste = ModullerManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
             return View(liste);
         }
 
         [HttpPost]
         public IActionResult Ekle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -29,11 +33,11 @@ namespace logikeyv2.Controllers
                         Moduller item = new Moduller();
                         item.Durum = 1;
                         item.Modul_Adi = form["Adi"];
-                        item.Firma_ID = 1;//değişçek
+                        item.Firma_ID = FirmaID;
                         item.EklemeTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.EkleyenKullanici_ID = 1;//değişcek
-                        item.DuzenleyenKullanici_ID = 1;//değişcek
+                        item.EkleyenKullanici_ID = KullaniciID;
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         ModullerManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -53,6 +57,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -61,9 +67,9 @@ namespace logikeyv2.Controllers
                     {
                         Moduller item = ModullerManager.GetByID(int.Parse(form["ID"]));
                         item.Modul_Adi = form["Adi"];
-                        item.Firma_ID = 1;//değişçek
+                        item.Firma_ID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenKullanici_ID = 1;//değişcek
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         ModullerManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -83,6 +89,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -91,6 +99,9 @@ namespace logikeyv2.Controllers
                     {
                         Moduller item = ModullerManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = 0;
+                        item.Firma_ID = FirmaID;
+                        item.DuzenlemeTarihi = DateTime.Now;
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         ModullerManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

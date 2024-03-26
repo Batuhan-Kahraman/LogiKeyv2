@@ -1,0 +1,342 @@
+﻿@model EntityLayer.Concrate.Kullanicilar
+
+@{
+    ViewData["Title"] = "Sofor Hostes Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Şöför veya Hostes Ekle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+                <!-- Sahiplik -->
+                <tr>
+                    <td>T.C. Numarası</td>
+                    <td><input type="text" class="form-control" asp-for="TC" /></td>
+                    <td>İsim</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Kullanici_Isim" />
+
+                    </td>
+                    <td>Soyisim</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Kullanici_Soyisim" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Kullanıcı Grubu</td>
+                    <td>
+                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()">
+                            <option value="0">Seçiniz</option>
+                            <option value="5">Servis Söför</option>
+                            <option value="4">Hostes</option>
+                        </select>
+                    </td>
+                    <td>Maaş</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Maas" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Doğum Tarihi</td>
+                    <td>
+                        <input type="date" class="form-control" asp-for="DogumTarihi" />
+                    </td>
+                    <td>Kan Grubu</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="KanGrubu" />
+                    </td>
+                    <td>Cep Telefonu</td>
+                    <td><input type="text" class="form-control" asp-for="CepTelefonu" /></td>
+                </tr>
+                <tr>
+                    <td>E-Posta Adresi</td>
+                    <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" /></td>
+                    <td>Pozisyon</td>
+                    <td>
+
+                        <select class="form-control" asp-for="SurucuPozisyonID" id="SurucuPozisyonID">
+                            <option value="0">Seçiniz</option>
+                            @*   @foreach (var item in ViewBag.SurucuPozisyon)
+                            {
+                            <option value="@item.ID">@item.Adi</option>
+
+                            } *@
+
+                        </select>
+                    </td>
+                    <td>Şifre</td>
+
+                    <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
+
+
+                </tr>
+                <tr>
+                    <td>İşe Giriş Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="GirisTarihi" /></td>
+                    <td>İşten Çıkış Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="CikisTarihi" /></td>
+                    <td>Çıkış Nedeni</td>
+                    <td><input type="text" class="form-control" asp-for="CikisNedeni" /></td>
+                </tr>
+                <tr>
+                    <td>Adres</td>
+                    <td>
+                        <textarea asp-for="Adres" class="form-control"></textarea>
+
+                    </td>
+                    <td>İl</td>
+                    <td>
+                        <select class="form-control" asp-for="IlID" id="IlID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>İlçe</td>
+                    <td>
+                        <select class="form-control" asp-for="IlceID" id="IlceID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Not</td>
+                    <td colspan="5">
+                        <textarea rows="2" asp-for="Notlar" class="form-control"></textarea>
+
+                    </td>
+                </tr>
+                <tr id="hiddenFields">
+                    <td>Ehliyet Sınıfı</td>
+                    <td>
+
+                        <select class="form-control" asp-for="EhliyetSinifiID" id="EhliyetSinifiID">
+                            <option value="0">Seçiniz</option>
+                            @*   @foreach (var item in ViewBag.EhliyetSinifi)
+                            {
+                            <option value="@item.ID">@item.Adi</option>
+
+                            } *@
+
+                        </select>
+
+                    </td>
+                    <td>Veriliş Tarihi</td>
+                    <td>
+                        <input type="date" class="form-control" asp-for="EhliyetVerilisTarihi" />
+                    </td>
+                    <td>Veriliş Yeri</td>
+                    <td>
+                        <input type="date" class="form-control" asp-for="EhliyetVerilisYeri" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Sona Eriş Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="EhliyetSonaErisTarihi" /></td>
+                    <td>Banka Adı</td>
+                    <td><input type="text" class="form-control" asp-for="BankaAdi" /></td>
+                    <td>Banka Iban No</td>
+                    <td><input type="text" class="form-control" asp-for="BankaIban" /></td>
+                </tr>
+                <tr id="hiddenFields2">
+                    <td>B Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="BGecerlilikTarih" /></td>
+                    <td>BE Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="BEGecerlilikTarih" /></td>
+                    <td>C1 Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="C1GecerlilikTarih" /></td>
+
+
+                </tr>
+                <tr id="hiddenFields3">
+
+                    <td>C1E Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="C1EGecerlilikTarih" /></td>
+
+                    <td>C Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="CGecerlilikTarih" /></td>
+                    <td>CE Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="CEGecerlilikTarih" /></td>
+
+
+
+                </tr>
+                <tr id="hiddenFields4">
+
+                    <td>D1 Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="D1GecerlilikTarih" /></td>
+
+                    <td>D1E Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="D1EGecerlilikTarih" /></td>
+                    <td>F Geçerlilik Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="FGecerlilikTarih" /></td>
+
+
+                </tr>
+
+                <tr id="hiddenFields5">
+
+                    <td>Mesleki Yeterlilik Geç. Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="MeslekiYeterlilikGecTarih" /></td>
+                    <td>Psiko Teknik Kurumu</td>
+                    <td><input type="text" class="form-control" asp-for="PsikoTeknikKurumu" /></td>
+                    <td>Psiko Teknik Geç. Tarihi</td>
+                    <td><input type="date" class="form-control" asp-for="PsikoTeknikGecTarih" /></td>
+                </tr>
+
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Kullanıcıyı Kaydet" />
+        </form>
+
+
+    </div>
+
+</div>
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        //SurucuPozisyon listele
+        $.ajax({
+            url: '../Ajax/SurucuPozisyonListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#SurucuPozisyonID').empty();
+                $('#SurucuPozisyonID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#SurucuPozisyonID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+        //EhliyetSinifi listele
+        $.ajax({
+            url: '../Ajax/EhliyetSinifiListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#EhliyetSinifiID').empty();
+                $('#EhliyetSinifiID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#EhliyetSinifiID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#IlID').change(function () {
+                var ilKodu = $(this).val();
+                if (ilKodu) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/ControllerAdi/GetIlceler",
+                        data: { ilKodu: ilKodu },
+                        success: function (response) {
+                            $('#IlceID').empty();
+                            $('#IlceID').append($('<option>').text('Seçiniz').attr('value', '0'));
+                            $.each(response, function (index, ilce) {
+                                $('#IlceID').append($('<option>').text(ilce.Ilce).attr('value', ilce.Adres_ID));
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                } else {
+                    $('#IlceID').empty();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        #hiddenFields {
+            display: none;
+        }
+
+        #hiddenFields2 {
+            display: none;
+        }
+
+        #hiddenFields3 {
+            display: none;
+        }
+
+        #hiddenFields4 {
+            display: none;
+        }
+
+        #hiddenFields5 {
+            display: none;
+        }
+
+    </style>
+    <script>
+        function toggleFields() {
+
+
+            var selectedOption = document.getElementById("KullaniciGrup_ID");
+            var selectedValue = selectedOption.options[selectedOption.selectedIndex].text;
+            var hiddenFields = document.getElementById("hiddenFields");
+            var hiddenFields2 = document.getElementById("hiddenFields2");
+            var hiddenFields3 = document.getElementById("hiddenFields3");
+            var hiddenFields4 = document.getElementById("hiddenFields4");
+            var hiddenFields5 = document.getElementById("hiddenFields5");
+            console.log(hiddenFields, "hiddenFields");
+            console.log(selectedValue, "selectedValue");
+            if (selectedValue === "Servis Söför") {
+
+                hiddenFields.style.display = "table-row";
+                hiddenFields2.style.display = "table-row";
+                hiddenFields3.style.display = "table-row";
+                hiddenFields4.style.display = "table-row";
+                hiddenFields5.style.display = "table-row";
+            } else {
+                hiddenFields.style.display = "none";
+                hiddenFields2.style.display = "none";
+                hiddenFields3.style.display = "none";
+                hiddenFields4.style.display = "none";
+                hiddenFields5.style.display = "none";
+            }
+        }
+    </script>
+
+}

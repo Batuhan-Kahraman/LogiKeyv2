@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

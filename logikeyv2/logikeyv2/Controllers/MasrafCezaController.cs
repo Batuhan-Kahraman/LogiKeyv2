@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class MasrafCezaController : Controller
     {
         MasrafCezaManager MasrafCezaManager = new MasrafCezaManager(new EFMasrafCezaRepository());
@@ -16,9 +17,10 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<MasrafCezaViewModel> viewModel = MasrafCezaManager.GetAllList(x => x.Durum == true)
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<MasrafCezaViewModel> viewModel = MasrafCezaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
     .GroupJoin(
-        AracManager.GetAllList(x => x.Durum == true),
+        AracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
         masraf => masraf.AracID,
         arac => arac.ID,
         (masraf, aracGroup) => new { masraf, aracGroup }
@@ -28,7 +30,7 @@ namespace logikeyv2.Controllers
         (result, arac) => new { result.masraf, arac }
     )
     .GroupJoin(
-        SurucuManager.GetAllList(x => x.Kullanici_Durum == 1),
+        SurucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID),
         result => result.masraf.SurucuID,
         surucu => surucu.Kullanici_ID,
         (result, surucuGroup) => new { result.masraf, result.arac, surucuGroup }
@@ -56,6 +58,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Ekle(MasrafCeza masrafCeza)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -63,11 +67,11 @@ namespace logikeyv2.Controllers
                     try
                     {
                         masrafCeza.Durum = true;
-                        masrafCeza.FirmaID = 1;//değişçek
+                        masrafCeza.FirmaID = FirmaID;
                         masrafCeza.OlusturmaTarihi = DateTime.Now;
                         masrafCeza.DuzenlemeTarihi = DateTime.Now;
-                        masrafCeza.OlusturanId = 1;//değişcek
-                        masrafCeza.DuzenleyenID = 1;//değişcek
+                        masrafCeza.OlusturanId = KullaniciID;
+                        masrafCeza.DuzenleyenID = KullaniciID;
                         MasrafCezaManager.TAdd(masrafCeza);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -93,6 +97,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(MasrafCeza masrafCeza)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -118,12 +124,12 @@ namespace logikeyv2.Controllers
                         item.Iskonto=masrafCeza.Iskonto;
                         item.ToplamTutar = masrafCeza.ToplamTutar;
                         item.Notlar = masrafCeza.Notlar;
-                        
 
 
-                        item.FirmaID = 1;//değişçek
+
+                        item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         MasrafCezaManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -143,6 +149,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -151,6 +159,9 @@ namespace logikeyv2.Controllers
                     {
                         MasrafCeza item = MasrafCezaManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = false;
+                        item.FirmaID = FirmaID;
+                        item.DuzenlemeTarihi = DateTime.Now;
+                        item.DuzenleyenID = KullaniciID;
                         MasrafCezaManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

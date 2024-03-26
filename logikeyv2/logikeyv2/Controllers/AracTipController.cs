@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class AracTipController : Controller
     {
         AracTipManager aracTipManager = new AracTipManager(new EFAracTipRepository());
@@ -15,9 +16,10 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<AracTipiViewModel> viewModel = aracTipManager.GetAllList(x => x.Durum == true)
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<AracTipiViewModel> viewModel = aracTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
                 .Join(
-                aracTurManager.GetAllList(x => x.Durum == true),
+                aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
                 tip => tip.AracTurID,
                 tur => tur.ID,
                 (tip, tur) => new AracTipiViewModel
@@ -28,7 +30,7 @@ namespace logikeyv2.Controllers
                     TurAdi = tur.Adi,
                 }
                 ).ToList();
-            List<AracTur> turListe = aracTurManager.GetAllList(x => x.Durum == true);
+            List<AracTur> turListe = aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
             ViewBag.AracTur = turListe;
             return View(viewModel);
         }
@@ -36,6 +38,9 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Ekle(IFormCollection form)
         {
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -46,11 +51,11 @@ namespace logikeyv2.Controllers
                         item.Durum = true;
                         item.Adi = form["Adi"];
                         item.AracTurID = int.Parse(form["AracTurID"]);
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.OlusturanId = 1;//değişcek
-                        item.DuzenleyenID = 1;//değişcek
+                        item.OlusturanId = KullaniciID;
+                        item.DuzenleyenID = KullaniciID;
                         aracTipManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -70,6 +75,9 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(IFormCollection form)
         {
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -79,9 +87,9 @@ namespace logikeyv2.Controllers
                         AracTip item = aracTipManager.GetByID(int.Parse(form["ID"]));
                         item.Adi = form["Adi"];
                         item.AracTurID = int.Parse(form["AracTurID"]);
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         aracTipManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -101,6 +109,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -109,6 +119,8 @@ namespace logikeyv2.Controllers
                     {
                         AracTip item = aracTipManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = false;
+                        item.DuzenleyenID = KullaniciID;
+                        item.DuzenlemeTarihi=DateTime.Now;
                         aracTipManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

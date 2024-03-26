@@ -64,7 +64,18 @@ namespace BusinessLayer.Abstract
     public interface IOgrenciGuzergahService : IGenericService<OgrenciGuzergah> { }
     public interface IOkul_GuzergahService : IGenericService<Okul_Guzergah> { }
     public interface IFaturaOkulService : IGenericService<FaturaOkul> { }
-    public interface ICariHareketService : IGenericService<CariHareket> { }
+    public interface IAkaryakitCariHareketService : IGenericService<AkaryakitCariHareket> { }
+
+
+
+    public interface INormalTasimaService : IGenericService<NormalTasima> { }
+    public interface INormalTasimaDetayService : IGenericService<NormalTasimaDetay> { }
+    public interface INormalTasimaDetayUrunService : IGenericService<NormalTasimaDetayUrun> { }
+    public interface INormalFaturaService : IGenericService<NormalFatura> { }
+    public interface INormalAracTurService : IGenericService<NormalAracTur> { }
+    public interface INormalCariHareketService : IGenericService<NormalCariHareket> { }
+
+
 
     public interface IOgrenciTahsilatService : IGenericService<OgrenciTahsilat> { }
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class OkulController : Controller
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
@@ -13,7 +14,8 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
 
             return View(liste);
         }
@@ -29,6 +31,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult OkulEkle(Cari cari)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -43,9 +47,9 @@ namespace logikeyv2.Controllers
                         cari.Cari_TCNO_VergiNo = "11111111111";//Okul modülünde olmadı için sabit değer verildi.
                         cari.Cari_Tipi = 2;//kurumsal
                         cari.Cari_VergiDairesi = "okul";
-                        cari.EkleyenKullanici_ID = 1;//değişçek
-                        cari.DuzenleyenKullanici_ID = 1;//değişçek
-                        cari.Firma_ID = 1;//değişçek
+                        cari.EkleyenKullanici_ID = KullaniciID;
+                        cari.DuzenleyenKullanici_ID = KullaniciID;
+                        cari.Firma_ID = FirmaID;
                         cari.Olusturma_Tarihi = DateTime.UtcNow;
                         cari.Duzenleme_Tarihi = DateTime.UtcNow;
                         cariManager.TAdd(cari);
@@ -70,6 +74,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult OkulDuzenle(Cari cari)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -99,7 +105,7 @@ namespace logikeyv2.Controllers
                       
 
                         item.Duzenleme_Tarihi = DateTime.UtcNow;
-                        item.DuzenleyenKullanici_ID = 1;//değişcek
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         cariManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

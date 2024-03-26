@@ -15,10 +15,10 @@ namespace EntityLayer.Concrate
         public string FaturaNo { get; set; }
         public int AkaryakitTasimaID { get; set; }
         public int AkaryakitTasimaDetayID { get; set; } 
-        public string FaturaKesenID { get; set; } //; ile id ler eklenecek
-        public string FaturaKesilenID { get; set; } //; ile id ler eklenecek
-
-        public string AkaryakitTasimaDetayUrunID { get; set; }  //; ile id ler eklenecek
+        public int FaturaKesenID { get; set; } 
+        public int FaturaKesilenID { get; set; } 
+        public int AkaryakitTasimaDetayUrunID { get; set; }  
+        public int Odeme { get; set; }  
 
 
         [Required]

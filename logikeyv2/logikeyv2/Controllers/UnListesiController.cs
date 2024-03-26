@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class UnListesiController : Controller
     {
         UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
@@ -13,13 +14,17 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<UnListesi> liste = unListesiManager.GetAllList(x => x.Durum == 1);
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<UnListesi> liste = unListesiManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
             return View(liste);
         }
 
         [HttpPost]
         public IActionResult Ekle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -34,11 +39,11 @@ namespace logikeyv2.Controllers
                         item.Un_Sinif = form["Un_Sinif"];
                         item.Un_SiniflandirmaKodu = form["Un_SiniflandirmaKodu"];
 
-                        item.Firma_ID= 1;//değişçek
+                        item.Firma_ID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.EkleyenKullanici_ID=1;//değişcek
-                        item.DuzenleyenKullanici_ID = 1;//değişcek
+                        item.EkleyenKullanici_ID = KullaniciID;
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         unListesiManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -58,6 +63,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -72,11 +79,11 @@ namespace logikeyv2.Controllers
                         item.Un_Sinif = form["UnSinif"];
                         item.Un_SiniflandirmaKodu = form["UnSiniflandirmaKodu"];
 
-                        item.Firma_ID = 1;//değişçek
+                        item.Firma_ID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.EkleyenKullanici_ID = 1;//değişcek
-                        item.DuzenleyenKullanici_ID = 1;//değişcek
+                        item.EkleyenKullanici_ID = KullaniciID;
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         unListesiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -96,6 +103,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -104,6 +113,9 @@ namespace logikeyv2.Controllers
                     {
                         UnListesi item = unListesiManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = 0;
+                        item.Firma_ID = FirmaID;
+                        item.DuzenlemeTarihi = DateTime.Now;
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         unListesiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

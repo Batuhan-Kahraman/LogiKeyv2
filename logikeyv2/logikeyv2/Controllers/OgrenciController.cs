@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class OgrenciController : Controller
     {
         CariManager cariManager = new CariManager(new EFCariRepository());
@@ -16,9 +17,11 @@ namespace logikeyv2.Controllers
         FaturaOkulManager faturaokulManager = new FaturaOkulManager(new EFFaturaOkulRepository());
         public IActionResult Index()
         {
-            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1)
-                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
-                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1 )
+                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
+                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
 
                                 select new OkulOgrenciModel { OgrenciModulu = ogrencimodulu, Okul = okul, Ogrenci= ogrenci };
 
@@ -28,21 +31,24 @@ namespace logikeyv2.Controllers
         }
         public IActionResult OgrenciEkle()
         {
-            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13));
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID));
             ViewBag.Okullar = okullar;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
-            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5));
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && y.Firma_ID==FirmaID));
            ViewBag.Sofor= servisSoforleri;
             return View();
         }
         [HttpPost]
         public IActionResult OgrenciEkle(OkulOgrenciModel model, string Fatura_Adi, string Fatura_Soyadi, string Fatura_Telefon, string Fatura_TC,int Fatura_il, int Fatura_ilce, string Fatura_Adres, string Fatura_Eposta,string Fatura_BankaAdi, string Fatura_BankaIBAN)
         {
-            
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
+
             try
             {
                 var ogrenciadi = model.Ogrenci.Cari_YetkiliAdi;
@@ -59,9 +65,9 @@ namespace logikeyv2.Controllers
                 model.Ogrenci.Cari_VergiDairesi = "öğrenci";
                 model.Ogrenci.Cari_WebSitesi = "öğrenci.com";
 
-                model.Ogrenci.EkleyenKullanici_ID = 1;
-                model.Ogrenci.DuzenleyenKullanici_ID = 1;
-                model.Ogrenci.Firma_ID = 1;
+                model.Ogrenci.EkleyenKullanici_ID = KullaniciID;
+                model.Ogrenci.DuzenleyenKullanici_ID = KullaniciID;
+                model.Ogrenci.Firma_ID = FirmaID;
                 model.Ogrenci.Olusturma_Tarihi = DateTime.UtcNow;
                 model.Ogrenci.Duzenleme_Tarihi = DateTime.UtcNow;
                 model.Ogrenci.Cari_CepNo = telno;
@@ -108,18 +114,20 @@ namespace logikeyv2.Controllers
 
         public IActionResult OgrenciDuzenle(int ID)
         {
-            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13));
+
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID));
             ViewBag.Okullar = okullar;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
-            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5));
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && y.Firma_ID==FirmaID));
             ViewBag.Sofor = servisSoforleri;
-            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1 && x.ID == ID)
-                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
-                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
+            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1 && x.ID == ID )
+                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
+                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
                                 select new OkulOgrenciModel { OgrenciModulu = ogrencimodulu, Okul = okul, Ogrenci = ogrenci };
 
             var combinedModel = combinedQuery.FirstOrDefault();
@@ -132,6 +140,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult OgrenciDuzenle(Cari cari)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -160,7 +170,7 @@ namespace logikeyv2.Controllers
 
 
                         item.Duzenleme_Tarihi = DateTime.UtcNow;
-                        item.DuzenleyenKullanici_ID = 1;//değişcek
+                        item.DuzenleyenKullanici_ID = KullaniciID;
                         cariManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

@@ -24,6 +24,7 @@ namespace EntityLayer.Concrate
             public string? Firma_YetkiliAdi { get; set; }
             public string? Firma_YetkiliSoyadi { get; set; }
             public string? Firma_YetkiliEposta { get; set; }
+            public string? Firma_Sifre { get; set; }
             public string? Firma_CepTel { get; set; }
             public byte Firma_Durum { get; set; }
             public int EkleyenKullanici_ID { get; set; }

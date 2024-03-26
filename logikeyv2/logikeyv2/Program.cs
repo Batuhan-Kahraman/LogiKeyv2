@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
+builder.Services.AddSession(options =>
+{
+    // Set session timeout (optional)
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Adjust as needed
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Make the session cookie essential to the application
+});
 
 var app = builder.Build();
 
@@ -25,8 +30,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Add session middleware to the request pipeline
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

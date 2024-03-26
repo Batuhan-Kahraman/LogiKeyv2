@@ -9,6 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace logikeyv2.Controllers
 {
+    [OturumKontrolAttributeController]
     public class AjaxController : Controller
     {
         #region tanimlamalar
@@ -36,13 +37,17 @@ namespace logikeyv2.Controllers
         OgrenciModuluManager ogrenciModuluManager = new OgrenciModuluManager(new EFOgrenciModuluRepository());
         OgrenciTahsilatManager ogrenciTahsilatManager = new OgrenciTahsilatManager(new EFOgrenciTahsilatRepository());
 
+
+        NormalTasimaManager  normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
         #endregion
+
         [HttpGet]
         public IActionResult SahiplikListe()
         {
             List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true);
             return Json(liste);
         }
+       
         [HttpGet]
         public IActionResult GrupListe()
         {
@@ -177,6 +182,13 @@ namespace logikeyv2.Controllers
         public IActionResult TasimaKontrol(int AracID)
         {
             AkaryakitTasima liste = akaryakitTasimaManager.GetAllList(x=>x.AracID==AracID && x.Durum==true).LastOrDefault();
+            return Json(liste);
+        }
+        
+        [HttpGet]
+        public IActionResult NormalTasimaKontrol(int AracID)
+        {
+            NormalTasima liste = normalTasimaManager.GetAllList(x=>x.AracID==AracID && x.Durum==true).LastOrDefault();
             return Json(liste);
         }
 

@@ -42,6 +42,63 @@ namespace BusinessLayer.Concrate
             }
         }
 
+        public static AkaryakitTasima AkaryakitTasiCariHareket(int ID)
+        {
+
+            using (var context = new Context())
+            {
+                AkaryakitTasima liste = context.AkaryakitTasima.Where(e => e.ID == ID).SingleOrDefault();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+
+        public static AkaryakitTasimaDetay AkaryakitTasimaDetayCariHareket(int ID)
+        {
+
+            using (var context = new Context())
+            {
+                AkaryakitTasimaDetay liste = context.AkaryakitTasimaDetay.Where(e => e.ID == ID).SingleOrDefault();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        
+        public static AkaryakitTasimaDetayUrun AkaryakitTasimaDetayUrunCariHareket(int ID)
+        {
+
+            using (var context = new Context())
+            {
+                    AkaryakitTasimaDetayUrun liste = context.AkaryakitTasimaDetayUrun.Where(e => e.ID == ID).SingleOrDefault();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+
+
+
         public static List<AkaryakitTasimaDetay> AkaryakitTasimaDetayList(int ID)
         {
             using (var context = new Context())
@@ -148,13 +205,13 @@ namespace BusinessLayer.Concrate
             }
         }
 
-        public static bool CariHareketEkle(CariHareket cariHareket)
+        public static bool AkaryakitCariHareketEkle(AkaryakitCariHareket cariHareket)
         {
             using (var context = new Context())
             {
                 try
                 {
-                    context.CariHareket.Add(cariHareket);
+                    context.AkaryakitCariHareket.Add(cariHareket);
 
                     // Değişiklikleri kaydedin
                     context.SaveChanges();
@@ -164,6 +221,140 @@ namespace BusinessLayer.Concrate
                 catch
                 {
                     return false;
+                }
+            }
+        }
+
+        public static bool AkaryakitCariHareketTemizle(int FaturaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekUrunler = context.AkaryakitCariHareket.Where(e => e.FaturaID == FaturaID).ToList();
+
+                    context.AkaryakitCariHareket.RemoveRange(silinecekUrunler);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+
+        public static bool NormalCariHareketEkle(NormalCariHareket cariHareket)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+                    context.NormalCariHareket.Add(cariHareket);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool NormalCariHareketTemizle(int FaturaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekUrunler = context.NormalCariHareket.Where(e => e.FaturaID == FaturaID).ToList();
+
+                    context.NormalCariHareket.RemoveRange(silinecekUrunler);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        public static bool NormalAracTurKontrol(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.NormalAracTur.FirstOrDefault(e => e.TurID == id);
+                if (entity != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public static string NormalAracTur(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AracTur.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+
+
+
+        public static List<NormalTasimaDetay> NormalTasimaDetayList(int ID)
+        {
+            using (var context = new Context())
+            {
+                List<NormalTasimaDetay> liste = context.NormalTasimaDetay.Where(e => e.NormalTasimaID == ID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public static List<NormalTasimaDetayUrun> NormalTasimaDetayUrunList(int tasimaID, int detayID)
+        {
+            using (var context = new Context())
+            {
+                List<NormalTasimaDetayUrun> liste = context.NormalTasimaDetayUrun.Where(e => e.NormalTasimaID == tasimaID && e.NormalTasimaDetayID == detayID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
                 }
             }
         }
