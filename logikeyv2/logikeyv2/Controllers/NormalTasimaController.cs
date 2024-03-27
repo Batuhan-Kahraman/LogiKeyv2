@@ -202,7 +202,8 @@ namespace logikeyv2.Controllers
 
                                     //detayUrunId = detayUrunId.Trim(';');
                                     NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
-                                    NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
+                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
+                                    NormalFatura.FaturaKesenID = FirmaID;
                                     NormalFatura.FaturaKesilenID = NormalTasimaDetay.AliciID;
                                     NormalFaturaManager.TAdd(NormalFatura);
 
@@ -211,7 +212,8 @@ namespace logikeyv2.Controllers
                                 {
                                     //detayUrunId = detayUrunId.Trim(';');
                                     NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
-                                    NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
+                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
+                                    NormalFatura.FaturaKesenID = FirmaID;
                                     NormalFatura.FaturaKesilenID = NormalTasimaDetay.GondericiID;
                                     NormalFaturaManager.TAdd(NormalFatura);
 
@@ -481,12 +483,14 @@ namespace logikeyv2.Controllers
                                 if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 1)
                                 {
 
-                                    NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
+                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
+                                    NormalFatura.FaturaKesenID = FirmaID; ;
                                     NormalFatura.FaturaKesilenID = NormalTasimaDetay.AliciID;
                                 }
                                 else if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 2)
                                 {
-                                    NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
+                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
+                                    NormalFatura.FaturaKesenID = FirmaID;
                                     NormalFatura.FaturaKesilenID = NormalTasimaDetay.GondericiID;
                                 }
                                 if (NormalFatura.ID != 0)

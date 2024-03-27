@@ -26,6 +26,21 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+        public static string FirmaUnvan(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.Firma.FirstOrDefault(e => e.Firma_ID == id);
+                if (entity != null)
+                {
+                    return entity.Firma_Unvan;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         public static string UrunAdi(int id)
         {
             using (var context = new Context())
