@@ -43,7 +43,7 @@ namespace logikeyv2.Controllers
                     }
                     else
                     {
-                        var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x => x.EkleyenKullanici_ID == 1);
+                        var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x => x.EkleyenKullanici_ID == 1 && x.Durum==true);
                         var cariList = cariManager.GetAllList(x => x.Cari_GrupID == 14);
                         var tahsilatBigileri = context.OgrenciTahsilatBilgileri.Where(x => x.Durum == true).ToList();
                         var combinedQuery = (from ot in ogrenciTahsilatList
@@ -106,7 +106,7 @@ namespace logikeyv2.Controllers
                         }
                         else
                         {
-                            yeniOgrenciTahsilat.OdemeTarihi = ogrenciTahsilat.VadeBaslangicTarihi.AddMonths(i);
+                            yeniOgrenciTahsilat.OdemeTarihi = ogrenciTahsilat.VadeBaslangicTarihi.AddMonths(i-1);
                         }
                         try
                         {
@@ -132,9 +132,11 @@ namespace logikeyv2.Controllers
             }
         }
         [HttpPost]
-        public IActionResult OgrenciTahsilatSil(string tcNo)
+        public IActionResult OgrenciTahsilatSil(int id)
         {
-            var ogrenci = cariManager.GetByPropertyName("Cari_TCNO_VergiNo", tcNo);
+            var ogrenciTahsilat = ogrenciTahsilatManager.GetByID(id);
+
+            var ogrenci = cariManager.GetByPropertyName("Cari_ID", ogrenciTahsilat.OgrenciId.ToString());
 
             if (ogrenci == null)
             {
@@ -143,7 +145,6 @@ namespace logikeyv2.Controllers
                 return RedirectToAction("Index");
             }
 
-            var ogrenciTahsilat = ogrenciTahsilatManager.GetAllList(x => x.OgrenciId == ogrenci.Cari_ID);
 
             if (ogrenciTahsilat == null)
             {
@@ -152,11 +153,9 @@ namespace logikeyv2.Controllers
                 return RedirectToAction("Index");
             }
 
-            foreach (var item in ogrenciTahsilat)
-            {
-                item.Durum = false;
-                ogrenciTahsilatManager.TUpdate(item);
-            }
+
+            ogrenciTahsilat.Durum = false;
+                ogrenciTahsilatManager.TUpdate(ogrenciTahsilat);
 
             TempData["Msg"] = "İşlem başarılı.";
             TempData["Bgcolor"] = "green";
