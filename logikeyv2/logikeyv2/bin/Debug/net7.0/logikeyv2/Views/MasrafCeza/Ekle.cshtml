@@ -37,7 +37,7 @@
                 <tr>
                     <td>Plaka</td>
                     <td>
-                        <select class="form-control" asp-for="AracID" id="AracID">
+                        <select class="form-control" asp-for="AracID" id="AracID" onchange="SonSefer(this.value)">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
@@ -55,6 +55,9 @@
                         </select>
 
                     </td>
+                </tr>
+                <tr id="Tasima" style="display:none;">
+                    <td>Toplam Yüklenen Miktar <span id="yuklenenMiktar"></span></td>
                 </tr>
                 <tr>
                     <td>Belgeli / Belgesiz</td>
@@ -189,8 +192,8 @@
                 $.each(data, function (index, item) {
                     console.log(item);
                     $('#SurucuID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.isim+ ' '+item.soyisim // Verinin görünen metni
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
                     }));
                 });
             },
@@ -256,6 +259,30 @@
                 document.getElementById("tedarikciTD1").style.display = "none";
                 document.getElementById("tedarikciTD2").style.display = "none";
             }
+        }
+
+        function SonSefer(AracID) {
+            debugger;
+            $.ajax({
+                url: '../Ajax/AkaryakitTasimaKontrol', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { AracID: AracID },
+                dataType: 'json',
+                success: function (data) {
+                    var prop = data;
+                    console.log(prop);
+                    if (prop) {
+                    document.getElementById("Tasima").style.display = "";
+                    document.getElementById("SurucuID").value = prop.kullanici1ID;
+                    document.getElementById("yuklenenMiktar").innerHTML = prop.toplamYuklenenMiktar;
+                    }
+                    
+
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
         }
     </script>
 }

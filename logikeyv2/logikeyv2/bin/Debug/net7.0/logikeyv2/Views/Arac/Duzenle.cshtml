@@ -97,8 +97,16 @@
                     <td><input type="text" class="form-control" asp-for="Yil" /></td>
                 </tr>
                 <tr>
+                    <td>Sürücü</td>
+                    <td>
+                        <select class="form-control" asp-for="SurucuID" id="SurucuID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+
+                    </td>
                     <td>Şirketi</td>
-                    <td colspan="5">
+                    <td colspan="3">
                         <select class="form-control" asp-for="SirketID" id="SirketID">
                             <!--  todo:sahipliğe göre cari listelenecek -->
                             <option value="0">Seçiniz</option>
@@ -811,7 +819,35 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        //sürücü listele
+        $.ajax({
+            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#SurucuID').empty();
+                $('#SurucuID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#SurucuID').append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                });
+                var SurucuID = @Json.Serialize(Model.SurucuID);
 
+                if (SurucuID !== null) {
+                    document.getElementById("SurucuID").value = @Model.SurucuID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
 
     </script>
 }

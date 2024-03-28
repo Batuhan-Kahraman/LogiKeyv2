@@ -74,6 +74,7 @@ namespace BusinessLayer.Abstract
     public interface INormalFaturaService : IGenericService<NormalFatura> { }
     public interface INormalAracTurService : IGenericService<NormalAracTur> { }
     public interface INormalCariHareketService : IGenericService<NormalCariHareket> { }
+    public interface IKDVOraniService : IGenericService<KDVOrani> { }
 
 
 

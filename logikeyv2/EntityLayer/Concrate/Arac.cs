@@ -124,7 +124,7 @@ namespace EntityLayer.Concrate
         public int? KisiKapasite { get; set; }
 
 
-
+        public int? SurucuID { get; set; }
 
 
 
