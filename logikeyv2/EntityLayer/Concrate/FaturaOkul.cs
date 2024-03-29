@@ -21,7 +21,7 @@ namespace EntityLayer.Concrate
         public string Adres { get; set; }
         public string BankaAdi { get; set; }
         public string IbanNo { get; set; }
-        public string CariOgrenciID { get; set; }
+        public int CariOgrenciID { get; set; }
         public DateTime OlusturmaTarihi { get; set; }
         public DateTime DuzenlemeTarihi { get; set; }
         public bool Durum { get; set; }

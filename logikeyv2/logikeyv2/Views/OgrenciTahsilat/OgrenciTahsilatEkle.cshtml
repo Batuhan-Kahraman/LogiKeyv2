@@ -1,0 +1,119 @@
+﻿@model EntityLayer.Concrate.OgrenciTahsilat
+
+@{
+    ViewData["Title"] = "Öğrenci Tahsilat Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Öğrenci Tahsilat Ekle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+
+                <tr>
+
+                    <td>Okul Adı</td>
+                    <td>
+                        <select class="form-control" id="okulId" onchange="OkulSec(this.value)">
+                            <option value="">Seçiniz</option>
+                            @foreach (var item in ViewBag.Okul)
+                            {
+                                <option value="@item.Cari_ID">@item.Cari_Unvan</option>
+                            }
+
+
+                        </select>
+
+                    </td>
+                    <td>Öğrenci Adı</td>
+                    <td>
+                        <select class="form-control" asp-for="OgrenciId" id="OgrenciId" >
+                            <option value="">Seçiniz</option>
+                          
+
+                        </select>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Anlaşılan Tutar</td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="AnlasilanTutar" />
+
+                    </td>
+                    <td>Taksit Sayısı</td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="TaksitSayisi" />
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>Anlaşma Tarihi</td>
+                    <td> <input type="date" class="form-control" asp-for="AnlasmaTarihi" /></td>
+
+                    <td>Vade Başlangıç Tarihi</td>
+                    <td> <input type="date" class="form-control" asp-for="VadeBaslangicTarihi" /></td>
+                </tr>
+               
+              
+
+
+
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Tahsilat Kaydet" />
+        </form>
+
+
+    </div>
+
+</div>
+   @section Scripts {
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function OkulSec(OkulId) {
+            console.log(OkulId)
+        $.ajax({
+            url: '../Ajax/OgrenciListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            data: { OkulId: OkulId },
+            dataType: 'json',
+            success: function (data) {
+                    console.log(data)
+
+                $('#OgrenciId').empty();
+                $('#OgrenciId').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#OgrenciId').append($('<option>', {
+                        value: item.ogrenci.cari_ID, // Verinin değer özelliği
+                        text: item.ogrenci.cari_Unvan // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+    }
+</script>
+}
