@@ -32,6 +32,8 @@ namespace logikeyv2.Controllers
         TasinacakUrunManager tasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
         AkaryakitTasimaManager  akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
         NormalTasimaManager  normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
+        ModullerManager  modulManager = new ModullerManager(new EFModullerRepository());
+
 
 
         #endregion
@@ -189,6 +191,14 @@ namespace logikeyv2.Controllers
             return Json(liste);
         }
 
+
+        [HttpGet]
+        public IActionResult AracGetir(int AracID)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            Arac liste = aracManager.GetAllList(x => x.ID == AracID && x.Durum == true && x.FirmaID == FirmaID).LastOrDefault();
+            return Json(liste);
+        }
 
     }
 

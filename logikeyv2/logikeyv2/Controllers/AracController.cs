@@ -26,6 +26,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Protobuf;
 using Newtonsoft.Json;
+using System.Security.Cryptography;
 
 
 namespace logikeyv2.Controllers
@@ -123,7 +124,7 @@ namespace logikeyv2.Controllers
 
                         if (ruhsat != null && ruhsat.Length > 0)
                         {
-                            arac.AracRuhsat = DosyaYukle(ruhsat);
+                            arac.AracRuhsat =DosyaYukle(ruhsat);
                         }
                         if (sigorta != null && sigorta.Length > 0)
                         {
@@ -173,7 +174,7 @@ namespace logikeyv2.Controllers
                                 {
                                     AracResimler resim = new AracResimler();
                                     resim.AracID = arac.ID;
-                                    resim.resim=DosyaYukle(file);
+                                    resim.resim=  DosyaYukle(file);
                                     aracResimlerManager.TAdd(resim);
                                 }
                             }
@@ -195,24 +196,18 @@ namespace logikeyv2.Controllers
             return RedirectToAction("Duzenle", new { AracID = arac.ID });
 
         }
-        public string DosyaYukle(IFormFile file)
+        public string DosyaYukle(IFormFile formFile)
         {
-            string randomFileName = Path.GetRandomFileName();
+            var extent = Path.GetExtension(formFile.FileName);
+            var randomName = ($"{Guid.NewGuid()}{extent}");
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\upload", randomName);
 
-            // Dosyanın uzantısını al
-            string fileExtension = Path.GetExtension(file.FileName);
-
-            // Rastgele dosya adını uzantısıyla birleştirerek dosya adı oluştur
-            string finalFileName = randomFileName + fileExtension;
-
-            // Rastgele dosya adını kullanarak dosya yolu oluştur
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + finalFileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            using (var stream = new FileStream(path, FileMode.Create))
             {
-                file.CopyToAsync(stream);
+                 formFile.CopyToAsync(stream);
             }
-            return finalFileName;
+            return randomName;
+
         }
         [HttpPost]
         public async Task<IActionResult> RuhsatEkleAsync(IFormFile file)
