@@ -109,20 +109,23 @@
                 </tr>
 
                 <tr>
-                    <td>Göz 1</td>
+                    <td>Göz 1
+                        <span id="Goz1"></span>
+
+                    </td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz1Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz1UrunID" id="AracGoz1UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz1UrunName" id="AracGoz1UrunName" readonly />
                     </td>
 
-                    <td>Göz 2</td>
+                    <td>Göz 2<span id="Goz2"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz2Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz2UrunID" id="AracGoz2UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz2UrunName" id="AracGoz2UrunName" readonly />
                     </td>
-                    <td>Göz 3</td>
+                    <td>Göz 3<span id="Goz3"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz3Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz3UrunID" id="AracGoz3UrunID" />
@@ -130,19 +133,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Göz 4</td>
+                    <td>Göz 4<span id="Goz4"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz4Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz4UrunID" id="AracGoz4UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz4UrunName" id="AracGoz4UrunName" readonly />
                     </td>
-                    <td>Göz 5</td>
+                    <td>Göz 5<span id="Goz5"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz5Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz5UrunID" id="AracGoz5UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz5UrunName" id="AracGoz5UrunName" readonly />
                     </td>
-                    <td>Göz 6</td>
+                    <td>Göz 6<span id="Goz6"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz6Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz6UrunID" id="AracGoz6UrunID" />
@@ -566,7 +569,7 @@
 
 
             $.ajax({
-                url: '../Ajax/TasimaKontrol', // Verileri sağlayan API'nin endpoint'i
+                url: '../Ajax/AkaryakitTasimaKontrol', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 data: { AracID: aracID },
                 dataType: 'json',
@@ -769,6 +772,12 @@
                     GozKapasite.push({ goz: 5, kapasite: prop.goz5 });
                     GozKapasite.push({ goz: 6, kapasite: prop.goz6 });
                     console.log(GozKapasite);
+                    document.getElementById("Goz1").innerHTML  = "(" + prop.goz1 + " LT)";
+                    document.getElementById("Goz2").innerHTML  = "(" + prop.goz2 + " LT)";
+                    document.getElementById("Goz3").innerHTML  = "(" + prop.goz3 + " LT)";
+                    document.getElementById("Goz4").innerHTML  = "(" + prop.goz4+" LT)";
+                    document.getElementById("Goz5").innerHTML  = "(" + prop.goz5 + " LT)";
+                    document.getElementById("Goz6").innerHTML = "(" + prop.goz6 + " LT)";
                 },
                 error: function (error) {
                     console.log('Hata oluştu:', error);

@@ -418,7 +418,7 @@ namespace logikeyv2.Controllers
                         item.KiralamaTutari = arac.KiralamaTutari;
                         item.KiralamaTarihi = arac.KiralamaTarihi;
 
-
+                        item.SurucuID = arac.SurucuID;
 
                         if (ruhsat != null && ruhsat.Length > 0)
                         {

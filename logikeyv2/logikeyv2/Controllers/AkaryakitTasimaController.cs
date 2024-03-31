@@ -53,7 +53,7 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID);
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID==2 && x.Firma_ID == FirmaID);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
             List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
             List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
@@ -211,7 +211,8 @@ namespace logikeyv2.Controllers
 
                                     //detayUrunId = detayUrunId.Trim(';');
                                     akaryakitFatura.AkaryakitTasimaDetayUrunID = akaryakitTasimaDetayUrun.ID;
-                                    akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.GondericiID;
+                                    //akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.GondericiID;
+                                    akaryakitFatura.FaturaKesenID = FirmaID;
                                     akaryakitFatura.FaturaKesilenID = akaryakitTasimaDetay.AliciID;
                                     akaryakitFaturaManager.TAdd(akaryakitFatura);
 
@@ -220,7 +221,8 @@ namespace logikeyv2.Controllers
                                 {
                                     //detayUrunId = detayUrunId.Trim(';');
                                     akaryakitFatura.AkaryakitTasimaDetayUrunID = akaryakitTasimaDetayUrun.ID;
-                                    akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.AliciID;
+                                    //akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.AliciID;
+                                    akaryakitFatura.FaturaKesenID = FirmaID;
                                     akaryakitFatura.FaturaKesilenID = akaryakitTasimaDetay.GondericiID;
                                     akaryakitFaturaManager.TAdd(akaryakitFatura);
 
@@ -509,12 +511,14 @@ namespace logikeyv2.Controllers
                                 if (akaryakitTasimaDetayUrun.OdemeYapanCariGrup == 1)
                                 {
 
-                                    akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.GondericiID;
+                                    //akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.GondericiID;
+                                    akaryakitFatura.FaturaKesenID = FirmaID;
                                     akaryakitFatura.FaturaKesilenID = akaryakitTasimaDetay.AliciID;
                                 }
                                 else if (akaryakitTasimaDetayUrun.OdemeYapanCariGrup == 2)
                                 {
-                                    akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.AliciID;
+                                    //akaryakitFatura.FaturaKesenID = akaryakitTasimaDetay.AliciID;
+                                    akaryakitFatura.FaturaKesenID = FirmaID;
                                     akaryakitFatura.FaturaKesilenID = akaryakitTasimaDetay.GondericiID;
                                 }
                                 if (akaryakitFatura.ID != 0)
