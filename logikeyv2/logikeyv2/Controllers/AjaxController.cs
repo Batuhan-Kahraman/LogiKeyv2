@@ -33,7 +33,7 @@ namespace logikeyv2.Controllers
         AkaryakitTasimaManager  akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
         NormalTasimaManager  normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
         ModullerManager  modulManager = new ModullerManager(new EFModullerRepository());
-
+        KDVOraniManager kDVOraniManager = new KDVOraniManager(new EFKDVOraniRepository());
 
 
         #endregion
@@ -197,6 +197,13 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             Arac liste = aracManager.GetAllList(x => x.ID == AracID && x.Durum == true && x.FirmaID == FirmaID).LastOrDefault();
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult KDVListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<KDVOrani> liste = kDVOraniManager.GetAllList(x => x.FirmaID==FirmaID && x.Durum==true);
             return Json(liste);
         }
 

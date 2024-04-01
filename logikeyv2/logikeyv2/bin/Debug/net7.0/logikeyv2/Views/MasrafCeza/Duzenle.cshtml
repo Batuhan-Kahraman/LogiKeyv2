@@ -94,43 +94,30 @@
                 <tr>
                     <td>KDV Dahil Mi?</td>
                     <td>
-                        <select class="form-control" asp-for="KdvDahilMi">
+                        <select class="form-control" asp-for="KdvDahilMi" onchange="KDVHesap()" id="KDVDahilmi">
                             <option value="True">Evet</option>
                             <option value="False">Hayır</option>
-</select>
+                        </select>
 
                     </td>
-                    <td>Miktar</td>
-                    <td><input type="number" class="form-control" asp-for="Miktar" /></td>
-                </tr>
-                <tr>
-                    <td>Birim Fiyat</td>
-                    <td><input type="text" class="form-control" asp-for="BirimFiyat" /></td>
-                </tr>
-                <tr>
-                    <td>Tutar</td>
-                    <td>
-                        <input type="number" class="form-control" asp-for="Tutar" />
 
-                    </td>
-                </tr>
-                <tr>
                     <td>KDV</td>
                     <td>
-                        <input type="text" class="form-control" asp-for="KDV" />
+                        <select class="form-control" asp-for="KDV" id="KDV" onchange="KDVHesap()">
+                            <option value="0">Seçiniz</option>
+                        </select>
 
                     </td>
-                    </tr>
-                    <tr>
-                    <td>İskonto</td>
-                    <td><input type="number" class="form-control" asp-for="Iskonto" /></td>
+                    <td>Birim Fiyat</td>
+                    <td><input type="number" class="form-control" asp-for="BirimFiyat" id="BirimFiyat" onchange="KDVHesap()" /></td>
+
                 </tr>
                 <tr>
-                    <td>Toplam Tutar</td>
                     <td>
-                        <input type="number" class="form-control" asp-for="ToplamTutar" />
+                        Tutar
                     </td>
-                    </tr>
+                    <td><input type="number" class="form-control" asp-for="ToplamTutar" id="ToplamTutar" onchange="KDVHesap()" /></td>
+                </tr>
                     <tr>
                     <td>Notlar</td>
                     
@@ -195,13 +182,13 @@
                 $.each(data, function (index, item) {
                     console.log(item);
                     $('#SurucuID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.isim+ ' '+item.soyisim // Verinin görünen metni
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
                     }));
                 });
                 var SurucuID = @Json.Serialize(Model.SurucuID);
 
-                if (SurucuID !== null) {
+                if (SurucuID != null) {
                     document.getElementById("SurucuID").value = @Model.SurucuID;
                 }
             },
@@ -276,6 +263,59 @@
             else {
                 document.getElementById("tedarikciTD1").style.display = "none";
                 document.getElementById("tedarikciTD2").style.display = "none";
+            }
+        }
+        //kdv listele
+        $.ajax({
+            url: '../Ajax/KDVListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#KDV').empty();
+                $('#KDV').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#KDV').append($('<option>', {
+                        value: item.oran, // Verinin değer özelliği
+                        text: item.oran // Verinin görünen metni
+                    }));
+                });
+                var KDV = @Json.Serialize(Model.KDV);
+
+                if (KDV != null) {
+                    document.getElementById("KDV").value = @Model.KDV;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        function KDVHesap() {
+            debugger;
+
+            var BirimFiyat = $("#BirimFiyat").val();
+            var KDV = $("#KDV").val();
+            var KDVDahilmi = $("#KDVDahilmi").val();
+            var ToplamTutar = $("#ToplamTutar").val();
+
+            if (KDVDahilmi == "True") {
+                var fiyat = ToplamTutar / (1 + (KDV / 100));
+                fiyat = fiyat.toFixed(2);
+                $("#BirimFiyat").val(fiyat);
+                document.getElementById("BirimFiyat").readOnly = true;
+                document.getElementById("ToplamTutar").readOnly = false;
+            }
+            else {
+                var fiyat = BirimFiyat * (1 + (KDV / 100));
+                fiyat = fiyat.toFixed(2);
+                $("#ToplamTutar").val(fiyat);
+                document.getElementById("BirimFiyat").readOnly = false;
+                document.getElementById("ToplamTutar").readOnly = true;
             }
         }
     </script>
