@@ -14,7 +14,7 @@ namespace logikeyv2.Controllers
         KullanicilarManager kullanicilarManager = new KullanicilarManager(new EFKullanicilarRepository());
         OgrenciModuluManager ogrenciModuluManager = new OgrenciModuluManager(new EFOgrenciModuluRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
-
+        FaturaOkulManager faturaokulManager = new FaturaOkulManager(new EFFaturaOkulRepository());
         public IActionResult Index()
         {
 
@@ -44,7 +44,7 @@ namespace logikeyv2.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult OgrenciEkle(OkulOgrenciModel model)
+        public IActionResult OgrenciEkle(OkulOgrenciModel model, string Fatura_Adi, string Fatura_Soyadi, string Fatura_Telefon, string Fatura_TC,int Fatura_il, int Fatura_ilce, string Fatura_Adres, string Fatura_Eposta,string Fatura_BankaAdi, string Fatura_BankaIBAN)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -77,6 +77,28 @@ namespace logikeyv2.Controllers
                 model.OgrenciModulu.CariOgrenci_ID = ogrenci.Cari_ID;
                 model.OgrenciModulu.Durum = 1;
                 ogrenciModuluManager.TAdd(model.OgrenciModulu);
+                if (model.Ogrenci.FaturaDurum == true)
+                {
+                    FaturaOkul okul = new FaturaOkul();
+                    okul.Adi = Fatura_Adi;
+                    okul.Soyadi = Fatura_Soyadi;
+                    okul.Adres = Fatura_Adres;
+                    okul.ilID = Fatura_il;
+                    okul.ilceID = Fatura_ilce;
+                    okul.TcKimlikNo = Fatura_TC;
+                    okul.TelefonNo=Fatura_Telefon;
+                    okul.Eposta = Fatura_Eposta;
+                    okul.BankaAdi = Fatura_BankaAdi;
+                    okul.IbanNo = Fatura_BankaIBAN;
+                    okul.Durum = true;
+                    okul.CariOgrenciID = model.Ogrenci.Cari_ID;
+                    okul.OlusturmaTarihi = DateTime.UtcNow;
+                    okul.DuzenlemeTarihi = DateTime.UtcNow;
+                    okul.DuzenleyenKullaniciID = 1;
+                    okul.EkleyenKullaniciID = 1;
+                    okul.FirmaID = 1;
+                    faturaokulManager.TAdd(okul);
+                }
                 // Başarılı ekleme mesajı
                 ViewBag.SuccessMessage = "Öğrenci başarıyla eklendi.";
 

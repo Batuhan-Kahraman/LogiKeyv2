@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Concrate;
+using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
+using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Tesseract;
 using static System.Net.Mime.MediaTypeNames;
@@ -31,12 +33,16 @@ namespace logikeyv2.Controllers
         UnListesiManager unListesiManager = new UnListesiManager(new EFUnListesiRepository());
         TasinacakUrunManager tasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
         AkaryakitTasimaManager  akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
+        CariManager cariManager = new CariManager(new EFCariRepository());
+        OgrenciModuluManager ogrenciModuluManager = new OgrenciModuluManager(new EFOgrenciModuluRepository());
+        OgrenciTahsilatManager ogrenciTahsilatManager = new OgrenciTahsilatManager(new EFOgrenciTahsilatRepository());
+
+
         NormalTasimaManager  normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
-        ModullerManager  modulManager = new ModullerManager(new EFModullerRepository());
-        KDVOraniManager kDVOraniManager = new KDVOraniManager(new EFKDVOraniRepository());
 
 
         #endregion
+
         [HttpGet]
         public IActionResult SahiplikListe()
         {
@@ -44,6 +50,7 @@ namespace logikeyv2.Controllers
             List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true && x.FirmaID== FirmaID && x.FirmaID == FirmaID);
             return Json(liste);
         }
+       
         [HttpGet]
         public IActionResult GrupListe()
         {
@@ -152,6 +159,23 @@ namespace logikeyv2.Controllers
             return Json(liste);
         }
         [HttpGet]
+        public IActionResult OgrenciListe(int OkulId)
+        {
+            var ogrenciOkul = from ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1)
+                              join ogrenci in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 14) on ogrenciModul.CariOgrenci_ID equals ogrenci.Cari_ID
+                              join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
+                              where ogrenciModul.CariOkul_ID == OkulId
+                              select new OkulOgrenciModel
+                              {
+                                  Surucu = null,
+                                  Ogrenci = ogrenci,
+                                  Okul = okul,
+                                  OgrenciModulu = ogrenciModul,
+                              };
+                List<OkulOgrenciModel> ogrenciOkulListe = ogrenciOkul.ToList();
+            return Json(ogrenciOkulListe);
+        }
+        [HttpGet]
         public IActionResult GozSayisiBul(int AracID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
@@ -191,22 +215,107 @@ namespace logikeyv2.Controllers
             return Json(liste);
         }
 
-
         [HttpGet]
-        public IActionResult AracGetir(int AracID)
+        public IActionResult OgrenciTahsilatDetay(int id)
         {
-            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            Arac liste = aracManager.GetAllList(x => x.ID == AracID && x.Durum == true && x.FirmaID == FirmaID).LastOrDefault();
-            return Json(liste);
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x=>x.OgrenciId == id);
+                    var cariList = cariManager.GetAllList(x=>x.Cari_ID==id);
+                    var combinedQuery = (from ot in ogrenciTahsilatList
+                                         join ogrenci in cariList on ot.OgrenciId equals ogrenci.Cari_ID
+                                         join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
+                                         join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
+                                         join tb in context.OgrenciTahsilatBilgileri.Where(x=>x.Durum == true && x.OgrenciId == id).ToList() on ot.OgrenciId equals tb.OgrenciId
+                                         where tb.OgrenciId == id
+                                         select new OgrenciTahsilatViewModel()
+                                         {
+                                             ogrenciTahsilatBilgileri=tb,
+                                             ogrenci = ogrenci,
+                                             okul = okul,
+                                             ogrenciTahsilat = ot,
+                                         });
+                    var ogrenciBilgi = (from ot in ogrenciTahsilatList
+                                         join ogrenci in cariList on ot.OgrenciId equals ogrenci.Cari_ID
+                                         join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
+                                         join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
+                                         where ot.OgrenciId == id
+                                         select new OgrenciTahsilatViewModel()
+                                         {
+                                             ogrenci = ogrenci,
+                                             okul = okul,
+                                             ogrenciTahsilat = ot,
+                                         }).FirstOrDefault();
+
+                    List<OgrenciTahsilatViewModel> resultList = combinedQuery.ToList();
+
+                    return Json(new { success = true, resultList = resultList, ogrenciBilgi = ogrenciBilgi });
+                }
+            }
+        }
+
+        [HttpPost]
+        public IActionResult OdemeIslemi(int id,int odemeValue)
+        {
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    var odemeTahsilat = context.OgrenciTahsilatBilgileri.FirstOrDefault(x => x.Id == id);
+                    var odeme =ogrenciTahsilatManager.GetByPropertyName("OgrenciId",odemeTahsilat.OgrenciId.ToString());
+                  
+                    
+                        if (odemeTahsilat.OdemeDurumu == true && odemeValue == 3)
+                        {
+                            odemeTahsilat.OdemeDurumu = false;
+                            odemeTahsilat.OdemeSekli = null;
+                            var taksitSayi = context.OgrenciTahsilatBilgileri.Where(x => x.Id == id && x.OdemeDurumu == false).Count();
+                            odeme.KalanBorcTutar += odemeTahsilat.Tutar ;
+                          
+
+                        }
+                        else if (odemeTahsilat.OdemeDurumu == false && odemeValue != 3)
+                        {
+                        odemeTahsilat.OdemeDurumu = true;
+                            odemeTahsilat.OdemeSekli = odemeValue;
+                            var taksitSayi = context.OgrenciTahsilatBilgileri.Where(x => x.Id == id && x.OdemeDurumu == true).Count();
+
+                            odeme.KalanBorcTutar -= odemeTahsilat.Tutar;
+                        }
+                    if (odemeValue == 3)
+                    {
+                        odemeTahsilat.OdemeDurumu = false;
+                        odemeTahsilat.OdemeSekli = null;
+                    }
+                    else
+                    {
+                        odemeTahsilat.OdemeDurumu = true;
+                        odemeTahsilat.OdemeSekli = odemeValue;
+                    }
+
+                    ogrenciTahsilatManager.TUpdate(odeme);
+                    context.OgrenciTahsilatBilgileri.Update(odemeTahsilat);
+                    context.SaveChanges();
+                    transaction.Commit(); 
+                    return Json(new { odemeTahsilat = odemeTahsilat, odeme = odeme });
+                }
+            }
         }
         [HttpGet]
-        public IActionResult KDVListe()
+        public IActionResult OgrenciTaksitBilgileri(int id)
         {
-            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<KDVOrani> liste = kDVOraniManager.GetAllList(x => x.FirmaID==FirmaID && x.Durum==true);
-            return Json(liste);
-        }
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    var odemeTahsilat = context.OgrenciTahsilatBilgileri.FirstOrDefault(x => x.Id == id);
 
+                    return Json( odemeTahsilat);
+                }
+            }
+        }
     }
 
 }

@@ -10,6 +10,7 @@ namespace EntityLayer.Concrate
     public class Cari_OdemeYapan
     {
         [Key]
+
         //public int Cari_ID { get; set; }
         public int OdemeYapan_ID { get; set; }
         public string? OdemeYapan_Adi { get; set; }

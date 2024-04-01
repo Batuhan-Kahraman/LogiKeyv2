@@ -78,5 +78,7 @@ namespace BusinessLayer.Abstract
 
 
 
+    public interface IOgrenciTahsilatService : IGenericService<OgrenciTahsilat> { }
+
 
 }
