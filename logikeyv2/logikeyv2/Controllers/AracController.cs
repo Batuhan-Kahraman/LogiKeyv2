@@ -108,7 +108,7 @@ namespace logikeyv2.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
+        public async Task<IActionResult> Ekle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
             , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler)
         {
 
@@ -124,35 +124,35 @@ namespace logikeyv2.Controllers
 
                         if (ruhsat != null && ruhsat.Length > 0)
                         {
-                            arac.AracRuhsat =DosyaYukle(ruhsat);
+                            arac.AracRuhsat =await DosyaYukle(ruhsat);
                         }
                         if (sigorta != null && sigorta.Length > 0)
                         {
-                            arac.TrafikSigortasi = DosyaYukle(sigorta);
+                            arac.TrafikSigortasi = await DosyaYukle(sigorta);
                         }
                         if (police != null && police.Length > 0)
                         {
-                            arac.KaskoPolice = DosyaYukle(police);
+                            arac.KaskoPolice = await DosyaYukle(police);
                         }
                         if (sozlesme != null && sozlesme.Length > 0)
                         {
-                            arac.IsSozlesmesi = DosyaYukle(sozlesme);
+                            arac.IsSozlesmesi = await DosyaYukle(sozlesme);
                         }
                         if (muayene != null && muayene.Length > 0)
                         {
-                            arac.AraMuayene = DosyaYukle(muayene);
+                            arac.AraMuayene = await DosyaYukle(muayene);
                         }
                         if (mtv != null && mtv.Length > 0)
                         {
-                            arac.MTV = DosyaYukle(mtv);
+                            arac.MTV = await DosyaYukle(mtv);
                         }
                         if (k1 != null && k1.Length > 0)
                         {
-                            arac.K1YetkiBelge = DosyaYukle(k1);
+                            arac.K1YetkiBelge = await DosyaYukle(k1);
                         }
                         if (k2 != null && k2.Length > 0)
                         {
-                            arac.K2YetkiBelge = DosyaYukle(k2);
+                            arac.K2YetkiBelge = await DosyaYukle(k2);
                         }
                         
 
@@ -174,7 +174,7 @@ namespace logikeyv2.Controllers
                                 {
                                     AracResimler resim = new AracResimler();
                                     resim.AracID = arac.ID;
-                                    resim.resim=  DosyaYukle(file);
+                                    resim.resim= await DosyaYukle(file);
                                     aracResimlerManager.TAdd(resim);
                                 }
                             }
@@ -196,19 +196,20 @@ namespace logikeyv2.Controllers
             return RedirectToAction("Duzenle", new { AracID = arac.ID });
 
         }
-        public string DosyaYukle(IFormFile formFile)
+        public async Task<string> DosyaYukle(IFormFile formFile)
         {
             var extent = Path.GetExtension(formFile.FileName);
-            var randomName = ($"{Guid.NewGuid()}{extent}");
+            var randomName = $"{Guid.NewGuid()}{extent}";
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\upload", randomName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
-                 formFile.CopyToAsync(stream);
+                await formFile.CopyToAsync(stream);
             }
-            return randomName;
 
+            return randomName;
         }
+
         [HttpPost]
         public async Task<IActionResult> RuhsatEkleAsync(IFormFile file)
         {
@@ -313,7 +314,7 @@ namespace logikeyv2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Duzenle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
+        public async Task<IActionResult> Duzenle(Arac arac, IFormFile ruhsat, IFormFile sigorta, IFormFile police, IFormFile sozlesme, IFormFile muayene
             , IFormFile mtv, IFormFile k1, IFormFile k2, List<IFormFile> resimler)
         {
 
@@ -417,35 +418,35 @@ namespace logikeyv2.Controllers
 
                         if (ruhsat != null && ruhsat.Length > 0)
                         {
-                            item.AracRuhsat = DosyaYukle(ruhsat);
+                            item.AracRuhsat = await DosyaYukle(ruhsat);
                         }
                         if (sigorta != null && sigorta.Length > 0)
                         {
-                            item.TrafikSigortasi = DosyaYukle(sigorta);
+                            item.TrafikSigortasi = await DosyaYukle(sigorta);
                         }
                         if (police != null && police.Length > 0)
                         {
-                            item.KaskoPolice = DosyaYukle(police);
+                            item.KaskoPolice = await DosyaYukle(police);
                         }
                         if (sozlesme != null && sozlesme.Length > 0)
                         {
-                            item.IsSozlesmesi = DosyaYukle(sozlesme);
+                            item.IsSozlesmesi = await DosyaYukle(sozlesme);
                         }
                         if (muayene != null && muayene.Length > 0)
                         {
-                            item.AraMuayene = DosyaYukle(muayene);
+                            item.AraMuayene = await DosyaYukle(muayene);
                         }
                         if (mtv != null && mtv.Length > 0)
                         {
-                            item.MTV = DosyaYukle(mtv);
+                            item.MTV = await DosyaYukle(mtv);
                         }
                         if (k1 != null && k1.Length > 0)
                         {
-                            item.K1YetkiBelge = DosyaYukle(k1);
+                            item.K1YetkiBelge = await DosyaYukle(k1);
                         }
                         if (k2 != null && k2.Length > 0)
                         {
-                            item.K2YetkiBelge = DosyaYukle(k2);
+                            item.K2YetkiBelge = await DosyaYukle(k2);
                         }
 
 
@@ -457,7 +458,7 @@ namespace logikeyv2.Controllers
                                 {
                                     AracResimler resim = new AracResimler();
                                     resim.AracID = arac.ID;
-                                    resim.resim = DosyaYukle(file);
+                                    resim.resim = await DosyaYukle(file);
                                     aracResimlerManager.TAdd(resim);
                                 }
                             }
