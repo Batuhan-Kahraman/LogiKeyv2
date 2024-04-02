@@ -1,16 +1,35 @@
 ﻿using DataAccessLayer.Concrate;
 using EntityLayer.Concrate;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+
 
 namespace BusinessLayer.Concrate
 {
     public class Helper : Context
     {
+        public static string Modul(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.Moduller.FirstOrDefault(e => e.Modul_ID == id);
+                if (entity != null)
+                {
+                    return entity.Modul_Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         public static string CariUnvan(int id)
         {
             using (var context = new Context())
@@ -92,13 +111,13 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
-        
+
         public static AkaryakitTasimaDetayUrun AkaryakitTasimaDetayUrunCariHareket(int ID)
         {
 
             using (var context = new Context())
             {
-                    AkaryakitTasimaDetayUrun liste = context.AkaryakitTasimaDetayUrun.Where(e => e.ID == ID).SingleOrDefault();
+                AkaryakitTasimaDetayUrun liste = context.AkaryakitTasimaDetayUrun.Where(e => e.ID == ID).SingleOrDefault();
                 if (liste != null)
                 {
                     return liste;
@@ -371,6 +390,57 @@ namespace BusinessLayer.Concrate
                 {
                     return null;
                 }
+            }
+        }
+
+        public static bool AkaryakitSurucuKopar(int Kullanici1ID, int Kullanici2ID, int Kullanici3ID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var selectQuery1 = "update AkaryakitTasima set Kullanici1ID=-1 where ID in (select ID from AkaryakitTasima where Kullanici1ID=" + Kullanici1ID + ")";
+                    var selectQuery2 = "update AkaryakitTasima set Kullanici2ID=-1 where ID in (select ID from AkaryakitTasima where Kullanici2ID=" + Kullanici2ID + ")";
+                    var selectQuery3 = "update AkaryakitTasima set Kullanici3ID=-1 where ID in (select ID from AkaryakitTasima where Kullanici3ID=" + Kullanici3ID + ")";
+
+
+                    context.Database.ExecuteSqlRaw(selectQuery1);
+                    context.Database.ExecuteSqlRaw(selectQuery2);
+                    context.Database.ExecuteSqlRaw(selectQuery3);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+
+                }
+
+            }
+        }
+        public static bool NormalSurucuKopar(int Kullanici1ID, int Kullanici2ID, int Kullanici3ID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var selectQuery1 = "update NormalTasima set Kullanici1ID=-1 where ID in (select ID from NormalTasima where Kullanici1ID=" + Kullanici1ID + ")";
+                    var selectQuery2 = "update NormalTasima set Kullanici2ID=-1 where ID in (select ID from NormalTasima where Kullanici2ID=" + Kullanici2ID + ")";
+                    var selectQuery3 = "update NormalTasima set Kullanici3ID=-1 where ID in (select ID from NormalTasima where Kullanici3ID=" + Kullanici3ID + ")";
+
+
+                    context.Database.ExecuteSqlRaw(selectQuery1);
+                    context.Database.ExecuteSqlRaw(selectQuery2);
+                    context.Database.ExecuteSqlRaw(selectQuery3);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+
+                }
+
             }
         }
     }

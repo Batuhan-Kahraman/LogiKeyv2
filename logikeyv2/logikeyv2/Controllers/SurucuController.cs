@@ -91,7 +91,7 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return View(surucu);
+            return RedirectToAction("Index");
         }
         public JsonResult GetIlceler(string il)
         {
@@ -102,7 +102,14 @@ namespace logikeyv2.Controllers
         }
         public IActionResult Duzenle(int SurucuID)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             Kullanicilar arac = surucuManager.GetByID(SurucuID);
+            List<KullaniciGrubu> KullaniciGrubu = kullaniciGrubuManager.GetAllList((y => y.KullaniciGrup_Durum == 1 && y.Firma_ID == FirmaID));
+            ViewBag.KullaniciGrubu = KullaniciGrubu;
+            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            ViewBag.SurucuPozisyon = SurucuPozisyon;
+            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            ViewBag.EhliyetSinifi = ehliyetSinifi;
             return View(arac);
         }
 

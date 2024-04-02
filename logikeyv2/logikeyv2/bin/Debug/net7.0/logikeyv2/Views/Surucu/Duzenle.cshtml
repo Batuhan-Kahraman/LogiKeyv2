@@ -45,7 +45,16 @@
                     <td>
                         <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID">
                             <option value="0">Seçiniz</option>
+                            @foreach (var item in ViewBag.KullaniciGrubu)
+                            {
+                                <option value="@item.KullaniciGrup_ID">@item.KullaniciGrup_Adi</option>
+
+                            }
                         </select>
+                    </td>
+                    <td>Maaş</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Maas" />
                     </td>
                 </tr>
                 <tr>
@@ -70,10 +79,8 @@
                         </select>
                     </td>
                     <td>Şifre</td>
-                    <td>
                     <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
 
-                    </td>
                 </tr>
                 <tr>
                     <td>İşe Giriş Tarihi</td>
@@ -254,5 +261,34 @@
             }
         });
 
+    </script>
+    <script>
+        function toggleFields() {
+           
+         
+            var selectedOption = document.getElementById("KullaniciGrup_ID");
+            var selectedValue = selectedOption.options[selectedOption.selectedIndex].text;
+            var hiddenFields = document.getElementById("hiddenFields");
+            var hiddenFields2 = document.getElementById("hiddenFields2");
+            var hiddenFields3 = document.getElementById("hiddenFields3");
+            var hiddenFields4 = document.getElementById("hiddenFields4");
+            var hiddenFields5 = document.getElementById("hiddenFields5");
+            console.log(hiddenFields, "hiddenFields");
+            console.log(selectedValue, "selectedValue");
+            if (selectedValue === "Söför") {
+
+                hiddenFields.style.display = "table-row";
+                hiddenFields2.style.display = "table-row";
+                hiddenFields3.style.display = "table-row";
+                hiddenFields4.style.display = "table-row";
+                hiddenFields5.style.display = "table-row";
+            } else {
+                hiddenFields.style.display = "none";
+                hiddenFields2.style.display = "none";
+                hiddenFields3.style.display = "none";
+                hiddenFields4.style.display = "none";
+                hiddenFields5.style.display = "none";
+            }
+        }
     </script>
 }

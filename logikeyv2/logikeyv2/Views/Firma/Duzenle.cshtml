@@ -1,0 +1,148 @@
+﻿@model EntityLayer.Concrate.Firma
+
+@{
+    ViewData["Title"] = "Firma Düzenle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Firma Düzenle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+               
+                <tr>
+                    
+                    <td>Firma Adı</td>
+                    <td><input type="hidden" class="form-control" asp-for="Firma_ID" />
+                        <input type="text" class="form-control" asp-for="Firma_Unvan" /></td>
+                    <td>Firma Tipi</td>
+                    <td>
+                        <select class="form-control" asp-for="Firma_Tipi" id="Firmatipi">
+                            <option value="">Seçiniz</option>
+                            <option value="1">Bireysel</option>
+                            <option value="2">Kurumsal</option>
+
+                        </select>
+
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <td>TC Kimlik No / Vergi Kimlik No</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Firma_TCNO_VKNO" />
+
+                    </td>
+                    <td>Vergi Dairesi</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Firma_VergiDairesi" />
+                    </td>
+                </tr>
+                <tr>
+                   
+                    <td>İl</td>
+                    <td>
+                        <select class="form-control" asp-for="Firma_AdresIL_ID" id="Firma_AdresIL_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">izmir</option>
+                        </select>
+                    </td>
+                    <td>İlçe</td>
+                    <td>
+                        <select class="form-control" asp-for="Firma_AdresILCE_ID" id="Firma_AdresILCE_ID">
+                            <option value="0">Seçiniz</option>
+                            <option value="1">Konak</option>
+                            <option value="2">Bornova</option>
+                            <option value="3">Karabağlar</option>
+                            <option value="4">Balçova</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Adres</td>
+                    <td> <input type="text" class="form-control" asp-for="Firma_Adres" /></td>
+                   
+                </tr>
+                <tr>
+                    <td>Cep Telefon No</td>
+                    <td> <input type="text" class="form-control" asp-for="Firma_CepTel" /></td>
+                  
+                    <td>Modul</td>
+                    <td>
+                        @foreach(var item in ViewBag.Moduller){
+
+                            if(Model.FirmaModul_ID.ToString().Contains(item.Modul_ID.ToString()))
+                            {
+                                <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID" checked/>
+
+                            }
+                            else
+                            {
+
+                                <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID"  />
+                            }
+                            <label>@item.Modul_Adi</label><br />
+                        }
+
+                    </td>
+                    
+                  
+                   
+                </tr>
+                <tr>
+
+
+                    <td>Web Sitesi</td>
+                    <td> <input type="text" class="form-control" asp-for="Firma_WebSitesi" /></td>
+                    <td>Yetkili Eposta</td>
+                    <td><input type="text" class="form-control" asp-for="Firma_YetkiliEposta" /></td>
+                    
+                </tr>
+                <tr>
+
+                    <td>Yetkili Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="Firma_YetkiliAdi" /></td>
+
+                    <td>Yetkili Soyadı</td>
+                    <td><input type="text" class="form-control" asp-for="Firma_YetkiliSoyadi" /></td>
+
+                  
+
+                </tr>
+
+                <tr>
+
+                    <td>Yetkili Şifre</td>
+                    <td> <input type="text" class="form-control" asp-for="Firma_Sifre" /></td>
+
+
+
+
+                </tr>
+
+
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Firmayı Düzenle" />
+        </form>
+
+
+    </div>
+
+</div>

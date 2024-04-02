@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
@@ -29,6 +30,9 @@ namespace logikeyv2.Controllers
                 HttpContext.Session.SetInt32("KullaniciID", KullaniciID);
                 HttpContext.Session.SetString("Eposta", item[0].Kullanici_Eposta);
                 HttpContext.Session.SetInt32("FirmaID", FirmaID);
+              
+                HttpContext.Session.SetString("KullaniciGrup_ID",item[0].KullaniciGrup_ID.ToString());
+            
 
                 var modul = firmaManager.GetByID(FirmaID).FirmaModul_ID;
                 if (modul != null)
