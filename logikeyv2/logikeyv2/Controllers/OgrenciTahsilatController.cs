@@ -16,34 +16,14 @@ namespace logikeyv2.Controllers
 
 
         [HttpGet]
-        public IActionResult Index(string ogrenciDeger)
+        public IActionResult Index()
         {
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    if (ogrenciDeger != null)
-                    {
-                        var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x => x.EkleyenKullanici_ID == 1 && x.Durum == true);
-                        var cariList = cariManager.GetAllList(x => x.Cari_GrupID == 14 && (x.Cari_TCNO_VergiNo == ogrenciDeger || x.Cari_Unvan.ToLower() == ogrenciDeger.ToLower()));
-                        var combinedQuery = (from ot in ogrenciTahsilatList
-                                             join ogrenci in cariList on ot.OgrenciId equals ogrenci.Cari_ID
-                                             join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
-                                             join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
-                                             select new OgrenciTahsilatViewModel()
-                                             {
-                                                 ogrenci = ogrenci,
-                                                 okul = okul,
-                                                 ogrenciTahsilat = ot,
-                                             });
-
-                        List<OgrenciTahsilatViewModel> resultList = combinedQuery.ToList();
-
-                        return View(resultList);
-                    }
-                    else
-                    {
-                        var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x => x.EkleyenKullanici_ID == 1 && x.Durum==true);
+                    int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
+                    var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x => x.EkleyenKullanici_ID == KullaniciID && x.Durum==true);
                         var cariList = cariManager.GetAllList(x => x.Cari_GrupID == 14);
                         var tahsilatBigileri = context.OgrenciTahsilatBilgileri.Where(x => x.Durum == true).ToList();
                         var combinedQuery = (from ot in ogrenciTahsilatList
@@ -61,7 +41,7 @@ namespace logikeyv2.Controllers
                         List<OgrenciTahsilatViewModel> resultList = combinedQuery.ToList();
 
                         return View(resultList);
-                    }
+                    
                 } 
             }
         }
@@ -70,7 +50,9 @@ namespace logikeyv2.Controllers
         [HttpGet]
         public IActionResult OgrenciTahsilatEkle()
         {
-            ViewBag.Okul = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13);
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+
+            ViewBag.Okul = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13 && x.Firma_ID==FirmaID);
             return View();
         }
         [HttpPost]
@@ -80,8 +62,11 @@ namespace logikeyv2.Controllers
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    var ogrenci = ogrenciTahsilatManager.GetByPropertyName("OgrenciId", ogrenciTahsilat.OgrenciId.ToString());
-                    if (ogrenci != null)
+                    int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
+
+                    //var ogrenci = ogrenciTahsilatManager.GetByPropertyName("OgrenciId", ogrenciTahsilat.OgrenciId.ToString());
+                    var ogrenci = ogrenciTahsilatManager.GetAllList(x=> x.OgrenciId == ogrenciTahsilat.OgrenciId && x.EkleyenKullanici_ID == KullaniciID);
+                    if (ogrenci.Count != 0)
                     {
                         TempData["Msg"] = "Bu öğrencinin kaydı daha önce oluşturulmuştur";
                         TempData["Bgcolor"] = "red";
@@ -122,7 +107,7 @@ namespace logikeyv2.Controllers
                 }
                     ogrenciTahsilat.KalanBorcTutar = ogrenciTahsilat.AnlasilanTutar;
                     ogrenciTahsilat.Durum = true;
-                    ogrenciTahsilat.EkleyenKullanici_ID = 1;
+                    ogrenciTahsilat.EkleyenKullanici_ID = KullaniciID;
                     ogrenciTahsilat.OlusturmaTarihi = DateTime.Now;
                     ogrenciTahsilat.DuzenlemeTarihi = DateTime.Now;
                     ogrenciTahsilatManager.TAdd(ogrenciTahsilat);
@@ -134,32 +119,41 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult OgrenciTahsilatSil(int id)
         {
-            var ogrenciTahsilat = ogrenciTahsilatManager.GetByID(id);
-
-            var ogrenci = cariManager.GetByPropertyName("Cari_ID", ogrenciTahsilat.OgrenciId.ToString());
-
-            if (ogrenci == null)
+            using (var context = new Context())
             {
-                TempData["Msg"] = "Öğrenci bulunamadı.";
-                TempData["Bgcolor"] = "red";
-                return RedirectToAction("Index");
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    var ogrenciTahsilat = ogrenciTahsilatManager.GetByID(id);
+
+                    var ogrenci = cariManager.GetByPropertyName("Cari_ID", ogrenciTahsilat.OgrenciId.ToString());
+
+                    if (ogrenci == null)
+                    {
+                        TempData["Msg"] = "Öğrenci bulunamadı.";
+                        TempData["Bgcolor"] = "red";
+                        return RedirectToAction("Index");
+                    }
+
+
+                    if (ogrenciTahsilat == null)
+                    {
+                        TempData["Msg"] = "İşlem başarısız.";
+                        TempData["Bgcolor"] = "red";
+                        return RedirectToAction("Index");
+                    }
+
+
+                    ogrenciTahsilatManager.TDelete(ogrenciTahsilat);
+                    var ogrenciTahsilatlar = context.OgrenciTahsilatBilgileri.Where(ot => ot.OgrenciId == ogrenciTahsilat.OgrenciId);
+                    context.OgrenciTahsilatBilgileri.RemoveRange(ogrenciTahsilatlar);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    TempData["Msg"] = "İşlem başarılı.";
+                    TempData["Bgcolor"] = "green";
+                    return RedirectToAction("Index");
+                }
             }
-
-
-            if (ogrenciTahsilat == null)
-            {
-                TempData["Msg"] = "İşlem başarısız.";
-                TempData["Bgcolor"] = "red";
-                return RedirectToAction("Index");
-            }
-
-
-            ogrenciTahsilat.Durum = false;
-                ogrenciTahsilatManager.TUpdate(ogrenciTahsilat);
-
-            TempData["Msg"] = "İşlem başarılı.";
-            TempData["Bgcolor"] = "green";
-            return RedirectToAction("Index");
+           
         }
     }
 }
