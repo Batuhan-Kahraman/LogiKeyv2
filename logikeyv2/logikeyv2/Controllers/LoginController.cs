@@ -27,9 +27,11 @@ namespace logikeyv2.Controllers
             {
                 var KullaniciID = item[0].Kullanici_ID;
                 var FirmaID = item[0].Firma_ID;
+                var firmaAdi = firmaManager.GetByID(FirmaID).Firma_Unvan;
                 HttpContext.Session.SetInt32("KullaniciID", KullaniciID);
                 HttpContext.Session.SetString("Eposta", item[0].Kullanici_Eposta);
                 HttpContext.Session.SetInt32("FirmaID", FirmaID);
+                HttpContext.Session.SetString("Firma", firmaAdi);
               
                 HttpContext.Session.SetString("KullaniciGrup_ID",item[0].KullaniciGrup_ID.ToString());
             
