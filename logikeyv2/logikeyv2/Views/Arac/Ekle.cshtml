@@ -86,7 +86,7 @@
                     <td><input type="text" class="form-control" asp-for="Plaka" /></td>
                     <td>Sahiplik</td>
                     <td>
-                        <select class="form-control" asp-for="SahiplikID" id="SahiplikID">
+                        <select class="form-control" asp-for="SahiplikID" id="SahiplikID" onchange="SahiplikKontrol(this.value)">
                             <option value="0">Seçiniz</option>
                         </select>
 
@@ -102,7 +102,7 @@
                 <tr>
                     <td>Araç Türü</td>
                     <td>
-                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value)">
+                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value);">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
@@ -167,7 +167,7 @@
 
                     </td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Kiralama">
                     <!-- Kiralama Şirket -->
                     <td>Kiralama Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="KiralamaTarihi" /></td>
@@ -176,7 +176,7 @@
                     <td>Kiralama Tutarı / Ay</td>
                     <td><input type="number" class="form-control" asp-for="KiralamaTutari" /></td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Taseron">
                     <!-- Taşeron Şirket -->
                     <td>İşe Başlama</td>
                     <td><input type="date" class="form-control" placeholder="Tarih" asp-for="IseBaslamaTarihi" /></td>
@@ -804,6 +804,29 @@
             }
         });
 
+      /*  function TurKontrol(TurID) { 
+        if(TurID==1)
+                document.getElementById('username').setAttribute('required', 'true');
+        }
+        */
+
+       function SahiplikKontrol(SahiplikID)
+       {
+           if (SahiplikID == 5) {
+                var element = document.getElementById("Taseron");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+               document.getElementById("Kiralama").style.display = "table-row";
+           }
+            else if (SahiplikID == 4) {
+                var element = document.getElementById("Kiralama");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+               document.getElementById("Taseron").style.display = "table-row";
+           }
+       }
     </script>
     @if (Model == null)
     {

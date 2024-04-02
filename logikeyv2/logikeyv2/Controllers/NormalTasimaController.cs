@@ -50,7 +50,7 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID);
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 2 && x.Firma_ID == FirmaID);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
             List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
             List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
@@ -93,7 +93,7 @@ namespace logikeyv2.Controllers
 
             ViewBag.Iller = iller;
 
-            var combinedQuery = from arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID &&  y.AracTurID == 13 || y.AracTurID == 1))
+            var combinedQuery = from arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID && y.AracTurID != 13 && y.AracTurID != 1))
                                 join tur in aracTurManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on arac.AracTurID equals tur.ID
                                 select new
                                 {
@@ -107,7 +107,7 @@ namespace logikeyv2.Controllers
             ViewBag.Araclar = combinedQuery.ToList();
 
 
-            List<NormalAracTur> NormalAracTur = NormalAracTurManager.GetAllList(x=>x.FirmaID==FirmaID);
+            List<NormalAracTur> NormalAracTur = NormalAracTurManager.GetAllList(x => x.FirmaID == FirmaID);
 
             ViewBag.NormalAracTur = NormalAracTur;
             return View();
@@ -124,122 +124,135 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        int ToplamFiyat = 0;
-                        string[] aracIDForm = form["AracID"].ToString().Split('|');
-                        int aracID = int.Parse(aracIDForm[0]);
-                        NormalTasima.AracID = aracID;
-                        NormalTasima.Durum = true;
-                        NormalTasima.FirmaID = FirmaID;
-                        NormalTasima.OlusturmaTarihi = DateTime.Now;
-                        NormalTasima.DuzenlemeTarihi = DateTime.Now;
-                        NormalTasima.OlusturanId = KullaniciID;
-                        NormalTasima.DuzenleyenID = KullaniciID;
 
-                        NormalTasima.AracTurID = int.Parse(form["AracTurID"]);
-                        NormalTasimaManager.TAdd(NormalTasima);
-                        int kayitSayisi = int.Parse(form["KayitSayisi"]);
-                        for (var i = 1; i <= kayitSayisi; i++)
+
+                        var surucuKoparmaIslemi = Helper.NormalSurucuKopar(NormalTasima.Kullanici1ID, NormalTasima.Kullanici2ID, NormalTasima.Kullanici3ID);
+                        if (surucuKoparmaIslemi == true)
                         {
-                            NormalTasimaDetay NormalTasimaDetay = new NormalTasimaDetay();
-                            NormalTasimaDetay.NormalTasimaID = NormalTasima.ID;
-                            NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
-                            NormalTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
-                            NormalTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
-                            NormalTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
-                            NormalTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
-                            NormalTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
-                            NormalTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
-                            NormalTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
-                            NormalTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
-                            NormalTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
-                            NormalTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
-                            NormalTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
-                            NormalTasimaDetay.Durum = true;
-                            NormalTasimaDetay.FirmaID = FirmaID;
-                            NormalTasimaDetay.OlusturmaTarihi = DateTime.Now;
-                            NormalTasimaDetay.DuzenlemeTarihi = DateTime.Now;
-                            NormalTasimaDetay.OlusturanId = KullaniciID;
-                            NormalTasimaDetay.DuzenleyenID = KullaniciID; 
-                            NormalTasimaDetayManager.TAdd(NormalTasimaDetay);
-                            ToplamFiyat += NormalTasimaDetay.NakliyeFiyat;
-                            string detayUrunId = "";
-                            string faturaKesenId = "";
-                            string faturaKesilenId = "";
-                            for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
+                            int ToplamFiyat = 0;
+                            string[] aracIDForm = form["AracID"].ToString().Split('|');
+                            int aracID = int.Parse(aracIDForm[0]);
+                            NormalTasima.AracID = aracID;
+                            NormalTasima.Durum = true;
+                            NormalTasima.FirmaID = FirmaID;
+                            NormalTasima.OlusturmaTarihi = DateTime.Now;
+                            NormalTasima.DuzenlemeTarihi = DateTime.Now;
+                            NormalTasima.OlusturanId = KullaniciID;
+                            NormalTasima.DuzenleyenID = KullaniciID;
+
+                            NormalTasima.AracTurID = int.Parse(form["AracTurID"]);
+                            NormalTasimaManager.TAdd(NormalTasima);
+                            int kayitSayisi = int.Parse(form["KayitSayisi"]);
+                            for (var i = 1; i <= kayitSayisi; i++)
                             {
-                                NormalTasimaDetayUrun NormalTasimaDetayUrun = new NormalTasimaDetayUrun();
-                                NormalTasimaDetayUrun.NormalTasimaID = NormalTasima.ID;
-                                NormalTasimaDetayUrun.NormalTasimaDetayID = NormalTasimaDetay.ID;
-                                NormalTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
-                                NormalTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
-                                NormalTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
-                                NormalTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
-                                NormalTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
-                                NormalTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
-                                NormalTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
-                                NormalTasimaDetayUrun.Durum = true;
-                                NormalTasimaDetayUrun.FirmaID = FirmaID;
-                                NormalTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
-                                NormalTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
-                                NormalTasimaDetayUrun.OlusturanId = KullaniciID;
-                                NormalTasimaDetayUrun.DuzenleyenID = KullaniciID;
-                                NormalTasimaDetayUrunManager.TAdd(NormalTasimaDetayUrun);
-                                //detayUrunId += NormalTasimaDetayUrun.ID + ";";
-
-                                NormalFatura NormalFatura = new NormalFatura();
-                                NormalFatura.FaturaNo = NormalTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
-                                NormalFatura.NormalTasimaID = NormalTasima.ID;
-                                NormalFatura.NormalTasimaDetayID = NormalTasimaDetay.ID;
-                                NormalFatura.Odeme = 0;
-                                NormalFatura.Durum = true;
-                                NormalFatura.FirmaID = FirmaID;
-                                NormalFatura.OlusturmaTarihi = DateTime.Now;
-                                NormalFatura.DuzenlemeTarihi = DateTime.Now;
-                                NormalFatura.OlusturanId = KullaniciID;
-                                NormalFatura.DuzenleyenID = KullaniciID;
-                                if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 1)
+                                NormalTasimaDetay NormalTasimaDetay = new NormalTasimaDetay();
+                                NormalTasimaDetay.NormalTasimaID = NormalTasima.ID;
+                                NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
+                                NormalTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
+                                NormalTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                NormalTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
+                                NormalTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
+                                NormalTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
+                                NormalTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                NormalTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
+                                NormalTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
+                                NormalTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
+                                NormalTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                                NormalTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                                NormalTasimaDetay.Durum = true;
+                                NormalTasimaDetay.FirmaID = FirmaID;
+                                NormalTasimaDetay.OlusturmaTarihi = DateTime.Now;
+                                NormalTasimaDetay.DuzenlemeTarihi = DateTime.Now;
+                                NormalTasimaDetay.OlusturanId = KullaniciID;
+                                NormalTasimaDetay.DuzenleyenID = KullaniciID;
+                                NormalTasimaDetayManager.TAdd(NormalTasimaDetay);
+                                ToplamFiyat += NormalTasimaDetay.NakliyeFiyat;
+                                string detayUrunId = "";
+                                string faturaKesenId = "";
+                                string faturaKesilenId = "";
+                                for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
                                 {
+                                    NormalTasimaDetayUrun NormalTasimaDetayUrun = new NormalTasimaDetayUrun();
+                                    NormalTasimaDetayUrun.NormalTasimaID = NormalTasima.ID;
+                                    NormalTasimaDetayUrun.NormalTasimaDetayID = NormalTasimaDetay.ID;
+                                    NormalTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
+                                    NormalTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
+                                    NormalTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
+                                    NormalTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
+                                    NormalTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
+                                    NormalTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
+                                    NormalTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+                                    NormalTasimaDetayUrun.Durum = true;
+                                    NormalTasimaDetayUrun.FirmaID = FirmaID;
+                                    NormalTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
+                                    NormalTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
+                                    NormalTasimaDetayUrun.OlusturanId = KullaniciID;
+                                    NormalTasimaDetayUrun.DuzenleyenID = KullaniciID;
+                                    NormalTasimaDetayUrunManager.TAdd(NormalTasimaDetayUrun);
+                                    //detayUrunId += NormalTasimaDetayUrun.ID + ";";
 
-                                    //detayUrunId = detayUrunId.Trim(';');
-                                    NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
-                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
-                                    NormalFatura.FaturaKesenID = FirmaID;
-                                    NormalFatura.FaturaKesilenID = NormalTasimaDetay.AliciID;
-                                    NormalFaturaManager.TAdd(NormalFatura);
+                                    NormalFatura NormalFatura = new NormalFatura();
+                                    NormalFatura.FaturaNo = NormalTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
+                                    NormalFatura.NormalTasimaID = NormalTasima.ID;
+                                    NormalFatura.NormalTasimaDetayID = NormalTasimaDetay.ID;
+                                    NormalFatura.Odeme = 0;
+                                    NormalFatura.Durum = true;
+                                    NormalFatura.FirmaID = FirmaID;
+                                    NormalFatura.OlusturmaTarihi = DateTime.Now;
+                                    NormalFatura.DuzenlemeTarihi = DateTime.Now;
+                                    NormalFatura.OlusturanId = KullaniciID;
+                                    NormalFatura.DuzenleyenID = KullaniciID;
+                                    if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 1)
+                                    {
+
+                                        //detayUrunId = detayUrunId.Trim(';');
+                                        NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
+                                        //NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
+                                        NormalFatura.FaturaKesenID = FirmaID;
+                                        NormalFatura.FaturaKesilenID = NormalTasimaDetay.AliciID;
+                                        NormalFaturaManager.TAdd(NormalFatura);
+
+                                    }
+                                    else if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 2)
+                                    {
+                                        //detayUrunId = detayUrunId.Trim(';');
+                                        NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
+                                        //NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
+                                        NormalFatura.FaturaKesenID = FirmaID;
+                                        NormalFatura.FaturaKesilenID = NormalTasimaDetay.GondericiID;
+                                        NormalFaturaManager.TAdd(NormalFatura);
+
+                                    }
+
+                                    NormalCariHareket cariHareket = new NormalCariHareket
+                                    {
+                                        CariID = NormalFatura.FaturaKesenID,
+                                        FaturaID = NormalFatura.ID,
+                                        OdemeID = 0,
+                                        PlakaID = NormalTasima.AracID,
+                                        Tutar = ToplamFiyat,
+                                        Durum = true,
+                                        FirmaID = FirmaID,
+                                        OlusturanId = KullaniciID,
+                                        DuzenleyenID = KullaniciID,
+                                        OlusturmaTarihi = DateTime.Now,
+                                        DuzenlemeTarihi = DateTime.Now
+                                    };
+                                    Helper.NormalCariHareketEkle(cariHareket);
+
 
                                 }
-                                else if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 2)
-                                {
-                                    //detayUrunId = detayUrunId.Trim(';');
-                                    NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
-                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
-                                    NormalFatura.FaturaKesenID = FirmaID;
-                                    NormalFatura.FaturaKesilenID = NormalTasimaDetay.GondericiID;
-                                    NormalFaturaManager.TAdd(NormalFatura);
-
-                                }
-
-                                NormalCariHareket cariHareket = new NormalCariHareket
-                                {
-                                    CariID = NormalFatura.FaturaKesenID,
-                                    FaturaID = NormalFatura.ID,
-                                    OdemeID = 0,
-                                    PlakaID = NormalTasima.AracID,
-                                    Tutar = ToplamFiyat,
-                                    Durum = true,
-                                    FirmaID =FirmaID,
-                                    OlusturanId = KullaniciID,
-                                    DuzenleyenID = KullaniciID,
-                                    OlusturmaTarihi = DateTime.Now,
-                                    DuzenlemeTarihi = DateTime.Now
-                                };
-                                Helper.NormalCariHareketEkle(cariHareket);
-
-
                             }
+                            TempData["Msg"] = "İşlem başarılı.";
+                            TempData["Bgcolor"] = "green";
                         }
-                        TempData["Msg"] = "İşlem başarılı.";
-                        TempData["Bgcolor"] = "green";
+                        else
+                        {
+                            TempData["Msg"] = "Sürücü koparma işlemi başarısız";
+                            TempData["Bgcolor"] = "red";
+                            transaction.Rollback();
+
+                        }
                     }
                     catch (Exception e)
                     {
@@ -257,7 +270,7 @@ namespace logikeyv2.Controllers
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID);
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID==2 && x.Firma_ID == FirmaID);
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
             List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
             List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
@@ -299,7 +312,7 @@ namespace logikeyv2.Controllers
 
             ViewBag.Iller = iller;
 
-            var combinedQuery = from arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID &&  y.AracTurID == 13 || y.AracTurID == 1))
+            var combinedQuery = from arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID && y.AracTurID != 13 && y.AracTurID != 1))
                                 join tur in aracTurManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on arac.AracTurID equals tur.ID
                                 select new
                                 {
@@ -337,200 +350,211 @@ namespace logikeyv2.Controllers
                         NormalTasima NormalTasima = NormalTasimaManager.GetByID(kayit.ID);
 
 
-                        NormalTasima.Kullanici1ID = kayit.Kullanici1ID;
-                        NormalTasima.Kullanici2ID = kayit.Kullanici2ID;
-                        NormalTasima.Kullanici3ID = kayit.Kullanici3ID;
-
-                        string[] aracIDForm = form["AracID"].ToString().Split('|');
-                        int aracID = int.Parse(aracIDForm[0]);
-                        NormalTasima.AracID = aracID;
-                        NormalTasima.DorsePlakaID = kayit.DorsePlakaID;
-                        NormalTasima.DuzenlemeTarihi = DateTime.Now;
-                        NormalTasima.DuzenleyenID = KullaniciID;
-
-                        NormalTasima.AracTurID = int.Parse(form["AracTurID"]);
-                        NormalTasima.ToplamYuklenenMiktar = kayit.ToplamYuklenenMiktar;
-
-                        NormalTasimaManager.TUpdate(NormalTasima);
-
-
-                        int kayitSayisi = int.Parse(form["KayitSayisi"]);
-
-                        int ToplamFiyat = 0;
-
-                        for (var i = 1; i <= kayitSayisi; i++)
+                        var surucuKoparmaIslemi = Helper.NormalSurucuKopar(kayit.Kullanici1ID, kayit.Kullanici2ID, kayit.Kullanici3ID);
+                        if (surucuKoparmaIslemi == true)
                         {
-                            NormalTasimaDetay NormalTasimaDetay;
-                            NormalFatura NormalFatura;
-                            try
+
+                            NormalTasima.Kullanici1ID = kayit.Kullanici1ID;
+                            NormalTasima.Kullanici2ID = kayit.Kullanici2ID;
+                            NormalTasima.Kullanici3ID = kayit.Kullanici3ID;
+
+                            string[] aracIDForm = form["AracID"].ToString().Split('|');
+                            int aracID = int.Parse(aracIDForm[0]);
+                            NormalTasima.AracID = aracID;
+                            NormalTasima.DorsePlakaID = kayit.DorsePlakaID;
+                            NormalTasima.DuzenlemeTarihi = DateTime.Now;
+                            NormalTasima.DuzenleyenID = KullaniciID;
+
+                            NormalTasima.AracTurID = int.Parse(form["AracTurID"]);
+                            NormalTasima.ToplamYuklenenMiktar = kayit.ToplamYuklenenMiktar;
+
+                            NormalTasimaManager.TUpdate(NormalTasima);
+
+
+                            int kayitSayisi = int.Parse(form["KayitSayisi"]);
+
+                            int ToplamFiyat = 0;
+
+                            for (var i = 1; i <= kayitSayisi; i++)
                             {
-                                int detayID = int.Parse(form["detayID" + i + "[]"]);
-
-                                NormalTasimaDetay = NormalTasimaDetayManager.GetByID(detayID);
-
-                                NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
-                                NormalTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
-                                NormalTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
-                                NormalTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
-                                NormalTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
-                                NormalTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
-                                NormalTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
-                                NormalTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
-
-                                NormalTasimaDetay.DuzenlemeTarihi = DateTime.Now;
-                                NormalTasimaDetay.DuzenleyenID = KullaniciID;
-                                NormalTasimaDetayManager.TUpdate(NormalTasimaDetay);
-                                ToplamFiyat += NormalTasimaDetay.NakliyeFiyat;
-
-                            }
-                            catch (ArgumentNullException)
-                            {
-                                NormalTasimaDetay = new NormalTasimaDetay();
-                                NormalTasimaDetay.NormalTasimaID = NormalTasima.ID;
-                                NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
-                                NormalTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
-                                NormalTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
-                                NormalTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
-                                NormalTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
-                                NormalTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
-                                NormalTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
-                                NormalTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
-                                NormalTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
-                                NormalTasimaDetay.Durum = true;
-                                NormalTasimaDetay.FirmaID = FirmaID;
-                                NormalTasimaDetay.OlusturmaTarihi = DateTime.Now;
-                                NormalTasimaDetay.DuzenlemeTarihi = DateTime.Now;
-                                NormalTasimaDetay.OlusturanId = KullaniciID;
-                                NormalTasimaDetay.DuzenleyenID = KullaniciID;
-                                NormalTasimaDetayManager.TAdd(NormalTasimaDetay);
-                            }
-
-
-                            string faturaKesenId = "", faturaKesilenId = "";
-                            for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
-                            {
-                                var detayUrunID = (form["detayUrunID" + i + "[]"]);
-                                NormalTasimaDetayUrun NormalTasimaDetayUrun;
+                                NormalTasimaDetay NormalTasimaDetay;
+                                NormalFatura NormalFatura;
                                 try
                                 {
-                                    NormalTasimaDetayUrun = NormalTasimaDetayUrunManager.GetByID(int.Parse(detayUrunID[j]));
-                                    NormalTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+                                    int detayID = int.Parse(form["detayID" + i + "[]"]);
 
-                                    NormalTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
-                                    NormalTasimaDetayUrun.DuzenleyenID = KullaniciID;
+                                    NormalTasimaDetay = NormalTasimaDetayManager.GetByID(detayID);
 
-                                    NormalTasimaDetayUrunManager.TUpdate(NormalTasimaDetayUrun);
-                                    NormalFatura = NormalFaturaManager.GetAllList(x => x.NormalTasimaID == kayit.ID && x.NormalTasimaDetayID == NormalTasimaDetayUrun.NormalTasimaDetayID && x.NormalTasimaDetayUrunID == NormalTasimaDetayUrun.ID).SingleOrDefault();
-                                    NormalFatura.FaturaNo = NormalTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
-                                    NormalFatura.NormalTasimaID = NormalTasima.ID;
-                                    NormalFatura.NormalTasimaDetayID = NormalTasimaDetay.ID;
-                                    NormalFatura.Durum = true;
-                                    NormalFatura.FirmaID = FirmaID;
-                                    NormalFatura.OlusturmaTarihi = DateTime.Now;
-                                    NormalFatura.DuzenlemeTarihi = DateTime.Now;
-                                    NormalFatura.OlusturanId = KullaniciID;
-                                    NormalFatura.DuzenleyenID = KullaniciID;
+                                    NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
+                                    NormalTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
+                                    NormalTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                    NormalTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
+                                    NormalTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
+                                    NormalTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
+                                    NormalTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                    NormalTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+
+                                    NormalTasimaDetay.DuzenlemeTarihi = DateTime.Now;
+                                    NormalTasimaDetay.DuzenleyenID = KullaniciID;
+                                    NormalTasimaDetayManager.TUpdate(NormalTasimaDetay);
+                                    ToplamFiyat += NormalTasimaDetay.NakliyeFiyat;
+
                                 }
-                                catch
+                                catch (ArgumentNullException)
                                 {
-                                    NormalTasimaDetayUrun = new NormalTasimaDetayUrun();
-                                    NormalTasimaDetayUrun.NormalTasimaID = NormalTasima.ID;
-                                    NormalTasimaDetayUrun.NormalTasimaDetayID = NormalTasimaDetay.ID;
-
-                                    NormalTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
-                                    NormalTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
-
-                                    NormalTasimaDetayUrun.Durum = true;
-                                    NormalTasimaDetayUrun.FirmaID = FirmaID;
-                                    NormalTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
-                                    NormalTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
-                                    NormalTasimaDetayUrun.OlusturanId = KullaniciID;
-                                    NormalTasimaDetayUrun.DuzenleyenID = KullaniciID;
-
-
-                                    NormalTasimaDetayUrunManager.TAdd(NormalTasimaDetayUrun);
-                                    NormalFatura = new NormalFatura();
-                                    NormalFatura.FaturaNo = NormalTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
-                                    NormalFatura.NormalTasimaID = NormalTasima.ID;
-                                    NormalFatura.NormalTasimaDetayID = NormalTasimaDetay.ID;
-                                    NormalFatura.Durum = true;
-                                    NormalFatura.FirmaID = FirmaID;
-                                    NormalFatura.OlusturmaTarihi = DateTime.Now;
-                                    NormalFatura.DuzenlemeTarihi = DateTime.Now;
-                                    NormalFatura.OlusturanId = KullaniciID;
-                                    NormalFatura.DuzenleyenID = KullaniciID;
-                                    NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
+                                    NormalTasimaDetay = new NormalTasimaDetay();
+                                    NormalTasimaDetay.NormalTasimaID = NormalTasima.ID;
+                                    NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
+                                    NormalTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
+                                    NormalTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                    NormalTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
+                                    NormalTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
+                                    NormalTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
+                                    NormalTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                    NormalTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                                    NormalTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                                    NormalTasimaDetay.Durum = true;
+                                    NormalTasimaDetay.FirmaID = FirmaID;
+                                    NormalTasimaDetay.OlusturmaTarihi = DateTime.Now;
+                                    NormalTasimaDetay.DuzenlemeTarihi = DateTime.Now;
+                                    NormalTasimaDetay.OlusturanId = KullaniciID;
+                                    NormalTasimaDetay.DuzenleyenID = KullaniciID;
+                                    NormalTasimaDetayManager.TAdd(NormalTasimaDetay);
                                 }
 
-                                if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 1)
-                                {
 
-                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
-                                    NormalFatura.FaturaKesenID = FirmaID; ;
-                                    NormalFatura.FaturaKesilenID = NormalTasimaDetay.AliciID;
+                                string faturaKesenId = "", faturaKesilenId = "";
+                                for (var j = 0; j < form["Un_ID" + i + "[]"].Count(); j++)
+                                {
+                                    var detayUrunID = (form["detayUrunID" + i + "[]"]);
+                                    NormalTasimaDetayUrun NormalTasimaDetayUrun;
+                                    try
+                                    {
+                                        NormalTasimaDetayUrun = NormalTasimaDetayUrunManager.GetByID(int.Parse(detayUrunID[j]));
+                                        NormalTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+
+                                        NormalTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
+                                        NormalTasimaDetayUrun.DuzenleyenID = KullaniciID;
+
+                                        NormalTasimaDetayUrunManager.TUpdate(NormalTasimaDetayUrun);
+                                        NormalFatura = NormalFaturaManager.GetAllList(x => x.NormalTasimaID == kayit.ID && x.NormalTasimaDetayID == NormalTasimaDetayUrun.NormalTasimaDetayID && x.NormalTasimaDetayUrunID == NormalTasimaDetayUrun.ID).SingleOrDefault();
+                                        NormalFatura.FaturaNo = NormalTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
+                                        NormalFatura.NormalTasimaID = NormalTasima.ID;
+                                        NormalFatura.NormalTasimaDetayID = NormalTasimaDetay.ID;
+                                        NormalFatura.Durum = true;
+                                        NormalFatura.FirmaID = FirmaID;
+                                        NormalFatura.OlusturmaTarihi = DateTime.Now;
+                                        NormalFatura.DuzenlemeTarihi = DateTime.Now;
+                                        NormalFatura.OlusturanId = KullaniciID;
+                                        NormalFatura.DuzenleyenID = KullaniciID;
+                                    }
+                                    catch
+                                    {
+                                        NormalTasimaDetayUrun = new NormalTasimaDetayUrun();
+                                        NormalTasimaDetayUrun.NormalTasimaID = NormalTasima.ID;
+                                        NormalTasimaDetayUrun.NormalTasimaDetayID = NormalTasimaDetay.ID;
+
+                                        NormalTasimaDetayUrun.UnID = int.Parse(form["Un_ID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.UrunID = int.Parse(form["TasinacakUrun_ID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.YuklemeMiktari = int.Parse(form["YuklemeMiktari" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.OdemeYapanCariGrup = int.Parse(form["Cari_Odeme_Yapan" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.OdemeYapanCariID = int.Parse(form["Cari_Odeme_YapanID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.Ucretlendirme = int.Parse(form["Ucretlendirme_ID" + i + "[]"][j]);
+                                        NormalTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
+
+                                        NormalTasimaDetayUrun.Durum = true;
+                                        NormalTasimaDetayUrun.FirmaID = FirmaID;
+                                        NormalTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
+                                        NormalTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
+                                        NormalTasimaDetayUrun.OlusturanId = KullaniciID;
+                                        NormalTasimaDetayUrun.DuzenleyenID = KullaniciID;
+
+
+                                        NormalTasimaDetayUrunManager.TAdd(NormalTasimaDetayUrun);
+                                        NormalFatura = new NormalFatura();
+                                        NormalFatura.FaturaNo = NormalTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
+                                        NormalFatura.NormalTasimaID = NormalTasima.ID;
+                                        NormalFatura.NormalTasimaDetayID = NormalTasimaDetay.ID;
+                                        NormalFatura.Durum = true;
+                                        NormalFatura.FirmaID = FirmaID;
+                                        NormalFatura.OlusturmaTarihi = DateTime.Now;
+                                        NormalFatura.DuzenlemeTarihi = DateTime.Now;
+                                        NormalFatura.OlusturanId = KullaniciID;
+                                        NormalFatura.DuzenleyenID = KullaniciID;
+                                        NormalFatura.NormalTasimaDetayUrunID = NormalTasimaDetayUrun.ID;
+                                    }
+
+                                    if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 1)
+                                    {
+
+                                        //NormalFatura.FaturaKesenID = NormalTasimaDetay.GondericiID;
+                                        NormalFatura.FaturaKesenID = FirmaID; ;
+                                        NormalFatura.FaturaKesilenID = NormalTasimaDetay.AliciID;
+                                    }
+                                    else if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 2)
+                                    {
+                                        //NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
+                                        NormalFatura.FaturaKesenID = FirmaID;
+                                        NormalFatura.FaturaKesilenID = NormalTasimaDetay.GondericiID;
+                                    }
+                                    if (NormalFatura.ID != 0)
+                                    {
+                                        NormalFaturaManager.TUpdate(NormalFatura);
+                                        Helper.NormalCariHareketTemizle(NormalFatura.ID);
+                                    }
+                                    else
+                                        NormalFaturaManager.TAdd(NormalFatura);
+
+
+
+                                    NormalCariHareket cariHareket = new NormalCariHareket
+                                    {
+                                        CariID = NormalFatura.FaturaKesenID,
+                                        FaturaID = NormalFatura.ID,
+                                        OdemeID = 0,
+                                        PlakaID = NormalTasima.AracID,
+                                        Tutar = ToplamFiyat,
+                                        Durum = true,
+                                        FirmaID = FirmaID,
+                                        OlusturanId = KullaniciID,
+                                        DuzenleyenID = KullaniciID,
+                                        OlusturmaTarihi = DateTime.Now,
+                                        DuzenlemeTarihi = DateTime.Now
+                                    };
+                                    Helper.NormalCariHareketEkle(cariHareket);
+
+
                                 }
-                                else if (NormalTasimaDetayUrun.OdemeYapanCariGrup == 2)
-                                {
-                                    //NormalFatura.FaturaKesenID = NormalTasimaDetay.AliciID;
-                                    NormalFatura.FaturaKesenID = FirmaID;
-                                    NormalFatura.FaturaKesilenID = NormalTasimaDetay.GondericiID;
-                                }
-                                if (NormalFatura.ID != 0)
-                                {
-                                    NormalFaturaManager.TUpdate(NormalFatura);
-                                    Helper.NormalCariHareketTemizle(NormalFatura.ID);
-                                }
-                                else
-                                    NormalFaturaManager.TAdd(NormalFatura);
 
-
-
-                                NormalCariHareket cariHareket = new NormalCariHareket
-                                {
-                                    CariID = NormalFatura.FaturaKesenID,
-                                    FaturaID = NormalFatura.ID,
-                                    OdemeID = 0,
-                                    PlakaID = NormalTasima.AracID,
-                                    Tutar = ToplamFiyat,
-                                    Durum = true,
-                                    FirmaID =FirmaID,
-                                    OlusturanId = KullaniciID,
-                                    DuzenleyenID = KullaniciID,
-                                    OlusturmaTarihi = DateTime.Now,
-                                    DuzenlemeTarihi = DateTime.Now
-                                };
-                                Helper.NormalCariHareketEkle(cariHareket);
 
 
                             }
 
 
 
+                            TempData["Msg"] = "İşlem başarılı.";
+                            TempData["Bgcolor"] = "green";
                         }
+                        else
+                        {
 
-
-
-                        TempData["Msg"] = "İşlem başarılı.";
-                        TempData["Bgcolor"] = "green";
-
+                            TempData["Msg"] = "Sürücü koparma işlemi başarısız";
+                            TempData["Bgcolor"] = "red";
+                            transaction.Rollback();
+                        }
                     }
                     catch (Exception e)
                     {
