@@ -42,8 +42,9 @@ namespace logikeyv2.Controllers
         ModelManager modelManager = new ModelManager(new EFModelRepository());
         AracResimlerManager aracResimlerManager = new AracResimlerManager(new EFAracResimRepository());
 
-        public IActionResult Index()
+        public IActionResult Index(int ModulID=0)
         {
+            HttpContext.Session.SetInt32("MenuModulID", ModulID);
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
                 .GroupJoin(aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
@@ -105,6 +106,7 @@ namespace logikeyv2.Controllers
                 Arac arac = JsonConvert.DeserializeObject<Arac>(aracJson);
                 return View(arac);
             }
+
             return View();
         }
         [HttpPost]
@@ -193,7 +195,7 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return RedirectToAction("Duzenle", new { AracID = arac.ID });
+            return RedirectToAction("Index");
 
         }
         public async Task<string> DosyaYukle(IFormFile formFile)

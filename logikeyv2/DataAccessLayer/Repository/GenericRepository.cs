@@ -58,7 +58,7 @@ namespace DataAccessLayer.Repository
                     .AsEnumerable() // Verileri yerel olarak değerlendirme
                     .FirstOrDefault(entity => propertyInfo.GetValue(entity, null).ToString() == value);
             }
-
+             
             return null;
 
         }

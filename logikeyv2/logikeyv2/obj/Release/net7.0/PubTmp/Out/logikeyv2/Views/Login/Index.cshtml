@@ -1,0 +1,136 @@
+﻿@using EntityLayer.Concrate;
+@model Kullanicilar
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html data-navigation-type="default" data-navbar-horizontal-shape="default" lang="en-US" dir="ltr">
+
+
+<!-- Mirrored from prium.github.io/phoenix/v1.14.0/pages/authentication/simple/sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 05 Jan 2024 20:06:37 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Logikey</title>
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/icons/favicon.ico">
+
+    <meta name="msapplication-TileImage" content="~/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+    <script src="~/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="~/vendors/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/js/config.js"></script>
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="~/vendors/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/~/unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link href="~/assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet" id="style-rtl">
+    <link href="~/assets/css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
+    <link href="~/assets/css/user-rtl.min.css" type="text/css" rel="stylesheet" id="user-style-rtl">
+    <link href="~/assets/css/user.min.css" type="text/css" rel="stylesheet" id="user-style-default">
+    <script>
+        var phoenixIsRTL = window.config.config.phoenixIsRTL;
+        if (phoenixIsRTL) {
+            var linkDefault = document.getElementById('style-default');
+            var userLinkDefault = document.getElementById('user-style-default');
+            linkDefault.setAttribute('disabled', true);
+            userLinkDefault.setAttribute('disabled', true);
+            document.querySelector('html').setAttribute('dir', 'rtl');
+        } else {
+            var linkRTL = document.getElementById('style-rtl');
+            var userLinkRTL = document.getElementById('user-style-rtl');
+            linkRTL.setAttribute('disabled', true);
+            userLinkRTL.setAttribute('disabled', true);
+        }
+    </script>
+</head>
+
+<body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+        <div class="container">
+            <div class="row flex-center min-vh-100 py-5">
+                <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
+                    <a class="d-flex flex-center text-decoration-none mb-4" href="~/index.html">
+                        <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+                            <img src="~/assets/img/logikeyLogo.png" alt="Logikey" width="58" /></div>
+                    </a>
+                    <div class="text-center mb-7">
+                        <h3 class="text-body-highlight">LOGIKEY</h3>
+                        <form method="post">
+                            <div class="mb-3 text-start">
+                                <label class="form-label" for="email">Eposta Adresi</label>
+                                <div class="form-icon-container">
+                                    <input class="form-control form-icon-input" id="email" type="email" asp-for="Kullanici_Eposta" placeholder="name@example.com" required/>
+                                    <span class="fas fa-user text-body fs-9 form-icon"></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label class="form-label" for="password">Şifre</label>
+                                <div class="form-icon-container">
+                                    <input class="form-control form-icon-input" id="password" type="password" asp-for="Kullanici_Sifre" placeholder="Şifre" required />
+                                    <span class="fas fa-key text-body fs-9 form-icon"></span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100 mb-3" type="submit">Giriş Yap</button>
+                            @if (ViewBag.Msg != null)
+                            {
+                                <div class="d-flex">
+                                    <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:#ff0101">
+                                        <div class="d-flex">
+                                            <div>
+                                                @ViewBag.Msg
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+    </main>
+
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="~/vendors/popper/popper.min.js"></script>
+    <script src="~/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="~/vendors/anchorjs/anchor.min.js"></script>
+    <script src="~/vendors/is/is.min.js"></script>
+    <script src="~/vendors/fontawesome/all.min.js"></script>
+    <script src="~/vendors/lodash/lodash.min.js"></script>
+    <script src="~/polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script>
+    <script src="~/vendors/list.js/list.min.js"></script>
+    <script src="~/vendors/feather-icons/feather.min.js"></script>
+    <script src="~/vendors/dayjs/dayjs.min.js"></script>
+    <script src="~/assets/js/phoenix.js"></script>
+</body>
+
+
+<!-- Mirrored from prium.github.io/phoenix/v1.14.0/pages/authentication/simple/sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 05 Jan 2024 20:06:37 GMT -->
+</html>

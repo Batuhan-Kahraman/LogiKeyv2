@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Araç Ekle";
 }
-
+<!--
 <div class="modal fade" id="uyariModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -19,6 +19,7 @@
         </div>
     </div>
 </div>
+-->
 
 
 <div class="row mb-3">
@@ -29,6 +30,7 @@
     <div class="col-5 text-center">
         Araç Kayıt Tarihi: @DateTime.Now
     </div>
+    <!--
     <div class="col-3">
         <div class="modal fade" id="ruhsatModal" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
@@ -39,7 +41,7 @@
                             <svg class="svg-inline--fa fa-xmark fs-9" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>
                         </button>
                     </div>
-                    <!--<form id="fileForm" enctype="multipart/form-data" method="post" asp-controller="Ajax" asp-action="FileUpload">-->
+                    <!-<form id="fileForm" enctype="multipart/form-data" method="post" asp-controller="Ajax" asp-action="FileUpload">--
 
                     <form id="fileForm" enctype="multipart/form-data" method="post" action="RuhsatEkle">
                         <div class="modal-body">
@@ -54,7 +56,7 @@
         </div>
 
         <input type="button" class="btn btn-info w-100" value="Ruhsattan Bilgi Tara" data-bs-toggle="modal" data-bs-target="#ruhsatModal" />
-    </div>
+    </div>-->
 </div>
 
 <div class="col-lg-10 col-xxl-11">
@@ -86,7 +88,7 @@
                     <td><input type="text" class="form-control" asp-for="Plaka" /></td>
                     <td>Sahiplik</td>
                     <td>
-                        <select class="form-control" asp-for="SahiplikID" id="SahiplikID">
+                        <select class="form-control" asp-for="SahiplikID" id="SahiplikID" onchange="SahiplikKontrol(this.value)">
                             <option value="0">Seçiniz</option>
                         </select>
 
@@ -102,7 +104,7 @@
                 <tr>
                     <td>Araç Türü</td>
                     <td>
-                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value)">
+                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value);">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
@@ -150,8 +152,16 @@
                     <td><input type="text" class="form-control" asp-for="Yil" /></td>
                 </tr>
                 <tr>
+                    <td>Sürücü</td>
+                    <td>
+                        <select class="form-control" asp-for="SurucuID" id="SurucuID">
+                            
+                            <option value="0">Seçiniz</option>
+                        </select>
+
+                    </td>
                     <td>Şirketi</td>
-                    <td colspan="5">
+                    <td colspan="3">
                         <select class="form-control" asp-for="SirketID" id="SirketID">
                             <!--  todo:sahipliğe göre cari listelenecek -->
                             <option value="0">Seçiniz</option>
@@ -159,7 +169,7 @@
 
                     </td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Kiralama">
                     <!-- Kiralama Şirket -->
                     <td>Kiralama Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="KiralamaTarihi" /></td>
@@ -168,7 +178,7 @@
                     <td>Kiralama Tutarı / Ay</td>
                     <td><input type="number" class="form-control" asp-for="KiralamaTutari" /></td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Taseron">
                     <!-- Taşeron Şirket -->
                     <td>İşe Başlama</td>
                     <td><input type="date" class="form-control" placeholder="Tarih" asp-for="IseBaslamaTarihi" /></td>
@@ -771,8 +781,54 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        //sürücü listele
+        $.ajax({
+            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#SurucuID').empty();
+                $('#SurucuID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#SurucuID').append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
 
+      /*  function TurKontrol(TurID) { 
+        if(TurID==1)
+                document.getElementById('username').setAttribute('required', 'true');
+        }
+        */
 
+       function SahiplikKontrol(SahiplikID)
+       {
+           if (SahiplikID == 5) {
+                var element = document.getElementById("Taseron");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+               document.getElementById("Kiralama").style.display = "table-row";
+           }
+            else if (SahiplikID == 4) {
+                var element = document.getElementById("Kiralama");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+               document.getElementById("Taseron").style.display = "table-row";
+           }
+       }
     </script>
     @if (Model == null)
     {

@@ -1,7 +1,8 @@
-﻿
+﻿@using EntityLayer.Concrate;
+@model List<NormalTasimaModel>
 
 @{
-    ViewData["Title"] = "Akaryakıt Tasima";
+    ViewData["Title"] = "Normal Tasima";
 }
 <div class="col-lg-10 col-xxl-11">
     <h2 class="mb-3 lh-sm">Normal Taşıma</h2>
@@ -23,7 +24,7 @@
     <div class="p-4 code-to-copy">
         <div id="tableExample3" data-list='{"valueNames":["tip","plaka","surucu","tur","miktar","tarih"],"page":5,"pagination":true}'>
             <div>
-                <a asp-controller="AkaryakitTasima" asp-action="TasimaEkle" class="button-style">Taşıma Ekle</a>
+                <a asp-controller="NormalTasima" asp-action="TasimaEkle" class="button-style">Taşıma Ekle</a>
             </div>
 
             <div class="table-responsive">
@@ -32,9 +33,6 @@
                         <tr>
                             <th class="sort border-top border-translucent ps-3" data-sort="plaka">Araç Plaka</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="surucu">Sürücü</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="tip">Taşıma Tipi</th>
-
-                            <th class="sort border-top border-translucent ps-3" data-sort="tur">Araç Türü</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="miktar">Toplam Yüklenen Miktar</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="tarih">Tarih</th>
                             <th class="sort border-top">
@@ -44,7 +42,28 @@
                         </tr>
                     </thead>
                     <tbody class="list">
-                    
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Arac.Plaka</td>
+                                <td>@item.Surucu.Kullanici_Isim @item.Surucu.Kullanici_Soyisim</td>
+                               
+                                <td>@item.Tasima.ToplamYuklenenMiktar</td>
+                                <td>@item.Tasima.OlusturmaTarihi</td>
+
+                                <td>
+
+                                    <a asp-controller="NormalTasima" asp-action="FaturaGoster" asp-route-ID="@item.Tasima.ID">
+                                        <span class="text-body fs-5" data-feather="file"></span>
+                                    </a>
+                                    <a asp-controller="NormalTasima" asp-action="TasimaDuzenle" asp-route-ID="@item.Tasima.ID">
+                                        <span class="text-body fs-5" data-feather="edit"></span>
+                                    </a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Tasima.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
 

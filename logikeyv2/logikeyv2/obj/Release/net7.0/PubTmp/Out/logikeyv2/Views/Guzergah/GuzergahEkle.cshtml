@@ -1,0 +1,272 @@
+﻿@model EntityLayer.Concrate.Guzergah
+
+@{
+    ViewData["Title"] = "Guzergah Ekle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Güzergah Ekle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+
+                <tr>
+
+                    <td>Güzergah Adı</td>
+                    <td><input type="text" class="form-control" asp-for="Guzergah_Adi" /></td>
+                    <td>Araç Plakası</td>
+                    <td>
+                        <select class="form-control" asp-for="AracPlaka_ID" id="AracPlaka_ID">
+                            <option value="0">Seçiniz</option>
+
+                            @foreach (var item in ViewBag.Arac)
+                            {
+                                <option value="@item.ID">@item.Plaka</option>
+
+                            }
+                        </select>
+                    </td>
+                   
+
+                </tr>
+
+                <tr>
+                    <td>Şöför</td>
+                    <td>
+                    <select class="form-control" asp-for="SoforCari_ID" id="SoforCari_ID">
+                        <option value="0">Seçiniz</option>
+
+                        @foreach (var item in ViewBag.Sofor)
+                        {
+                            <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
+
+                        }
+                    </select>
+                    </td>
+                    <td>Hostes</td>
+                    <td>
+                        <select class="form-control" asp-for="HostesCari_ID" id="HostesCari_ID">
+                            <option value="0">Seçiniz</option>
+
+                            @foreach (var item in ViewBag.Hostes)
+                            {
+                                <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
+
+                            }
+                        </select>
+                    </td>
+
+
+                </tr>
+               
+               <tr>
+                    <td>Okul</td>
+                    <td colspan="5">
+                        <select name="okulID" class="form-control" id="mySelect2">
+                            <option value="0">Seçiniz</option>
+
+                            @foreach (var item in ViewBag.Okullar)
+                            {
+                                <option value="@item.Cari_ID">@item.Cari_Unvan</option>
+
+                            }
+                        </select>
+                    </td>
+                  
+
+               </tr>
+               
+                <tr>
+                    <td>Öğrenciler</td>
+                    <td colspan="5">
+                        <select name="okulID" class="form-control" id="mySelect" multiple>
+                            <option value="0">Seçiniz</option>
+
+                           
+                        </select>
+                    </td>
+
+
+                </tr>
+               <div id="selectedValuesTableDiv" style="display: none;">
+                    <table id="selectedValuesTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Öğrenci Sıra No</th>
+                                <th>Öğrenci Adı Soyadı</th>
+                                <th>Okula Gidiş Günleri</th>
+                                <th>Okula Gidiş Saatleri</th>
+                                <th>Okula Çıkış Günleri</th>
+                                <th>Okula Çıkış Saatleri</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div> 
+
+
+               
+               
+              
+            
+             
+              
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Güzergah Kaydet" />
+        </form>
+    </div>
+
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#mySelect').select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#mySelect').select2();
+
+            $('#mySelect2').change(function () {
+                var okulID = $(this).val(); // Seçilen okulun ID'sini al
+
+                $.ajax({
+                    url: '/Guzergah/OgrenciListesi', // Sunucuya istek yapılacak adresi buraya yazın
+                    type: 'GET', // veya 'POST' isteğin tipini belirleyin
+                    data: { okulID: okulID }, // Sunucuya gönderilecek verileri buraya ekleyin
+                    success: function (response) {
+                        $('#mySelect').empty(); // Önceki öğrenci listesini temizle
+                        // Sunucudan dönen öğrenci verilerini burada işleyin ve #ogrenciID select elementine ekleyin
+                        $.each(response, function (index, value) {
+                            console.log(value, "index")
+                            $('#mySelect').append('<option value="' + value.cari_ID + '">' + value.cari_YetkiliAdi + " " + value.cari_YetkiliSoyadi + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText); // Hata durumunda konsola yazdır
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+       
+        $(document).ready(function () {
+            $('#selectedValuesTable tbody').bind('DOMSubtreeModified', function () {
+                if ($(this).children().length > 0) {
+                    $('#selectedValuesTableDiv').show(); // Tablo doluysa görünür hale getir
+                } else {
+                    $('#selectedValuesTableDiv').hide(); // Tablo boşsa gizle
+                }
+            });
+            // Select değiştiğinde
+            $('#mySelect').change(function () {
+                // Tabloya eklenecek olan HTML içeriği
+                var tableContent = '';
+                // Okul sıra numarasını tutacak değişken
+                var okulSirasi = 1;
+
+                // Seçilen değerlerin bulunduğu dizi
+                var selectedValues = $('#mySelect').val();
+                var daysArray = "1.pazartesi,2.salı,3.çarşamba,4.perşembe,5.cuma".split(",");
+                var hoursArray = "1.11.00,2.11.00,3.11.00,4.10.00,5.11.00".split(",");
+                var daysArray2 = "1.pazartesi,2.salı,3.çarşamba,4.perşembe,5.cuma".split(",");
+                var hoursArray2 = "1.18.00,2.18.00,3.18.00,4.-,5.18.00".split(",");
+
+                // Her öğeyi alt alta yazacak olan değişkenler
+                var daysText = "";
+                var hoursText = "";
+                var daysText2 = "";
+                var hoursText2 = "";
+
+                var maxLength = 10;
+                // Dizideki her öğeyi alt alta yazacak şekilde düzenle
+                for (var i = 0; i < daysArray.length; i++) {
+                    daysText += daysArray[i] + "\n";
+                    hoursText += hoursArray[i] + "\n";
+                    daysText2 += daysArray2[i] + "\n";
+                    hoursText2 += hoursArray2[i] + "\n";
+                }
+                // Seçilen değerler üzerinde döngü
+                for (var i = 0; i < selectedValues.length; i++) {
+                    // Her bir seçilen değer için bir satır oluştur
+                    var selectedText = $('#mySelect option[value="' + selectedValues[i] + '"]').text(); // Seçilen değerin metin değerini al
+                    tableContent += '<tr>';
+                    tableContent += '<td>' + okulSirasi + '</td>'; // Okul sıra numarasını ekle
+                    tableContent += '<td>' + selectedText + '</td>';
+                    tableContent += '<td>' + "<textarea class='form-control' rows='" + daysArray.length + "' cols='" + maxLength + "'>" + daysText + "</textarea>" + '</td>';
+                    tableContent += '<td>' + "<textarea class='form-control' rows='" + hoursArray.length + "' cols='" + maxLength + "'>" + hoursText + "</textarea>" + '</td>';
+                    tableContent += '<td>' + "<textarea class='form-control' rows='" + daysArray2.length + "' cols='" + maxLength + "'>" + daysText2 + "</textarea>" + '</td>';
+                    tableContent += '<td>' + "<textarea class='form-control' rows='" + hoursArray2.length + "' cols='" + maxLength + "'>" + hoursText2 + "</textarea>" + '</td>';
+
+                    tableContent += '</tr>';
+                    okulSirasi++; // Okul sıra numarasını bir artır
+                }
+
+                // Tabloya eklemek için tbody elementini seç
+                var $tableBody = $('#selectedValuesTable tbody');
+
+                // Oluşturulan HTML içeriğini tbody'ye ekle
+                $tableBody.html(tableContent);
+            });
+
+            // Seçilen öğelerden biri kaldırıldığında
+            $('#mySelect').on('select2:unselect', function (e) {
+                // Seçilen öğeleri güncelle
+                var selectedValues = $('#mySelect').val();
+                // Yeniden numaralandırma için okul sıra numarasını sıfırla
+                var okulSirasi = 1;
+                // Tabloya eklenecek olan HTML içeriği
+                var tableContent = '';
+
+                // Seçilen değerler üzerinde döngü
+                for (var i = 0; i < selectedValues.length; i++) {
+                    // Her bir seçilen değer için bir satır oluştur
+                    var selectedText = $('#mySelect option[value="' + selectedValues[i] + '"]').text(); // Seçilen değerin metin değerini al
+                    tableContent += '<tr>';
+                    tableContent += '<td>' + okulSirasi + '</td>'; // Okul sıra numarasını ekle
+                    tableContent += '<td>' + selectedText + '</td>';
+                    // tableContent += '<td><button>Öğrenci Ekle</button></td>';
+                    tableContent += '</tr>';
+                    okulSirasi++; // Okul sıra numarasını bir artır
+                }
+
+                // Tabloya eklemek için tbody elementini seç
+                var $tableBody = $('#selectedValuesTable tbody');
+
+                // Oluşturulan HTML içeriğini tbody'ye ekle
+                $tableBody.html(tableContent);
+                if (selectedValues.length === 0) {
+                    $('#selectedValuesTableDiv').hide();
+                }
+            });
+          
+        });
+      
+    </script>
+
+
+
+    }
+

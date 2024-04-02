@@ -32,7 +32,7 @@
     <div class="border table-responsive scrollbar p-2">
         <form method="post" action="TasimaEkle" onsubmit="return validateForm()">
             <input type="hidden" name="KayitSayisi" id="KayitSayisi" value="1" />
-            <input type="hidden" name="UrunKayitSayisi"  id="UrunKayitSayisi" ="1"/>
+            <input type="hidden" name="UrunKayitSayisi" id="UrunKayitSayisi" ="1" />
             <table class="table table-borderless">
                 <tr>
                     <td rowspan="6" colspan="1" style="width:50px; margin-right:10px;background:#02224b" class="vertical-text text-center" style="background:#a9a4a4;">
@@ -57,17 +57,18 @@
                             <option value="0">Seçiniz</option>
                             @foreach (var arac in ViewBag.Araclar)
                             {
-                                <option value="@arac.AracID|@arac.TurID">@arac.AracPlakasi - @arac.AracTurAdi</option>
+                                <option value="@arac.AracID|@arac.TurID">@arac.AracPlakasi - @arac.AracTurAdi - @arac.Kapasite LT</option>
 
                             }
                         </select>
                     </td>
-                    <td id="tdDorse" style ="display:none;">
-                        Dorse Plakası</td>
+                    <td id="tdDorse" style="display:none;">
+                        Dorse Plakası
+                    </td>
                     <td id="tdDorseSec" style="display:none;">
-                        <select asp-for="DorsePlakaID" class=" form-control" id="DorsePlakaID"  onchange="GozSayisiBul(this.value)" required>
+                        <select asp-for="DorsePlakaID" class=" form-control" id="DorsePlakaID" onchange="GozSayisiBul(this.value)" required>
                             <option value="0">Seçiniz</option>
-                         
+
                         </select>
                     </td>
                 </tr>
@@ -78,7 +79,7 @@
                             <option value="0">Seçiniz</option>
                             @foreach (var surucu in ViewBag.Suruculer)
                             {
-                                <option value="@surucu.Kullanici_ID">@surucu.Kullanici_Isim-@surucu.Kullanici_Soyisim</option>
+                                <option value="@surucu.Kullanici_ID">@surucu.Kullanici_Isim @surucu.Kullanici_Soyisim</option>
 
                             }
                         </select>
@@ -89,7 +90,7 @@
                             <option value="0">Seçiniz</option>
                             @foreach (var surucu in ViewBag.Suruculer)
                             {
-                                <option value="@surucu.Kullanici_ID">@surucu.Kullanici_Isim-@surucu.Kullanici_Soyisim</option>
+                                <option value="@surucu.Kullanici_ID">@surucu.Kullanici_Isim @surucu.Kullanici_Soyisim</option>
 
                             }
                         </select>
@@ -100,7 +101,7 @@
                             <option value="0">Seçiniz</option>
                             @foreach (var surucu in ViewBag.Suruculer)
                             {
-                                <option value="@surucu.Kullanici_ID">@surucu.Kullanici_Isim-@surucu.Kullanici_Soyisim</option>
+                                <option value="@surucu.Kullanici_ID">@surucu.Kullanici_Isim @surucu.Kullanici_Soyisim</option>
 
                             }
                         </select>
@@ -109,20 +110,24 @@
                 </tr>
 
                 <tr>
-                    <td>Göz 1</td>
+                    <td>
+                        Göz 1
+                        <span id="Goz1"></span>
+
+                    </td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz1Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz1UrunID" id="AracGoz1UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz1UrunName" id="AracGoz1UrunName" readonly />
                     </td>
 
-                    <td>Göz 2</td>
+                    <td>Göz 2<span id="Goz2"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz2Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz2UrunID" id="AracGoz2UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz2UrunName" id="AracGoz2UrunName" readonly />
                     </td>
-                    <td>Göz 3</td>
+                    <td>Göz 3<span id="Goz3"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz3Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz3UrunID" id="AracGoz3UrunID" />
@@ -130,19 +135,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Göz 4</td>
+                    <td>Göz 4<span id="Goz4"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz4Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz4UrunID" id="AracGoz4UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz4UrunName" id="AracGoz4UrunName" readonly />
                     </td>
-                    <td>Göz 5</td>
+                    <td>Göz 5<span id="Goz5"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz5Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz5UrunID" id="AracGoz5UrunID" />
                         <input type="text" class="form-control bg-light" name="AracGoz5UrunName" id="AracGoz5UrunName" readonly />
                     </td>
-                    <td>Göz 6</td>
+                    <td>Göz 6<span id="Goz6"></span></td>
                     <td>
                         <input type="number" class="form-control bg-light" asp-for="Goz6Kapasite" value="0" readonly />
                         <input type="hidden" class="form-control bg-light" name="Goz6UrunID" id="AracGoz6UrunID" />
@@ -273,6 +278,18 @@
                                     <td rowspan="2" colspan="1" style="width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center">
                                         <h5 style="color:#fff !important;"> Ürün</h5>
                                     </td>
+                                    <td>Ürün Seç</td>
+                                    <td>
+                                        <select name="TasinacakUrun_ID1[]" class=" form-control" id="TasinacakUrun_ID1_1" onchange="UrunUnSec(this);GozlereDagit(1);">
+                                            <option value="0">Seçiniz</option>
+
+                                            @foreach (var item in ViewBag.TasinacakUrun)
+                                            {
+                                                <option value="@item.ID">@item.Adi</option>
+                                            }
+
+                                        </select>
+                                    </td>
                                     <td style="width: 17%;">
                                         Un Kodu Seç
                                     </td>
@@ -284,18 +301,6 @@
                                             {
                                                 <option value="@Un.Un_ID">@Un.Un_No - @Un.Un_Isim</option>
                                             }
-                                        </select>
-                                    </td>
-                                    <td>Ürün Seç</td>
-                                    <td>
-                                        <select name="TasinacakUrun_ID1[]" class=" form-control" id="TasinacakUrun_ID1_1" onchange="GozlereDagit(1)">
-                                            <option value="0">Seçiniz</option>
-
-                                            @foreach (var item in ViewBag.TasinacakUrun)
-                                            {
-                                                <option value="@item.ID">@item.Adi</option>
-                                            }
-
                                         </select>
                                     </td>
 
@@ -310,7 +315,7 @@
 
                                             @foreach (var item in ViewBag.CariOdemeYapan)
                                             {
-                                               
+
                                                 <option value="@item.OdemeYapan_ID">@item.OdemeYapan_Adi</option>
                                             }
 
@@ -324,7 +329,8 @@
                                             <option value="0">Seçiniz</option>
 
                                             @foreach (var item in ViewBag.Ucretlendirme)
-                                            { <option value="@item.Ucretlendirme_ID">@item.Ucretlendirme_Adi</option>
+                                            {
+                                                <option value="@item.Ucretlendirme_ID">@item.Ucretlendirme_Adi</option>
                                             }
 
 
@@ -391,6 +397,29 @@
         $(document).ready(function () {
             $('#uyariModal').modal('show');
         });
+
+        function UrunUnSec(nesne) {
+            var nesneID = nesne.id;
+            var parca = nesneID.split('_');
+            var sira = parca[1].replace("ID", "");
+            var urun = parca[2];
+            var UrunID = nesne.value;
+            debugger;
+            $.ajax({
+                url: '../Ajax/UrunUnSec', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { UrunID: UrunID },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    document.getElementById('Un_ID' + sira + "_" + urun).value = data.un_ID
+
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
 
         function IlDegistir(IlKodu, sira) {
 
@@ -487,8 +516,7 @@
             bodyContent.className = 'accordion-body pt-0';
 
 
-            bodyContent.innerHTML = '<table class="table table-borderless" id="kayit' + items + '"> <!--Garanti--> <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0a4ea5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Gönderici Firma </h5 > </td > <td>Mal Sahibi </td > <td><select name="GondericiCari_ID' + items + '[]" class="form-control" id = "GondericiCari_ID' + items + '" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.GondericiListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}'+ '</select > </td > <td>Mal Yükleme İl </td > <td><select class="form-control" name = "MalYuklemeAdres_IL_ID' + items + '[]" id = "MalYuklemeAdres_IL_ID' + items + '" onchange = "IlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option>}' + ' </select > </td > <td>Mal Yükleme İlçe </td > <td><select class="form-control" name = "MalYuklemeAdres_ILCE_ID' + items + '[]" id = "MalYuklemeAdres_ILCE_ID' + items + '" > <option value="0" > Seçiniz </option > </select > </td > </tr > <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;" > <td>Mal Yükleme Tarih Saat </td > <td colspan="5" > <input type="date" class="form-control" name = "GondericiFirmaTarihSaat' + items + '[]" id = "GondericiFirmaTarihSaat' + items + '" / > </td></tr > <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0e65d5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Alıcı Firma </h5></td > <td>Alıcı Firma </td><td><select name="AliciCari_ID' + items + '[]" class="form-control" id="AliciCari_ID' + items + '"><option value="0">Seçiniz</option > ' + '@foreach (var item in ViewBag.AliciListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}' + ' </select > </td > <td>İndirilen İl </td > <td><select class="form-control" name = "IndirilenAdres_IL_ID' + items + '[]" id = "IndirilenAdres_IL_ID' + items + '" onchange = "IndirilenIlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option > ' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option >}' + ' </select></td > <td>İndirilen İlçe </td><td><select class="form-control" name="IndirilenAdres_ILCE_ID' + items + '[]" id="IndirilenAdres_ILCE_ID' + items + '"><option value="0">Seçiniz</option > </select></td > </tr><tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;"><td>Alıcı Tarih Saat</td > <td colspan="5" > <input type="date" class="form-control" name = "AliciFirmaTarihSaat' + items + '[]" id = "AliciFirmaTarihSaat' + items + '" /> </td></tr > <tr id = "templateRow' + items + '_1" > <td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Ürün </h5></td > <td style = "width: 17%;" > Un Kodu Seç </td><td style = "width: 17%;" ><select name="Un_ID' + items + '[]" class=" form-control" id = "Un_ID' + items + '_1" ><option value="0" > Seçiniz </option > ' + '@foreach (var Un in ViewBag.UnListesi){<option value="@Un.Un_ID" > @Un.Un_No - @Un.Un_Isim</option>}' + ' </select></td > <td>Ürün Seç </td><td><select name="TasinacakUrun_ID' + items + '[]" class=" form-control" id = "TasinacakUrun_ID' + items + '_1" onchange = "GozlereDagit(' + items + ')" ><option value="0" > Seçiniz </option > ' + '@foreach (var item in ViewBag.TasinacakUrun){<option value="@item.ID" > @item.Adi</option>}' + ' </select></td > <td>Yükleme Miktarı </td><td> <input type="number" class="form-control" name = "YuklemeMiktari' + items + '[]" onchange = "GozlereDagit(' + items + ');fiyatHesapla(' + items + ');" id = "YuklemeMiktari' + items + '_1" / > </td></tr > <tr style = "border-bottom: 1px solid #ddd; margin-bottom:2%;" id = "templateRow' + items + '_2" > <td>Ödeme Yapan Cari </td><td><select name="Cari_Odeme_Yapan' + items + '[]" class=" form-control" id = "Cari_Odeme_Yapan_' + items + '_1" onchange="OdemeYapan(this)" ><option value="0" > Seçiniz </option >@foreach (var item in ViewBag.CariOdemeYapan){<option value="@item.OdemeYapan_ID" > @item.OdemeYapan_Adi</option>}</select><input type="hidden" name="Cari_Odeme_YapanID' + items + '[]" class="form-control" id="Cari_Odeme_Yapan_ID_' + items + '_1"></td > <td>Ücretlendirme </td><td><select name="Ucretlendirme_ID' + items + '[]" class=" form-control" id="Ucretlendirme_ID' + items + '_1" onchange="fiyatHesapla(' + items + ')"><option value="0"> Seçiniz </option > @foreach (var item in ViewBag.Ucretlendirme){<option value="@item.Ucretlendirme_ID" > @item.Ucretlendirme_Adi</option>}</select></td > <td>Birim veya Sefer Fiyatı </td><td> <input type="number" class="form-control" name = "Birim_SeferFiyat' + items + '[]" id = "Birim_SeferFiyat' + items + '_1" onchange="fiyatHesapla(' + items + ')" / > </td></tr > <tr id = "urunEkleTR' + items + '" > <td colspan="6" > <a class="btn btn-info col-3" onclick = "urunEkle(' + items + ')" > Ürün Ekle </a></td > </tr></table > <table class="table table-bordless" > <tr><td colspan="1" style = "width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Nakliye Bedeli </h5></td > <td>Tutar(KDV Hariç) </td><td><input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz' + items + '[]" id="NakliyeBedelTutar_KDVsiz' + items + '"/ > </td><td>Kdv</td > <td><input type="number" class="form-control" name = "NakliyeBedelTutar_KDV' + items + '[]" id = "NakliyeBedelTutar_KDV' + items + '" /> </td><td>Toplam</td > <td><input type="text" class="form-control" name = "NakliyeBedeliToplam_KDVli' + items + '[]" id = "NakliyeBedeliToplam_KDVli' + items + '" /> </td></tr > <tr><td>Fiyat </td><td colspan="5"><input type="text" class="form-control" name="Fiyat' + items + '[]" id="Fiyat' + items + '" readonly></td > </tr> </table > ';
-            bodyContent.innerHTML = '<table class="table table-borderless" id="kayit' + items + '"> <!--Garanti--> <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0a4ea5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Gönderici Firma </h5 > </td > <td>Mal Sahibi </td > <td><select name="GondericiCari_ID' + items + '[]" class="form-control" id = "GondericiCari_ID' + items + '" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.GondericiListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}'+ '</select > </td > <td>Mal Yükleme İl </td > <td><select class="form-control" name = "MalYuklemeAdres_IL_ID' + items + '[]" id = "MalYuklemeAdres_IL_ID' + items + '" onchange = "IlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option>}' + ' </select > </td > <td>Mal Yükleme İlçe </td > <td><select class="form-control" name = "MalYuklemeAdres_ILCE_ID' + items + '[]" id = "MalYuklemeAdres_ILCE_ID' + items + '" > <option value="0" > Seçiniz </option > </select > </td > </tr > <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;" > <td>Mal Yükleme Tarih Saat </td > <td colspan="5" > <input type="date" class="form-control" name = "GondericiFirmaTarihSaat' + items + '[]" id = "GondericiFirmaTarihSaat' + items + '" / > </td></tr > <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0e65d5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Alıcı Firma </h5></td > <td>Alıcı Firma </td><td><select name="AliciCari_ID' + items + '[]" class="form-control" id="AliciCari_ID' + items + '"><option value="0">Seçiniz</option > ' + '@foreach (var item in ViewBag.AliciListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}' + ' </select > </td > <td>İndirilen İl </td > <td><select class="form-control" name = "IndirilenAdres_IL_ID' + items + '[]" id = "IndirilenAdres_IL_ID' + items + '" onchange = "IndirilenIlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option > ' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option >}' + ' </select></td > <td>İndirilen İlçe </td><td><select class="form-control" name="IndirilenAdres_ILCE_ID' + items + '[]" id="IndirilenAdres_ILCE_ID' + items + '"><option value="0">Seçiniz</option > </select></td > </tr><tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;"><td>Alıcı Tarih Saat</td > <td colspan="5" > <input type="date" class="form-control" name = "AliciFirmaTarihSaat' + items + '[]" id = "AliciFirmaTarihSaat' + items + '" /> </td></tr > <tr id = "templateRow' + items + '_1" > <td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Ürün </h5></td > <td style = "width: 17%;" > Un Kodu Seç </td><td style = "width: 17%;" ><select name="Un_ID' + items + '[]" class=" form-control" id = "Un_ID' + items + '_1" ><option value="0" > Seçiniz </option > ' + '@foreach (var Un in ViewBag.UnListesi){<option value="@Un.Un_ID" > @Un.Un_No - @Un.Un_Isim</option>}' + ' </select></td > <td>Ürün Seç </td><td><select name="TasinacakUrun_ID' + items + '[]" class=" form-control" id = "TasinacakUrun_ID' + items + '_1" onchange = "GozlereDagit(' + items + ')" ><option value="0" > Seçiniz </option > ' + '@foreach (var item in ViewBag.TasinacakUrun){<option value="@item.ID" > @item.Adi</option>}' + ' </select></td > <td>Yükleme Miktarı </td><td> <input type="number" class="form-control" name = "YuklemeMiktari' + items + '[]" onchange = "GozlereDagit(' + items + ');fiyatHesapla(' + items + ');" id = "YuklemeMiktari' + items + '_1" / > </td></tr > <tr style = "border-bottom: 1px solid #ddd; margin-bottom:2%;" id = "templateRow' + items + '_2" > <td>Ödeme Yapan Cari </td><td><select name="Cari_Odeme_Yapan' + items + '[]" class=" form-control" id = "Cari_Odeme_Yapan_' + items + '_1" onchange="OdemeYapan(this)" ><option value="0" > Seçiniz </option >@foreach (var item in ViewBag.CariOdemeYapan){<option value="@item.OdemeYapan_ID" > @item.OdemeYapan_Adi</option>}</select><input type="hidden" name="Cari_Odeme_YapanID' + items + '[]" class="form-control" id="Cari_Odeme_Yapan_ID_' + items + '_1"></td > <td>Ücretlendirme </td><td><select name="Ucretlendirme_ID' + items + '[]" class=" form-control" id="Ucretlendirme_ID' + items + '_1" onchange="fiyatHesapla(' + items + ')"><option value="0"> Seçiniz </option > @foreach (var item in ViewBag.Ucretlendirme){<option value="@item.Ucretlendirme_ID" > @item.Ucretlendirme_Adi</option>}</select></td > <td>Birim veya Sefer Fiyatı </td><td> <input type="number" class="form-control" name = "Birim_SeferFiyat' + items + '[]" id = "Birim_SeferFiyat' + items + '_1" onchange="fiyatHesapla(' + items + ')" / > </td></tr > <tr id = "urunEkleTR' + items + '" > <td colspan="6" > <a class="btn btn-info col-3" onclick = "urunEkle(' + items + ')" > Ürün Ekle </a></td > </tr></table > <table class="table table-bordless" > <tr><td colspan="1" style = "width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Nakliye Bedeli </h5></td > <td>Tutar(KDV Hariç) </td><td><input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz' + items + '[]" id="NakliyeBedelTutar_KDVsiz' + items + '"/ > </td><td>Kdv</td > <td><input type="number" class="form-control" name = "NakliyeBedelTutar_KDV' + items + '[]" id = "NakliyeBedelTutar_KDV' + items + '" /> </td><td>Toplam</td > <td><input type="text" class="form-control" name = "NakliyeBedeliToplam_KDVli' + items + '[]" id = "NakliyeBedeliToplam_KDVli' + items + '" /> </td></tr > <tr><td>Fiyat </td><td colspan="5"><input type="text" class="form-control" name="Fiyat' + items + '[]" id="Fiyat' + items + '" readonly></td > </tr> </table > ';
+            bodyContent.innerHTML = '<table class="table table-borderless" id="kayit' + items + '"> <!--Garanti--> <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0a4ea5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Gönderici Firma </h5 > </td > <td>Mal Sahibi </td > <td><select name="GondericiCari_ID' + items + '[]" class="form-control" id = "GondericiCari_ID' + items + '" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.GondericiListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}' + '</select > </td > <td>Mal Yükleme İl </td > <td><select class="form-control" name = "MalYuklemeAdres_IL_ID' + items + '[]" id = "MalYuklemeAdres_IL_ID' + items + '" onchange = "IlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option >' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option>}' + ' </select > </td > <td>Mal Yükleme İlçe </td > <td><select class="form-control" name = "MalYuklemeAdres_ILCE_ID' + items + '[]" id = "MalYuklemeAdres_ILCE_ID' + items + '" > <option value="0" > Seçiniz </option > </select > </td > </tr > <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;" > <td>Mal Yükleme Tarih Saat </td > <td colspan="5" > <input type="date" class="form-control" name = "GondericiFirmaTarihSaat' + items + '[]" id = "GondericiFirmaTarihSaat' + items + '" / > </td></tr > <tr><td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#0e65d5" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Alıcı Firma </h5></td > <td>Alıcı Firma </td><td><select name="AliciCari_ID' + items + '[]" class="form-control" id="AliciCari_ID' + items + '"><option value="0">Seçiniz</option > ' + '@foreach (var item in ViewBag.AliciListesi){<option value="@item.Cari_ID" > @item.Cari_Unvan</option>}' + ' </select > </td > <td>İndirilen İl </td > <td><select class="form-control" name = "IndirilenAdres_IL_ID' + items + '[]" id = "IndirilenAdres_IL_ID' + items + '" onchange = "IndirilenIlDegistir(this.value,' + items + ')" > <option value="0" > Seçiniz </option > ' + '@foreach (var item in ViewBag.Iller){<option value="@item.IL_KODU" > @item.Il</option >}' + ' </select></td > <td>İndirilen İlçe </td><td><select class="form-control" name="IndirilenAdres_ILCE_ID' + items + '[]" id="IndirilenAdres_ILCE_ID' + items + '"><option value="0">Seçiniz</option > </select></td > </tr><tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;"><td>Alıcı Tarih Saat</td > <td colspan="5" > <input type="date" class="form-control" name = "AliciFirmaTarihSaat' + items + '[]" id = "AliciFirmaTarihSaat' + items + '" /> </td></tr > <tr id = "templateRow' + items + '_1" > <td rowspan="2" colspan = "1" style = "width:50px; margin-right:10px;background:#06326b" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Ürün </h5></td >  <td>Ürün Seç</td><td><select name="TasinacakUrun_ID' + items + '[]" class=" form-control" id = "TasinacakUrun_ID' + items + '_1" onchange = "UrunUnSec(this);GozlereDagit(' + items + ');" ><option value="0" > Seçiniz </option>@foreach (var item in ViewBag.TasinacakUrun){<option value="@item.ID" > @item.Adi</option>}</select></td><td style = "width: 17%;" > Un Kodu Seç </td > <td style = "width: 17%;" > <select name="Un_ID' + items + '[]" class=" form-control" id = "Un_ID' + items + '_1" > <option value="0" > Seçiniz </option > ' + '@foreach (var Un in ViewBag.UnListesi){<option value="@Un.Un_ID" > @Un.Un_No - @Un.Un_Isim</option >}' + ' </select></td ><td>Yükleme Miktarı </td > <td><input type="number" class="form-control" name = "YuklemeMiktari' + items + '[]" onchange = "GozlereDagit(' + items + ');fiyatHesapla(' + items + ');" id = "YuklemeMiktari' + items + '_1" / > </td></tr > <tr style = "border-bottom: 1px solid #ddd; margin-bottom:2%;" id = "templateRow' + items + '_2" > <td>Ödeme Yapan Cari </td><td><select name="Cari_Odeme_Yapan' + items + '[]" class=" form-control" id = "Cari_Odeme_Yapan_' + items + '_1" onchange="OdemeYapan(this)" ><option value="0" > Seçiniz </option > @foreach (var item in ViewBag.CariOdemeYapan){<option value="@item.OdemeYapan_ID" > @item.OdemeYapan_Adi</option>}</select > <input type="hidden" name = "Cari_Odeme_YapanID' + items + '[]" class="form-control" id = "Cari_Odeme_Yapan_ID_' + items + '_1" > </td > <td>Ücretlendirme </td > <td><select name="Ucretlendirme_ID' + items + '[]" class=" form-control" id = "Ucretlendirme_ID' + items + '_1" onchange = "fiyatHesapla(' + items + ')" > <option value="0" > Seçiniz </option > @foreach (var item in ViewBag.Ucretlendirme){<option value="@item.Ucretlendirme_ID" > @item.Ucretlendirme_Adi</option >}</select></td > <td>Birim veya Sefer Fiyatı </td><td> <input type="number" class="form-control" name = "Birim_SeferFiyat' + items + '[]" id = "Birim_SeferFiyat' + items + '_1" onchange="fiyatHesapla(' + items + ')" / > </td></tr > <tr id = "urunEkleTR' + items + '" > <td colspan="6" > <a class="btn btn-info col-3" onclick = "urunEkle(' + items + ')" > Ürün Ekle </a></td > </tr></table > <table class="table table-bordless" > <tr><td colspan="1" style = "width:50px; margin-right:10px;background:#589cf3" class="vertical-text text-center" > <h5 style="color:#fff !important;" > Nakliye Bedeli </h5></td > <td>Tutar(KDV Hariç) </td><td><input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz' + items + '[]" id="NakliyeBedelTutar_KDVsiz' + items + '"/ > </td><td>Kdv</td > <td><input type="number" class="form-control" name = "NakliyeBedelTutar_KDV' + items + '[]" id = "NakliyeBedelTutar_KDV' + items + '" /> </td><td>Toplam</td > <td><input type="text" class="form-control" name = "NakliyeBedeliToplam_KDVli' + items + '[]" id = "NakliyeBedeliToplam_KDVli' + items + '" /> </td></tr > <tr><td>Fiyat </td><td colspan="5"><input type="text" class="form-control" name="Fiyat' + items + '[]" id="Fiyat' + items + '" readonly></td > </tr> </table > ';
 
 
             // Append content to the accordion body
@@ -505,11 +533,10 @@
 
         function TurKontrol(selected) {
             debugger;
-            var parca=selected.split("|");
+            var parca = selected.split("|");
             var aracID = parca[0];
             var turID = parca[1];
-            if(turID==1)
-            {
+            if (turID == 1) {
                 document.getElementById("tdDorse").style.display = "";
                 document.getElementById("tdDorseSec").style.display = "";
                 $.ajax({
@@ -541,6 +568,58 @@
                 document.getElementById("tdDorseSec").style.display = "none";
                 GozSayisiBul(aracID);
             }
+
+
+            $.ajax({
+                url: '../Ajax/AkaryakitTasimaKontrol', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { AracID: aracID },
+                dataType: 'json',
+                success: function (data) {
+                    var prop = data;
+                    console.log(prop);
+                    if (prop != null) {
+                        document.getElementById("Kullanici1ID").value = prop.kullanici1ID;
+                        document.getElementById("Kullanici2ID").value = prop.kullanici2ID;
+                        document.getElementById("Kullanici3ID").value = prop.kullanici3ID;
+                        if (prop.dorsePlakaID != 0) {
+                            console.log(prop.dorsePlakaID);
+                            document.getElementById("DorsePlakaID").value = prop.dorsePlakaID;
+                        }
+                    }
+                    else {
+                        $.ajax({
+                            url: '../Ajax/AracGetir', // Verileri sağlayan API'nin endpoint'i
+                            method: 'GET',
+                            data: { AracID: aracID },
+                            dataType: 'json',
+                            success: function (data) {
+                                var prop = data;
+                                console.log(prop);
+                                if (prop != null) {
+                                    document.getElementById("Kullanici1ID").value = prop.surucuID;
+                                    document.getElementById("Kullanici2ID").value = prop.surucuID;
+                                    document.getElementById("Kullanici3ID").value = prop.surucuID;
+                                    
+                                }
+                                else {
+
+                                    document.getElementById("Kullanici1ID").value = 0;
+                                    document.getElementById("Kullanici2ID").value = 0;
+                                    document.getElementById("Kullanici3ID").value = 0;
+                                }
+                            },
+                            error: function (error) {
+                                console.log('Hata oluştu:', error);
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+
         }
 
         function GozlereDagit(sira) {
@@ -724,11 +803,19 @@
                     GozKapasite.push({ goz: 5, kapasite: prop.goz5 });
                     GozKapasite.push({ goz: 6, kapasite: prop.goz6 });
                     console.log(GozKapasite);
+                    document.getElementById("Goz1").innerHTML = "(" + prop.goz1 + " LT)";
+                    document.getElementById("Goz2").innerHTML = "(" + prop.goz2 + " LT)";
+                    document.getElementById("Goz3").innerHTML = "(" + prop.goz3 + " LT)";
+                    document.getElementById("Goz4").innerHTML = "(" + prop.goz4 + " LT)";
+                    document.getElementById("Goz5").innerHTML = "(" + prop.goz5 + " LT)";
+                    document.getElementById("Goz6").innerHTML = "(" + prop.goz6 + " LT)";
                 },
                 error: function (error) {
                     console.log('Hata oluştu:', error);
                 }
             });
+
+
         }
 
         function OdemeYapan(input) {
@@ -752,12 +839,12 @@
             var parca = Arac_ID.split("|");
             var aracID = parca[0];
             var turID = parca[1];
-            if (turID == 1) { 
-            var selectElement = document.getElementById("DorsePlakaID");
-            if (selectElement.value == "0" ) {
-                alert("Lütfen dorse değer seçin.");
-                return false;
-            }
+            if (turID == 1) {
+                var selectElement = document.getElementById("DorsePlakaID");
+                if (selectElement.value == "0") {
+                    alert("Lütfen dorse değer seçin.");
+                    return false;
+                }
             }
             return true;
         }

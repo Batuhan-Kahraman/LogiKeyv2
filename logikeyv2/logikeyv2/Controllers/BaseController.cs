@@ -13,11 +13,13 @@ namespace logikeyv2.Controllers
             var eposta = HttpContext.Session.GetString("Eposta");
             var moduller = HttpContext.Session.GetString("Moduller");
             var KullaniciGrup_ID = HttpContext.Session.GetString("KullaniciGrup_ID");
+            var MenuModulID = HttpContext.Session.GetString("MenuModulID");
 
             // ViewBag aracılığıyla View'e aktar
             ViewBag.Eposta = eposta;
             ViewBag.Moduller = moduller;
             ViewBag.KullaniciGrup_ID = KullaniciGrup_ID;
+            ViewBag.MenuModulID = MenuModulID;
         }
     }
 

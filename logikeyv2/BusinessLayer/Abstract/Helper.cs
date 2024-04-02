@@ -360,6 +360,21 @@ namespace BusinessLayer.Concrate
         }
 
 
+        public static string TurAdi(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AracTur.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
 
 
         public static List<NormalTasimaDetay> NormalTasimaDetayList(int ID)
