@@ -79,6 +79,7 @@ namespace BusinessLayer.Abstract
 
 
     public interface IOgrenciTahsilatService : IGenericService<OgrenciTahsilat> { }
+    public interface IVersiyonService : IGenericService<Versiyon> { }
 
 
 }

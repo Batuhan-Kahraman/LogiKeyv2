@@ -90,6 +90,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<KDVOrani> KDVOrani { get; set; }
         public DbSet<OgrenciTahsilat> OgrenciTahsilat { get; set; }
         public DbSet<OgrenciTahsilatBilgileri> OgrenciTahsilatBilgileri { get; set; }
+        public DbSet<Versiyon> Versiyon { get; set; }
 
     }
 }
