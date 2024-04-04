@@ -7,6 +7,7 @@
         }
     </script>
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+
         <!-- scrollbar removed-->
         <div class="navbar-vertical-content">
             <ul class="navbar-nav flex-column" id="navbarVerticalNav">
@@ -82,6 +83,15 @@
                             </div>
                         </li>
 
+
+
+                                <li class="nav-item ">
+                                    <a class="nav-link" asp-controller="Firma" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Müşterilerimiz</span>
+                                        </div>
+                                    </a>
+                                </li>
 
                     }
                     if (ViewBag.KullaniciGrup_ID == "3" || ViewBag.KullaniciGrup_ID == "-1")
@@ -431,8 +441,30 @@
                 <span class="nav-link-text">Kullanıcılar</span>
                 </div>
                 </a>
-                </li> *@
-               
+                </li> *@          
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Ceza ve Masraflar</span>
+                        </div>
+                    </a>
+                </li>
+                @*
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGelirListesi" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Araç Gelir</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGiderListesi" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Araç Gider</span>
+                        </div>
+                    </a>
+                </li>*@
+
 
             </ul>
         </div>
@@ -465,6 +497,9 @@
         </div>
 
         <ul class="navbar-nav navbar-nav-icons flex-row">
+            <li class="nav-item">
+                @ViewBag.FirmaAdi
+            </li>
             <li>
                 <div class="theme-control-toggle fa-icon-wait px-2  mt-3"><input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
             </li>
@@ -658,6 +693,9 @@
             <a class="navbar-brand navbar-brand" asp-controller="Home" asp-action="Index">phoenix <span class="text-body-highlight d-none d-sm-inline">slim</span></a>
         </div>
         <ul class="navbar-nav navbar-nav-icons flex-row">
+            <li>
+                @ViewBag.FirmaAdi
+            </li>
             <li>
                 <div class="theme-control-toggle fa-ion-wait pe-2 theme-control-toggle-slim"><input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="moon"></span><span class="fs-9 fw-bold">Dark</span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="sun"></span><span class="fs-9 fw-bold">Light</span></label></div>
             </li>
@@ -1043,6 +1081,9 @@
     </div>
     <ul class="navbar-nav navbar-nav-icons flex-row">
         <li>
+            Deneme
+        </li>
+        <li>
             <div class="theme-control-toggle fa-icon-wait px-2"><input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
         </li>
         <li class="nav-item dropdown">
@@ -1425,6 +1466,9 @@
         </ul>
     </div>
     <ul class="navbar-nav navbar-nav-icons flex-row">
+    <li>
+    Deneme
+    </li>
         <li>
             <div class="theme-control-toggle fa-ion-wait pe-2 theme-control-toggle-slim"><input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="moon"></span><span class="fs-9 fw-bold">Dark</span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="sun"></span><span class="fs-9 fw-bold">Light</span></label></div>
         </li>
@@ -1738,6 +1782,9 @@
     </div>
     <ul class="navbar-nav navbar-nav-icons flex-row">
         <li>
+            Deneme
+        </li>
+        <li>
             <div class="theme-control-toggle fa-icon-wait px-2"><input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
         </li>
         <li class="nav-item dropdown">
@@ -2047,6 +2094,9 @@
         </ul>
     </div>
     <ul class="navbar-nav navbar-nav-icons flex-row">
+        <li>
+            Deneme
+        </li>
         <li>
             <div class="theme-control-toggle fa-ion-wait pe-2 theme-control-toggle-slim"><input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="moon"></span><span class="fs-9 fw-bold">Dark</span></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon me-1 d-none d-sm-block" data-feather="sun"></span><span class="fs-9 fw-bold">Light</span></label></div>
         </li>

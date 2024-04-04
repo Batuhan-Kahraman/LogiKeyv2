@@ -275,3 +275,7 @@ logikeyv2/BusinessLayer/bin/Debug/net7.0/BusinessLayer.dll
 /logikeyv2/logikeyv2/obj/Release/net7.0/PubTmp/Out/logikeyv2/runtimes/LanguagePack/eng.cube.params
 /logikeyv2/logikeyv2/obj/Release/net7.0/PubTmp/Out/logikeyv2/runtimes/LanguagePack/eng.cube.word-freq
 *.txt
+/.vs/LogiKeyv2/v17/.wsuo
+/.vs/VSWorkspaceState.json
+/logikeyv2/.vs/ProjectEvaluation/logikeyv2.metadata.v6.1
+/logikeyv2/.vs/ProjectEvaluation/logikeyv2.projects.v6.1
