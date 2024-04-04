@@ -1,115 +1,85 @@
 ﻿@using BusinessLayer.Concrate
 @using EntityLayer.Concrate
+
+
 @{
     int sayac = 1;
-    foreach (var fatura in ViewBag.faturaList)
+    foreach (var grupFatura in ViewBag.GrupFatura)
     {
-        <div class="d-flex justify-content-between align-items-end mb-4 mt-4">
-            <h6 class="mb-0">@sayac .Fatura</h6>
-        </div>
-
 
         <div class="bg-body dark__bg-gray-1100 p-4 mb-4 rounded-2">
             <div class="row g-4">
+
                 <div class="col-12 col-lg-3">
                     <div class="row g-4 g-lg-2">
                         <div class="col-12 col-sm-6 col-lg-12">
                             <div class="row align-items-center g-0">
                                 <div class="col-auto col-lg-6 col-xl-5">
-                                    <h6 class="me-3">Fatura Tarihi :</h6>
+                                    <h6 class="me-3">Fiş Kesen Cari :</h6>
                                 </div>
                                 <div class="col-auto col-lg-6 col-xl-7">
-                                    <p class="fs-9 text-body-secondary fw-semibold mb-0">@fatura.DuzenlemeTarihi</p>
+                                    <p class="fs-9 text-body-secondary fw-semibold mb-0">@Helper.FirmaUnvan(grupFatura)</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-3">
-                    <div class="row g-4 g-lg-2">
-                        <div class="col-12 col-sm-6 col-lg-12">
-                            <div class="row align-items-center g-0">
-                                <div class="col-auto col-lg-6 col-xl-5">
-                                    <h6 class="me-3">Araç Plakası:</h6>
-                                </div>
-                                <div class="col-auto col-lg-6 col-xl-7">
-                                    <p class="fs-9 text-body-secondary fw-semibold mb-0">@Helper.AracPlaka(ViewBag.tasima.AracID)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @{
-                    if(ViewBag.tasima.DorsePlakaID!=0)
-                    {
-                            <div class="col-12 col-lg-3">
-                    <div class="row g-4 g-lg-2">
-                        <div class="col-12 col-sm-6 col-lg-12">
-                            <div class="row align-items-center g-0">
-                                <div class="col-auto col-lg-6 col-xl-5">
-                                    <h6 class="me-3">Dorse Plaka:</h6>
-                                </div>
-                                <div class="col-auto col-lg-6 col-xl-7">
-                                            <p class="fs-9 text-body-secondary fw-semibold mb-0">@Helper.AracPlaka(ViewBag.tasima.DorsePlakaID)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    }
-                    }
-                
+
+
             </div>
         </div>
-        IEnumerable  <AkaryakitTasimaDetay>
-                      detayList = ViewBag.TasimaDetay;
 
-        var filteredDetayList = detayList.Where(x => x.ID == fatura.AkaryakitTasimaDetayID).ToList();
-        foreach (var detay in filteredDetayList)
 
-        {
-            <div class="px-0">
-                <div class="table-responsive scrollbar">
-                    <table class="table fs-9 text-body mb-0">
-                        <thead class="bg-body-secondary">
-                            <tr>
-                                <th scope="col" style="min-width: 60px;">Gönderici</th>
-                                <th scope="col" style="min-width: 60px;">Alıcı</th>
-                                <th scope="col" style="min-width: 60px;">Fatura Kesen</th>
-                                <th scope="col" style="min-width: 60px;">Fatura Kesilen</th>
-                                <th scope="col" style="min-width: 60px;">Ürün Adı</th>
-                                <th scope="col" style="min-width: 60px;">Yükleme Miktarı</th>
-                                <th scope="col">Ücretlendirme</th>
-                                <th scope="col">Fiyat</th>
-                                <th scope="col">Nakliye KDV Hariç</th>
-                                <th scope="col">Nakliye KDV </th>
-                                <th scope="col">Nakliye KDV Dahil</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <div class="px-0">
+            <div class="table-responsive scrollbar">
+                <table class="table fs-9 text-body mb-0">
+                    <thead class="bg-body-secondary">
+                        <tr>
+                            <th scope="col" style="min-width: 60px;">Fiş Kesilen Cari</th>
+                            <th scope="col" style="min-width: 60px;">Gönderici</th>
+                            <th scope="col" style="min-width: 60px;">Alıcı</th>
+                            <th scope="col" style="min-width: 60px;">Ürün Adı</th>
+                            <th scope="col" style="min-width: 60px;">Yükleme Miktarı</th>
+                            <th scope="col">Ücretlendirme</th>
+                            <th scope="col">Fiyat</th>
+                            <th scope="col">Nakliye KDV Hariç</th>
+                            <th scope="col">Nakliye KDV </th>
+                            <th scope="col">Nakliye KDV Dahil</th>
+                            <th scope="col">Ödeme</th>
+                            <th scope="col">İşlem</th>
+                        </tr>
+                    </thead>
+                    @{
+                        IEnumerable
+                        <AkaryakitFatura>
+                        faturaList = ViewBag.Fatura;
 
-                            @{
-                                IEnumerable <AkaryakitTasimaDetayUrun> urunList = ViewBag.TasimaDetayUrun;
+                        var filteredFaturaList = faturaList.Where(x => x.FaturaKesenID == grupFatura).ToList();
+                        foreach (var fatura in filteredFaturaList)
+                        {
 
-                                var filteredUrunList = urunList.Where(x => x.AkaryakitTasimaDetayID == detay.ID).ToList();
-                                var faturaKesen = fatura.FaturaKesenID.Split(';');
-                                var faturaKesilen = fatura.FaturaKesilenID.Split(';');
-                                var i = 0;      
-                                foreach (var detayUrun in filteredUrunList)
-                                {
-                                   
+                            IEnumerable<AkaryakitTasimaDetay>
+                            detayList = ViewBag.TasimaDetay;
+
+                            var detay = detayList.Where(x => x.ID == fatura.AkaryakitTasimaDetayID).SingleOrDefault();
+
+                            <tbody>
+
+                                @{
+                                    IEnumerable<AkaryakitTasimaDetayUrun> urunList = ViewBag.TasimaDetayUrun;
+
+                                    var detayUrun = urunList.Where(x => x.ID == fatura.AkaryakitTasimaDetayUrunID).SingleOrDefault();
+                                    var i = 0;
                                     <tr>
+
                                         <td>
-                                        @Helper.CariUnvan(detay.GondericiID)
+                                            @Helper.CariUnvan(fatura.FaturaKesilenID)
+                                        </td>
+                                        <td>
+                                            @Helper.CariUnvan(detay.GondericiID)
                                         </td>
                                         <td>
                                             @Helper.CariUnvan(detay.AliciID)
-                                        </td>
-                                        <td>
-                                            @Helper.CariUnvan(int.Parse(faturaKesen[i]))
-                                        </td>
-                                        <td>
-                                            @Helper.CariUnvan(int.Parse(faturaKesilen[i]))
                                         </td>
                                         <td>
                                             @Helper.UrunAdi(detayUrun.UrunID)
@@ -117,11 +87,12 @@
                                         <td>
                                             @detayUrun.YuklemeMiktari
                                         </td>
-                                            @{
-                                                if(detayUrun.Ucretlendirme==1)
-                                                {
+                                        @{
+                                            if (detayUrun.Ucretlendirme == 1)
+                                            {
 
-                                                <td>Birim
+                                                <td>
+                                                    Birim
                                                 </td>
                                             }
                                             else
@@ -133,17 +104,22 @@
                                         <td>@detay.NakliyeTutarKDVHaric</td>
                                         <td>@detay.NakliyeKDV</td>
                                         <td>@detay.NakliyeToplam</td>
+                                        <td>@fatura.Odeme</td>
+                                        <td><a asp-controller="AkaryakitTasima" asp-action="Odeme" asp-route-FaturaID="@fatura.ID">Ödeme</a></td>
                                     </tr>
                                     i++;
+
                                 }
-                            }
 
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+
+
+
+                        }
+                    }
+                </table>
             </div>
-
-        }
+        </div>
 
         sayac++;
 

@@ -62,7 +62,7 @@
                     <td>Bakım Periyodu (KM)</td>
                     <td><input type="text" class="form-control" asp-for="BakimPeriyodu" /></td>
                 </tr>
-                <tr>
+                 <tr id="GozSatir1" style="display:none;">
                     <td>Göz 1</td>
                     <td><input type="text" class="form-control" asp-for="Goz1" /></td>
                     <td>Göz 2</td>
@@ -70,7 +70,7 @@
                     <td>Göz 3</td>
                     <td><input type="text" class="form-control" asp-for="Goz3" /></td>
                 </tr>
-                <tr>
+                 <tr id="GozSatir2" style="display:none;">
                     <td>Göz 4</td>
                     <td><input type="text" class="form-control" asp-for="Goz4" /></td>
                     <td>Göz 5</td>
@@ -78,6 +78,14 @@
                     <td>Göz 6</td>
                     <td><input type="text" class="form-control" asp-for="Goz6" /></td>
                 </tr>
+                   <tr id="KapasiteSatir1" style="display:none;">
+                    <td>Kapasite</td>
+                    <td colspan="5"><input type="text" class="form-control" asp-for="Goz1" /></td>
+                  
+                </tr>
+                <tr id="bosSatir1">
+
+                </tr><tr id="bosSatir2"></tr>
                 <tr>
                     <td>Marka</td>
                     <td>
@@ -634,8 +642,8 @@
                 $.each(data, function (index, item) {
                     console.log(item);
                     $('#AracTurID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
+                           value: item.aracTur.id, // Verinin değer özelliği
+                        text:  item.aracTur.adi // Verinin görünen metni
                     }));
                 });
 
@@ -652,7 +660,20 @@
         });
         //araç türüne göre araç tipleri listele
         function AracTipListele(AracTurID) {
+               if (AracTurID == 1 || AracTurID == 4 || AracTurID == 13) {
+                document.getElementById("GozSatir1").style.display = "";
+                document.getElementById("GozSatir2").style.display = "";
+                document.getElementById("KapasiteSatir1").style.display = "none";
+                document.getElementById("bosSatir1").style.display = "none";
+                document.getElementById("bosSatir2").style.display = "none";
+            } else {
 
+                document.getElementById("GozSatir1").style.display = "none";
+                document.getElementById("GozSatir2").style.display = "none";
+                document.getElementById("KapasiteSatir1").style.display = "";
+                document.getElementById("bosSatir1").style.display = "";
+                document.getElementById("bosSatir2").style.display = "none";
+            }
             $.ajax({
                 url: '../Ajax/AracTipListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',

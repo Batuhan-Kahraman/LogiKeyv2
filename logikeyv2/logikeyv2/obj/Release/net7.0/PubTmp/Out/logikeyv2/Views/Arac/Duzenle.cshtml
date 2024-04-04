@@ -21,7 +21,7 @@
 
     }
     <div class="border table-responsive scrollbar p-2">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="ID" />
             <table class="table table-borderless">
                 <!-- Sahiplik -->
@@ -97,8 +97,16 @@
                     <td><input type="text" class="form-control" asp-for="Yil" /></td>
                 </tr>
                 <tr>
+                    <td>Sürücü</td>
+                    <td>
+                        <select class="form-control" asp-for="SurucuID" id="SurucuID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+
+                    </td>
                     <td>Şirketi</td>
-                    <td colspan="5">
+                    <td colspan="3">
                         <select class="form-control" asp-for="SirketID" id="SirketID">
                             <!--  todo:sahipliğe göre cari listelenecek -->
                             <option value="0">Seçiniz</option>
@@ -106,7 +114,7 @@
 
                     </td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Kiralama">
                     <!-- Kiralama Şirket -->
                     <td>Kiralama Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="KiralamaTarihi" /></td>
@@ -115,7 +123,7 @@
                     <td>Kiralama Tutarı / Ay</td>
                     <td><input type="number" class="form-control" asp-for="KiralamaTutari" /></td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Taseron">
                     <!-- Taşeron Şirket -->
                     <td>İşe Başlama</td>
                     <td><input type="date" class="form-control" placeholder="Tarih" asp-for="IseBaslamaTarihi" /></td>
@@ -210,7 +218,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr> 
+                </tr>
                 <tr>
 
                     <td>Lastik Tip 1 </td>
@@ -399,21 +407,43 @@
                 </tr>
                 <tr>
                     <td>Araç Ruhsatı</td>
-                    <td><a href="../upload/@Model.AracRuhsat" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.AracRuhsat != "" && Model.AracRuhsat != null)
+                            {
+
+                                <a href="../upload/@Model.AracRuhsat" target="_blank">Göster</a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="ruhsat" class="form-control" /></td>
                     <td colspan="4"></td>
 
                 </tr>
                 <tr>
                     <td>Trafik Sigortası</td>
-                    <td><a href="../upload/@Model.TrafikSigortasi" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.TrafikSigortasi != "" && Model.TrafikSigortasi != null)
+                            {
+                                <a href="../upload/@Model.TrafikSigortasi" target="_blank">Göster</a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="sigorta" class="form-control" /></td>>
                     <td colspan="4"></td>
 
                 </tr>
                 <tr>
                     <td>Kasko Poliçe</td>
-                    <td><a href="../upload/@Model.KaskoPolice" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.KaskoPolice != "" && Model.KaskoPolice != null)
+                            {
+                                <a href="../upload/@Model.KaskoPolice" target="_blank">Göster</a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="police" class="form-control" /></td>
                     <td colspan="4"></td>
 
@@ -421,44 +451,87 @@
 
                 <tr>
                     <td>İş Sözleşmesi</td>
-                    <td><a href="../upload/@Model.IsSozlesmesi" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.IsSozlesmesi != "" && Model.IsSozlesmesi != null)
+                            {
+                                <a href="../upload/@Model.IsSozlesmesi" target="_blank">Göster</a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="sozlesme" class="form-control" /></td>
                     <td colspan="4"></td>
 
                 </tr>
                 <tr>
                     <td>3 Yıllık Ara Muayene</td>
-                    <td><a href="../upload/@Model.AraMuayene" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.AraMuayene != "" && Model.AraMuayene != null)
+                            {
+                                <a href="../upload/@Model.AraMuayene" target="_blank">Göster</a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="muayene" class="form-control" /></td>
                     <td colspan="4"></td>
 
                 </tr>
                 <tr>
                     <td>K1 Yetki Belgesi</td>
-                    <td><a href="../upload/@Model.K1YetkiBelge" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.K1YetkiBelge != "" && Model.K1YetkiBelge != null)
+                            {
+                                <a href="../upload/@Model.K1YetkiBelge" target="_blank">Göster</a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="k1" class="form-control" /></td>
                     <td colspan="4"></td>
 
                 </tr>
                 <tr>
                     <td>K2 Yetki Belgesi</td>
-                    <td><a href="../upload/@Model.K2YetkiBelge" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.K2YetkiBelge != "" && Model.K2YetkiBelge != null)
+                            {
+                                <a href="../upload/@Model.K2YetkiBelge" target="_blank">Göster</a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="k2" class="form-control" /></td>
                     <td colspan="4"></td>
 
                 </tr>
                 <tr>
                     <td>MTV</td>
-                    <td><a href="../upload/@Model.MTV" target="_blank">Göster</a></td>
+                    <td>
+                        @{
+                            if (Model.MTV != "" && Model.MTV != null)
+                            {
+                                <a href="../upload/@Model.MTV" target="_blank">
+                                    Göster
+                                </a>
+                            }
+                        }
+                    </td>
                     <td><input type="file" name="mtv" class="form-control" /></td>
                     <td colspan="4"></td>
 
                 </tr>
                 <tr>
                     <td>Resimler</td>
-                    @foreach(var item in ViewBag.Resimler)
+                    @foreach (var item in ViewBag.Resimler)
                     {
-                        <td><a href="../upload/@item.resim" target="_blank">Göster</a></td>
+                        if (item.resim != "" && item.resim != null)
+                        {
+
+                            <td>
+                                <a href="../upload/@item.resim" target="_blank">Göster</a>
+                            </td>
+                        }
 
                     }
                     <td colspan="5"><input type="file" name="resimler" class="form-control" multiple /></td>
@@ -811,7 +884,51 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        //sürücü listele
+        $.ajax({
+            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#SurucuID').empty();
+                $('#SurucuID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#SurucuID').append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                });
+                var SurucuID = @Json.Serialize(Model.SurucuID);
 
+                if (SurucuID !== null || SurucuID != "") {
+                    document.getElementById("SurucuID").value = @Model.SurucuID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
 
+        function SahiplikKontrol(SahiplikID) {
+            if (SahiplikID == 5) {
+                var element = document.getElementById("Taseron");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+                document.getElementById("Kiralama").style.display = "table-row";
+            }
+            else if (SahiplikID == 4) {
+                var element = document.getElementById("Kiralama");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+                document.getElementById("Taseron").style.display = "table-row";
+            }
+        }
     </script>
 }

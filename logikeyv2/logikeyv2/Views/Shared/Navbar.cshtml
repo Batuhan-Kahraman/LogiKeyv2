@@ -257,7 +257,7 @@
 
 
                                 <li class="nav-item ">
-                                    <a class="nav-link" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                    <a class="nav-link" asp-controller="Arac" asp-action="Index" asp-route-ModulID="3" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Araç</span>
                                         </div>
@@ -322,7 +322,7 @@
 
 
                                 <li class="nav-item ">
-                                    <a class="nav-link" asp-controller="Arac" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                    <a class="nav-link" asp-controller="Arac" asp-action="Index" asp-route-ModulID="2" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Araç</span>
                                         </div>
@@ -431,6 +431,9 @@
                         </div>
                     </a>
                 </li>
+                <li>
+                    <a class="nav-link" asp-controller="Versiyon" asp-action="Index"  data-bs-toggle="" aria-expanded="false" style="color:#000;">Versiyon: @ViewBag.Versiyon</a>
+</li>
 
                 @*  <li class="nav-item ">
                 <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -467,6 +470,7 @@
         </div>
     </div>
     <div class="navbar-vertical-footer">
+     
         <button class="btn navbar-vertical-toggle border-0 fw-semibold w-100 white-space-nowrap d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left text-body fs-5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right text-body fs-5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>

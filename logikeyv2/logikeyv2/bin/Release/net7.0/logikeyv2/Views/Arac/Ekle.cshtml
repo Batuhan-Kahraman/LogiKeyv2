@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Araç Ekle";
 }
-
+<!--
 <div class="modal fade" id="uyariModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -14,10 +14,12 @@
                 <p class="text-body-tertiary lh-lg mb-0">Lütfen ruhsat tarattıktan sonra bilgileri giriniz. Bilgileri girdikten sonra ruhsat taratılması halinde veriler silinecektir. </p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Tamam</button></div>
+                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Tamam</button>
+            </div>
         </div>
     </div>
 </div>
+-->
 
 
 <div class="row mb-3">
@@ -28,6 +30,7 @@
     <div class="col-5 text-center">
         Araç Kayıt Tarihi: @DateTime.Now
     </div>
+    <!--
     <div class="col-3">
         <div class="modal fade" id="ruhsatModal" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
@@ -38,12 +41,12 @@
                             <svg class="svg-inline--fa fa-xmark fs-9" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>
                         </button>
                     </div>
-                    <!--<form id="fileForm" enctype="multipart/form-data" method="post" asp-controller="Ajax" asp-action="FileUpload">-->
+                    <!-<form id="fileForm" enctype="multipart/form-data" method="post" asp-controller="Ajax" asp-action="FileUpload">--
 
                     <form id="fileForm" enctype="multipart/form-data" method="post" action="RuhsatEkle">
                         <div class="modal-body">
                             <p class="text-body-tertiary lh-lg mb-0">
-                                <input type="file" id="file" name="file"  class="form-control">
+                                <input type="file" id="file" name="file" class="form-control">
                             </p>
                         </div>
                         <div class="modal-footer"><button class="btn btn-primary" type="submit">Oku</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button></div>
@@ -53,7 +56,7 @@
         </div>
 
         <input type="button" class="btn btn-info w-100" value="Ruhsattan Bilgi Tara" data-bs-toggle="modal" data-bs-target="#ruhsatModal" />
-    </div>
+    </div>-->
 </div>
 
 <div class="col-lg-10 col-xxl-11">
@@ -85,7 +88,7 @@
                     <td><input type="text" class="form-control" asp-for="Plaka" /></td>
                     <td>Sahiplik</td>
                     <td>
-                        <select class="form-control" asp-for="SahiplikID" id="SahiplikID">
+                        <select class="form-control" asp-for="SahiplikID" id="SahiplikID" onchange="SahiplikKontrol(this.value)">
                             <option value="0">Seçiniz</option>
                         </select>
 
@@ -101,7 +104,7 @@
                 <tr>
                     <td>Araç Türü</td>
                     <td>
-                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value)">
+                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value);">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
@@ -149,8 +152,16 @@
                     <td><input type="text" class="form-control" asp-for="Yil" /></td>
                 </tr>
                 <tr>
+                    <td>Sürücü</td>
+                    <td>
+                        <select class="form-control" asp-for="SurucuID" id="SurucuID">
+                            
+                            <option value="0">Seçiniz</option>
+                        </select>
+
+                    </td>
                     <td>Şirketi</td>
-                    <td colspan="5">
+                    <td colspan="3">
                         <select class="form-control" asp-for="SirketID" id="SirketID">
                             <!--  todo:sahipliğe göre cari listelenecek -->
                             <option value="0">Seçiniz</option>
@@ -158,7 +169,7 @@
 
                     </td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Kiralama">
                     <!-- Kiralama Şirket -->
                     <td>Kiralama Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="KiralamaTarihi" /></td>
@@ -167,7 +178,7 @@
                     <td>Kiralama Tutarı / Ay</td>
                     <td><input type="number" class="form-control" asp-for="KiralamaTutari" /></td>
                 </tr>
-                <tr style="display:none;">
+                <tr style="display:none;" id="Taseron">
                     <!-- Taşeron Şirket -->
                     <td>İşe Başlama</td>
                     <td><input type="date" class="form-control" placeholder="Tarih" asp-for="IseBaslamaTarihi" /></td>
@@ -197,8 +208,7 @@
                 <tr>
                     <td>Ekipman</td>
                     <td colspan="5">
-                        <textarea class="form-control" rows="3" asp-for="Ekipman
-"></textarea>
+                        <textarea class="form-control" rows="3" asp-for="Ekipman"></textarea>
                     </td>
                 </tr>
                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;">
@@ -211,7 +221,7 @@
 
                 <!-- teknik bilgi -->
                 <tr>
-                    <td rowspan="13" class="vertical-text text-center" style="background:#8f8a8a;">
+                    <td rowspan="14" class="vertical-text text-center" style="background:#8f8a8a;">
                         <h5 style="color:#fff !important;">
                             Teknik Bilgiler
                         </h5>
@@ -265,12 +275,33 @@
                 </tr>
                 <tr>
 
+                    <td>Lastik Tip 1 </td>
+                    <td>
+                        <select class="form-control" asp-for="LastikTip1" id="LastikTip1">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Lastik Tip 2 </td>
+                    <td>
+                        <select class="form-control" asp-for="LastikTip2" id="LastikTip2">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Lastik Tip 3 </td>
+                    <td>
+                        <select class="form-control" asp-for="LastikTip3" id="LastikTip3">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+
                     <td>Lastik Tip 1 Adet</td>
-                    <td><input type="text" class="form-control" asp-for="LastikTip1" /></td>
+                    <td><input type="text" class="form-control" asp-for="LastikTipAdet1" /></td>
                     <td>Lastik Tip 2 Adet</td>
-                    <td><input type="text" class="form-control" asp-for="LastikTip2" /></td>
+                    <td><input type="text" class="form-control" asp-for="LastikTipAdet2" /></td>
                     <td>Lastik Tip 3 Adet</td>
-                    <td><input type="text" class="form-control" asp-for="LastikTip3" /></td>
+                    <td><input type="text" class="form-control" asp-for="LastikTipAdet3" /></td>
                 </tr>
                 <tr>
 
@@ -281,7 +312,7 @@
                         </select>
                     </td>
                     <td>Akü Amperi (Birim)</td>
-                    <td><input type="text" class="form-control" asp-for="AkuAmperBirim" /></td>
+                    <td><input type="number" class="form-control" asp-for="AkuAmper" max="99" /></td>
                     <td>Akü Adedi</td>
                     <td><input type="text" class="form-control" asp-for="AkuAdet" /></td>
                 </tr>
@@ -420,88 +451,66 @@
 
                 <!-- Araç Belgeleri -->
                 <tr>
-                    <td rowspan="7" class="vertical-text text-center" style="background:#a9a4a4;">
+                    <td rowspan="10" class="vertical-text text-center" style="background:#a9a4a4;">
                         <h5 style="color:#fff !important;">
                             Araç Belgeleri
                         </h5>
                     </td>
-                    <td colspan="4">Belge Yükle</td>
-                    <td colspan="3">Resim Yükle</td>
+                    <td colspan="7">Belge Yükle</td>
 
                 </tr>
                 <tr>
                     <td>Araç Ruhsatı</td>
-                    <td><input type="file" name="ruhsat" class="form-control"/></td>
-                    <td colspan="2"></td>
-                    <td>Resim 1</td>
-                    <td colspan="2"></td>
+                    <td><input type="file" name="ruhsat" class="form-control" /></td>
+                    <td colspan="5"></td>
 
                 </tr>
                 <tr>
                     <td>Trafik Sigortası</td>
                     <td><input type="file" name="sigorta" class="form-control" /></td>>
-                    <td colspan="2"></td>
-                    <td>Resim 2</td>
-                    <td colspan="2"></td>
+                    <td colspan="5"></td>
 
                 </tr>
                 <tr>
                     <td>Kasko Poliçe</td>
                     <td><input type="file" name="police" class="form-control" /></td>
-                    <td colspan="2"></td>
-                    <td>Resim 1</td>
-                    <td colspan="2"></td>
+                    <td colspan="5"></td>
 
                 </tr>
 
                 <tr>
                     <td>İş Sözleşmesi</td>
                     <td><input type="file" name="sozlesme" class="form-control" /></td>
-                    <td colspan="2"></td>
-                    <td>Resim 1</td>
-                    <td colspan="2"></td>
+                    <td colspan="5"></td>
 
                 </tr>
                 <tr>
                     <td>3 Yıllık Ara Muayene</td>
                     <td><input type="file" name="muayene" class="form-control" /></td>
-                    <td colspan="2"></td>
-                    <td>Resim 1</td>
-                    <td colspan="2"></td>
+                    <td colspan="5"></td>
 
                 </tr>
                 <tr>
                     <td>K1 Yetki Belgesi</td>
                     <td><input type="file" name="k1" class="form-control" /></td>
-                    <td colspan="2"></td>
-                    <td>Resim 1</td>
-                    <td colspan="2"></td>
+                    <td colspan="5"></td>
 
                 </tr>
                 <tr>
                     <td>K2 Yetki Belgesi</td>
                     <td><input type="file" name="k2" class="form-control" /></td>
-                    <td colspan="2"></td>
-                    <td>Resim 1</td>
-                    <td colspan="2"></td>
+                    <td colspan="5"></td>
 
                 </tr>
                 <tr>
                     <td>MTV</td>
                     <td><input type="file" name="mtv" class="form-control" /></td>
-                    <td colspan="2"></td>
-                    <td>Resim 1</td>
-                    <td colspan="2"></td>
+                    <td colspan="5"></td>
 
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td colspan="2"></td>
-                    <td></td>
-                    <td></td>
-
-
+                    <td>Resimler</td>
+                    <td colspan="6"><input type="file" name="resimler" class="form-control" multiple /></td>
                 </tr>
             </table>
             <input type="submit" class="btn btn-success w-100" value="Aracı Kaydet" />
@@ -722,13 +731,111 @@
         });
 
 
-    </script>
-        @if(Model==null)
-        {
-    <script>
-        $(document).ready(function () {
-            $('#uyariModal').modal('show');
+        //lastik tipi listele
+        $.ajax({
+            url: '../Ajax/LastikTipListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#LastikTip1').empty();
+                $('#LastikTip2').empty();
+                $('#LastikTip3').empty();
+                $('#LastikTip1').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#LastikTip1').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+                $('#LastikTip2').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#LastikTip2').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+                $('#LastikTip3').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#LastikTip3').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
         });
-    </script>
+        //sürücü listele
+        $.ajax({
+            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#SurucuID').empty();
+                $('#SurucuID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#SurucuID').append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+      /*  function TurKontrol(TurID) { 
+        if(TurID==1)
+                document.getElementById('username').setAttribute('required', 'true');
         }
-}
+        */
+
+       function SahiplikKontrol(SahiplikID)
+       {
+           if (SahiplikID == 5) {
+                var element = document.getElementById("Taseron");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+               document.getElementById("Kiralama").style.display = "table-row";
+           }
+            else if (SahiplikID == 4) {
+                var element = document.getElementById("Kiralama");
+                if (element !== null) {
+                    element.style.display = "none";
+                }
+               document.getElementById("Taseron").style.display = "table-row";
+           }
+       }
+    </script>
+    @if (Model == null)
+    {
+        <script>
+            $(document).ready(function () {
+                $('#uyariModal').modal('show');
+            });
+        </script>
+    }
+    }
