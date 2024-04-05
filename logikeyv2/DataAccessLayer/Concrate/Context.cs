@@ -91,6 +91,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<OgrenciTahsilat> OgrenciTahsilat { get; set; }
         public DbSet<OgrenciTahsilatBilgileri> OgrenciTahsilatBilgileri { get; set; }
         public DbSet<Versiyon> Versiyon { get; set; }
+        public DbSet<MasrafTuru> MasrafTuru { get; set; }
 
     }
 }
