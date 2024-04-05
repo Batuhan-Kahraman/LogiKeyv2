@@ -17,16 +17,23 @@ namespace logikeyv2.Controllers
             var KullaniciGrup_ID = HttpContext.Session.GetString("KullaniciGrup_ID");
             var MenuModulID = HttpContext.Session.GetString("MenuModulID");
 
+
+            var firmaAdi = HttpContext.Session.GetString("Firma");
+
             // ViewBag aracılığıyla View'e aktar
             ViewBag.Eposta = eposta;
             ViewBag.Moduller = moduller;
             ViewBag.KullaniciGrup_ID = KullaniciGrup_ID;
+
             ViewBag.MenuModulID = MenuModulID;
 
             VersiyonManager v = new VersiyonManager(new EFVersiyonRepository());
             var versiyon=v.GetAllList(x=>x.Durum==true).OrderByDescending(v => v.OlusturmaTarihi).FirstOrDefault();
             if (versiyon != null) { ViewBag.Versiyon = "1."+versiyon.ID; }
             else { ViewBag.Versiyon = "1"; }
+
+            ViewBag.FirmaAdi = firmaAdi;
+
         }
     }
 

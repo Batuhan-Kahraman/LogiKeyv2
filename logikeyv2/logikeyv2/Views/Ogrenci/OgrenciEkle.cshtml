@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Ogrenci Ekle";
 }
-<div class="col-lg-10 col-xxl-11">
+<div class="col-lg-10 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Öğrenci Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -44,7 +44,7 @@
 
 
                 </tr>
-                <tr>
+           <!--    <tr>
                     <td>Kayıt Başlangıç Tarihi</td>
                     <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBaslangicTarihi" /></td>
                     <td>Kayıt Bitiş Tarihi</td>
@@ -52,7 +52,7 @@
 
 
 
-                </tr>
+                </tr>-->
                 <tr>
                     <td>Servis Kullanım Durumu</td>
                     <td>
@@ -83,7 +83,7 @@
                             }
                         </select>
                     </td>
-                    <td>Şöfor</td>
+                 <!--   <td>Şöfor</td>
                     <td>
                         <select class="form-control" asp-for="OgrenciModulu.Sofer_ID" id="Sofer_ID">
                             <option value="0">Seçiniz</option>
@@ -92,7 +92,7 @@
                                 <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
                             }
                         </select>
-                    </td>
+                    </td>-->
                 </tr>
                 <tr>
 
@@ -187,7 +187,7 @@
 
                     <td>İl</td>
                     <td>
-                        <select class="form-control" name="Fatura_il" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
+                        <select class="form-control" name="Fatura_il" id="Cari_IL_ID" onchange="IlDegistirFatura(this.value)">
                             <option value="0">Seçiniz</option>
                             @foreach (var item in ViewBag.Iller)
                             {
@@ -199,7 +199,7 @@
                     </td>
                     <td>İlçe</td>
                     <td>
-                        <select class="form-control" name="Fatura_ilce" id="Cari_ILCE_ID">
+                        <select class="form-control" name="Fatura_ilce" id="Cari_ILCE_ID_Fatura">
                             <option value="0">Seçiniz</option>
 
 
@@ -263,6 +263,34 @@
                     }
                 });
             }
+
+        function IlDegistirFatura(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#Cari_ILCE_ID_Fatura').empty();
+                    $('#Cari_ILCE_ID_Fatura').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Cari_ILCE_ID_Fatura').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
         </script>
     }
     <style>

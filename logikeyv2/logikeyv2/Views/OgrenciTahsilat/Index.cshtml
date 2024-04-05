@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Öğrenci Tahsilat";
 }
-<div class="col-lg-10 col-xxl-11">
-    <h2 class="mb-3 lh-sm">Öğrenci Tahsilat Ekle</h2>
+<div class="col-lg-10 col-xxl-12">
+    <h2 class="mb-3 lh-sm">Öğrenci Tahsilat </h2>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -19,11 +19,12 @@
         </div>
 
     }
+    
         <div class="card shadow-none border my-4" data-component-card="data-component-card">
-            <div class="card-header p-4 border-bottom bg-body">
+        @*    <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
                    
-                    <form id="form" class="col-md-6 col-xs-3 row" action="@Url.Action("Index","OgrenciTahsilat")" method="get">
+                   <form id="form" class="col-md-6 col-xs-3 row" action="@Url.Action("Index","OgrenciTahsilat")" method="get">
 
                         <div class="col-md-7 col-xs-3">
                             <input class="form-control" id="Icerik" type="text" name="ogrenciDeger" placeholder="Öğrenci Tc No veya Ad Soyad Giriniz" />
@@ -34,17 +35,14 @@
                         </div>
                     </form>
 
-
                     
 
-                    <div class="col-md-3">
-                    </div>
                 </div>
-            </div>
+            </div>*@
 
         </div>
     <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["tcNo","adi","soyadi","anlasmaTutar","okulAdi","vadeBaslangicTarihi"],"page":10,"pagination":true}'>
+        <div id="tableExample3" data-list='{"valueNames":["tcNo","adi","soyadi","anlasmaTutar","okulAdi","vadeBaslangicTarihi"],"page":20,"pagination":true}'>
             <div>
                 <a asp-controller="OgrenciTahsilat" asp-action="OgrenciTahsilatEkle">Tahsilat Ekle</a>
             </div>
@@ -71,12 +69,13 @@
                         </tr>
                     </thead>
                     <tbody class="list">
-                        @if(Model == null)
+                      @*  @if(Model == null)
                         {
                             <tr>
                                 <td>Öğrenci taksiterini görmek için öğrenci aratınız.</td>
                             </tr>
-                        }else if(Model.Count == 0)
+                        }else *@
+                        @if(Model.Count == 0)
                         {
                             <tr>
                                 <td>Öğrenci bulunamadı.</td>
@@ -96,7 +95,9 @@
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="OgrenciTahsilatDetay(@item.ogrenci.Cari_ID)"  >
                                             <span class="text-body fs-5" data-feather="edit"></span>
                                         </a>
-                                        @*<a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='';"><span class="text-body fs-5" data-feather="trash-2"></span></a>*@
+                                      <a type="button"  data-bs-toggle="modal" data-bs-target="#silModal" onclick="document.getElementById('silID').value='@item.ogrenciTahsilat.Id';">
+                                        <span class="text-body fs-5" data-feather="trash-2"></span>
+                                      </a>
 
                                     </td>
                                 </tr>
@@ -113,7 +114,6 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form>
                                    <div class="row">
                                       <div class="col">
 
@@ -193,29 +193,28 @@
 
                                             </tbody>
                                         </table>
-                                </form>
+                                   </div>
                             </div>
                             <div class="modal-footer">
                                 <input type="hidden" id="tahsilatId" name="tahsilatId" >
-                                <a type="submit" id="silBtn" class="btn btn-danger"  >Tahsilatı Sil</a>
+                                @*<a id="silBtn" href="#" data-bs-toggle="modal" data-bs-target="#sil" class="btn btn-danger">Tahsilatı Sil</a>*@
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
                                 <button type="button" class="btn btn-primary" onclick="OdemeKaydet()">Kaydet</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
+                <div class="modal fade" id="silModal" tabindex="-1" role="dialog" aria-labelledby="silLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
+                                <h5 class="modal-title" id="silLabel">Emin Misiniz?</h5>
+                                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
                             </div>
                             <form action="OgrenciTahsilat/OgrenciTahsilatSil" method="post">
                                 <div class="modal-body">
-
                                     <p class="text-body-tertiary lh-lg mb-0">
-                                        <input type="hidden" name="tcNo" id="silID" value="" />
+                                        <input type="hidden" name="id" id="silID" value="" />
                                         Bu öğeyi silmek istediğinizden emin misiniz?
                                     </p>
                                 </div>
@@ -227,6 +226,7 @@
                         </div>
                     </div>
                 </div>
+
 
 
             </div>
@@ -245,29 +245,31 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
+       
         $(document).ready(function(){
             $("#odemeSekliBox").hide();
         })
-        $("#silBtn").click(function () {
-            var id = $("#tahsilatId").val();
-            console.log("Tahsilat ID: " + id);
+        //$("#silBtn").click(function () {
+        //    var id = $("#tahsilatId").val();
+        //    console.log("Tahsilat ID: " + id);
+        //    $("#silID").val(id);
 
-            $.ajax({
-                url: '/OgrenciTahsilat/OgrenciTahsilatSil', // Controller'ın endpoint'i
-                method: 'POST',
-                data: { id: id }, // Gönderilecek veri
-                success: function (response) {
-                    // Başarılı işlem durumunda yapılacaklar
-                    console.log(response);
-                    window.location.reload();
-                    // Örneğin başka bir işlem yapabilirsiniz veya bir mesaj gösterebilirsiniz
-                },
-                error: function (error) {
-                    // Hata durumunda yapılacaklar
-                    console.log('Hata oluştu:', error);
-                }
-            });
-        });
+        //    //$.ajax({
+        //    //    url: '/OgrenciTahsilat/OgrenciTahsilatSil', // Controller'ın endpoint'i
+        //    //    method: 'POST',
+        //    //    data: { id: id }, // Gönderilecek veri
+        //    //    success: function (response) {
+        //    //        // Başarılı işlem durumunda yapılacaklar
+        //    //        console.log(response);
+        //    //        window.location.reload();
+        //    //        // Örneğin başka bir işlem yapabilirsiniz veya bir mesaj gösterebilirsiniz
+        //    //    },
+        //    //    error: function (error) {
+        //    //        // Hata durumunda yapılacaklar
+        //    //        console.log('Hata oluştu:', error);
+        //    //    }
+        //    //});
+        //});
         function OdemeSec(id){
             $("#odemeSekliBox").show();
             $("#odemeInput").val(id);

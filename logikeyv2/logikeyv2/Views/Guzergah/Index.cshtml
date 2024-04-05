@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Guzergah";
 }
-<div class="col-lg-10 col-xxl-11">
+<div class="col-lg-10 col-xxl-12">
     <h2 class="mb-3 lh-sm">Okul Güzergahları</h2>
     @if (TempData["Msg"] != null)
     {
@@ -22,7 +22,7 @@
     }
 
     <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["name"],"page":5,"pagination":true}'>
+        <div id="tableExample3" data-list='{"valueNames":["name"],"page":20,"pagination":true}'>
             <div>
                 <a asp-controller="Guzergah" asp-action="GuzergahEkle">Güzergah Ekle</a>
             </div>

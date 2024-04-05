@@ -1,7 +1,7 @@
 ﻿@model EntityLayer.Concrate.Firma
 
 @{
-    ViewData["Title"] = "Firma Ekle";
+    ViewData["Title"] = "Müşteri Ekle";
 }
 <div class="col-lg-10 col-xxl-11">
 
@@ -27,9 +27,9 @@
                
                 <tr>
                     
-                    <td>Firma Adı</td>
+                    <td>Müşteri Adı</td>
                     <td><input type="text" class="form-control" asp-for="Firma_Unvan" /></td>
-                    <td>Firma Tipi</td>
+                    <td>Müşteri Tipi</td>
                     <td>
                         <select class="form-control" asp-for="Firma_Tipi" id="Firmatipi">
                             <option value="">Seçiniz</option>
@@ -128,7 +128,7 @@
 
 
             </table>
-            <input type="submit" class="btn btn-success w-100" value="Firmayı Kaydet" />
+            <input type="submit" class="btn btn-success w-100" value="Müşteri Kaydet" />
         </form>
 
 
