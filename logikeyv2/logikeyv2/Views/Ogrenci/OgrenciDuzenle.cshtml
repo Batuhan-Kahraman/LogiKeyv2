@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Ogrenci Düzenle";
 }
-<div class="col-lg-10 col-xxl-11">
+<div class="col-lg-10 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Öğrenci Düzenle</h2>
     @if (TempData["Msg"] != null)
@@ -45,7 +45,7 @@
 
 
                 </tr>
-                <tr>
+              <!--  <tr>
                     <td>Kayıt Başlangıç Tarihi</td>
                     <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBaslangicTarihi" /></td>
                     <td>Kayıt Bitiş Tarihi</td>
@@ -53,7 +53,7 @@
 
 
 
-                </tr>
+                </tr>-->
                 <tr>
                     <td>Servis Kullanım Durumu</td>
                     <td>
@@ -82,7 +82,7 @@
                             }
                         </select>
                     </td>
-                    <td>Şöfor</td>
+                  <!--  <td>Şöfor</td>
                     <td>
                         <select class="form-control" asp-for="OgrenciModulu.Sofer_ID" id="Sofer_ID">
                             <option value="0">Seçiniz</option>
@@ -91,7 +91,7 @@
                                 <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
                             }
                         </select>
-                    </td>
+                    </td>-->
                 </tr>
                 <tr>
 

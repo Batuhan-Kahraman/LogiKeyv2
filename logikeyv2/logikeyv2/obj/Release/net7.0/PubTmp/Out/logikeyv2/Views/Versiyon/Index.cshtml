@@ -1,11 +1,10 @@
 ﻿@using EntityLayer.Concrate;
-@model List<YakitTipi>
-
+@model List<Versiyon>
 @{
-    ViewData["Title"] = "Yakıt Tipleri";
+    ViewData["Title"] = "Versiyon";
 }
 <div class="col-lg-10 col-xxl-11">
-    <h2 class="mb-3 lh-sm">Yakıt Tipleri</h2>
+    <h2 class="mb-3 lh-sm">Araç Türleri</h2>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -20,13 +19,15 @@
         </div>
 
     }
-    <form id="form" action="YakitTipi/Ekle" method="post">
+    @if (ViewBag.KullaniciGrup_ID == "6")
+    {
+    <form id="form" action="Versiyon/Ekle" method="post">
         <div class="card shadow-none border my-4" data-component-card="data-component-card">
             <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
                     <div class="col-md-8">
                         <input type="hidden" name="ID" id="ID" value="" />
-                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" />
+                        <input class="form-control" id="Aciklama" type="text" name="Aciklama" placeholder="Açıklama Giriniz" />
                     </div>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
@@ -37,8 +38,10 @@
 
         </div>
     </form>
+        
+    }
     <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["name"],"page":20,"pagination":true}'>
+        <div id="tableExample3" data-list='{"valueNames":["name"],"page":5,"pagination":true}'>
             <div class="search-box mb-3 mx-auto">
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                     <input class="form-control search-input search form-control-sm" type="search" placeholder="Ara" aria-label="Ara" />
@@ -49,10 +52,12 @@
                 <table class="table table-striped table-sm fs-9 mb-0">
                     <thead>
                         <tr>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Adı</th>
-                            <th class="sort border-top">
+                            <th class="sort border-top border-translucent ps-3" data-sort="name">Açıklama</th>
+                          @if (ViewBag.KullaniciGrup_ID == "6")
+    {  <th class="sort border-top">
                                 İşlemler
                             </th>
+    }
 
                         </tr>
                     </thead>
@@ -60,14 +65,17 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.Adi</td>
-                                <td>
-                                    <a href="#" onclick="Duzenle(@item.ID, '@item.Adi')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                <td>@item.Aciklama</td>
+                                @if (ViewBag.KullaniciGrup_ID == "6")
+                                {
+                                    <td>
+                                        <a href="#" onclick="Duzenle(@item.ID, '@item.Aciklama')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
 
-                                </td>
+                                    </td>
+                                }
                             </tr>
                         }
                     </tbody>
@@ -80,7 +88,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
                             </div>
-                            <form action="YakitTipi/Sil" method="post">
+                            <form action="Versiyon/Sil" method="post">
                                 <div class="modal-body">
 
                                     <p class="text-body-tertiary lh-lg mb-0">
@@ -113,16 +121,15 @@
 @section Scripts {
     <script>
         function Duzenle(ID, Ad) {
-            document.getElementById("Adi").value = Ad;
+            document.getElementById("Aciklama").value = Ad;
             document.getElementById("ID").value = ID;
-            document.getElementById("form").setAttribute("action", "YakitTipi/Duzenle");
+            document.getElementById("form").setAttribute("action", "Versiyon/Duzenle");
 
         }
         function Temizle() {
-            document.getElementById("Adi").value = "";
+            document.getElementById("Aciklama").value = "";
             document.getElementById("ID").value = "";
-            document.getElementById("form").setAttribute("action", "YakitTipi/Ekle");
-
+            document.getElementById("form").setAttribute("action", "Versiyon/Ekle");
         }
     </script>
 }
