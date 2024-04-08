@@ -52,7 +52,9 @@
                 <table class="table table-striped table-sm fs-9 mb-0">
                     <thead>
                         <tr>
+                            <th class="sort border-top border-translucent ps-3" data-sort="versiyon">Versiyon</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Açıklama</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="tarih">Tarih</th>
                           @if (ViewBag.KullaniciGrup_ID == "6")
     {  <th class="sort border-top">
                                 İşlemler
@@ -65,7 +67,9 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td>1.@item.ID</td>
                                 <td>@item.Aciklama</td>
+                                <td>@item.DuzenlemeTarihi</td>
                                 @if (ViewBag.KullaniciGrup_ID == "6")
                                 {
                                     <td>
@@ -76,6 +80,7 @@
 
                                     </td>
                                 }
+                                
                             </tr>
                         }
                     </tbody>

@@ -1,0 +1,33 @@
+﻿@using DataAccessLayer.Concrate
+@model EntityLayer.Concrate.UyariTip
+@{
+    ViewData["Title"] = "Uyarı Tipi Ekle";
+}
+<div class="page-titles">
+    <ol class="breadcrumb">
+        <li><h5 class="bc-title">Uyarı > </h5></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Uyarı Tipi Ekle</a></li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-9 wid-100">
+            <form method="post">
+                
+                <div class="row">
+                    <div class="mb-3">
+                        <label class="form-label">Ad</label>
+                        <input class="form-control" asp-for="Ad">
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="mb-3">
+                        <input type="submit" class="form-control" value="Ekle" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

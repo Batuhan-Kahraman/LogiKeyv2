@@ -30,6 +30,36 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+        public static string KullaniciAdi(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.Kullanicilar.FirstOrDefault(e => e.Kullanici_ID == id);
+                if (entity != null)
+                {
+                    return entity.Kullanici_Isim+" "+entity.Kullanici_Soyisim;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public static string UyariTipAd(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.UyariTip.FirstOrDefault(e => e.UyariTipID == id);
+                if (entity != null)
+                {
+                    return entity.Ad;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         public static string CariUnvan(int id)
         {
             using (var context = new Context())

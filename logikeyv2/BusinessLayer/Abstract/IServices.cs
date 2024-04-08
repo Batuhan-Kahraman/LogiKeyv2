@@ -80,6 +80,9 @@ namespace BusinessLayer.Abstract
 
     public interface IOgrenciTahsilatService : IGenericService<OgrenciTahsilat> { }
     public interface IVersiyonService : IGenericService<Versiyon> { }
+
+    public interface IUyariService : IGenericService<Uyari> { }
+    public interface IUyariTipService : IGenericService<UyariTip> { }
     public interface IMasrafTuruService : IGenericService<MasrafTuru> { }
 
 

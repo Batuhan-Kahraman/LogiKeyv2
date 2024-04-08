@@ -41,6 +41,7 @@ namespace logikeyv2.Controllers
 
 
         NormalTasimaManager normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
+        UyariTipManager uyariTipManager = new UyariTipManager(new EFUyariTipRepository());
 
 
         #endregion
@@ -50,6 +51,14 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        
+        [HttpGet]
+        public IActionResult UyariTipListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<UyariTip> liste = uyariTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
             return Json(liste);
         }
 
