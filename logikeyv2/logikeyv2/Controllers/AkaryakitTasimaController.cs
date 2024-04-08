@@ -694,5 +694,12 @@ namespace logikeyv2.Controllers
             return RedirectToAction("CariHareket", "Cari", new { CariID = kayit.FaturaKesenID });
         }
 
+        public IActionResult Gorsel(int ID)
+        {
+
+            AkaryakitTasima kayit = akaryakitTasimaManager.GetByID(ID);
+            return View(kayit);
+        }
+
     }
 }
