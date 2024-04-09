@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Sofor Hostes Ekle";
 }
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Şöför veya Hostes Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -108,7 +108,7 @@
                                 @foreach (var item in ViewBag.Iller)
                                 {
 
-                                <option value="@item.Adres_ID">@item.Il</option>
+                                <option value="@item.IL_KODU">@item.Il</option>
                                 }
 
                         </select>

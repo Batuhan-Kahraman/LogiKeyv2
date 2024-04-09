@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Cariler";
 }
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
     <h2 class="mb-3 lh-sm">Cariler</h2>
     @if (TempData["Msg"] != null)
     {
@@ -55,7 +55,7 @@
                                     <a asp-controller="Cari" asp-action="CariHareket" asp-route-CariID="@item.Cari_ID" title="Cari Hareketleri">
                                         <span class="text-body fs-5" data-feather="repeat"></span>
                                     </a>
-                                    <a href="#" onclick="Duzenle(@item.Cari_ID, '@item.Cari_Unvan')">
+                                    <a asp-controller="Cari" asp-action="Duzenle" asp-route-ID="@item.Cari_ID">
                                         <span class="text-body fs-5" data-feather="edit"></span>
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Firma_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
@@ -66,6 +66,30 @@
                     </tbody>
                 </table>
 
+
+
+                <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
+                            </div>
+                            <form action="Cari/Sil" method="post">
+                                <div class="modal-body">
+
+                                    <p class="text-body-tertiary lh-lg mb-0">
+                                        <input type="hidden" name="ID" id="silID" value="" />
+                                        Bu öğeyi silmek istediğinizden emin misiniz?
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" type="submit">Sil</button>
+                                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
                
 

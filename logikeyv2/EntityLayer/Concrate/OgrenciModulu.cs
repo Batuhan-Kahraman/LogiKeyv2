@@ -15,7 +15,7 @@ namespace EntityLayer.Concrate
         public DateTime KayitBaslangicTarihi { get; set; }
         public DateTime KayitBitisTarihi { get; set; }
         public byte Servis_Kullanim_Durumu { get; set; }
-        public int Sofer_ID { get; set; }
+        //public int Sofer_ID { get; set; }
         public string? Veli1Adi { get; set; }
         public string? Veli1Soyadi { get; set; }
         public string? Veli1TelefonNo { get; set; }

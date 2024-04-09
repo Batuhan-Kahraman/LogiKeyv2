@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Ogrenci Ekle";
 }
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Öğrenci Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -83,16 +83,6 @@
                             }
                         </select>
                     </td>
-                 <!--   <td>Şöfor</td>
-                    <td>
-                        <select class="form-control" asp-for="OgrenciModulu.Sofer_ID" id="Sofer_ID">
-                            <option value="0">Seçiniz</option>
-                            @foreach (var item in ViewBag.Sofor)
-                            {
-                                <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
-                            }
-                        </select>
-                    </td>-->
                 </tr>
                 <tr>
 

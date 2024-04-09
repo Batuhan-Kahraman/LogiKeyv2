@@ -4,7 +4,7 @@
     ViewData["Title"] = "Araç Ekle";
 }
 
-<div class="modal fade" id="uyariModal" tabindex="-1" aria-hidden="true">
+@* <div class="modal fade" id="uyariModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,7 +19,7 @@
         </div>
     </div>
 </div>
-
+ *@
 
 <div class="row mb-3">
     <div class="col-3">
@@ -29,7 +29,7 @@
     <div class="col-5 text-center">
         Araç Kayıt Tarihi: @DateTime.Now
     </div>
-    <div class="col-3">
+    @* <div class="col-3">
         <div class="modal fade" id="ruhsatModal" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -55,9 +55,9 @@
 
         <input type="button" class="btn btn-info w-100" value="Ruhsattan Bilgi Tara" data-bs-toggle="modal" data-bs-target="#ruhsatModal" />
     </div>
-</div>
+</div> *@
 
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
 
     @if (TempData["Msg"] != null)
     {
@@ -79,7 +79,7 @@
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
-                    <td rowspan="10" class="vertical-text text-center" style="background:#a9a4a4;">
+                    <td rowspan="9" class="vertical-text text-center" style="background:#a9a4a4;">
                         <h5 style="color:#fff !important;">Sahiplik</h5>
                     </td>
                     <td>Plaka</td>
@@ -139,13 +139,13 @@
                     <td><input type="text" class="form-control" asp-for="Goz5" /></td>
                     <td>Göz 6</td>
                     <td><input type="text" class="form-control" asp-for="Goz6" /></td>
-                </tr> *@
+                </tr>
                 <tr>
                     <td>Yolcu Taşıma Kapasitesi</td>
                     <td><input type="number" class="form-control" asp-for="KisiKapasite" /></td>
 
 
-                </tr>
+                    </tr> *@
                 <tr>
                     <td>Marka</td>
                  
@@ -174,7 +174,7 @@
                         </select>
 
                     </td>
-                    <td>Toplam Yolcu Taşıma Kapasitesi</td>
+                    <td>Yolcu Kapasitesi</td>
                   
                     <td><input type="number" class="form-control" asp-for="KisiKapasite"  /></td>
 

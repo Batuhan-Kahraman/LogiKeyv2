@@ -154,7 +154,11 @@
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Tipi</span></div>
                                             </a>
                                         </li>
-
+                                         <li class="nav-item">
+                                            <a class="nav-link" asp-controller="MasrafTuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Türü</span></div>
+                                            </a>
+                                        </li>
 
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="SurucuPozisyon" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -277,7 +281,20 @@
                                                 </div>
                                             </a>
                                         </li>
-
+                                         <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Bakim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Bakım</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                         <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Yakit" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Yakıt</span>
+                                                </div>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -343,7 +360,20 @@
                                                 </div>
                                             </a>
                                         </li>
-
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Bakim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Bakım</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                         <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Yakit" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Yakıt</span>
+                                                </div>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -402,7 +432,20 @@
                                                 </div>
                                             </a>
                                         </li>
-
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Bakim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Bakım</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                         <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Yakit" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Yakıt</span>
+                                                </div>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -450,6 +493,7 @@
                 </div>
                 </a>
                 </li>*@
+
                 <li class="nav-item ">
                     <a class="nav-link" asp-controller="Kaza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
@@ -471,6 +515,17 @@
                         </div>
                     </a>
                 </li>
+
+                @{
+                    if (ViewBag.KullaniciGrup_ID == "6")
+                    {
+                       
+                        <li>
+                            <a class="nav-link" asp-controller="Versiyon" asp-action="Index" data-bs-toggle="" aria-expanded="false" style="color:#000;">v. @ViewBag.Versiyon</a>
+                        </li>
+                    }
+                }
+
             </ul>
         </div>
     </div>
