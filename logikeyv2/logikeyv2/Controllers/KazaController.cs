@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
+using DataAccessLayer.Migrations;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,20 @@ namespace logikeyv2.Controllers
         KazaManager KazaManager = new KazaManager(new EFKazaRepository());
         AracManager AracManager=new AracManager(new EFAracRepository());
         KullanicilarManager SurucuManager=new KullanicilarManager(new EFKullanicilarRepository());
+
+        public async Task<string> DosyaYukle(IFormFile formFile)
+        {
+            var extent = Path.GetExtension(formFile.FileName);
+            var randomName = $"{Guid.NewGuid()}{extent}";
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\upload", randomName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await formFile.CopyToAsync(stream);
+            }
+
+            return randomName;
+        }
 
 
         public IActionResult Index()
@@ -54,7 +69,7 @@ namespace logikeyv2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Ekle(Kaza kaza)
+        public async Task<IActionResult> Ekle(Kaza kaza, IFormFile KazaRaporu, IFormFile KarsiTarafTrafikSigortasi, IFormFile KarsiTarafKaskoPolicesi, IFormFile KarsiTarafRuhsat, IFormFile KarsiTarafEhliyet, IFormFile KazaResimleri)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -64,6 +79,32 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
+                        if (KazaRaporu != null && KazaRaporu.Length > 0)
+                        {
+                            kaza.KazaRaporu = await DosyaYukle(KazaRaporu);
+                        }
+                        if (KarsiTarafTrafikSigortasi != null && KarsiTarafTrafikSigortasi.Length > 0)
+                        {
+                            kaza.KarsiTarafTrafikSigortasi = await DosyaYukle(KarsiTarafTrafikSigortasi);
+                        }
+                        if (KarsiTarafKaskoPolicesi != null && KarsiTarafKaskoPolicesi.Length > 0)
+                        {
+                            kaza.KarsiTarafKaskoPolicesi = await DosyaYukle(KarsiTarafKaskoPolicesi);
+                        }
+                        if (KarsiTarafRuhsat != null && KarsiTarafRuhsat.Length > 0)
+                        {
+                            kaza.KarsiTarafRuhsat = await DosyaYukle(KarsiTarafRuhsat);
+                        }
+                        if (KarsiTarafEhliyet != null && KarsiTarafEhliyet.Length > 0)
+                        {
+                            kaza.KarsiTarafEhliyet = await DosyaYukle(KarsiTarafEhliyet);
+                        }
+                        if (KazaResimleri != null && KazaResimleri.Length > 0)
+                        {
+                            kaza.KazaResimleri = await DosyaYukle(KazaResimleri);
+                        }
+
+
                         kaza.Durum = true;
 
                         kaza.FirmaID = FirmaID;
@@ -93,7 +134,7 @@ namespace logikeyv2.Controllers
             return View(kaza);
         }
         [HttpPost]
-        public IActionResult Duzenle(Kaza kaza)
+        public async Task<IActionResult> Duzenle(Kaza kaza, IFormFile KazaRaporu, IFormFile KarsiTarafTrafikSigortasi, IFormFile KarsiTarafKaskoPolicesi, IFormFile KarsiTarafRuhsat, IFormFile KarsiTarafEhliyet, IFormFile KazaResimleri)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -104,6 +145,31 @@ namespace logikeyv2.Controllers
                     try
                     {
                         Kaza item = KazaManager.GetByID(kaza.ID);
+
+                        if (KazaRaporu != null && KazaRaporu.Length > 0)
+                        {
+                            item.KazaRaporu = await DosyaYukle(KazaRaporu);
+                        }
+                        if (KarsiTarafTrafikSigortasi != null && KarsiTarafTrafikSigortasi.Length > 0)
+                        {
+                            item.KarsiTarafTrafikSigortasi = await DosyaYukle(KarsiTarafTrafikSigortasi);
+                        }
+                        if (KarsiTarafKaskoPolicesi != null && KarsiTarafKaskoPolicesi.Length > 0)
+                        {
+                            item.KarsiTarafKaskoPolicesi = await DosyaYukle(KarsiTarafKaskoPolicesi);
+                        }
+                        if (KarsiTarafRuhsat != null && KarsiTarafRuhsat.Length > 0)
+                        {
+                            item.KarsiTarafRuhsat = await DosyaYukle(KarsiTarafRuhsat);
+                        }
+                        if (KarsiTarafEhliyet != null && KarsiTarafEhliyet.Length > 0)
+                        {
+                            item.KarsiTarafEhliyet = await DosyaYukle(KarsiTarafEhliyet);
+                        }
+                        if (KazaResimleri != null && KazaResimleri.Length > 0)
+                        {
+                            item.KazaResimleri = await DosyaYukle(KazaResimleri);
+                        }
                         item.AracID = kaza.AracID;
                         item.SurucuID = kaza.SurucuID;
                         item.KazaTarihi = kaza.KazaTarihi;

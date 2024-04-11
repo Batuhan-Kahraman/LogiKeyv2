@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
-    public class GuzergahController : Controller
-    {
+    [OturumKontrolAttributeController]
+    public class GuzergahController : BaseController
+    { 
         GuzergahManager guzergahManager = new GuzergahManager(new EFGuzergahRepository());
         Okul_GuzergahManager Okul_GuzergahManager= new Okul_GuzergahManager(new EFOkul_GuzergahRepository());
         KullanicilarManager kullanicilarManager = new KullanicilarManager(new EFKullanicilarRepository());

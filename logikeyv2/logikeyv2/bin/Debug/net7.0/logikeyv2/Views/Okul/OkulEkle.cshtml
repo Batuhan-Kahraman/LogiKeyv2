@@ -33,10 +33,12 @@
                     <td> <input type="text" class="form-control" asp-for="Cari_FirmaTelefon" /></td>
 
                 </tr>
-                <tr>
 
-                    <td>İl</td>
+                <tr>
                     <td>
+                        İl
+                        </td>
+                        <td>
                         <select class="form-control" asp-for="Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
                             @foreach (var item in ViewBag.Iller)
@@ -52,11 +54,9 @@
                         <select class="form-control" asp-for="Cari_ILCE_ID" id="Cari_ILCE_ID">
                             <option value="0">Seçiniz</option>
 
-
                         </select>
                     </td>
                 </tr>
-                <tr>
                 <tr>
 
                     <td>Adres</td>
@@ -64,7 +64,7 @@
 
                 </tr>
                 <tr>
-                   
+
 
                     <td>Okul Eposta</td>
                     <td><input type="text" class="form-control" asp-for="Cari_FirmaEposta" /></td>
@@ -73,9 +73,9 @@
                     <td> <input type="text" class="form-control" asp-for="Cari_WebSitesi" /></td>
 
                 </tr>
-               
+
                 <tr>
-                   
+
                     <td>Okul Müdürü Adı</td>
                     <td> <input type="text" class="form-control" asp-for="Cari_YetkiliAdi" /></td>
 
@@ -97,7 +97,7 @@
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN1" /></td>
 
                 </tr>
-@*                 <tr>
+                <tr>
                     <td>Banka Adı 2</td>
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi2" /></td>
                     <td>Banka IBAN No 2</td>
@@ -110,7 +110,7 @@
                     <td>Banka IBAN No 3</td>
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN3" /></td>
 
-                </tr> *@
+                </tr>
 
 
             </table>
@@ -118,7 +118,7 @@
         </form>
 
 
-</div>
+    </div>
     @section Scripts {
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>

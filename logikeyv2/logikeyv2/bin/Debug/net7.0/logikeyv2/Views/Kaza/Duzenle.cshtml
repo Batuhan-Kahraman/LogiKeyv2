@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Kaza Ekle";
 }
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Kaza Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -22,7 +22,7 @@
     }
 
     <div class="border table-responsive scrollbar p-2">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <input type="hidden" class="form-control" asp-for="ID" />
             <table class="table table-borderless">
                 <!-- Sahiplik -->
@@ -130,46 +130,99 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">Belge Yükle</td>
-                    <td colspan="2">Resim Yükle</td>
+                    <td colspan="6">Belge Yükle</td>
                 </tr>
                 <tr>
                     <td>Kaza Raporu</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
-                    <td>Resim1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td>
+                        @{
+                            if (Model.KazaRaporu != "" && Model.KazaRaporu != null)
+                            {
+                                <a href="../upload/@Model.KazaRaporu" target="_blank">
+                                    Göster
+                                </a>
+                            }
+                        }
+                    </td>
+                    <td><input type="file" name="KazaRaporu" class="form-control" /></td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td>Karşı Taraf Trafik Sigortası</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
-                    <td>Resim1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td>
+                        @{
+                            if (Model.KarsiTarafTrafikSigortasi != "" && Model.KarsiTarafTrafikSigortasi != null)
+                            {
+                                <a href="../upload/@Model.KarsiTarafTrafikSigortasi" target="_blank">
+                                    Göster
+                                </a>
+                            }
+                        }
+                    </td>
+                    <td><input type="file" name="KarsiTarafTrafikSigortasi" class="form-control" /></td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td>Karşı Taraf Kasko Poliçesi</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
-                    <td>Resim1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td>
+                        @{
+                            if (Model.KarsiTarafKaskoPolicesi != "" && Model.KarsiTarafKaskoPolicesi != null)
+                            {
+                                <a href="../upload/@Model.KarsiTarafKaskoPolicesi" target="_blank">
+                                    Göster
+                                </a>
+                            }
+                        }
+                    </td>
+                    <td><input type="file" name="KarsiTarafKaskoPolicesi" class="form-control" /></td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td>Karşı Taraf Ruhsat</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
-                    <td>Resim1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td>
+                        @{
+                            if (Model.KarsiTarafRuhsat != "" && Model.KarsiTarafRuhsat != null)
+                            {
+                                <a href="../upload/@Model.KarsiTarafRuhsat" target="_blank">
+                                    Göster
+                                </a>
+                            }
+                        }
+                    </td>
+                    <td><input type="file" name="KarsiTarafRuhsat" class="form-control" /></td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td>Karşı Taraf Ehliyet</td>
-                    <td>Arşivlendi</td>
-                    <td colspan="2">Göster/İndir</td>
-                    <td>Resim1</td>
-                    <td colspan="2">Göster/İndir</td>
+                    <td>
+                        @{
+                            if (Model.KarsiTarafEhliyet != "" && Model.KarsiTarafEhliyet != null)
+                            {
+                                <a href="../upload/@Model.KarsiTarafEhliyet" target="_blank">
+                                    Göster
+                                </a>
+                            }
+                        }
+                    </td>
+                    <td><input type="file" name="KarsiTarafEhliyet" class="form-control" /></td>
+                    <td colspan="4"></td>
 
                 </tr>
+                <tr>
+                    <td>Resimler</td>
 
+                    @{
+                        if (Model.KazaResimleri != "" && Model.KazaResimleri != null)
+                        {
+
+                            <td>
+                                <a href="../upload/@Model.KazaResimleri" target="_blank">Göster</a>
+                            </td>
+                        }
+
+                        }
+                    <td colspan="5"><input type="file" name="KazaResimleri" class="form-control"  /></td>
+                </tr>
             </table>
             <input type="submit" class="btn btn-success w-100" value="Kaza Düzenle" />
         </form>
@@ -226,8 +279,8 @@
                 $.each(data, function (index, item) {
                     console.log(item);
                     $('#SurucuID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.isim + ' ' + item.soyisim // Verinin görünen metni
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
                     }));
                 });
                 var SurucuID = @Json.Serialize(Model.SurucuID);
