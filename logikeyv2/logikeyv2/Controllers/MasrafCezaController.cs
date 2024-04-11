@@ -51,7 +51,15 @@ namespace logikeyv2.Controllers
 
         public IActionResult Ekle()
         {
-            return View();
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    ViewBag.MasrafTurleri = context.MasrafTuru.Where(x=>x.Durum == true ).ToList();
+                    return View();
+                } 
+            }
+                   
         }
 
 
