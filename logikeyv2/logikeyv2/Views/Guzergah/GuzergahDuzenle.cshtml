@@ -1,11 +1,11 @@
 ﻿@model EntityLayer.Concrate.Guzergah
 
 @{
-    ViewData["Title"] = "Guzergah Ekle";
+    ViewData["Title"] = "Guzergah Duzenle";
 }
 <div class="col-lg-10 col-xxl-11">
 
-    <h2 class="mb-3 lh-sm">Güzergah Ekle</h2>
+    <h2 class="mb-3 lh-sm">Güzergah Duzenle</h2>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -125,7 +125,7 @@
 
             </table>
             <div class="d-flex flex-wrap">
-                    <input type="hidden" class="form-control" name="okullar" />
+                <input type="hidden" class="form-control" name="okullar" />
                 <input type="hidden" class="form-control" name="ogrenciler" />
                 <input type="hidden" class="form-control" name="gidisGunleri" />
                 <input type="hidden" class="form-control" name="gidisSaatleri" />
@@ -238,7 +238,7 @@
             var daysArray2 = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma"];
             var hoursArray = ["09:00", "09:00", "09:00", "09:00", "09:00"];
             var hoursArray2 = ["18:00", "18:00", "18:00", "18:00", "18:00"];
-          
+
             $(document).on('change', '#mySelect', function () {
                 var tableContent = '';
                 var okulSirasi = 1;
@@ -261,7 +261,7 @@
                     var selectedDaysForStudent = [];
                     var selectedHoursForStudent = [];
                     var selectedHoursForStudent2 = [];
-                   
+
                     for (var j = 0; j < daysArray.length; j++) {
                         var isChecked = true;
                         daysText += '<input type="checkbox" class="gidis-gunu" id="gidisGunu_' + okulSirasi + '_' + j + '" name="gidisGunu_' + okulSirasi + '_' + j + '" checked> <label for="gidisGunu_' + okulSirasi + '_' + j + '">' + daysArray[j] + '</label><br>';
@@ -288,7 +288,7 @@
                     // Adding departure and return times
                     // tableContent += '<tr>';
                     // tableContent += '<td colspan="2"></td>';
-                   
+
                     // tableContent += '</tr>';
 
                     okulSirasi++;
@@ -314,8 +314,8 @@
                 $('input[name="donusSaatleri"]').val(selectedHours2.join(';'));
                 $('input[name="ogrenciSiraNo"]').val(ogrenciSiraNo.join(';'));
             });
-           
-           
+
+
 
 
 

@@ -12,7 +12,7 @@ namespace EntityLayer.Concrate
         [Key]
         public int Guzergah_OgrenciID { get; set; }
         public int OgrenciID { get; set; }
-        public int OgrenciSiraNo { get; set; }
+        public string OgrenciSiraNo { get; set; }
         public int Guzergah_ID { get; set; }
         public int OkulGuzergah_ID { get; set; }
         public string OkulaGidisGunleri { get; set; }
