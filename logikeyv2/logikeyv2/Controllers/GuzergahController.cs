@@ -42,7 +42,7 @@ namespace logikeyv2.Controllers
             ViewBag.Sofor = servisSoforleri;
             List<Arac> arac = aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
             ViewBag.Arac = arac;
-            List<Kullanicilar> Hostes = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID ==4 && y.KullaniciGrup_ID == 5 && y.Firma_ID == FirmaID));
+            List<Kullanicilar> Hostes = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID ==4 && y.Firma_ID == FirmaID));
             ViewBag.Hostes = Hostes;
             List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID==FirmaID));
             ViewBag.Okullar = okullar;
