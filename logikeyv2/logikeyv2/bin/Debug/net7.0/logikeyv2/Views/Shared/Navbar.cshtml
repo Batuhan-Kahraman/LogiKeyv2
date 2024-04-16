@@ -515,24 +515,12 @@
                         </div>
                     </a>
                 </li>
-
-                @{
-                    if (ViewBag.KullaniciGrup_ID == "6")
-                    {
-
-                        <li class="nav-item ">
-                            <a class="nav-link" asp-controller="Kaza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-text">Kaza</span>
-                                </div>
-                            </a>
-                        </li>
-
+ 
                         <li>
                             <a class="nav-link" asp-controller="Versiyon" asp-action="Index" data-bs-toggle="" aria-expanded="false" style="color:#000;">v. @ViewBag.Versiyon</a>
                         </li>
-                    }
-                }
+                 
+
 
             </ul>
         </div>
