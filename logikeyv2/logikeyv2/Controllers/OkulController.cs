@@ -15,7 +15,7 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
+            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID && x.Cari_GrupID == 13);
 
             return View(liste);
         }
@@ -52,6 +52,7 @@ namespace logikeyv2.Controllers
                         cari.Firma_ID = FirmaID;
                         cari.Olusturma_Tarihi = DateTime.UtcNow;
                         cari.Duzenleme_Tarihi = DateTime.UtcNow;
+                        cari.FaturaDurum = false;
                         cariManager.TAdd(cari);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -64,10 +65,15 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return View(cari);
+            return RedirectToAction("Index");
         }
         public IActionResult OkulDuzenle(int Cari_ID)
         {
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             Cari okul = cariManager.GetByID(Cari_ID);
             return View(okul);
         }
@@ -118,7 +124,39 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return View(cari);
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult Sil(IFormCollection form)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Cari item = cariManager.GetByID(int.Parse(form["ID"]));
+                        item.Durum = 0;
+                        item.Firma_ID = FirmaID;
+                        item.Duzenleme_Tarihi = DateTime.Now;
+                        item.DuzenleyenKullanici_ID = KullaniciID;
+                        cariManager.TUpdate(item);
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception e)
+                    {
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
+                        transaction.Rollback();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
         }
     }
 }

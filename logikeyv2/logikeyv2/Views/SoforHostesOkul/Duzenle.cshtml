@@ -63,7 +63,7 @@
                 <tr>
                     <td>E-Posta Adresi</td>
                     <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" /></td>
-                    <td>Pozisyon</td>
+                   @*  <td>Pozisyon</td>
                     <td>
 
                         <select class="form-control" asp-for="SurucuPozisyonID" id="SurucuPozisyonID">
@@ -72,10 +72,10 @@
                             {
                             <option value="@item.ID">@item.Adi</option>
 
-                            } *@
+                            }
 
-                        </select>
-                    </td>
+                        </select> 
+                    </td>*@
                     <td>Şifre</td>
 
                     <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
@@ -98,14 +98,22 @@
                     </td>
                     <td>İl</td>
                     <td>
-                        <select class="form-control" asp-for="IlID" id="IlID">
+                        <select class="form-control" asp-for="IlID" id="Cari_IL_ID" onchange="IlDegistir(this.value)" required>
                             <option value="0">Seçiniz</option>
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                <option value="@item.IL_KODU">@item.Il</option>
+                            }
+
                         </select>
                     </td>
                     <td>İlçe</td>
                     <td>
-                        <select class="form-control" asp-for="IlceID" id="IlceID">
+                        <select class="form-control" asp-for="IlceID" id="Cari_ILCE_ID" required>
                             <option value="0">Seçiniz</option>
+
+
                         </select>
                     </td>
                 </tr>
@@ -255,7 +263,33 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        function IlDegistir(IlKodu) {
 
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#Cari_ILCE_ID').empty();
+                    $('#Cari_ILCE_ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Cari_ILCE_ID').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
     </script>
     <script>
         $(document).ready(function () {

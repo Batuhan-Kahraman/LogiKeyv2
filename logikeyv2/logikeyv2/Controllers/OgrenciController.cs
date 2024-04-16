@@ -19,7 +19,7 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1 )
+            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1)
                                 join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
                                 join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
 
@@ -51,64 +51,81 @@ namespace logikeyv2.Controllers
 
             try
             {
-                var ogrenciadi = model.Ogrenci.Cari_YetkiliAdi;
-                var ogrencisoyadi= model.Ogrenci.Cari_YetkiliSoyadi;
-                var tamAd = String.Concat(ogrenciadi, " ", ogrencisoyadi);
-                var telno = model.Ogrenci.Cari_FirmaTelefon;
-                // Öğrenciye ait ek bilgilerin atanması
-                model.Ogrenci.Durum = 1;
-                model.Ogrenci.Cari_GrupID = 14;
-                model.Ogrenci.Cari_Unvan = tamAd;
-
-                model.Ogrenci.Cari_Kodu = "Ogrencikodu";
-                model.Ogrenci.Cari_Tipi = 1;
-                model.Ogrenci.Cari_VergiDairesi = "öğrenci";
-                model.Ogrenci.Cari_WebSitesi = "öğrenci.com";
-
-                model.Ogrenci.EkleyenKullanici_ID = KullaniciID;
-                model.Ogrenci.DuzenleyenKullanici_ID = KullaniciID;
-                model.Ogrenci.Firma_ID = FirmaID;
-                model.Ogrenci.Olusturma_Tarihi = DateTime.UtcNow;
-                model.Ogrenci.Duzenleme_Tarihi = DateTime.UtcNow;
-                model.Ogrenci.Cari_CepNo = telno;
-                // Öğrenciyi ekleme işlemi
-                cariManager.TAdd(model.Ogrenci);
-                var ogrenci = cariManager.GetAllList(x => x.Cari_TCNO_VergiNo == model.Ogrenci.Cari_TCNO_VergiNo && x.Durum == 1 && x.Cari_GrupID == 14).FirstOrDefault();
-                model.OgrenciModulu.CariOgrenci_ID = ogrenci.Cari_ID;
-                model.OgrenciModulu.Durum = 1;
-                ogrenciModuluManager.TAdd(model.OgrenciModulu);
-                if (model.Ogrenci.FaturaDurum == true)
+                using (var context = new Context())
                 {
-                    FaturaOkul okul = new FaturaOkul();
-                    okul.Adi = Fatura_Adi;
-                    okul.Soyadi = Fatura_Soyadi;
-                    okul.Adres = Fatura_Adres;
-                    okul.ilID = Fatura_il;
-                    okul.ilceID = Fatura_ilce;
-                    okul.TcKimlikNo = Fatura_TC;
-                    okul.TelefonNo=Fatura_Telefon;
-                    okul.Eposta = Fatura_Eposta;
-                    okul.BankaAdi = Fatura_BankaAdi;
-                    okul.IbanNo = Fatura_BankaIBAN;
-                    okul.Durum = true;
-                    okul.CariOgrenciID = model.Ogrenci.Cari_ID;
-                    okul.OlusturmaTarihi = DateTime.UtcNow;
-                    okul.DuzenlemeTarihi = DateTime.UtcNow;
-                    okul.DuzenleyenKullaniciID = 1;
-                    okul.EkleyenKullaniciID = 1;
-                    okul.FirmaID = 1;
-                    faturaokulManager.TAdd(okul);
-                }
-                // Başarılı ekleme mesajı
-                ViewBag.SuccessMessage = "Öğrenci başarıyla eklendi.";
+                    using (var transaction = context.Database.BeginTransaction())
+                    {
+                        var ogrenci = cariManager.GetAllList(x => x.Cari_TCNO_VergiNo == model.Ogrenci.Cari_TCNO_VergiNo && x.Durum == 1 && x.Cari_GrupID == 14).FirstOrDefault();
 
-                return RedirectToAction("Index", "Home"); // Örneğin, anasayfaya yönlendirme
+                        if (ogrenci != null)
+                        {
+                            TempData["Msg"] = "İşlem başarısız. TC Kimlik numarası ile daha önce öğrenci kaydedilmiş.";
+                            TempData["Bgcolor"] = "red";
+                            transaction.Rollback();
+                            return RedirectToAction("Index");
+                        }
+                        var ogrenciadi = model.Ogrenci.Cari_YetkiliAdi;
+                        var ogrencisoyadi = model.Ogrenci.Cari_YetkiliSoyadi;
+                        var tamAd = String.Concat(ogrenciadi, " ", ogrencisoyadi);
+                        var telno = model.Ogrenci.Cari_FirmaTelefon;
+                        // Öğrenciye ait ek bilgilerin atanması
+                        model.Ogrenci.Durum = 1;
+                        model.Ogrenci.Cari_GrupID = 14;
+                        model.Ogrenci.Cari_Unvan = tamAd;
+
+                        model.Ogrenci.Cari_Kodu = "Ogrencikodu";
+                        model.Ogrenci.Cari_Tipi = 1;
+                        model.Ogrenci.Cari_VergiDairesi = "öğrenci";
+                        model.Ogrenci.Cari_WebSitesi = "öğrenci.com";
+
+                        model.Ogrenci.EkleyenKullanici_ID = KullaniciID;
+                        model.Ogrenci.DuzenleyenKullanici_ID = KullaniciID;
+                        model.Ogrenci.Firma_ID = FirmaID;
+                        model.Ogrenci.Olusturma_Tarihi = DateTime.UtcNow;
+                        model.Ogrenci.Duzenleme_Tarihi = DateTime.UtcNow;
+                        model.Ogrenci.Cari_CepNo = telno;
+                        // Öğrenciyi ekleme işlemi
+                        cariManager.TAdd(model.Ogrenci);
+                        var kaydedilenOgrenci = cariManager.GetAllList(x => x.Cari_TCNO_VergiNo == model.Ogrenci.Cari_TCNO_VergiNo && x.Durum == 1 && x.Cari_GrupID == 14).FirstOrDefault();
+                        model.OgrenciModulu.CariOgrenci_ID = kaydedilenOgrenci.Cari_ID;
+
+                        model.OgrenciModulu.Durum = 1;
+                        ogrenciModuluManager.TAdd(model.OgrenciModulu);
+                        if (model.Ogrenci.FaturaDurum == true)
+                        {
+                            FaturaOkul okul = new FaturaOkul();
+                            okul.Adi = Fatura_Adi;
+                            okul.Soyadi = Fatura_Soyadi;
+                            okul.Adres = Fatura_Adres;
+                            okul.ilID = Fatura_il;
+                            okul.ilceID = Fatura_ilce;
+                            okul.TcKimlikNo = Fatura_TC;
+                            okul.TelefonNo = Fatura_Telefon;
+                            okul.Eposta = Fatura_Eposta;
+                            okul.BankaAdi = Fatura_BankaAdi;
+                            okul.IbanNo = Fatura_BankaIBAN;
+                            okul.Durum = true;
+                            okul.CariOgrenciID = model.Ogrenci.Cari_ID;
+                            okul.OlusturmaTarihi = DateTime.UtcNow;
+                            okul.DuzenlemeTarihi = DateTime.UtcNow;
+                            okul.DuzenleyenKullaniciID = KullaniciID;
+                            okul.EkleyenKullaniciID = KullaniciID;
+                            okul.FirmaID = FirmaID;
+                            faturaokulManager.TAdd(okul);
+                        }
+                        // Başarılı ekleme mesajı
+                        ViewBag.SuccessMessage = "Öğrenci başarıyla eklendi.";
+
+                        return RedirectToAction("Index");
+                    }
+                }
+                       
             }
             catch (Exception ex)
             {
                 // Hata durumunda ModelState'e hata ekleyerek, View'e geri dönme
                 ModelState.AddModelError("", "Öğrenci eklenirken bir hata oluştu.");
-                return View(model);
+                return RedirectToAction("Index");
             }
         }
 
@@ -183,7 +200,42 @@ namespace logikeyv2.Controllers
                     }
                 }
             }
-            return View(cari);
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult Sil(IFormCollection form)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
+            using (var context = new Context())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                       OgrenciModulu ogrenci= ogrenciModuluManager.GetByID(int.Parse(form["ID"]));
+                        ogrenci.Durum = 0;
+                        ogrenciModuluManager.TUpdate(ogrenci);
+                        Cari item = cariManager.GetByID(ogrenci.ID);
+                        item.Durum = 0;
+                        item.Firma_ID = FirmaID;
+                        item.Duzenleme_Tarihi = DateTime.Now;
+                        item.DuzenleyenKullanici_ID = KullaniciID;
+                        cariManager.TUpdate(item);
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception e)
+                    {
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
+                        transaction.Rollback();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+
         }
     }
 }
