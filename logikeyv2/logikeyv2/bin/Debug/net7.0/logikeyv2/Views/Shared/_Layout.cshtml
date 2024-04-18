@@ -1,7 +1,4 @@
-﻿@{
-    var currentPage = ViewContext.RouteData.Values["Controller"].ToString();
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html data-navigation-type="default" data-navbar-horizontal-shape="default" lang="en-US" dir="ltr">
 
 <head>
@@ -14,14 +11,6 @@
     <main class="main" id="top">
     @await Html.PartialAsync("Navbar")
       <div class="content">
-            @if (currentPage != "Home")
-            {
-                <div class="mb-3">
-                    <a href="#" onclick="goBack()" class="text-decoration-none">
-                        <i class="fas fa-arrow-left me-1"></i> Geri Dön
-                    </a>
-                </div>
-            }
            @RenderBody()
     
       </div>
@@ -33,13 +22,7 @@
     @await Html.PartialAsync("Script")
 
     @await RenderSectionAsync("Scripts", required: false)
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
   </body>
-
 
 
 <!-- Mirrored from prium.github.io/phoenix/v1.14.0/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 05 Jan 2024 20:04:24 GMT -->

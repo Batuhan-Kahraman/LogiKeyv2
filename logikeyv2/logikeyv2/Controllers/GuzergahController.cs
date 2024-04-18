@@ -6,10 +6,6 @@ using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
-<<<<<<< HEAD
-using Windows.UI.Xaml.Controls;
-=======
->>>>>>> cd54ea03f18b55469c619eb9660d7058c3de0d81
 
 namespace logikeyv2.Controllers
 {
@@ -260,50 +256,5 @@ namespace logikeyv2.Controllers
             return Json(ogrenciler);
         }
 
-<<<<<<< HEAD
-
-        public IActionResult OkulServisOgrencileri()
-        {
-            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
-
-            var combinedQuery = (from Guzergah in guzergahManager.GetAllList(x => x.Durum == true && x.SoforCari_ID == KullaniciID)
-                                 join OgrenciGuzergah in ogrenciGuzergahManager.GetAllList(y => y.Durum == true && y.FirmaID == FirmaID) on Guzergah.Guzergah_ID equals OgrenciGuzergah.Guzergah_ID
-                                 join Ogrenci in cariManager.GetAllList(y => y.Durum == 1 && y.Cari_GrupID == 14 && y.Firma_ID == FirmaID) on OgrenciGuzergah.OgrenciID equals Ogrenci.Cari_ID
-                                 join Ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1) on Ogrenci.Cari_ID equals Ogrencimodulu.CariOgrenci_ID
-                                 join okul in cariManager.GetAllList(y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID) on Ogrencimodulu.CariOkul_ID equals okul.Cari_ID
-                                 select new OkulOgrenciModel { OgrenciModulu = Ogrencimodulu, Okul = okul, Ogrenci = Ogrenci })
-                                .GroupBy(item => item.Ogrenci.Cari_ID)
-                                .Select(group => group.First());
-
-
-
-
-
-
-            List<OkulOgrenciModel> combinedList = combinedQuery.ToList();
-            return View(combinedList);
-        }
-
-        public IActionResult OkulServisOgrenciCizelge(int OgrenciID)
-        {
-
-
-
-            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var combinedQuery = from OgrenciGuzergah in ogrenciGuzergahManager.GetAllList(x => x.Durum == true && x.OgrenciID == OgrenciID)
-                                join Ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Firma_ID == FirmaID)) on OgrenciGuzergah.OgrenciID equals Ogrenci.Cari_ID
-
-                                join Guzergah in guzergahManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on OgrenciGuzergah.Guzergah_ID equals Guzergah.Guzergah_ID
-
-                                join Arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on Guzergah.AracPlaka_ID equals Arac.ID
-                                select new OkulServisOgrenciCizelgeModel { OgrenciGuzergah = OgrenciGuzergah, Guzergah = Guzergah, Arac = Arac, Ogrenci= Ogrenci };
-
-            List<OkulServisOgrenciCizelgeModel> combinedList = combinedQuery.ToList();
-            return View(combinedList);
-        }
-
-=======
->>>>>>> cd54ea03f18b55469c619eb9660d7058c3de0d81
     }
 }

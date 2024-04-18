@@ -45,38 +45,6 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
-        
-        public static string ServisDurumAdi(int id)
-        {
-            using (var context = new Context())
-            {
-                var entity = context.ServisBakimDurum.FirstOrDefault(e => e.ID == id);
-                if (entity != null)
-                {
-                    return entity.Adi;
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
-        
-        public static string ServisTurAdi(int id)
-        {
-            using (var context = new Context())
-            {
-                var entity = context.ServisBakimTuru.FirstOrDefault(e => e.ID == id);
-                if (entity != null)
-                {
-                    return entity.Adi;
-                }
-                else
-                {
-                    return "";
-                }
-            }
-        }
         public static string UyariTipAd(int id)
         {
             using (var context = new Context())
