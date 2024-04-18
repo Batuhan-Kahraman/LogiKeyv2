@@ -6,7 +6,10 @@ using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
+<<<<<<< HEAD
 using Windows.UI.Xaml.Controls;
+=======
+>>>>>>> cd54ea03f18b55469c619eb9660d7058c3de0d81
 
 namespace logikeyv2.Controllers
 {
@@ -257,6 +260,7 @@ namespace logikeyv2.Controllers
             return Json(ogrenciler);
         }
 
+<<<<<<< HEAD
 
         public IActionResult OkulServisOgrencileri()
         {
@@ -299,5 +303,7 @@ namespace logikeyv2.Controllers
             return View(combinedList);
         }
 
+=======
+>>>>>>> cd54ea03f18b55469c619eb9660d7058c3de0d81
     }
 }
