@@ -2,7 +2,7 @@
 @model List<OkulOgrenciModel>
 
 @{
-    ViewData["Title"] = "Okul";
+    ViewData["Title"] = "Öğrenciler";
 }
 <div class="col-lg-30 col-xxl-12">
     <h2 class="mb-3 lh-sm">Öğrenciler</h2>
@@ -23,6 +23,7 @@
 
     <div class="p-4 code-to-copy">
         <div id="tableExample3" data-list='{"valueNames":["name"],"page":20,"pagination":true}'>
+
             <div>
                 <a asp-controller="Ogrenci" asp-action="OgrenciEkle">Öğrenci Ekle</a>
             </div>
@@ -65,6 +66,28 @@
                     </tbody>
                 </table>
 
+                <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
+                            </div>
+                            <form action="Ogrenci/Sil" method="post">
+                                <div class="modal-body">
+
+                                    <p class="text-body-tertiary lh-lg mb-0">
+                                        <input type="hidden" name="ID" id="silID" value="" />
+                                        Bu öğeyi silmek istediğinizden emin misiniz?
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" type="submit">Sil</button>
+                                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
 
 

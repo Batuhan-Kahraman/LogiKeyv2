@@ -63,7 +63,28 @@
                     </tbody>
                 </table>
 
+                <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
+                            </div>
+                            <form action="Okul/Sil" method="post">
+                                <div class="modal-body">
 
+                                    <p class="text-body-tertiary lh-lg mb-0">
+                                        <input type="hidden" name="ID" id="silID" value="" />
+                                        Bu öğeyi silmek istediğinizden emin misiniz?
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" type="submit">Sil</button>
+                                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
 
 

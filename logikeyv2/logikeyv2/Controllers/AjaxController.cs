@@ -43,6 +43,8 @@ namespace logikeyv2.Controllers
         NormalTasimaManager normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
         UyariTipManager uyariTipManager = new UyariTipManager(new EFUyariTipRepository());
 
+        ServisBakimDurumManager servisBakimDurumManager =new ServisBakimDurumManager(new EFServisBakimDurumRepository());
+        ServisBakimTuruManager servisBakimTuruManager =new ServisBakimTuruManager(new EFServisBakimTuruRepository());
 
         #endregion
 
@@ -51,6 +53,21 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult ServisBakimDurumListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<ServisBakimDurum> liste = servisBakimDurumManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        
+        [HttpGet]
+        public IActionResult ServisBakimTuruListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<ServisBakimTuru> liste = servisBakimTuruManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
             return Json(liste);
         }
         
@@ -232,6 +249,13 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 4 && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult CekiciListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 1 && x.FirmaID == FirmaID);
             return Json(liste);
         }
 

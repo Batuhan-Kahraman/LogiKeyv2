@@ -15,20 +15,25 @@ namespace logikeyv2.Controllers
         FirmaManager firmaManager = new FirmaManager(new EFFirmaRepository());
         KullanicilarManager kullaniciManager = new KullanicilarManager(new EFKullanicilarRepository());
         ModullerManager modullerManager = new ModullerManager(new EFModullerRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         public IActionResult Index()
         {
             List<Firma> liste = firmaManager.GetAllList(x => x.Firma_Durum == 1);
             return View(liste);
-           
+
         }
         public IActionResult Ekle()
         {
+            var adres = adresManager.List();
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
             ViewBag.Moduller = liste;
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Firma firma,IFormCollection form)
+        public IActionResult Ekle(Firma firma, IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -93,6 +98,10 @@ namespace logikeyv2.Controllers
 
         public IActionResult Duzenle(int FirmaID)
         {
+            var adres = adresManager.List();
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
             ViewBag.Moduller = liste;
             Firma firma = firmaManager.GetByID(FirmaID);
@@ -109,10 +118,10 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        Firma kayit=firmaManager.GetByID(firma.Firma_ID);
+                        Firma kayit = firmaManager.GetByID(firma.Firma_ID);
                         var moduller = form["FirmaModul_ID[]"];
-                        var hashPswd="";
-                        if (firma.Firma_Sifre!=null && firma.Firma_Sifre!="")
+                        var hashPswd = "";
+                        if (firma.Firma_Sifre != null && firma.Firma_Sifre != "")
                         {
                             hashPswd = ComputeSHA256Hash(firma.Firma_Sifre);
                             kayit.Firma_Sifre = hashPswd;
@@ -132,15 +141,17 @@ namespace logikeyv2.Controllers
                         kayit.Firma_YetkiliEposta = firma.Firma_YetkiliEposta;
                         kayit.DuzenlemeTarihi = DateTime.Now;
                         kayit.FirmaModul_ID = moduller;
+                        kayit.Firma_EFatura_KullaniciAdi = firma.Firma_EFatura_KullaniciAdi;
+                        kayit.Firma_EFatura_Sifre = firma.Firma_EFatura_Sifre;
                         firmaManager.TUpdate(kayit);
-                        Kullanicilar kullanicilar = kullaniciManager.GetAllList(x=>x.Kullanici_Eposta==kayit.Firma_YetkiliEposta).SingleOrDefault();
+                        Kullanicilar kullanicilar = kullaniciManager.GetAllList(x => x.Kullanici_Eposta == kayit.Firma_YetkiliEposta).SingleOrDefault();
                         kullanicilar.KullaniciGrup_ID = 3;
                         kullanicilar.Kullanici_Eposta = firma.Firma_YetkiliEposta;
                         kullanicilar.Kullanici_Isim = firma.Firma_YetkiliAdi;
                         kullanicilar.Kullanici_Soyisim = firma.Firma_YetkiliSoyadi;
-                        if(hashPswd!="")
+                        if (hashPswd != "")
                             kullanicilar.Kullanici_Sifre = hashPswd;
-                      
+
 
                         kullanicilar.DuzenleyenID = KullaniciID;
                         kullanicilar.Kullanici_DuzenlemeTarihi = DateTime.Now;
@@ -193,4 +204,4 @@ namespace logikeyv2.Controllers
     }
 }
 
-   
+

@@ -1,25 +1,109 @@
-﻿@{
-    ViewData["Title"] = "Bakım - Yapım Aşamasında";
+﻿@using BusinessLayer.Concrate
+@using EntityLayer.Concrate
+@model List<Bakim>
+
+@{
+    ViewData["Title"] = "Bakım Ekle";
 }
-<style>
+<div class="col-lg-30 col-xxl-12">
 
-  .container {
-    text-align: center;
-  }
-  h1 {
-    font-size: 36px;
-    color: #343a40;
-    margin-bottom: 20px;
-  }
+    <h2 class="mb-3 lh-sm">Bakımlar</h2>
+    <a asp-controller="Bakim" asp-action="Ekle">Bakım Ekle</a>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
 
-  p {
-    font-size: 18px;
-    color: #6c757d;
-    margin-bottom: 40px;
-  }
+                </div>
+            </div>
+        </div>
 
-</style>
-<div class="container">
-  <h1>Yapım Aşamasında</h1>
-  <p>Sayfa henüz hazır değil.</p>
+    }
+
+
+
+    <div class="p-4 code-to-copy">
+        <div id="tableExample3" data-list='{"valueNames":["cekici","dorse","surucu","servisdurum","servistur"],"page":20,"pagination":true}'>
+            <div class="search-box mb-3 mx-auto">
+                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                    <input class="form-control search-input search form-control-sm" type="search" placeholder="Ara" aria-label="Ara" />
+                    <span class="fas fa-search search-box-icon"></span>
+                </form>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm fs-9 mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sort border-top border-translucent ps-3" data-sort="cekici">Çekici</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="dorse">Dorse</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="surucu">Sürücü</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="servisdurum">Servis Bakım Durumu</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="servistur">Servis Bakım Türü</th>
+                            <th class="sort border-top">
+                                İşlemler
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Helper.AracPlaka(item.CekiciID)</td>
+                                <td>@Helper.AracPlaka(item.DorseID)</td>
+                                <td>@Helper.KullaniciAdi(item.SurucuID)</td>
+                                <td>@Helper.ServisDurumAdi(item.ServisBakimDurumID)</td>
+                                <td>@Helper.ServisTurAdi(item.ServisBakimTurID)</td>
+                                <td>
+                                    <a asp-controller="Bakim" asp-action="Duzenle" asp-route-ID="@item.ID">
+                                        <span class="text-body fs-5" data-feather="edit"></span>
+                                    </a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+                <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
+                            </div>
+                            <form action="Bakim/Sil" method="post">
+                                <div class="modal-body">
+
+                                    <p class="text-body-tertiary lh-lg mb-0">
+                                        <input type="hidden" name="ID" id="silID" value="" />
+                                        Bu öğeyi silmek istediğinizden emin misiniz?
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" type="submit">Sil</button>
+                                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
+                <div class="d-flex">
+                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                    <ul class="mb-0 pagination"></ul><button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

@@ -30,29 +30,30 @@
                 <tr>
 
                     <td>Okul Adı</td>
-                    <td><input type="text" class="form-control" asp-for="Cari_Unvan" /></td>
+                    <td><input type="text" class="form-control" asp-for="Cari_Unvan" required /></td>
                     <td>Okul Telefon No</td>
-                    <td> <input type="text" class="form-control" asp-for="Cari_FirmaTelefon" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_FirmaTelefon" required /></td>
 
                 </tr>
 
                 <tr>
-
                     <td>İl</td>
                     <td>
-                        <select class="form-control" asp-for="Cari_IL_ID" id="Cari_IL_ID">
-                            <option value="0">Seçiniz</option>
-                            <option value="1">izmir</option>
+                        <select class="form-control" asp-for="Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)" required>
+                            <option value="">Seçiniz</option>
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                <option value="@item.IL_KODU">@item.Il</option>
+                            }
+
                         </select>
                     </td>
                     <td>İlçe</td>
                     <td>
-                        <select class="form-control" asp-for="Cari_ILCE_ID" id="Cari_ILCE_ID">
-                            <option value="0">Seçiniz</option>
-                            <option value="1">Konak</option>
-                            <option value="2">Bornova</option>
-                            <option value="3">Karabağlar</option>
-                            <option value="4">Balçova</option>
+                        <select class="form-control" asp-for="Cari_ILCE_ID" id="Cari_ILCE_ID" required>
+                            <option value="">Seçiniz</option>
+
 
                         </select>
                     </td>
@@ -60,41 +61,41 @@
                 <tr>
 
                     <td>Adres</td>
-                    <td colspan="5"> <input type="text" class="form-control" asp-for="Cari_Adres" /></td>
+                    <td colspan="5"> <input type="text" class="form-control" asp-for="Cari_Adres" required /></td>
 
                 </tr>
                 <tr>
 
 
                     <td>Okul Eposta</td>
-                    <td><input type="text" class="form-control" asp-for="Cari_FirmaEposta" /></td>
+                    <td><input type="text" class="form-control" asp-for="Cari_FirmaEposta" required /></td>
 
                     <td>Web Sitesi</td>
-                    <td> <input type="text" class="form-control" asp-for="Cari_WebSitesi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_WebSitesi" required /></td>
 
                 </tr>
 
                 <tr>
 
                     <td>Okul Müdürü Adı</td>
-                    <td> <input type="text" class="form-control" asp-for="Cari_YetkiliAdi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_YetkiliAdi" required /></td>
 
                     <td>Okul Müdürü Soyadı</td>
-                    <td><input type="text" class="form-control" asp-for="Cari_YetkiliSoyadi" /></td>
+                    <td><input type="text" class="form-control" asp-for="Cari_YetkiliSoyadi" required /></td>
 
 
 
                 </tr>
                 <tr>
                     <td>Okul Müdürü Cep Telefon No</td>
-                    <td colspan="5"> <input type="text" class="form-control" asp-for="Cari_CepNo" /></td>
+                    <td colspan="5"> <input type="text" class="form-control" asp-for="Cari_CepNo" required /></td>
 
                 </tr>
                 <tr>
                     <td>Banka Adı 1</td>
-                    <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi1" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi1" required /></td>
                     <td>Banka IBAN No 1</td>
-                    <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN1" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN1" required /></td>
 
                 </tr>
                 <tr>
@@ -121,3 +122,35 @@
     </div>
 
 </div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function IlDegistir(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#Cari_ILCE_ID').empty();
+                    $('#Cari_ILCE_ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Cari_ILCE_ID').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+    </script>
+}
