@@ -653,8 +653,21 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             AkaryakitTasima tasima = akaryakitTasimaManager.GetByID(ID);
+<<<<<<< Updated upstream
             List<AkaryakitTasimaDetay> tasimaDetay = akaryakitTasimaDetayManager.GetAllList(x => x.AkaryakitTasimaID == ID && x.FirmaID == FirmaID);
             List<AkaryakitTasimaDetayUrun> tasimaDetayUrun = akaryakitTasimaDetayUrunManager.GetAllList(x => x.AkaryakitTasimaID == ID && x.FirmaID == FirmaID);
+=======
+            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID);
+            AkaryakitFaturaViewModel viewModel = new AkaryakitFaturaViewModel
+            {
+                Tasima = tasima,
+                FaturaList = faturaList,
+                DetayList = new List<AkaryakitTasimaDetay>(),
+                UrunList = new List<AkaryakitTasimaDetayUrun>(),
+                FaturaKesenList = new List<Cari>(),
+                FaturaKesilenList = new List<Cari>()
+            };
+>>>>>>> Stashed changes
 
             List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID && x.FirmaID == FirmaID);
 

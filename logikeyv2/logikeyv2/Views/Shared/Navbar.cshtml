@@ -78,6 +78,26 @@
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">KDV Oranı</span></div>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a class="nav-link" asp-controller="ServisBakimDurum" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Servis Bakım Durumları</span></div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" asp-controller="ServisBakimTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Servis Bakım Türleri</span></div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" asp-controller="GiderTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Gider Tipleri</span></div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" asp-controller="GiderAltTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Gider Alt Tipleri</span></div>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -415,6 +435,16 @@
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Şöför/Hostes</span></div>
                                             </a>
                                         </li>
+                                        @{
+                                            if(ViewBag.KullaniciGrup_ID == "5")
+                                              {
+                                                <li class="nav-item">
+                                                    <a class="nav-link" asp-controller="Guzergah" asp-action="OkulServisOgrencileri" data-bs-toggle="" aria-expanded="false">
+                                                        <div class="d-flex align-items-center"><span class="nav-link-text">Okul Servis Öğrencileri</span></div>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="OgrenciTahsilat" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Öğrenci Tahsilat</span></div>
