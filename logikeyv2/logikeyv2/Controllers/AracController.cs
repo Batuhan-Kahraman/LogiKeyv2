@@ -42,6 +42,8 @@ namespace logikeyv2.Controllers
         ModelManager modelManager = new ModelManager(new EFModelRepository());
         AracResimlerManager aracResimlerManager = new AracResimlerManager(new EFAracResimRepository());
 
+
+
         public IActionResult Index(int ModulID=0)
         {
             HttpContext.Session.SetInt32("MenuModulID", ModulID);
