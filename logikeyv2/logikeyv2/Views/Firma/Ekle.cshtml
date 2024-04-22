@@ -24,9 +24,9 @@
     <div class="border table-responsive scrollbar p-2">
         <form method="post">
             <table class="table table-borderless">
-
+               
                 <tr>
-
+                    
                     <td>Müşteri Adı</td>
                     <td><input type="text" class="form-control" asp-for="Firma_Unvan" /></td>
                     <td>Müşteri Tipi</td>
@@ -39,7 +39,7 @@
                         </select>
 
                     </td>
-
+                   
                 </tr>
                 <tr>
                     <td>TC Kimlik No / Vergi Kimlik No</td>
@@ -53,24 +53,22 @@
                     </td>
                 </tr>
                 <tr>
-
+                   
                     <td>İl</td>
                     <td>
-                        <select class="form-control" asp-for="Firma_AdresIL_ID" id="Firma_AdresIL_ID" onchange="IlceGetir(this.value)">
+                        <select class="form-control" asp-for="Firma_AdresIL_ID" id="Firma_AdresIL_ID">
                             <option value="0">Seçiniz</option>
-
-                            @foreach (var item in ViewBag.Iller)
-                            {
-
-                                <option value="@item.IL_KODU">@item.Il</option>
-                            }
+                            <option value="1">izmir</option>
                         </select>
                     </td>
                     <td>İlçe</td>
                     <td>
                         <select class="form-control" asp-for="Firma_AdresILCE_ID" id="Firma_AdresILCE_ID">
                             <option value="0">Seçiniz</option>
-
+                            <option value="1">Konak</option>
+                            <option value="2">Bornova</option>
+                            <option value="3">Karabağlar</option>
+                            <option value="4">Balçova</option>
 
                         </select>
                     </td>
@@ -79,26 +77,23 @@
 
                     <td>Adres</td>
                     <td> <input type="text" class="form-control" asp-for="Firma_Adres" /></td>
-
+                   
                 </tr>
                 <tr>
                     <td>Cep Telefon No</td>
                     <td> <input type="text" class="form-control" asp-for="Firma_CepTel" /></td>
-
+                  
                     <td>Modul</td>
                     <td>
-                        @foreach (var item in ViewBag.Moduller)
-                        {
-                            <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID" />
-                            <label>@item.Modul_Adi</label>
-
-                            <br />
+                        @foreach(var item in ViewBag.Moduller){
+                            <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID"/>
+                            <label>@item.Modul_Adi</label><br />
                         }
 
                     </td>
-
-
-
+                    
+                  
+                   
                 </tr>
                 <tr>
 
@@ -107,7 +102,7 @@
                     <td> <input type="text" class="form-control" asp-for="Firma_WebSitesi" /></td>
                     <td>Yetkili Eposta</td>
                     <td><input type="text" class="form-control" asp-for="Firma_YetkiliEposta" /></td>
-
+                    
                 </tr>
                 <tr>
 
@@ -117,7 +112,7 @@
                     <td>Yetkili Soyadı</td>
                     <td><input type="text" class="form-control" asp-for="Firma_YetkiliSoyadi" /></td>
 
-
+                  
 
                 </tr>
 
@@ -130,14 +125,6 @@
 
 
                 </tr>
-                <tr>
-
-                    <td>E-Fatura Kullanıcı Adı</td>
-                    <td> <input type="text" class="form-control" asp-for="Firma_EFatura_KullaniciAdi" /></td>
-
-                    <td>E-Fatura Şifre</td>
-                    <td> <input type="text" class="form-control" asp-for="Firma_EFatura_Sifre" /></td>
-                </tr>
 
 
             </table>
@@ -148,37 +135,3 @@
     </div>
 
 </div>
-@section Scripts {
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        function IlceGetir(IlKodu) {
-
-            $.ajax({
-                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
-                method: 'GET',
-                data: { IlKodu: IlKodu },
-                dataType: 'json',
-                success: function (data) {
-                    $('#Firma_AdresILCE_ID').empty();
-                    $('#Firma_AdresILCE_ID').append($('<option>', {
-                        value: 0, // Verinin değer özelliği
-                        text: "Seçiniz" // Verinin görünen metni
-                    }));
-                    // Verileri selectbox'a ekle
-                    $.each(data, function (index, item) {
-                        console.log(item);
-                        $('#Firma_AdresILCE_ID').append($('<option>', {
-                            value: item.ilcE_KODU, // Verinin değer özelliği
-                            text: item.ilce // Verinin görünen metni
-                        }));
-                    });
-                },
-                error: function (error) {
-                    console.log('Hata oluştu:', error);
-                }
-            });
-        }
-    </script>
-
-}

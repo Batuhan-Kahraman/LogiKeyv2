@@ -26,12 +26,7 @@ namespace EntityLayer.Concrate
             public string? Firma_YetkiliEposta { get; set; }
             public string? Firma_Sifre { get; set; }
             public string? Firma_CepTel { get; set; }
-
-        public string? Firma_EFatura_KullaniciAdi { get; set; }
-        public string? Firma_EFatura_Sifre { get; set; }
-
-
-        public byte Firma_Durum { get; set; }
+            public byte Firma_Durum { get; set; }
             public int EkleyenKullanici_ID { get; set; }
             public DateTime OlusturmaTarihi { get; set; }
             public DateTime DuzenlemeTarihi { get; set; }
