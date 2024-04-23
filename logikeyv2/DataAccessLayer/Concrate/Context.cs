@@ -97,6 +97,18 @@ namespace DataAccessLayer.Concrate
 
         public DbSet<MasrafTuru> MasrafTuru { get; set; }
 
+        public DbSet<ServisBakimDurum> ServisBakimDurum { get; set; }
+        public DbSet<ServisBakimTuru> ServisBakimTuru { get; set; }
+        public DbSet<GiderTip> GiderTip { get; set; }
+        public DbSet<GiderAltTip> GiderAltTip { get; set; }
+        public DbSet<Bakim> Bakim { get; set; }
+        public DbSet<BakimdaKullanilanMalzemeler> BakimdaKullanilanMalzemeler { get; set; }
+        public DbSet<Stok> Stok { get; set; }
+        public DbSet<BakimYeri> BakimYeri { get; set; }
+        public DbSet<BakimStok> BakimStok { get; set; }
+        public DbSet<Tank> Tank { get; set; }
+        public DbSet<Istasyon> Istasyon { get; set; }
+
 
     }
 }

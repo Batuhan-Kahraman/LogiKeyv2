@@ -84,6 +84,17 @@ namespace BusinessLayer.Abstract
     public interface IUyariService : IGenericService<Uyari> { }
     public interface IUyariTipService : IGenericService<UyariTip> { }
     public interface IMasrafTuruService : IGenericService<MasrafTuru> { }
+    public interface IServisBakimDurumService : IGenericService<ServisBakimDurum> { }
+    public interface IServisBakimTuruService : IGenericService<ServisBakimTuru> { }
+    public interface IGiderTipService : IGenericService<GiderTip> { }
+    public interface IGiderAltTipService : IGenericService<GiderAltTip> { }
+    public interface IBakimService : IGenericService<Bakim> { }
+    public interface IBakimdaKullanilanMalzemelerService : IGenericService<BakimdaKullanilanMalzemeler> { }
+    public interface IStokService : IGenericService<Stok> { }
+    public interface IBakimYeriService : IGenericService<BakimYeri> { }
+    public interface IBakimStokService : IGenericService<BakimStok> { }
+    public interface ITankService : IGenericService<Tank> { }
+    public interface IIstasyonService : IGenericService<Istasyon> { }
 
 
 }

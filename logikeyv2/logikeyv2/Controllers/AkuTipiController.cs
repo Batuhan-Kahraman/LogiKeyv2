@@ -37,8 +37,8 @@ namespace logikeyv2.Controllers
                         item.FirmaID =FirmaID;//değişçek
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.OlusturanId = KullaniciID;//değişcek
-                        item.DuzenleyenID = KullaniciID;//değişcek
+                        item.OlusturanId = KullaniciID;
+                        item.DuzenleyenID = KullaniciID;
                         AkuTipiManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -68,9 +68,9 @@ namespace logikeyv2.Controllers
                     {
                         AkuTipi item = AkuTipiManager.GetByID(int.Parse(form["ID"]));
                         item.Adi = form["Adi"];
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = KullaniciID;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         AkuTipiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

@@ -1,0 +1,596 @@
+﻿@using BusinessLayer.Concrate
+@model EntityLayer.Concrate.Bakim
+
+@{
+    ViewData["Title"] = "Bakım Ekle";
+}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    //stok listele
+    function StokListe(sira,ID=0) {
+        $.ajax({
+            url: '../../Ajax/StokListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#StokID' + sira).empty();
+                $('#StokID' + sira).append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#StokID' + sira).append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.stokAdi // Verinin görünen metni
+                    }));
+                });
+
+                document.getElementById('StokID' + sira).value = ID;
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+    }
+
+    //tedarikçi listele
+    function TedarikciListe(sira,ID=0) {
+        $.ajax({
+            url: '../../Ajax/TedarikciListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#TedarikciID' + sira).empty();
+                $('#TedarikciID' + sira).append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#TedarikciID' + sira).append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                });
+                document.getElementById('TedarikciID' + sira).value = ID;
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+    }
+
+    //gider tip listele
+    function GiderTipListe(sira,ID=0) {
+        $.ajax({
+            url: '../../Ajax/GiderTipListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#GiderTipID' + sira).empty();
+                $('#GiderTipID' + sira).append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#GiderTipID' + sira).append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+                document.getElementById('GiderTipID' + sira).value = ID;
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+    }
+
+
+    //gider tip listele
+    function GiderAltTipListe(GiderTipID, sira,ID=0) {
+        $.ajax({
+            url: '../../Ajax/GiderAltTipListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            data: { GiderTipID: GiderTipID },
+            success: function (data) {
+                $('#GiderAltTipID' + sira).empty();
+                $('#GiderAltTipID' + sira).append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#GiderAltTipID' + sira).append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+
+                document.getElementById('GiderAltTipID' + sira).value = ID;
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+    }
+
+    function StokSec(StokID, sira) {
+        $.ajax({
+            url: '../../Ajax/StokSec', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            data: { StokID: StokID },
+            success: function (item) {
+
+                console.log(item);
+                $('#Miktar' + sira).val(item.adet);
+                $('#BirimFiyat' + sira).val(item.birimFiyat);
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+    }
+   
+</script>
+
+<div class="col-lg-30 col-xxl-12">
+
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="ID" />
+            <table class="table table-borderless">
+                <tr>
+                    <td>Çekici</td>
+                    <td>
+                        <select class="form-control" asp-for="CekiciID" id="CekiciID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Tarih Saat</td>
+                    <td><input type="datetime-local" class="form-control" asp-for="TarihSaat" /></td>
+                </tr>
+
+                <tr>
+                    <td>Dorse</td>
+                    <td>
+
+                        <select class="form-control" asp-for="DorseID" id="DorseID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Servis Bakım Durum</td>
+                    <td>
+                        <select class="form-control" asp-for="ServisBakimDurumID" id="ServisBakimDurumID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>Araç Km</td>
+                    <td><input type="number" class="form-control" asp-for="AracKm" step="0.01" /></td>
+                    <td>Servis Bakım Türü</td>
+                    <td>
+                        <select class="form-control" asp-for="ServisBakimTurID" id="ServisBakimTurID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>Sürücü</td>
+                    <td>
+                        <select class="form-control" asp-for="SurucuID" id="SurucuID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+
+                    </td>
+                    <td>Bakım Yeri</td>
+                    <td>
+
+                        <select class="form-control" asp-for="BakimYeri" id="BakimYeri">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Arıza Nedeni</td>
+                    <td>
+                        <textarea class="form-control" asp-for="ArizaNedeni"></textarea>
+                    </td>
+                    <td>Bakım Personeli</td>
+                    <td>
+
+                        <select class="form-control" asp-for="PersonelID" id="PersonelID">
+
+                            <option value="0">Seçiniz</option>
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Yapılması Gereken</td>
+                    <td>
+                        <textarea class="form-control" asp-for="YapilmasiGereken"></textarea>
+                    </td>
+
+                    <td>Açıklama</td>
+                    <td>
+                        <textarea class="form-control" asp-for="Aciklama"></textarea>
+                    </td>
+                </tr>
+
+            </table>
+
+
+            <h6>Kullanılan Malzemeler</h6>
+            <div class="m-3 col-4">
+                <input type="button" onclick="StokEkle()" class="form-control" value="Stok Ekle" />
+
+            </div>
+            <table class="table" id="stokTable">
+                <thead>
+
+                    <tr>
+                        <td>Stok</td>
+                        <td>Miktar</td>
+                        <td>Fiyat</td>
+                        <td>Tedarikçi</td>
+                        <td>Fiş No</td>
+                        <td>Gider Tipi</td>
+                        <td>Gider Alt Tipi</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                            int sayi = 0;
+                        foreach (var item in ViewBag.BakimStok)
+                        {
+                            sayi++;
+                                        <tr>
+                                            <td>
+                                    <input type="hidden" name="BakimStokID@(sayi)[]" value="@item.ID" />
+                                                <select class="form-control" name="StokID@(sayi)[]" id="StokID@(sayi)" onchange="StokSec(this.value,@(sayi))">
+                                                    <option value="0">Seçiniz</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                        <input type="number" class="form-control" name="Miktar@(sayi)[]" id="Miktar@(sayi)" value="@item.Miktar" />
+                                            </td>
+                                            <td>
+                                        <input type="number" class="form-control" name="BirimFiyat@(sayi)[]" id="BirimFiyat@(sayi)" value="@item.BirimFiyat" />
+                                            </td>
+                                            <td>
+                                                <select class="form-control" name="TedarikciID@(sayi)[]" id="TedarikciID@(sayi)">
+                                                    <option value="0">Seçiniz</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="FisNo@(sayi)[]" id="FisNo@(sayi)" value="@item.FisNo"/>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" name="GiderTipID@(sayi)[]" id="GiderTipID@(sayi)" onchange="GiderAltTipListe(this.value,@(sayi))">
+                                                    <option value="0">Seçiniz</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" name="GiderAltTipID@(sayi)[]" id="GiderAltTipID@(sayi)">
+                                                    <option value="0">Seçiniz</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    <script>
+
+                                StokListe(@sayi, @item.StokID);
+                                TedarikciListe(@sayi, @item.TedarikciID);
+                                GiderTipListe(@sayi, @item.GiderTipID);
+                                    GiderAltTipListe(@item.GiderTipID, @sayi,@item.GiderAltTipID);
+                                    </script>
+                        }
+                    }
+                    <script>
+                        items = @sayi;
+                    </script>
+                </tbody>
+            </table>
+            
+            <input type="hidden" name="StokSayisi" id="StokSayisi" value="@(sayi)" />
+            <input type="submit" class="btn btn-success w-100" value="Kaydet" />
+        </form>
+
+    </div>
+
+</div>
+@section Scripts {
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+
+        //sürücü listele
+        $.ajax({
+            url: '../../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#SurucuID').empty();
+                $('#SurucuID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#SurucuID').append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                });
+                var SurucuID = @Json.Serialize(Model.SurucuID);
+
+                if (SurucuID !== null || SurucuID != "") {
+                    document.getElementById("SurucuID").value = @Model.SurucuID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        //servis bakım durum listele
+        $.ajax({
+            url: '../../Ajax/ServisBakimDurumListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#ServisBakimDurumID').empty();
+                $('#ServisBakimDurumID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#ServisBakimDurumID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+                var ServisBakimDurumID = @Json.Serialize(Model.ServisBakimDurumID);
+
+                if (ServisBakimDurumID !== null || ServisBakimDurumID != "") {
+                    document.getElementById("ServisBakimDurumID").value = @Model.ServisBakimDurumID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        //servis bakım türü listele
+        $.ajax({
+            url: '../../Ajax/ServisBakimTuruListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#ServisBakimTurID').empty();
+                $('#ServisBakimTurID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#ServisBakimTurID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+                var ServisBakimTurID = @Json.Serialize(Model.ServisBakimTurID);
+
+                if (ServisBakimTurID !== null || ServisBakimTurID != "") {
+                    document.getElementById("ServisBakimTurID").value = @Model.ServisBakimTurID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        //BakimPersonel listele
+        $.ajax({
+            url: '../../Ajax/BakimPersonelListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#PersonelID').empty();
+                $('#PersonelID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#PersonelID').append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                });
+                var PersonelID = @Json.Serialize(Model.PersonelID);
+
+                if (PersonelID !== null || PersonelID != "") {
+                    document.getElementById("PersonelID").value = @Model.PersonelID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        //servis bakım yeri listele
+        $.ajax({
+            url: '../../Ajax/ServisBakimYeriListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#BakimYeri').empty();
+                $('#BakimYeri').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#BakimYeri').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                });
+                var BakimYeri = @Json.Serialize(Model.BakimYeri);
+
+                if (BakimYeri !== null || BakimYeri != "") {
+                    document.getElementById("BakimYeri").value = @Model.BakimYeri;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        //dorse listele
+        $.ajax({
+            url: '../../Ajax/DorseListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#DorseID').empty();
+                $('#DorseID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#DorseID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.plaka // Verinin görünen metni
+                    }));
+                });
+                var DorseID = @Json.Serialize(Model.DorseID);
+
+                if (DorseID !== null || DorseID != "") {
+                    document.getElementById("DorseID").value = @Model.DorseID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        //çekici listele
+        $.ajax({
+            url: '../../Ajax/CekiciListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#CekiciID').empty();
+                $('#CekiciID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#CekiciID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.plaka // Verinin görünen metni
+                    }));
+                });
+                var CekiciID = @Json.Serialize(Model.CekiciID);
+
+                if (CekiciID !== null || CekiciID != "") {
+                    document.getElementById("CekiciID").value = @Model.CekiciID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+        /***************/
+
+    
+        function StokEkle() {
+            items++;
+            var newRow = document.createElement('tr');
+
+            // Yeni satıra hücreler (td) ekle
+            var cell1 = document.createElement('td');
+            var cell2 = document.createElement('td');
+            var cell3 = document.createElement('td');
+            var cell4 = document.createElement('td');
+            var cell5 = document.createElement('td');
+            var cell6 = document.createElement('td');
+            var cell7 = document.createElement('td');
+
+            // Hücrelere içerik ekle
+            cell1.innerHTML = '<select class="form-control" name="StokID' + items + '[]" id="StokID' + items + '"  onchange="StokSec(this.value,' + items + ')"><option value = "0" > Seçiniz </option></select>';
+            cell2.innerHTML = '<input type="number" class="form-control" name="Miktar' + items + '[]" id="Miktar' + items + '" />';
+            cell3.innerHTML = '<input type="number" class="form-control" name="BirimFiyat' + items + '[]" id="BirimFiyat' + items + '" />';
+            cell4.innerHTML = '<select class="form-control" name="TedarikciID' + items + '[]" id="TedarikciID' + items + '"><option value = "0" > Seçiniz </option></select>';
+            cell5.innerHTML = '<input type="text" class="form-control" name="FisNo' + items + '[]" id="FisNo' + items + '" />';
+            cell6.innerHTML = '<select class="form-control" name="GiderTipID' + items + '[]" id="GiderTipID' + items + '" onchange="GiderAltTipListe(this.value,' + items + ')"><option value = "0" > Seçiniz </option></select>';
+            cell7.innerHTML = '<select class="form-control" name="GiderAltTipID' + items + '[]" id="GiderAltTipID' + items + '"><option value = "0" > Seçiniz </option></select>';
+
+            // Satıra hücreleri ekle
+            newRow.appendChild(cell1);
+            newRow.appendChild(cell2);
+            newRow.appendChild(cell3);
+            newRow.appendChild(cell4);
+            newRow.appendChild(cell5);
+            newRow.appendChild(cell6);
+            newRow.appendChild(cell7);
+
+            // Tablonun tbody bölümüne yeni satırı ekle
+            document.getElementById('stokTable').getElementsByTagName('tbody')[0].appendChild(newRow);
+            document.getElementById('StokSayisi').value = items;
+
+            StokListe(items);
+            TedarikciListe(items);
+            GiderTipListe(items);
+
+        }
+    </script>
+}
