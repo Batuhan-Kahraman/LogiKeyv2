@@ -43,7 +43,7 @@
                 <tr>
                     <td>Kullanıcı Grubu</td>
                     <td>
-                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID">
+                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()">
                             <option value="0">Seçiniz</option>
                             @foreach (var item in ViewBag.KullaniciGrubu)
                             {
@@ -98,8 +98,20 @@
                     </td>
                     <td>İl</td>
                     <td>
-                        <select class="form-control" asp-for="IlID" id="IlID">
+                        <select class="form-control" asp-for="IlID" id="IlID" onchange="IlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
+                            @foreach (var item in ViewBag.Iller)
+                            {
+
+                                if (Model.IlID.ToString() == item.IL_KODU)
+                                {
+                                    <option value="@item.IL_KODU" selected>@item.Il</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.IL_KODU">@item.Il</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td>İlçe</td>
@@ -116,7 +128,7 @@
 
                     </td>
                 </tr>
-                <tr>
+                <tr id="hiddenFields">
                     <td>Ehliyet Sınıfı</td>
                     <td>
                         <select class="form-control" asp-for="EhliyetSinifiID" id="EhliyetSinifiID">
@@ -142,7 +154,7 @@
                     <td>Banka Iban No</td>
                     <td><input type="text" class="form-control" asp-for="BankaIban" /></td>
                 </tr>
-                <tr>
+                <tr id="hiddenFields2">
                     <td>B Geçerlilik Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="BGecerlilikTarih" /></td>
                     <td>BE Geçerlilik Tarihi</td>
@@ -152,7 +164,7 @@
 
 
                 </tr>
-                <tr>
+                <tr id="hiddenFields3">
 
                     <td>C1E Geçerlilik Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="C1EGecerlilikTarih" /></td>
@@ -165,7 +177,7 @@
 
 
                 </tr>
-                <tr>
+                <tr id="hiddenFields4">
 
                     <td>D1 Geçerlilik Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="D1GecerlilikTarih" /></td>
@@ -178,7 +190,7 @@
 
                 </tr>
 
-                <tr>
+                <tr id="hiddenFields5">
 
                     <td>Mesleki Yeterlilik Geç. Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="MeslekiYeterlilikGecTarih" /></td>
@@ -290,5 +302,46 @@
                 hiddenFields5.style.display = "none";
             }
         }
+
+        toggleFields();
+        function IlDegistir(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#IlceID').empty();
+                    $('#IlceID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log("---");
+                        console.log(item);
+                        $('#IlceID').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                    var IlceID = @Json.Serialize(Model.IlceID);
+
+                    if (IlceID !== null) {
+                        document.getElementById("IlceID").value = @Model.IlceID;
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
     </script>
+
+    <script>
+        var IlID = document.getElementById("IlID").value;
+        IlDegistir(IlID);
+    </script>
+
 }

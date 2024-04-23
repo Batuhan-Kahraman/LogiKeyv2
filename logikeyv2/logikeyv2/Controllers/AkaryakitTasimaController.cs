@@ -46,7 +46,6 @@ namespace logikeyv2.Controllers
 
             List<TasimaModel> combinedList = combinedQuery.ToList();
             return View(combinedList);
-            return View(combinedList);
         }
 
         public IActionResult TasimaEkle()

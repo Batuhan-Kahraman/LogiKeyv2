@@ -32,8 +32,8 @@ namespace EntityLayer.Concrate
         public string? KanGrubu { get; set; }
         public string? CepTelefonu { get; set; }
         public string? Adres { get; set; }
-        public int? IlID { get; set; }
-        public int? IlceID { get; set; }
+        public string? IlID { get; set; }
+        public string? IlceID { get; set; }
         public string? Notlar { get; set; }
         public int? EhliyetSinifiID { get; set; }
         public DateTime? EhliyetVerilisTarihi { get; set; }

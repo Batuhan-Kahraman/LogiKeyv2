@@ -16,6 +16,7 @@ namespace logikeyv2.Controllers
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         KullaniciGrubuManager kullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
        AdresOzellikTanimlamaManager adresOzellikTanimlamaManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         public IActionResult Index()
         {
 
@@ -59,7 +60,12 @@ namespace logikeyv2.Controllers
             List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
             ViewBag.SurucuPozisyon = SurucuPozisyon;
             List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
-            ViewBag.EhliyetSinifi = ehliyetSinifi;
+            ViewBag.EhliyetSinifi = ehliyetSinifi; 
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             return View();
         }
         [HttpPost]
@@ -110,6 +116,11 @@ namespace logikeyv2.Controllers
             ViewBag.SurucuPozisyon = SurucuPozisyon;
             List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
             ViewBag.EhliyetSinifi = ehliyetSinifi;
+            var adres = adresManager.List();
+
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             return View(arac);
         }
 
@@ -159,21 +170,22 @@ namespace logikeyv2.Controllers
                         item.D1EGecerlilikTarih = surucu.D1EGecerlilikTarih;
                         item.FGecerlilikTarih = surucu.FGecerlilikTarih;
                         item.Maas = surucu.Maas;
+                        item.IlID = surucu.IlID;
+                        item.IlceID = surucu.IlceID;
                         item.Kullanici_DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;
                         surucuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
 
-                        return View(surucu);
                     }
                     catch (Exception e)
                     {
                         TempData["Msg"] = "İşlem başarısız.Hata: " + e;
                         TempData["Bgcolor"] = "red";
                         transaction.Rollback();
-                        return RedirectToAction("Index");
                     }
+                        return RedirectToAction("Index");
                 }
             }
         }
