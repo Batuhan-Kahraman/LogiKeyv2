@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EntityLayer.Concrate
 {
     public class BakimStok
-    {
+    { 
         [Key]
         public int ID { get; set; }
         [Required] 
