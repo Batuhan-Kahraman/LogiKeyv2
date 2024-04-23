@@ -43,6 +43,12 @@ namespace logikeyv2.Controllers
         NormalTasimaManager normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
         UyariTipManager uyariTipManager = new UyariTipManager(new EFUyariTipRepository());
 
+        ServisBakimDurumManager servisBakimDurumManager =new ServisBakimDurumManager(new EFServisBakimDurumRepository());
+        ServisBakimTuruManager servisBakimTuruManager =new ServisBakimTuruManager(new EFServisBakimTuruRepository());
+        BakimYeriManager bakimYeriManager =new BakimYeriManager(new EFBakimYeriRepository());
+        StokManager stokManager =new StokManager(new EFStokRepository());
+        GiderTipManager giderTipManager =new GiderTipManager(new EFGiderTipRepository());
+        GiderAltTipManager giderAltTipManager =new GiderAltTipManager(new EFGiderAltTipRepository());
 
         #endregion
 
@@ -53,7 +59,71 @@ namespace logikeyv2.Controllers
             List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
             return Json(liste);
         }
+        [HttpGet]
+        public IActionResult ServisBakimDurumListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<ServisBakimDurum> liste = servisBakimDurumManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
         
+        [HttpGet]
+        public IActionResult ServisBakimTuruListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<ServisBakimTuru> liste = servisBakimTuruManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        
+        [HttpGet]
+        public IActionResult ServisBakimYeriListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<BakimYeri> liste = bakimYeriManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        
+        [HttpGet]
+        public IActionResult StokListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Stok> liste = stokManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+
+
+        [HttpGet]
+        public IActionResult TedarikciListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 8);
+            return Json(liste);
+        }
+
+        [HttpGet]
+        public IActionResult GiderTipListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<GiderTip> liste = giderTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult GiderAltTipListe(int GiderTipID)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<GiderAltTip> liste = giderAltTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID && x.GiderTipID==GiderTipID);
+            return Json(liste);
+        }
+        
+        [HttpGet]
+        public IActionResult StokSec(int StokID)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            Stok liste = stokManager.GetByID(StokID);
+            return Json(liste);
+        }
+
+
         [HttpGet]
         public IActionResult UyariTipListe()
         {
@@ -174,6 +244,20 @@ namespace logikeyv2.Controllers
             return Json(liste);
         }
         [HttpGet]
+        public IActionResult TedarikciCariListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 &&  x.Cari_GrupID == 3);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult BakimPersonelListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 7);
+            return Json(liste);
+        }
+        [HttpGet]
         public IActionResult PlakaListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
@@ -196,6 +280,14 @@ namespace logikeyv2.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult IlListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var adres = adresManager.List();
+            var liste =adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+            return Json(liste);
+        }
         [HttpGet]
         public IActionResult IlceListe(string IlKodu)
         {
@@ -232,6 +324,13 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 4 && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult CekiciListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 1 && x.FirmaID == FirmaID);
             return Json(liste);
         }
 

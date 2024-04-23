@@ -93,7 +93,14 @@
 
                             @foreach (var item in ViewBag.CariGrup)
                             {
+                                if(ViewBag.Grup==item.CariGrup_ID)
+                                {
+                                    <option value="@item.CariGrup_ID" selected>@item.CariGrup_Adi</option>
+                                }
+                                else
+                                {
                                 <option value="@item.CariGrup_ID">@item.CariGrup_Adi</option>
+                                }
                             }
                           
                         </select>

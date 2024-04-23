@@ -29,8 +29,9 @@ namespace logikeyv2.Controllers
             return View(liste);
 
         }
-        public IActionResult Ekle()
+        public IActionResult Ekle(int Grup=0)
         {
+            ViewBag.Grup = Grup;
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
             ViewBag.CariGrup = CariGrupList;
