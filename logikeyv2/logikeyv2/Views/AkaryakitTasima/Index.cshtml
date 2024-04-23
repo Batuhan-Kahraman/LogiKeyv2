@@ -60,7 +60,10 @@
                                         <span class="text-body fs-5" data-feather="edit"></span>
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Tasima.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    <a asp-controller="AkaryakitTasima" asp-action="Gorsel" asp-route-ID="@item.Tasima.ID">
 
+                                        <span class="text-body fs-5" data-feather="image"></span>
+                                    </a>
                                 </td>
                             </tr>
                         }

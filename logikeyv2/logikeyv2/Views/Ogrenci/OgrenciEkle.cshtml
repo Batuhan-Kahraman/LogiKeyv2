@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Ogrenci Ekle";
 }
-<div class="col-lg-30 col-xxl-12">
+<div class="col-lg-10 col-xxl-11">
 
     <h2 class="mb-3 lh-sm">Öğrenci Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -28,43 +28,43 @@
                 <tr>
 
                     <td>Öğrenci Adı</td>
-                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliAdi" /></td>
+                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliAdi" required/></td>
                     <td>Öğrenci Soyadı</td>
-                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliSoyadi" /></td>
+                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliSoyadi" required /></td>
 
 
                 </tr>
 
                 <tr>
                     <td>Öğrenci Telefon No</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaTelefon" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaTelefon" required /></td>
                     <td>Öğrenci TC Kimlik No</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_TCNO_VergiNo" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_TCNO_VergiNo" required /></td>
 
 
 
                 </tr>
-           <!--    <tr>
+                <tr>
                     <td>Kayıt Başlangıç Tarihi</td>
-                    <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBaslangicTarihi" /></td>
+                    <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBaslangicTarihi" required /></td>
                     <td>Kayıt Bitiş Tarihi</td>
-                    <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBitisTarihi" /></td>
+                    <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBitisTarihi" required /></td>
 
 
 
-                </tr>-->
+                </tr>
                 <tr>
                     <td>Servis Kullanım Durumu</td>
                     <td>
-                        <select class="form-control" asp-for="OgrenciModulu.Servis_Kullanim_Durumu" id="Servis_Kullanim_Durumu">
-                            <option value="0">Seçiniz</option>
+                        <select class="form-control" asp-for="OgrenciModulu.Servis_Kullanim_Durumu" id="Servis_Kullanim_Durumu" required>
+                            <option value="">Seçiniz</option>
                             <option value="1">Evet</option>
                             <option value="2">Hayır</option>
 
                         </select>
                     </td>
                     <td>Öğrenci Eposta</td>
-                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaEposta" /></td>
+                    <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaEposta" required /></td>
 
 
 
@@ -73,8 +73,8 @@
 
                     <td>Okulu</td>
                     <td>
-                        <select class="form-control" asp-for="OgrenciModulu.CariOkul_ID" id="CariOkul_ID">
-                            <option value="0">Seçiniz</option>
+                        <select class="form-control" asp-for="OgrenciModulu.CariOkul_ID" id="CariOkul_ID" required>
+                            <option value="">Seçiniz</option>
 
                             @foreach (var item in ViewBag.Okullar)
                             {
@@ -83,23 +83,14 @@
                             }
                         </select>
                     </td>
-                 <!--   <td>Şöfor</td>
-                    <td>
-                        <select class="form-control" asp-for="OgrenciModulu.Sofer_ID" id="Sofer_ID">
-                            <option value="0">Seçiniz</option>
-                            @foreach (var item in ViewBag.Sofor)
-                            {
-                                <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
-                            }
-                        </select>
-                    </td>-->
+
                 </tr>
                 <tr>
 
                     <td>İl</td>
                     <td>
-                        <select class="form-control" asp-for="Ogrenci.Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)">
-                            <option value="0">Seçiniz</option>
+                        <select class="form-control" asp-for="Ogrenci.Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)" required>
+                            <option value="">Seçiniz</option>
                             @foreach (var item in ViewBag.Iller)
                             {
 
@@ -110,9 +101,9 @@
                     </td>
                     <td>İlçe</td>
                     <td>
-                        <select class="form-control" asp-for="Ogrenci.Cari_ILCE_ID" id="Cari_ILCE_ID">
-                            <option value="0">Seçiniz</option>
-                          
+                        <select class="form-control" asp-for="Ogrenci.Cari_ILCE_ID" id="Cari_ILCE_ID" required>
+                            <option value="">Seçiniz</option>
+
 
                         </select>
                     </td>
@@ -120,49 +111,49 @@
                 <tr>
 
                     <td>Adres</td>
-                    <td colspan="5"> <input type="text" class="form-control" asp-for="Ogrenci.Cari_Adres" /></td>
+                    <td colspan="5"> <input type="text" class="form-control" asp-for="Ogrenci.Cari_Adres" required /></td>
 
                 </tr>
-            
+
 
                 <tr>
                     <td>1. Veli Adı</td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Adi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Adi" required /></td>
                     <td>1.Veli Soyadı</td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Soyadi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Soyadi" required /></td>
                     <td>1.Veli Telefon No</td>
-                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli1TelefonNo" /></td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli1TelefonNo" required /></td>
                 </tr>
                 <tr>
                     <td>2. Veli Adı</td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Adi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Adi" required /></td>
                     <td>2.Veli Soyadı</td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Soyadi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Soyadi" required /></td>
                     <td>2.Veli Telefon No</td>
-                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli2TelefonNo" /></td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli2TelefonNo" required /></td>
 
                 </tr>
                 <tr>
                     <td>3. Veli Adı</td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Adi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Adi" required /></td>
                     <td>3.Veli Soyadı</td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Soyadi" /></td>
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Soyadi" required /></td>
                     <td>3.Veli Telefon No</td>
-                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli3TelefonNo" /></td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli3TelefonNo" required /></td>
                 </tr>
 
-            
+
                 <tr>
                     <td>Banka Adı 1</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi1" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi1" required /></td>
                     <td>Banka IBAN No 1</td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN1" /></td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN1" required /></td>
 
                 </tr>
-                  <tr>
+                <tr>
                     <td>Bu bilgileri fatura için kullanma</td>
                     <td> <input type="checkbox" asp-for="Ogrenci.FaturaDurum" /></td>
-                    
+
                 </tr>
                 <tr id="hiddenFields">
 
@@ -183,11 +174,12 @@
 
 
                 </tr>
+
                 <tr id="hiddenFields">
 
                     <td>İl</td>
                     <td>
-                        <select class="form-control" name="Fatura_il" id="Cari_IL_ID" onchange="IlDegistirFatura(this.value)">
+                        <select class="form-control" name="Fatura_il" id="Cari_IL_ID2" onchange="IlDegistir2(this.value)">
                             <option value="0">Seçiniz</option>
                             @foreach (var item in ViewBag.Iller)
                             {
@@ -199,7 +191,7 @@
                     </td>
                     <td>İlçe</td>
                     <td>
-                        <select class="form-control" name="Fatura_ilce" id="Cari_ILCE_ID_Fatura">
+                        <select class="form-control" name="Fatura_ilce" id="Cari_ILCE_ID2">
                             <option value="0">Seçiniz</option>
 
 
@@ -232,39 +224,11 @@
         </form>
     </div>
 
-    </div>
-    @section Scripts {
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script>
-            function IlDegistir(IlKodu) {
-
-                $.ajax({
-                    url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
-                    method: 'GET',
-                    data: { IlKodu: IlKodu },
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#Cari_ILCE_ID').empty();
-                        $('#Cari_ILCE_ID').append($('<option>', {
-                            value: 0, // Verinin değer özelliği
-                            text: "Seçiniz" // Verinin görünen metni
-                        }));
-                        // Verileri selectbox'a ekle
-                        $.each(data, function (index, item) {
-                            console.log(item);
-                            $('#Cari_ILCE_ID').append($('<option>', {
-                                value: item.ilcE_KODU, // Verinin değer özelliği
-                                text: item.ilce // Verinin görünen metni
-                            }));
-                        });
-                    },
-                    error: function (error) {
-                        console.log('Hata oluştu:', error);
-                    }
-                });
-            }
-
-        function IlDegistirFatura(IlKodu) {
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function IlDegistir(IlKodu) {
 
             $.ajax({
                 url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
@@ -272,15 +236,15 @@
                 data: { IlKodu: IlKodu },
                 dataType: 'json',
                 success: function (data) {
-                    $('#Cari_ILCE_ID_Fatura').empty();
-                    $('#Cari_ILCE_ID_Fatura').append($('<option>', {
+                    $('#Cari_ILCE_ID').empty();
+                    $('#Cari_ILCE_ID').append($('<option>', {
                         value: 0, // Verinin değer özelliği
                         text: "Seçiniz" // Verinin görünen metni
                     }));
                     // Verileri selectbox'a ekle
                     $.each(data, function (index, item) {
                         console.log(item);
-                        $('#Cari_ILCE_ID_Fatura').append($('<option>', {
+                        $('#Cari_ILCE_ID').append($('<option>', {
                             value: item.ilcE_KODU, // Verinin değer özelliği
                             text: item.ilce // Verinin görünen metni
                         }));
@@ -291,13 +255,40 @@
                 }
             });
         }
-        </script>
+        function IlDegistir2(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#Cari_ILCE_ID2').empty();
+                    $('#Cari_ILCE_ID2').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Cari_ILCE_ID2').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+    </script>
+}
+<style>
+    #hiddenFields {
+        display: none;
     }
-    <style>
-    #hiddenFields{
-        display:none;
-    }
-    </style>
+</style>
 <script>
     // Checkbox durumunu dinleyen fonksiyon
     function toggleHiddenFields() {

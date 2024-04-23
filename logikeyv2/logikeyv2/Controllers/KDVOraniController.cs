@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
 {
-    public class KDVOraniController : Controller
+    [OturumKontrolAttributeController]
+    public class KDVOraniController : BaseController
     {
         KDVOraniManager kDVOraniManager = new KDVOraniManager(new EFKDVOraniRepository());
 

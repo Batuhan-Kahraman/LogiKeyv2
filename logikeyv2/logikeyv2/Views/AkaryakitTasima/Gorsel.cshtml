@@ -1,0 +1,108 @@
+﻿@using BusinessLayer.Concrate
+@model EntityLayer.Concrate.AkaryakitTasima
+
+@{
+    ViewData["Title"] = "Taşıma Görsel";
+}
+<style>
+    .element {
+        width: 100px; /* Örneğin, genişlik */
+        height: 100px; /* Örneğin, yükseklik */
+        background-color: #f00; /* Örneğin, arka plan rengi */
+        border-top-right-radius: 10px; /* Sağ üst köşeye border radius uygulama */
+    }
+</style>
+
+
+<div class="col-lg-10 col-xxl-12">
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <table class="table table-bordered">
+            <tr>
+                <td class="element">
+                    @Model.DuzenlemeTarihi
+                </td>
+                @{
+                    if(Model.Goz1Kapasite!=0)
+                    {
+                        
+                <td>
+                <b>Göz 1</b><br />
+                @Model.Goz1Kapasite</td>
+                    }
+                }@{
+                    if(Model.Goz2Kapasite!=0)
+                    {
+
+                        <td>
+                            <b>Göz 2</b><br />@Model.Goz2Kapasite
+                        </td>
+                    }
+                }
+                @{
+                    if(Model.Goz3Kapasite!=0)
+                    {
+
+                        <td>
+                            <b>Göz 3</b><br />@Model.Goz3Kapasite
+                        </td>
+                    }
+                }
+                @{
+                    if(Model.Goz4Kapasite!=0)
+                    {
+
+                        <td>
+                            <b>Göz 4</b><br />@Model.Goz4Kapasite
+                        </td>
+                    }
+                }
+                @{
+                    if(Model.Goz5Kapasite!=0)
+                    {
+
+                        <td>
+                            <b>Göz 5</b><br />@Model.Goz5Kapasite
+                        </td>
+                    }
+                }
+                @{
+                    if(Model.Goz6Kapasite!=0)
+                    {
+
+                        <td>
+                            <b>Göz 6</b><br />@Model.Goz6Kapasite
+                        </td>
+                    }
+                }
+            </tr>
+      </table>
+      <table class="table table-bordered">
+          <tr>
+              <td>Plaka: @Helper.AracPlaka(Model.AracID)</td>
+              <td>
+                    Sürücü 1: @Helper.KullaniciAdi(Model.Kullanici1ID)</td>
+                <td>Sürücü 2: @Helper.KullaniciAdi(Model.Kullanici2ID)</td>
+                <td>Sürücü 3: @Helper.KullaniciAdi(Model.Kullanici3ID)</td>
+            </tr>
+      </table>
+    </div>
+
+
+</div>
+
+

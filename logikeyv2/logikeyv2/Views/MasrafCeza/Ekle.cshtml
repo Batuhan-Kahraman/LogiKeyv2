@@ -28,8 +28,11 @@
                     <td colspan="6">
                         <select class="form-control" asp-for="Tur" onchange="turDegis(this.value)">
                             <option value="0">Tür Seçiniz</option>
-                            <option value="1">Masraf</option>
-                            <option value="2">Ceza</option>
+                            @foreach (var item in ViewBag.MasrafTurleri)
+                            {
+                            <option value="@item.ID">@item.Adi</option>
+                                
+                            }
                         </select>
 
                     </td>

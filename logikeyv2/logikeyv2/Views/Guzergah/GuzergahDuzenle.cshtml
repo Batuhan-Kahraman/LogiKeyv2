@@ -1,0 +1,429 @@
+﻿@model EntityLayer.Concrate.Guzergah
+
+@{
+    ViewData["Title"] = "Guzergah Duzenle";
+}
+<div class="col-lg-10 col-xxl-11">
+
+    <h2 class="mb-3 lh-sm">Güzergah Duzenle</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+
+                <tr>
+
+                    <td>Güzergah Adı</td>
+                    <td><input type="text" class="form-control" asp-for="Guzergah_Adi" required /></td>
+                    <td>Araç Plakası</td>
+                    <td>
+                        <select class="form-control" asp-for="AracPlaka_ID" id="AracPlaka_ID" required>
+                            <option value="0">Seçiniz</option>
+
+                            @foreach (var item in ViewBag.Arac)
+                            {
+                                <option value="@item.ID">@item.Plaka</option>
+
+                            }
+                        </select>
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>Şöför</td>
+                    <td>
+                        <select class="form-control" asp-for="SoforCari_ID" id="SoforCari_ID" required>
+                            <option value="0">Seçiniz</option>
+
+                            @foreach (var item in ViewBag.Sofor)
+                            {
+                                <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
+
+                            }
+                        </select>
+                    </td>
+                    <td>Hostes</td>
+                    <td>
+                        <select class="form-control" asp-for="HostesCari_ID" id="HostesCari_ID" required>
+                            <option value="0">Seçiniz</option>
+
+                            @foreach (var item in ViewBag.Hostes)
+                            {
+                                <option value="@item.Kullanici_ID">@item.Kullanici_Isim @item.Kullanici_Soyisim</option>
+
+                            }
+                        </select>
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td>Okul</td>
+                    <td colspan="5">
+                        <select name="okulID" class="form-control" id="mySelect2" multiple required>
+                            <option value="">Seçiniz</option>
+                            @foreach (var item in ViewBag.Okullar)
+                            {
+                                <option value="@item.Cari_ID">@item.Cari_Unvan</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>Öğrenciler</td>
+                    <td colspan="5">
+                        <select name="okulID" class="form-control" id="mySelect" multiple required>
+                            <option value="">Seçiniz</option>
+
+
+                        </select>
+                    </td>
+
+
+                </tr>
+                <div id="selectedValuesTableDiv" style="display: none;">
+                    <table id="selectedValuesTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Öğrenci Sıra No</th>
+                                <th>Öğrenci Adı Soyadı</th>
+                                <th>Okula Gidiş Günleri</th>
+                                <th>Okula Gidiş Saatleri</th>
+                                <th>Okuldan Çıkış Günleri</th>
+                                <th>Okuldan Çıkış Saatleri</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+
+
+            </table>
+            <div class="d-flex flex-wrap">
+                <input type="hidden" class="form-control" name="okullar" />
+                <input type="hidden" class="form-control" name="ogrenciler" />
+                <input type="hidden" class="form-control" name="gidisGunleri" />
+                <input type="hidden" class="form-control" name="gidisSaatleri" />
+                <input type="hidden" class="form-control" name="donusGunleri" />
+                <input type="hidden" class="form-control" name="donusSaatleri" />
+                <input type="hidden" class="form-control" name="ogrenciSiraNo" />
+            </div>
+            <input type="submit" class="btn btn-success w-100" value="Güzergah Kaydet" />
+        </form>
+    </div>
+
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#mySelect').select2();
+            $('#mySelect2').select2();
+
+            $('#mySelect2').change(function () {
+                var selectedOkulIDs = $(this).val();
+
+                $('#mySelect').empty();
+
+                selectedOkulIDs.forEach(function (okulID) {
+                    $.ajax({
+                        url: '/Guzergah/OgrenciListesi',
+                        type: 'GET',
+                        data: { okulID: okulID },
+                        success: function (response) {
+                            response.forEach(function (ogrenci) {
+                                $('#mySelect').append('<option value="' + ogrenci.cari_ID + '">' + ogrenci.cari_YetkiliAdi + ' ' + ogrenci.cari_YetkiliSoyadi + '</option>');
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                });
+            });
+
+            $(document).on('change', '.gidis-gunu', function () {
+                var selectedDays = [];
+                var selectedExitDays = [];
+
+                $('.gidis-gunu:checked').each(function () {
+                    var parts = $(this).attr('name').split('_');
+                    var studentOrder = parts[1];
+                    var dayIndex = parts[2];
+                    var dayName = daysArray[dayIndex];
+                    if (!selectedDays[studentOrder]) {
+                        selectedDays[studentOrder] = [];
+                    }
+                    selectedDays[studentOrder].push(dayName);
+                });
+
+                $('.gidis-gunu:not(:checked)').each(function () {
+                    var parts = $(this).attr('name').split('_');
+                    var studentOrder = parts[1];
+                    var dayIndex = parts[2];
+                    var dayName = daysArray[dayIndex];
+                    if (!selectedExitDays[studentOrder]) {
+                        selectedExitDays[studentOrder] = [];
+                    }
+                    selectedExitDays[studentOrder].push(dayName);
+                });
+
+                $('input[name="gidisGunleri"]').val(selectedDays.filter(function (day) { return day != null; }).join(';'));
+            });
+            $(document).on('change', '.donus-gunu', function () {
+                var selectedDays = [];
+                var selectedExitDays = [];
+
+                $('.donus-gunu:checked').each(function () {
+                    var parts = $(this).attr('name').split('_');
+                    var studentOrder = parts[1];
+                    var dayIndex = parts[2];
+                    var dayName = daysArray[dayIndex];
+                    if (!selectedDays[studentOrder]) {
+                        selectedDays[studentOrder] = [];
+                    }
+                    selectedDays[studentOrder].push(dayName);
+                });
+
+                $('.donus-gunu:not(:checked)').each(function () {
+                    var parts = $(this).attr('name').split('_');
+                    var studentOrder = parts[1];
+                    var dayIndex = parts[2];
+                    var dayName = daysArray[dayIndex];
+                    if (!selectedExitDays[studentOrder]) {
+                        selectedExitDays[studentOrder] = [];
+                    }
+                    selectedExitDays[studentOrder].push(dayName);
+                });
+
+                $('input[name="donusGunleri"]').val(selectedExitDays.filter(function (day) { return day != null; }).join(';'));
+            });
+
+            $('#selectedValuesTable tbody').bind('DOMSubtreeModified', function () {
+                if ($(this).children().length > 0) {
+                    $('#selectedValuesTableDiv').show();
+                } else {
+                    $('#selectedValuesTableDiv').hide();
+                }
+            });
+
+            var daysArray = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma"];
+            var daysArray2 = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma"];
+            var hoursArray = ["09:00", "09:00", "09:00", "09:00", "09:00"];
+            var hoursArray2 = ["18:00", "18:00", "18:00", "18:00", "18:00"];
+
+            $(document).on('change', '#mySelect', function () {
+                var tableContent = '';
+                var okulSirasi = 1;
+
+                var selectedOgrenciIDs = $('#mySelect').val();
+                var selectedDays = [];
+                var selectedDays2 = [];
+                var ogrenciSiraNo = [];
+                var selectedHours = [];
+                var selectedHours2 = [];
+
+                for (var i = 0; i < selectedOgrenciIDs.length; i++) {
+                    var selectedText = $('#mySelect option[value="' + selectedOgrenciIDs[i] + '"]').text();
+                    tableContent += '<tr>';
+                    tableContent += '<td><input type="number" class="form-control student-order" min="1" value="' + okulSirasi + '"></td>';
+                    tableContent += '<td>' + selectedText + '</td>';
+                    ogrenciSiraNo.push(okulSirasi.toString());
+                    var daysText = '';
+                    var daysText2 = '';
+                    var selectedDaysForStudent = [];
+                    var selectedHoursForStudent = [];
+                    var selectedHoursForStudent2 = [];
+
+                    for (var j = 0; j < daysArray.length; j++) {
+                        var isChecked = true;
+                        daysText += '<input type="checkbox" class="gidis-gunu" id="gidisGunu_' + okulSirasi + '_' + j + '" name="gidisGunu_' + okulSirasi + '_' + j + '" checked> <label for="gidisGunu_' + okulSirasi + '_' + j + '">' + daysArray[j] + '</label><br>';
+                        daysText2 += '<input type="checkbox" class="donus-gunu" id="donusGunu_' + okulSirasi + '_' + j + '" name="donusGunu_' + okulSirasi + '_' + j + '" checked> <label for="donusGunu_' + okulSirasi + '_' + j + '">' + daysArray[j] + '</label><br>';
+
+                        selectedDaysForStudent.push(daysArray[j]);
+                    }
+                    tableContent += '<td>' + daysText + '</td>';
+                    tableContent += '<td>';
+                    for (var k = 0; k < hoursArray.length; k++) {
+                        tableContent += '<input type="text" class="form-control gidis-saatleri-input" value="' + hoursArray[k] + '">';
+
+                        selectedHoursForStudent.push(hoursArray[k])
+                    }
+                    tableContent += '</td>';
+                    tableContent += '<td>' + daysText2 + '</td>';
+                    tableContent += '<td>';
+                    for (var k = 0; k < hoursArray2.length; k++) {
+                        tableContent += '<input type="text" class="form-control donus-saatleri-input" value="' + hoursArray2[k] + '">';
+                        selectedHoursForStudent2.push(hoursArray2[k])
+                    }
+                    tableContent += '</tr>';
+
+                    // Adding departure and return times
+                    // tableContent += '<tr>';
+                    // tableContent += '<td colspan="2"></td>';
+
+                    // tableContent += '</tr>';
+
+                    okulSirasi++;
+
+                    selectedDays.push(selectedDaysForStudent);
+                    selectedHours.push(selectedHoursForStudent);
+                    selectedHours2.push(selectedHoursForStudent2);
+
+                }
+
+                var $tableBody = $('#selectedValuesTable tbody');
+
+                $tableBody.html(tableContent);
+
+                // $('input[name="gidisGunleri"]').val(JSON.stringify(selectedDays));
+                // $('input[name="donusGunleri"]').val(JSON.stringify(selectedDays));
+                // $('input[name="gidisSaatleri"]').val(JSON.stringify(selectedHours));
+                // $('input[name="donusSaatleri"]').val(JSON.stringify(selectedHours2));
+                // $('input[name="ogrenciSiraNo"]').val(JSON.stringify(ogrenciSiraNo));
+                $('input[name="gidisGunleri"]').val(selectedDays.join(';'))
+                $('input[name="donusGunleri"]').val(selectedDays.join(';'));
+                $('input[name="gidisSaatleri"]').val(selectedHours.join(';'));
+                $('input[name="donusSaatleri"]').val(selectedHours2.join(';'));
+                $('input[name="ogrenciSiraNo"]').val(ogrenciSiraNo.join(';'));
+            });
+
+
+
+
+
+            function updateGidisSaatleri() {
+                var selectedHoursForStudent = [];
+                $('.gidis-saatleri-input').each(function () {
+                    selectedHoursForStudent.push($(this).val());
+                });
+                $('input[name="gidisSaatleri"]').val(selectedHoursForStudent.join(';'));
+            }
+
+            function updateDonusSaatleri() {
+                var selectedHoursForStudent2 = [];
+                $('.donus-saatleri-input').each(function () {
+                    selectedHoursForStudent2.push($(this).val());
+                });
+                $('input[name="donusSaatleri"]').val(selectedHoursForStudent2.join(';'));
+            }
+
+
+
+
+
+
+            $(document).on('blur', '.student-order', function () {
+                var ogrenciSiraNo = [];
+                $('.student-order').each(function () {
+                    ogrenciSiraNo.push($(this).val());
+                });
+
+                $('input[name="ogrenciSiraNo"]').val(ogrenciSiraNo.join(';'));
+            });
+            $(document).on('input', '.gidis-saatleri-input', function () {
+                updateGidisSaatleri();
+            });
+
+            $(document).on('blur', '.donus-saatleri-input', function () {
+                updateDonusSaatleri();
+            });
+            $('#mySelect').on('select2:unselect', function (e) {
+                var selectedOgrenciIDs = $('#mySelect').val();
+                var okulSirasi = 1;
+                var tableContent = '';
+                var selectedDays = [];
+
+                for (var i = 0; i < selectedOgrenciIDs.length; i++) {
+                    var selectedText = $('#mySelect option[value="' + selectedOgrenciIDs[i] + '"]').text();
+                    tableContent += '<tr>';
+                    tableContent += '<td>' + okulSirasi + '</td>';
+                    tableContent += '<td>' + selectedText + '</td>';
+
+                    var daysText = '';
+                    var selectedDaysForStudent = [];
+                    for (var j = 0; j < daysArray.length; j++) {
+                        var isChecked = true;
+                        if (selectedDays.includes(daysArray[j])) {
+                            isChecked = false;
+                        }
+                        daysText += '<input type="checkbox" class="gidis-gunu" id="gidisGunu_' + okulSirasi + '_' + j + '" name="gidisGunu_' + okulSirasi + '_' + j + '" ' + (isChecked ? 'checked' : '') + '> <label for="gidisGunu_' + okulSirasi + '_' + j + '">' + daysArray[j] + '</label><br>';
+                        daysText2 += '<input type="checkbox" class="donus-gunu" id="gidisGunu_' + okulSirasi + '_' + j + '" name="donusGunu_' + okulSirasi + '_' + j + '" ' + (isChecked ? 'checked' : '') + '> <label for="donusGunu_' + okulSirasi + '_' + j + '">' + daysArray[j] + '</label><br>';
+
+                        if (isChecked) {
+                            selectedDaysForStudent.push(daysArray[j]);
+                        }
+                    }
+                    tableContent += '<td>' + daysText + '</td>';
+                    tableContent += '<td>' + daysText2 + '</td>';
+                    tableContent += '</tr>';
+                    okulSirasi++;
+
+                    selectedDays.push(selectedDaysForStudent);
+                }
+
+                var $tableBody = $('#selectedValuesTable tbody');
+
+                $tableBody.html(tableContent);
+
+                $('input[name="gidisGunleri"]').val(selectedDays.join(';'));
+            });
+
+            $('#mySelect2').change(function () {
+                var selectedOkulIDs = $(this).val();
+                var okulIDsString = selectedOkulIDs.join(',');
+                $('input[name="okullar"]').val(okulIDsString);
+            });
+
+            $('#mySelect').change(function () {
+                var selectedOgrenciIDs = $(this).val();
+                var ogrenciIDsString = selectedOgrenciIDs.join(',');
+                $('input[name="ogrenciler"]').val(ogrenciIDsString);
+            });
+
+            $(document).on('change', '.donus-gunu', function () {
+                var selectedDays = [];
+
+                $('.donus-gunu:checked').each(function () {
+                    var parts = $(this).attr('name').split('_');
+                    var studentOrder = parts[1];
+                    var dayIndex = parts[2];
+                    var dayName = daysArray[dayIndex];
+                    if (!selectedDays[studentOrder]) {
+                        selectedDays[studentOrder] = [];
+                    }
+                    selectedDays[studentOrder].push(dayName);
+                });
+
+                $('input[name="donusGunleri"]').val(selectedDays.filter(function (day) { return day != null; }).join(';'));
+            });
+        });
+    </script>
+}
