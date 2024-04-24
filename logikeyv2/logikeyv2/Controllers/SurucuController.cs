@@ -5,6 +5,8 @@ using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace logikeyv2.Controllers
 {
@@ -17,6 +19,8 @@ namespace logikeyv2.Controllers
         KullaniciGrubuManager kullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
        AdresOzellikTanimlamaManager adresOzellikTanimlamaManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+
+        ModullerManager modullerManager = new ModullerManager(new EFModullerRepository());
         public IActionResult Index()
         {
 
@@ -66,10 +70,13 @@ namespace logikeyv2.Controllers
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
+
+            List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
+            ViewBag.TumModuller = liste;
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Kullanicilar surucu)
+        public IActionResult Ekle(Kullanicilar surucu,IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -79,6 +86,15 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
+                        var moduller = form["FirmaModul_ID[]"];
+                        var hashPswd = "";
+                        if (form["Kullanici_Sifre"].ToString() != null && form["Kullanici_Sifre"].ToString() != "")
+                        {
+                            hashPswd = ComputeSHA256Hash(form["Kullanici_Sifre"].ToString());
+                            surucu.Kullanici_Sifre = hashPswd;
+                        }
+
+                        surucu.KullaniciModul_ID = moduller;
                         surucu.Kullanici_Durum = 1;
                         surucu.Firma_ID = FirmaID;
                         surucu.Kullanici_OlusturmaTarihi = DateTime.Now;
@@ -121,11 +137,15 @@ namespace logikeyv2.Controllers
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
+
+
+           List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
+            ViewBag.TumModuller = liste;
             return View(arac);
         }
 
         [HttpPost]
-        public IActionResult Duzenle(Kullanicilar surucu)
+        public IActionResult Duzenle(Kullanicilar surucu,IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -137,8 +157,14 @@ namespace logikeyv2.Controllers
                     {
                         Kullanicilar item = surucuManager.GetByID(surucu.Kullanici_ID);
                         item.SurucuPozisyonID = surucu.SurucuPozisyonID;
-                        item.Kullanici_Sifre= surucu.Kullanici_Sifre;
-                        item.Kullanici_Isim=surucu.Kullanici_Isim;
+                        var hashPswd="";
+                        if (form["Kullanici_Sifre"].ToString() != null && form["Kullanici_Sifre"].ToString() != "")
+                        {
+                            hashPswd = ComputeSHA256Hash(form["Kullanici_Sifre"].ToString());
+                            item.Kullanici_Sifre = hashPswd;
+                        }
+
+                            item.Kullanici_Isim=surucu.Kullanici_Isim;
                         item.Kullanici_Soyisim=surucu.Kullanici_Soyisim;
                         item.TC=surucu.TC;
                         item.GirisTarihi=surucu.GirisTarihi;
@@ -174,6 +200,10 @@ namespace logikeyv2.Controllers
                         item.IlceID = surucu.IlceID;
                         item.Kullanici_DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;
+
+                        var moduller = form["FirmaModul_ID[]"];
+
+                        item.KullaniciModul_ID = moduller;
                         surucuManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -221,6 +251,24 @@ namespace logikeyv2.Controllers
                 }
             }
 
+        }
+
+
+
+        public static string ComputeSHA256Hash(string input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2")); // Convert to hexadecimal representation
+                }
+
+                return builder.ToString();
+            }
         }
     }
 }

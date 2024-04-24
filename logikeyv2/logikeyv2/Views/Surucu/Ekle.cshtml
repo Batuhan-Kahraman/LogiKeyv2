@@ -54,6 +54,22 @@
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" />
                     </td>
+
+                    <td>Modul</td>
+                    <td>
+                        @foreach (var item in ViewBag.TumModuller)
+                        {
+                            if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains(item.Modul_ID.ToString()))
+                            {
+                            <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID" />
+                            <label>@item.Modul_Adi</label>
+                                
+                            }
+
+                            <br />
+                        }
+
+                    </td>
                 </tr>
                 <tr>
                     <td>Doğum Tarihi</td>
@@ -85,7 +101,7 @@
                     </td>
                     <td>Şifre</td>
                     
-                    <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
+                    <td><input type="text" class="form-control" name="Kullanici_Sifre" /></td>
 
                     
                 </tr>

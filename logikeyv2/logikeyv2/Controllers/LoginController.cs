@@ -34,7 +34,10 @@ namespace logikeyv2.Controllers
                 HttpContext.Session.SetString("Firma", firmaAdi);
               
                 HttpContext.Session.SetString("KullaniciGrup_ID",item[0].KullaniciGrup_ID.ToString());
-            
+                if (item[0].KullaniciModul_ID != null)
+                    HttpContext.Session.SetString("KullaniciModul_ID", item[0].KullaniciModul_ID.ToString());
+                else
+                    HttpContext.Session.SetString("KullaniciModul_ID", "");
 
                 var modul = firmaManager.GetByID(FirmaID).FirmaModul_ID;
                 if (modul != null)

@@ -36,6 +36,7 @@ namespace logikeyv2.Controllers
                         item.Adi = form["Adi"];
                         item.Aciklama = form["Aciklama"];
                         item.Kapasite = int.Parse(form["Kapasite"]);
+                        item.MevcutYakit = int.Parse(form["MevcutYakit"]);
                         item.FirmaID =FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
@@ -72,6 +73,7 @@ namespace logikeyv2.Controllers
                         item.Adi = form["Adi"];
                         item.Aciklama = form["Aciklama"];
                         item.Kapasite = int.Parse(form["Kapasite"]);
+                        item.MevcutYakit = int.Parse(form["MevcutYakit"]);
                         item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;

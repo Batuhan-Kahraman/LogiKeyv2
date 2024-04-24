@@ -11,6 +11,7 @@ namespace EntityLayer.Concrate
     {
         [Key]
         public int Kullanici_ID { get; set; }
+        public string? KullaniciModul_ID { get; set; }
         public int? KullaniciGrup_ID { get; set; }
         public string? Kullanici_Isim { get; set; }
         public string? Kullanici_Soyisim { get; set; }

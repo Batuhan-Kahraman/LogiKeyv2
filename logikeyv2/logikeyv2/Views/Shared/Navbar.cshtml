@@ -86,7 +86,7 @@
 
 
                     }
-                    if (ViewBag.KullaniciGrup_ID == "3" || ViewBag.KullaniciGrup_ID == "-1" || ViewBag.KullaniciGrup_ID == "6")
+                    if (ViewBag.KullaniciGrup_ID == "3" || ViewBag.KullaniciGrup_ID == "-1" || ViewBag.KullaniciGrup_ID == "6" && ViewBag.KullaniciModul_ID.ToString().Contains("8"))
                     {
                         <li>
                             <!-- Tanımlamalar -->
@@ -246,13 +246,20 @@
                                             </a>
                                         </li>
 
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="UyariTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Uyarı Tipleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
                     }
                     //akaryakıt modulu
-                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("3"))
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("3") && ViewBag.KullaniciModul_ID.ToString().Contains("3"))
                     {
                         <li>
                             <!-- Akaryakıt Taşıma -->
@@ -357,7 +364,7 @@
                         </li>
                     }
                     //normal modulu
-                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("2"))
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("2")  && ViewBag.KullaniciModul_ID.ToString().Contains("2"))
                     {
                         <li>
                             <!-- Normal Taşıma -->
@@ -460,7 +467,7 @@
                         </li>
                     }
                     //okul servis modulu
-                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("4"))
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("4")  && ViewBag.KullaniciModul_ID.ToString().Contains("4"))
                     {
                         <li>
                             <!-- Okul Servisi -->
@@ -612,13 +619,6 @@
                     <a class="nav-link" asp-controller="Kaza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-text">Kaza</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" asp-controller="UyariTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Uyarı Tipleri</span>
                         </div>
                     </a>
                 </li>

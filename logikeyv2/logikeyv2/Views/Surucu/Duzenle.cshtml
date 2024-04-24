@@ -56,6 +56,35 @@
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" />
                     </td>
+
+
+                    <td>Modul</td>
+                    <td>
+                        @foreach (var item in ViewBag.TumModuller)
+                        {
+
+                            if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains(item.Modul_ID.ToString()))
+                            {
+                                if (ViewBag.Moduller != null && Model.KullaniciModul_ID!=null && Model.KullaniciModul_ID.ToString().Contains(item.Modul_ID.ToString()))
+                                {
+                                    
+                                <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID" checked />
+                                    <label>@item.Modul_Adi</label>
+                                }
+                                else
+                                {
+
+
+                                    <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID"  />
+                                    <label>@item.Modul_Adi</label>
+                                }
+
+                            }
+
+                            <br />
+                        }
+
+                    </td>
                 </tr>
                 <tr>
                     <td>Doğum Tarihi</td>
@@ -79,7 +108,7 @@
                         </select>
                     </td>
                     <td>Şifre</td>
-                    <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
+                    <td><input type="text" class="form-control" name="Kullanici_Sifre" /></td>
 
                 </tr>
                 <tr>
@@ -103,7 +132,7 @@
                             @foreach (var item in ViewBag.Iller)
                             {
 
-                                if (Model.IlID.ToString() == item.IL_KODU)
+                                if (Model.IlID != null && Model.IlID.ToString() == item.IL_KODU)
                                 {
                                     <option value="@item.IL_KODU" selected>@item.Il</option>
                                 }
@@ -232,10 +261,12 @@
                         text: item.adi // Verinin görünen metni
                     }));
                 });
+                debugger;
                 var SurucuPozisyonID = @Json.Serialize(Model.SurucuPozisyonID);
 
-                if (SurucuPozisyonID !== null) {
-                    document.getElementById("SurucuPozisyonID").value = @Model.SurucuPozisyonID;
+                if (SurucuPozisyonID !== null && SurucuPozisyonID!="") {
+                    //document.getElementById("SurucuPozisyonID").value = @Model.SurucuPozisyonID;
+                   console.log("if");
                 }
             },
             error: function (error) {
@@ -265,7 +296,8 @@
                 var EhliyetSinifiID = @Json.Serialize(Model.EhliyetSinifiID);
 
                 if (EhliyetSinifiID !== null) {
-                    document.getElementById("EhliyetSinifiID").value = @Model.EhliyetSinifiID;
+                    //document.getElementById("EhliyetSinifiID").value = @Model.EhliyetSinifiID;
+                    console.log("if");
                 }
             },
             error: function (error) {
@@ -277,7 +309,7 @@
     <script>
         function toggleFields() {
            
-         
+            debugger;
             var selectedOption = document.getElementById("KullaniciGrup_ID");
             var selectedValue = selectedOption.options[selectedOption.selectedIndex].text;
             var hiddenFields = document.getElementById("hiddenFields");
@@ -329,7 +361,8 @@
                     var IlceID = @Json.Serialize(Model.IlceID);
 
                     if (IlceID !== null) {
-                        document.getElementById("IlceID").value = @Model.IlceID;
+                        //document.getElementById("IlceID").value = @Model.IlceID;
+                        console.log("if");
                     }
                 },
                 error: function (error) {
@@ -337,9 +370,8 @@
                 }
             });
         }
-    </script>
+    
 
-    <script>
         var IlID = document.getElementById("IlID").value;
         IlDegistir(IlID);
     </script>
