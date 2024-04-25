@@ -95,6 +95,9 @@ namespace BusinessLayer.Abstract
     public interface IBakimStokService : IGenericService<BakimStok> { }
     public interface ITankService : IGenericService<Tank> { }
     public interface IIstasyonService : IGenericService<Istasyon> { }
+    public interface ITankaYakitEkleService : IGenericService<TankaYakitEkle> { }
+    public interface ITanktanYakitVerService : IGenericService<TanktanYakitVer> { }
+    public interface IIstasyondanYakitVerService : IGenericService<IstasyondanYakitVer> { }
 
 
 }

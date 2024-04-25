@@ -47,6 +47,42 @@
                             <option value="4">Hostes</option>
                         </select>
                     </td>
+
+
+                    <td>Maaş</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Maas" required />
+                    </td>
+
+
+                    <td>Modul</td>
+                    <td>
+                        @foreach (var item in ViewBag.TumModuller)
+                        {
+
+                            if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains(item.Modul_ID.ToString()))
+                            {
+                                if (ViewBag.Moduller != null && Model.KullaniciModul_ID != null && Model.KullaniciModul_ID.ToString().Contains(item.Modul_ID.ToString()))
+                                {
+
+                                    <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID" checked />
+                                    <label>@item.Modul_Adi</label>
+                                }
+                                else
+                                {
+
+
+                                    <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID" />
+                                    <label>@item.Modul_Adi</label>
+                                }
+
+                            }
+
+                            <br />
+                        }
+
+                    </td>
+
                 </tr>
                 <tr>
                     <td>Doğum Tarihi</td>
@@ -78,7 +114,7 @@
                     </td>*@
                     <td>Şifre</td>
 
-                    <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" /></td>
+                    <td><input type="text" class="form-control" name="Kullanici_Sifre" /></td>
 
 
                 </tr>

@@ -33,8 +33,11 @@
                         <input class="form-control" id="Kapasite" type="number" name="Kapasite" placeholder="Kapasite (LT) Giriniz" />
                         </div>
 
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <input class="form-control" id="Aciklama" type="text" name="Aciklama" placeholder="Açıklama Giriniz" />
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" id="MevcutYakit" type="text" name="MevcutYakit" placeholder="Mevcut Yakıtı Giriniz" />
                     </div>
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
@@ -46,7 +49,7 @@
         </div>
     </form>
     <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["name","aciklama","kapasite"],"page":20,"pagination":true}'>
+        <div id="tableExample3" data-list='{"valueNames":["name","aciklama","kapasite","mevcut"],"page":20,"pagination":true}'>
             <div class="search-box mb-3 mx-auto">
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                     <input class="form-control search-input search form-control-sm" type="search" placeholder="Ara" aria-label="Ara" />
@@ -60,6 +63,7 @@
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Adı</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="aciklama">Açıklama</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="kapasite">Kapasite</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="mevcut">Mevcut Yakıt</th>
                             <th class="sort border-top">
                                 İşlemler
                             </th>
@@ -73,8 +77,9 @@
                                 <td>@item.Adi</td>
                                 <td>@item.Aciklama</td>
                                 <td>@item.Kapasite</td>
+                                <td>@item.MevcutYakit</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.ID, '@item.Adi','@item.Aciklama',@item.Kapasite)">
+                                    <a href="#" onclick="Duzenle(@item.ID, '@item.Adi','@item.Aciklama',@item.Kapasite,@item.MevcutYakit)">
                                         <span class="text-body fs-5" data-feather="edit"></span>
                                     </a>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
@@ -124,10 +129,11 @@
 </div>
 @section Scripts {
     <script>
-        function Duzenle(ID, Ad,Aciklama,Kapasite) {
+        function Duzenle(ID, Ad,Aciklama,Kapasite,MevcutYakit) {
             document.getElementById("Adi").value = Ad;
             document.getElementById("Aciklama").value = Aciklama;
             document.getElementById("Kapasite").value = Kapasite;
+            document.getElementById("MevcutYakit").value = MevcutYakit;
             document.getElementById("ID").value = ID;
             document.getElementById("form").setAttribute("action", "Tank/Duzenle");
 

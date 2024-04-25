@@ -111,13 +111,7 @@ namespace logikeyv2.Controllers
                     {
                         Firma kayit=firmaManager.GetByID(firma.Firma_ID);
                         var moduller = form["FirmaModul_ID[]"];
-                        var hashPswd="";
-                        if (firma.Firma_Sifre!=null && firma.Firma_Sifre!="")
-                        {
-                            hashPswd = ComputeSHA256Hash(firma.Firma_Sifre);
-                            kayit.Firma_Sifre = hashPswd;
-
-                        }
+                       
                         kayit.Firma_Adres = firma.Firma_Adres;
                         kayit.Firma_TCNO_VKNO = firma.Firma_TCNO_VKNO;
                         kayit.Firma_AdresILCE_ID = firma.Firma_AdresILCE_ID;
@@ -125,26 +119,11 @@ namespace logikeyv2.Controllers
                         kayit.Firma_CepTel = firma.Firma_CepTel;
                         kayit.Firma_Tipi = firma.Firma_Tipi;
                         kayit.Firma_VergiDairesi = firma.Firma_VergiDairesi;
-                        kayit.Firma_YetkiliSoyadi = firma.Firma_YetkiliSoyadi;
-                        kayit.Firma_YetkiliAdi = firma.Firma_YetkiliAdi;
                         kayit.Firma_Unvan = firma.Firma_Unvan;
                         kayit.Firma_WebSitesi = firma.Firma_WebSitesi;
-                        kayit.Firma_YetkiliEposta = firma.Firma_YetkiliEposta;
                         kayit.DuzenlemeTarihi = DateTime.Now;
                         kayit.FirmaModul_ID = moduller;
                         firmaManager.TUpdate(kayit);
-                        Kullanicilar kullanicilar = kullaniciManager.GetAllList(x=>x.Kullanici_Eposta==kayit.Firma_YetkiliEposta).SingleOrDefault();
-                        kullanicilar.KullaniciGrup_ID = 3;
-                        kullanicilar.Kullanici_Eposta = firma.Firma_YetkiliEposta;
-                        kullanicilar.Kullanici_Isim = firma.Firma_YetkiliAdi;
-                        kullanicilar.Kullanici_Soyisim = firma.Firma_YetkiliSoyadi;
-                        if(hashPswd!="")
-                            kullanicilar.Kullanici_Sifre = hashPswd;
-                      
-
-                        kullanicilar.DuzenleyenID = KullaniciID;
-                        kullanicilar.Kullanici_DuzenlemeTarihi = DateTime.Now;
-                        kullaniciManager.TUpdate(kullanicilar);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                     }

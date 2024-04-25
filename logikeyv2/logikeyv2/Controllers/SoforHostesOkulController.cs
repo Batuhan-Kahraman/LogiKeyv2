@@ -4,6 +4,8 @@ using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace logikeyv2.Controllers
 {
@@ -15,6 +17,7 @@ namespace logikeyv2.Controllers
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         KullaniciGrubuManager kullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+        ModullerManager modullerManager = new ModullerManager(new EFModullerRepository());
 
         public IActionResult Index()
         {
@@ -58,6 +61,9 @@ namespace logikeyv2.Controllers
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
 
+            List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
+            ViewBag.TumModuller = liste;
+
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             ViewBag.Iller = iller;
             List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
@@ -67,7 +73,7 @@ namespace logikeyv2.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SoforHostesEkle(Kullanicilar surucu)
+        public IActionResult SoforHostesEkle(Kullanicilar surucu,IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -77,6 +83,15 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
+                        if (surucu.Kullanici_Sifre != null && surucu.Kullanici_Sifre != "")
+                        {
+                            var hashPswd = ComputeSHA256Hash(surucu.Kullanici_Sifre);
+                            surucu.Kullanici_Sifre = hashPswd;
+                        }
+
+                        var moduller = form["FirmaModul_ID[]"];
+
+                        surucu.KullaniciModul_ID = moduller;
                         surucu.Kullanici_Durum = 1;
                         surucu.Firma_ID = FirmaID;
                         surucu.Kullanici_OlusturmaTarihi = DateTime.Now;
@@ -106,7 +121,23 @@ namespace logikeyv2.Controllers
             }
             return RedirectToAction("Index");
         }
-      
+
+        public static string ComputeSHA256Hash(string input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2")); // Convert to hexadecimal representation
+                }
+
+                return builder.ToString();
+            }
+        }
+
         public IActionResult Duzenle(int SurucuID)
         {
             var adres = adresManager.List();
@@ -114,13 +145,16 @@ namespace logikeyv2.Controllers
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
 
+            List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
+            ViewBag.TumModuller = liste;
+
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             ViewBag.Iller = iller;
             Kullanicilar surucuHostes = surucuManager.GetByID(SurucuID);
             return View(surucuHostes);
         }
         [HttpPost]
-        public IActionResult Duzenle(Kullanicilar surucu)
+        public IActionResult Duzenle(Kullanicilar surucu,IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -141,7 +175,17 @@ namespace logikeyv2.Controllers
                         {
                             item.SurucuPozisyonID = 6;
                         }
-                        item.Kullanici_Sifre = surucu.Kullanici_Sifre;
+                        if(surucu.Kullanici_Sifre!=null && surucu.Kullanici_Sifre!="")
+                        {
+                            var hashPswd = ComputeSHA256Hash(surucu.Kullanici_Sifre);
+                            item.Kullanici_Sifre = hashPswd;
+                        }
+
+
+                        var moduller = form["FirmaModul_ID[]"];
+
+                        item.KullaniciModul_ID = moduller;
+
                         item.Kullanici_Isim = surucu.Kullanici_Isim;
                         item.Kullanici_Soyisim = surucu.Kullanici_Soyisim;
                         item.TC = surucu.TC;

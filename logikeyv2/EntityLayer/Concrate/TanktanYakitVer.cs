@@ -7,15 +7,24 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Concrate
 {
-    public class Tank
+    public class TanktanYakitVer
     {
         [Key]
         public int ID { get; set; }
         [Required] 
-        public string? Adi { get; set; }
+        public int TankID { get; set; }
+        public string? FisNo {  get; set; }
+        public int YakitTipID { get; set; }
+        public int Miktar { get; set; }
+        public int AracID { get; set; }
+        public int DorseID { get; set; }
+        public int Surucu1ID { get; set; }
+        public int Surucu2ID { get; set; }
+        public string? AracKm { get; set; }
+
+
         public string? Aciklama { get; set; }
-        public int? Kapasite { get; set; }
-        public int? MevcutYakit { get; set; }
+
         [Required]
         public int FirmaID { get; set; }
         public bool Durum { get; set; }

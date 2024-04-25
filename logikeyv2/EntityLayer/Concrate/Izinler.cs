@@ -11,8 +11,10 @@ namespace EntityLayer.Concrate
     {
         [Key]
         public int Izin_ID { get; set; }
+        public int ModulID { get; set; }
         public string? Izin_Adi { get; set; }
-        public byte Izin_Ekleme_Sil { get; set; }
+        public byte Izin_Ekleme { get; set; }
+        public byte Izin_Silme { get; set; }
         public byte Izin_Listeleme { get; set; }
         public byte Izin_Guncelleme { get; set; }
         public byte Durum { get; set; }

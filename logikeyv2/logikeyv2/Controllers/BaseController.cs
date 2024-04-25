@@ -16,6 +16,7 @@ namespace logikeyv2.Controllers
             var moduller = HttpContext.Session.GetString("Moduller");
             var KullaniciGrup_ID = HttpContext.Session.GetString("KullaniciGrup_ID");
             var MenuModulID = HttpContext.Session.GetString("MenuModulID");
+            var KullaniciModul_ID = HttpContext.Session.GetString("KullaniciModul_ID");
 
 
             var firmaAdi = HttpContext.Session.GetString("Firma");
@@ -24,6 +25,7 @@ namespace logikeyv2.Controllers
             ViewBag.Eposta = eposta;
             ViewBag.Moduller = moduller;
             ViewBag.KullaniciGrup_ID = KullaniciGrup_ID;
+            ViewBag.KullaniciModul_ID = KullaniciModul_ID;
 
             ViewBag.MenuModulID = MenuModulID;
 

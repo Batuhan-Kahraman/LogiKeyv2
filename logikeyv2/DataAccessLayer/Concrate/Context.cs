@@ -108,6 +108,9 @@ namespace DataAccessLayer.Concrate
         public DbSet<BakimStok> BakimStok { get; set; }
         public DbSet<Tank> Tank { get; set; }
         public DbSet<Istasyon> Istasyon { get; set; }
+        public DbSet<TankaYakitEkle> TankaYakitEkle { get; set; }
+        public DbSet<TanktanYakitVer> TanktanYakitVer { get; set; }
+        public DbSet<IstasyondanYakitVer> IstasyondanYakitVer { get; set; }
 
 
     }
