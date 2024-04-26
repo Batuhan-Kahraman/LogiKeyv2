@@ -98,6 +98,7 @@ namespace BusinessLayer.Abstract
     public interface ITankaYakitEkleService : IGenericService<TankaYakitEkle> { }
     public interface ITanktanYakitVerService : IGenericService<TanktanYakitVer> { }
     public interface IIstasyondanYakitVerService : IGenericService<IstasyondanYakitVer> { }
+    public interface IYakitAltTipiService : IGenericService<YakitAltTipi> { }
 
 
 }

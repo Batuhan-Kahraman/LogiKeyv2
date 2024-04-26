@@ -22,6 +22,7 @@ namespace logikeyv2.Controllers
         MarkaManager markaManager = new MarkaManager(new EFMarkaRepository());
         ModelManager modelManager = new ModelManager(new EFModelRepository());
         YakitTipiManager yakitTipiManager = new YakitTipiManager(new EFYakitTipiRepository());
+        YakitAltTipiManager yakitAltTipiManager = new YakitAltTipiManager(new EFYakitAltTipiRepository());
         AkuTipiManager akuTipiManager = new AkuTipiManager(new EFAkuTipiRepository());
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
@@ -49,9 +50,25 @@ namespace logikeyv2.Controllers
         StokManager stokManager =new StokManager(new EFStokRepository());
         GiderTipManager giderTipManager =new GiderTipManager(new EFGiderTipRepository());
         GiderAltTipManager giderAltTipManager =new GiderAltTipManager(new EFGiderAltTipRepository());
+        IstasyonManager istasyonManager =new IstasyonManager(new EFIstasyonRepository());
+        TankManager tankManager =new TankManager(new EFTankRepository());
 
         #endregion
 
+        [HttpGet]
+        public IActionResult TankListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Tank> liste = tankManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult IstasyonListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Istasyon> liste = istasyonManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
         [HttpGet]
         public IActionResult SahiplikListe()
         {
@@ -206,6 +223,13 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<YakitTipi> liste = yakitTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            return Json(liste);
+        }
+        [HttpGet]
+        public IActionResult YakitAltTipiListe(int ID)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<YakitAltTipi> liste = yakitAltTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.YakitTipiID==ID);
             return Json(liste);
         }
         [HttpGet]

@@ -15,6 +15,66 @@ namespace BusinessLayer.Concrate
 {
     public class Helper : Context
     {
+        public static string Istasyon(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.Istasyon.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public static string Tank(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.Tank.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public static string YakitTipi(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.YakitTipi.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public static string YakitAltTipi(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.YakitAltTipi.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         public static string Modul(int id)
         {
             using (var context = new Context())

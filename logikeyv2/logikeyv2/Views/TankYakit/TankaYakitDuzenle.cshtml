@@ -1,0 +1,205 @@
+﻿@using BusinessLayer.Concrate
+@model EntityLayer.Concrate.TankaYakitEkle
+
+@{
+    ViewData["Title"] = "Tanka Yakıt Ekle";
+}
+
+<div class="col-lg-30 col-xxl-12">
+    
+    <h4 class="mb-3 lh-sm">Tanka Yakıt Ekle</h4>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post" enctype="multipart/form-data">
+            <table class="table table-borderless">
+
+                <tr>
+
+
+                    <td>Tank</td>
+                    <td>
+                        <select class="form-control" asp-for="TankID" id="TankID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Fatura No</td>
+                    <td><input type="text" class="form-control" asp-for="FaturaNo" /></td>
+                </tr>
+                <tr>
+                    <td>Yakıt Tipi</td>
+                    <td>
+                        <select class="form-control" asp-for="YakitTipID" id="YakitTipID" onchange="yakitAltTipListe(this.value)">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Yakıt Alt Tipi</td>
+                    <td>
+                        <select class="form-control" asp-for="YakitAltTipID" id="YakitAltTipID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tedarikçi</td>
+                    <td>
+                        <select class="form-control" asp-for="TedarikciID" id="TedarikciID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Miktar (LT.)</td>
+                    <td><input type="text" class="form-control" asp-for="Miktar" /></td>
+                </tr>
+                <tr>
+
+                    <td>Açıklama</td>
+                    <td colspan="3"><input type="text" class="form-control" asp-for="Aciklama" /></td>
+                </tr>
+
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="Kaydet" />
+        </form>
+
+    </div>
+
+</div>
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+
+
+        //tank listele
+        $.ajax({
+            url: '../../Ajax/TankListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#TankID').empty();
+                $('#TankID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#TankID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    })); var TankID = @Json.Serialize(Model.TankID);
+
+                    if (TankID !== null || TankID != "") {
+                        document.getElementById("TankID").value = @Model.TankID;
+                    }
+                });
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+        //yakıt alt tipi listele
+        function yakitAltTipListe(ID) {
+            $.ajax({
+                url: '../../Ajax/YakitAltTipiListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                data: { ID: ID },
+                success: function (data) {
+                    $('#YakitAltTipID').empty();
+                    $('#YakitAltTipID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#YakitAltTipID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    }); var YakitAltTipID = @Json.Serialize(Model.YakitAltTipID);
+
+                    if (YakitAltTipID !== null || YakitAltTipID != "") {
+                        document.getElementById("YakitAltTipID").value = @Model.YakitAltTipID;
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        //yakıt tipi listele
+        $.ajax({
+            url: '../../Ajax/YakitTipiListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#YakitTipID').empty();
+                $('#YakitTipID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#YakitTipID').append($('<option>', {
+                        value: item.id, // Verinin değer özelliği
+                        text: item.adi // Verinin görünen metni
+                    }));
+                }); var YakitTipID = @Json.Serialize(Model.YakitTipID);
+
+                if (YakitTipID !== null || YakitTipID != "") {
+                    document.getElementById("YakitTipID").value = @Model.YakitTipID;
+                    yakitAltTipListe(@Model.YakitTipID);
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+
+
+        //tedarikci listele
+        $.ajax({
+            url: '../../Ajax/TedarikciListe', // Verileri sağlayan API'nin endpoint'i
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#TedarikciID').empty();
+                $('#TedarikciID').append($('<option>', {
+                    value: 0, // Verinin değer özelliği
+                    text: "Seçiniz" // Verinin görünen metni
+                }));  
+                // Verileri selectbox'a ekle
+                $.each(data, function (index, item) {
+                    console.log(item);
+                    $('#TedarikciID').append($('<option>', {
+                        value: item.kullanici_ID, // Verinin değer özelliği
+                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                    }));
+                }); var TedarikciID = @Json.Serialize(Model.TedarikciID);
+
+                if (TedarikciID !== null || TedarikciID != "") {
+                    document.getElementById("TedarikciID").value = @Model.TedarikciID;
+                }
+            },
+            error: function (error) {
+                console.log('Hata oluştu:', error);
+            }
+        });
+    </script>
+
+}
