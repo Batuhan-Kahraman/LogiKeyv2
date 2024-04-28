@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
+using DataAccessLayer.Migrations;
 using EntityLayer.Concrate;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace logikeyv2.Controllers
         TankaYakitEkleManager tankaYakitEkleManager = new TankaYakitEkleManager(new EFTankaYakitEkleRepository());
         TanktanYakitVerManager tanktanYakitVerManager = new TanktanYakitVerManager(new EFTanktanYakitVerRepository());
         TankManager tankManager = new TankManager(new EFTankRepository());
+        AracManager aracManager = new AracManager(new EFAracRepository());
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
@@ -49,6 +51,17 @@ namespace logikeyv2.Controllers
                         item.DuzenleyenID = KullaniciID;
                         istasyondanYakitVerManager.TAdd(item);
 
+                        Arac arac = aracManager.GetByID(item.AracID);
+                        int? mevcutYakit = arac.MevcutYakit;
+
+
+                        mevcutYakit += item.Miktar;
+                        item.Miktar = item.Miktar;
+                        arac.MevcutYakit = mevcutYakit;
+
+                        arac.DuzenlemeTarihi = DateTime.Now;
+                        arac.DuzenleyenID = KullaniciID;
+                        aracManager.TUpdate(arac);
 
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -82,13 +95,25 @@ namespace logikeyv2.Controllers
                     try
                     {
                         IstasyondanYakitVer item = istasyondanYakitVerManager.GetByID(kayit.ID);
+                        Arac arac = aracManager.GetByID(item.AracID);
+                        int? mevcutYakit = arac.MevcutYakit;
+
+
+                        mevcutYakit -= item.Miktar;
+                        item.Miktar = kayit.Miktar;
+                        arac.MevcutYakit = mevcutYakit + kayit.Miktar;
+
+                        arac.DuzenlemeTarihi = DateTime.Now;
+                        arac.DuzenleyenID = KullaniciID;
+                        aracManager.TUpdate(arac);
+
+
                         item.FaturaNo = kayit.FaturaNo;
                         item.Surucu1ID = kayit.Surucu1ID;
-                        item.Miktar = kayit.Miktar;
                         item.Surucu2ID = kayit.Surucu2ID;
                         item.AracID = kayit.AracID;
                         item.AracKm = kayit.AracKm;
-                        item.DorseID = kayit.DorseID;
+                        item.LtFiyat = kayit.LtFiyat;
                         item.IstasyonID = kayit.IstasyonID;
                         item.LtFiyat = kayit.LtFiyat;
                         item.YakitAltTipID = kayit.YakitAltTipID;
@@ -132,6 +157,18 @@ namespace logikeyv2.Controllers
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;
                         istasyondanYakitVerManager.TUpdate(item);
+
+                        Arac arac = aracManager.GetByID(item.AracID);
+                        int? mevcutYakit = arac.MevcutYakit;
+
+
+                        mevcutYakit -= item.Miktar;
+                        arac.MevcutYakit = mevcutYakit;
+
+                        arac.DuzenlemeTarihi = DateTime.Now;
+                        arac.DuzenleyenID = KullaniciID;
+                        aracManager.TUpdate(arac);
+
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");
@@ -235,8 +272,7 @@ namespace logikeyv2.Controllers
 
 
                         TankaYakitEkle item = tankaYakitEkleManager.GetByID(kayit.ID);
-
-                        item.FaturaNo = kayit.FaturaNo;
+                        mevcutYakit -= item.Miktar;
 
                         mevcutYakit += kayit.Miktar;
                         if (mevcutYakit <= tank.Kapasite)
@@ -251,12 +287,15 @@ namespace logikeyv2.Controllers
                             tank.MevcutYakit = tank.Kapasite;
                         }
 
+
+                        item.FaturaNo = kayit.FaturaNo;
                         item.Aciklama = kayit.Aciklama;
                         item.TankID = kayit.TankID;
                         item.TedarikciID = kayit.TedarikciID;
                         item.YakitAltTipID = kayit.YakitAltTipID;
                         item.YakitTipID = kayit.YakitTipID;
-
+                        item.AracKm = kayit.AracKm;
+                        item.LtFiyat = kayit.LtFiyat;
                         item.Durum = true;
                         item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
@@ -341,15 +380,18 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
+                        Arac arac = aracManager.GetByID(item.AracID);
+                        int? aracMevutYakit = arac.MevcutYakit;
+
                         Tank tank = tankManager.GetByID(item.TankID);
-                        int? mevcutYakit = tank.MevcutYakit;
+                        int? tankMevcutYakit = tank.MevcutYakit;
 
 
-                        mevcutYakit -= item.Miktar;
-                        if (mevcutYakit >= 0)
+                        tankMevcutYakit -= item.Miktar;
+                        if (tankMevcutYakit >= 0)
                         {
                             item.Miktar = item.Miktar;
-                            tank.MevcutYakit = mevcutYakit;
+                            tank.MevcutYakit = tankMevcutYakit;
                         }
                         else
                         {
@@ -366,14 +408,15 @@ namespace logikeyv2.Controllers
                         item.DuzenleyenID = KullaniciID;
                         tanktanYakitVerManager.TAdd(item);
 
-                        /*
-                                                Tank tank = tankManager.GetByID(item.TankID);
-                                                tank.MevcutYakit = (tank.MevcutYakit - item.Miktar) + item.Miktar; 
-                                             */
                         tank.DuzenlemeTarihi = DateTime.Now;
                         tank.DuzenleyenID = KullaniciID;
                         tankManager.TUpdate(tank);
 
+                        aracMevutYakit += item.Miktar;
+                        arac.MevcutYakit = aracMevutYakit;
+                        arac.DuzenlemeTarihi = DateTime.Now;
+                        arac.DuzenleyenID = KullaniciID;
+                        aracManager.TUpdate(arac);
 
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -406,23 +449,34 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        Tank tank = tankManager.GetByID(kayit.TankID);
-                        int? mevcutYakit = tank.MevcutYakit;
 
                         TanktanYakitVer item = tanktanYakitVerManager.GetByID(kayit.ID);
 
-                        mevcutYakit -= kayit.Miktar;
-                        if (mevcutYakit >= 0)
+                        Arac arac = aracManager.GetByID(item.AracID);
+                        int? aracMevutYakit = arac.MevcutYakit;
+
+                        aracMevutYakit -= item.Miktar;
+
+                        Tank tank = tankManager.GetByID(item.TankID);
+                        int? tankMevcutYakit = tank.MevcutYakit;
+
+                        tankMevcutYakit += item.Miktar;
+
+                        item.Miktar = kayit.Miktar;
+
+                        tankMevcutYakit -= item.Miktar;
+                        if (tankMevcutYakit >= 0)
                         {
-                            item.Miktar = kayit.Miktar;
-                            tank.MevcutYakit = mevcutYakit;
+                            item.Miktar = item.Miktar;
+                            tank.MevcutYakit = tankMevcutYakit;
                         }
                         else
                         {
-
-                            item.Miktar = tank.MevcutYakit ?? 0;
+                            item.Miktar = tank.Kapasite ?? 0;
                             tank.MevcutYakit = 0;
                         }
+
+                        
 
                         item.Aciklama = kayit.Aciklama;
                         item.TankID = kayit.TankID;
@@ -432,7 +486,7 @@ namespace logikeyv2.Controllers
                         item.Surucu2ID = kayit.Surucu2ID;
                         item.AracID = kayit.AracID;
                         item.AracKm = kayit.AracKm;
-                        item.DorseID = kayit.DorseID;
+                        item.LtFiyat = kayit.LtFiyat;
                         item.FaturaNo = kayit.FaturaNo;
 
                         item.Durum = true;
@@ -447,12 +501,12 @@ namespace logikeyv2.Controllers
                         tankManager.TUpdate(tank);
 
 
-                        /*     Tank tank = tankManager.GetByID(kayit.TankID);
-                             tank.MevcutYakit = (tank.MevcutYakit - kayit.Miktar) + item.Miktar;
-                             tank.DuzenlemeTarihi = DateTime.Now;
-                             tank.DuzenleyenID = KullaniciID;
-                             tankManager.TUpdate(tank);
-                        */
+
+                        aracMevutYakit += item.Miktar;
+                        arac.MevcutYakit = aracMevutYakit;
+                        arac.DuzenlemeTarihi = DateTime.Now;
+                        arac.DuzenleyenID = KullaniciID;
+                        aracManager.TUpdate(arac);
 
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -486,13 +540,19 @@ namespace logikeyv2.Controllers
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;
                         tanktanYakitVerManager.TUpdate(item);
-                       
+
                         Tank tank = tankManager.GetByID(item.TankID);
                         tank.MevcutYakit = tank.MevcutYakit + item.Miktar;
                         tank.DuzenlemeTarihi = DateTime.Now;
                         tank.DuzenleyenID = KullaniciID;
                         tankManager.TUpdate(tank);
-                      
+
+                        Arac arac=aracManager.GetByID(item.AracID);
+                        arac.MevcutYakit = arac.MevcutYakit - item.Miktar;
+                        arac.DuzenlemeTarihi = DateTime.Now;
+                        arac.DuzenleyenID = KullaniciID;
+                        aracManager.TUpdate(arac);
+
 
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

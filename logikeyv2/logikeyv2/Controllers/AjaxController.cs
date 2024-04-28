@@ -18,6 +18,7 @@ namespace logikeyv2.Controllers
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
         AkaryakitAracTurManager akaryakitAracTurManager = new AkaryakitAracTurManager(new EFAkaryakitAracTurRepository());
         NormalAracTurManager normalAracTurManager = new NormalAracTurManager(new EFNormalAracTurRepository());
+        OkulAracTurManager okulAracTurManager = new OkulAracTurManager(new EFOkulAracTurRepository());
         AracTipManager aracTipManager = new AracTipManager(new EFAracTipRepository());
         MarkaManager markaManager = new MarkaManager(new EFMarkaRepository());
         ModelManager modelManager = new ModelManager(new EFModelRepository());
@@ -178,6 +179,13 @@ namespace logikeyv2.Controllers
                 {
                     var liste = from normalAkaryakitTur in normalAracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
                                 join aracTur in aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID) on normalAkaryakitTur.TurID equals aracTur.ID
+                                select new { AracTur = aracTur };
+                    return Json(liste);
+                }
+                else if (MenuModulID == 4)
+                {
+                    var liste = from okulTur in okulAracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID) on okulTur.TurID equals aracTur.ID
                                 select new { AracTur = aracTur };
                     return Json(liste);
                 }

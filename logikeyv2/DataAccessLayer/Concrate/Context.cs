@@ -112,6 +112,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<TanktanYakitVer> TanktanYakitVer { get; set; }
         public DbSet<IstasyondanYakitVer> IstasyondanYakitVer { get; set; }
         public DbSet<YakitAltTipi> YakitAltTipi { get; set; }
+        public DbSet<OkulAracTur> OkulAracTur { get; set; }
 
 
     }

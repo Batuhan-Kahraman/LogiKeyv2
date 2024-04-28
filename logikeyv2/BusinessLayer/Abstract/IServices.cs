@@ -100,5 +100,6 @@ namespace BusinessLayer.Abstract
     public interface IIstasyondanYakitVerService : IGenericService<IstasyondanYakitVer> { }
     public interface IYakitAltTipiService : IGenericService<YakitAltTipi> { }
 
+    public interface IOkulAracTurService : IGenericService<OkulAracTur> { }
 
 }

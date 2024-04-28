@@ -18,6 +18,8 @@ namespace EntityLayer.Concrate
         public int YakitTipID { get; set; }
         public int YakitAltTipID { get; set; }
         public int Miktar { get; set; }
+        public double LtFiyat { get; set; }
+        public string? AracKm { get; set; }
         public string? Aciklama { get; set; }
 
 

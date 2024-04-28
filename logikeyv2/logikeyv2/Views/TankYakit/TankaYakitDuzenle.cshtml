@@ -6,7 +6,7 @@
 }
 
 <div class="col-lg-30 col-xxl-12">
-    
+
     <h4 class="mb-3 lh-sm">Tanka Yakıt Ekle</h4>
     @if (TempData["Msg"] != null)
     {
@@ -60,8 +60,14 @@
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
+                    <td>Araç Km</td>
+                    <td><input type="text" class="form-control" asp-for="AracKm" /></td>
+                </tr>
+                <tr>
                     <td>Miktar (LT.)</td>
                     <td><input type="text" class="form-control" asp-for="Miktar" /></td>
+                    <td>LT Fiyat</td>
+                    <td><input type="text" class="form-control" asp-for="LtFiyat" /></td>
                 </tr>
                 <tr>
 
@@ -182,7 +188,7 @@
                 $('#TedarikciID').append($('<option>', {
                     value: 0, // Verinin değer özelliği
                     text: "Seçiniz" // Verinin görünen metni
-                }));  
+                }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
                     console.log(item);

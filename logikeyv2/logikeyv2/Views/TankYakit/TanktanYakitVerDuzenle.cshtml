@@ -60,12 +60,8 @@
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
-                    <td>Dorse</td>
-                    <td>
-                        <select class="form-control" asp-for="DorseID" id="DorseID">
-                            <option value="0">Seçiniz</option>
-                        </select>
-                    </td>
+                    <td>Araç Km</td>
+                    <td><input type="text" class="form-control" asp-for="AracKm" /></td>
                 </tr>
                 <tr>
                     <td>Sürücü 1</td>
@@ -84,8 +80,8 @@
                 <tr>
                     <td>Miktar (LT.)</td>
                     <td><input type="text" class="form-control" asp-for="Miktar" /></td>
-                    <td>Araç Km</td>
-                    <td><input type="text" class="form-control" asp-for="AracKm" /></td>
+                    <td>LT Fiyat</td>
+                    <td><input type="text" class="form-control" asp-for="LtFiyat" /></td>
                 </tr>
                 <tr>
 
@@ -198,34 +194,7 @@
 
 
 
-        //dorse
-        $.ajax({
-            url: '../../Ajax/DorseListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#DorseID').empty();
-                $('#DorseID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#DorseID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.plaka // Verinin görünen metni
-                    }));
-                }); var DorseID = @Json.Serialize(Model.DorseID);
-
-                if (DorseID !== null || DorseID != "") {
-                    document.getElementById("DorseID").value = @Model.DorseID;
-                }
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+     
         //arac
         $.ajax({
             url: '../../Ajax/PlakaListe', // Verileri sağlayan API'nin endpoint'i
