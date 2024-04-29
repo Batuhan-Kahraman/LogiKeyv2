@@ -7,22 +7,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
-    public class TankController : BaseController
+    public class YakitAltTipiController : BaseController
     {
-        TankManager TankManager = new TankManager(new EFTankRepository());
+        YakitAltTipiManager YakitAltTipiManager = new YakitAltTipiManager(new EFYakitAltTipiRepository());
+        YakitTipiManager YakitTipiManager = new YakitTipiManager(new EFYakitTipiRepository());
 
 
         public IActionResult Index()
         {
+
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Tank> liste = TankManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<YakitTipi> tip = YakitTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            ViewBag.YakitTip = tip;
+            List<YakitAltTipi> liste = YakitAltTipiManager.GetAllList(x => x.Durum == true && x.FirmaID==FirmaID);
             return View(liste);
         }
 
         [HttpPost]
         public IActionResult Ekle(IFormCollection form)
         {
-
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
@@ -31,28 +34,16 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        string mevcutYakitInput = form["MevcutYakit"];
-                        int mevcutYakit;
-
-                        if (!int.TryParse(mevcutYakitInput, out mevcutYakit))
-                        {
-                            mevcutYakit = 0;
-                        }
-
-
-
-                        Tank item = new Tank();
+                        YakitAltTipi item = new YakitAltTipi();
                         item.Durum = true;
                         item.Adi = form["Adi"];
-                        item.Aciklama = form["Aciklama"];
-                        item.Kapasite = int.Parse(form["Kapasite"]);
-                        item.MevcutYakit = mevcutYakit;
-                        item.FirmaID =FirmaID;
+                        item.YakitTipiID = int.Parse(form["YakitTipiID"]);
+                        item.FirmaID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.OlusturanId = KullaniciID;
                         item.DuzenleyenID = KullaniciID;
-                        TankManager.TAdd(item);
+                        YakitAltTipiManager.TAdd(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");
@@ -79,23 +70,13 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        string mevcutYakitInput = form["MevcutYakit"];
-                        int mevcutYakit;
-
-                        if (!int.TryParse(mevcutYakitInput, out mevcutYakit))
-                        {
-                            mevcutYakit = 0;
-                        }
-
-                        Tank item = TankManager.GetByID(int.Parse(form["ID"]));
-                        item.Adi = form["Adi"];
-                        item.Aciklama = form["Aciklama"];
-                        item.Kapasite = int.Parse(form["Kapasite"]);
-                        item.MevcutYakit = mevcutYakit;
+                        YakitAltTipi item = YakitAltTipiManager.GetByID(int.Parse(form["ID"]));
+                        item.Adi = form["Adi"]; 
+                        item.YakitTipiID = int.Parse(form["YakitTipiID"]);
                         item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;
-                        TankManager.TUpdate(item);
+                        YakitAltTipiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");
@@ -122,12 +103,12 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        Tank item = TankManager.GetByID(int.Parse(form["ID"]));
+                        YakitAltTipi item = YakitAltTipiManager.GetByID(int.Parse(form["ID"]));
                         item.Durum = false;
                         item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;
-                        TankManager.TUpdate(item);
+                        YakitAltTipiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");

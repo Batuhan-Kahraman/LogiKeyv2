@@ -126,7 +126,7 @@ namespace EntityLayer.Concrate
 
         public int? SurucuID { get; set; }
 
-
+        public int? MevcutYakit { get; set; }
 
         [Required]
         public int FirmaID { get; set; }
