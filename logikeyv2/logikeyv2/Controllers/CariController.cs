@@ -24,7 +24,7 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
+            List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID|| x.Firma_ID ==-2));
            
             return View(liste);
 
@@ -33,7 +33,7 @@ namespace logikeyv2.Controllers
         {
             ViewBag.Grup = Grup;
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
+            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             ViewBag.CariGrup = CariGrupList;
             var adres = adresManager.List();
 
@@ -79,7 +79,7 @@ namespace logikeyv2.Controllers
         public IActionResult Duzenle(int ID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
+            var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2)); 
             ViewBag.CariGrup = CariGrupList;
             var adres = adresManager.List();
 
@@ -147,8 +147,8 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.FaturaKesenID == CariID && x.FirmaID == FirmaID);
-            
+            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.FaturaKesenID == CariID && (x.FirmaID == FirmaID || x.FirmaID == -2));
+
 
             ViewBag.Fatura = faturaList;
             ViewBag.CariID = CariID;

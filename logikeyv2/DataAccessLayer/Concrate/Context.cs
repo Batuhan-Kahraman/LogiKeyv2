@@ -104,6 +104,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<Bakim> Bakim { get; set; }
         public DbSet<BakimdaKullanilanMalzemeler> BakimdaKullanilanMalzemeler { get; set; }
         public DbSet<Stok> Stok { get; set; }
+        public DbSet<StokKategori> StokKategori { get; set; }
         public DbSet<BakimYeri> BakimYeri { get; set; }
         public DbSet<BakimStok> BakimStok { get; set; }
         public DbSet<Tank> Tank { get; set; }

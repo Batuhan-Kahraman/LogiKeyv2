@@ -53,10 +53,13 @@
                                 <td>@item.Cari_CepNo</td>
 
                                 <td>
-                                    <a asp-controller="Okul" asp-action="OkulDuzenle" asp-route-Cari_ID="@item.Cari_ID">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Cari_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    @if (item.Firma_ID != -2 || item.Firma_ID == ViewBag.FirmaID)
+                                    {
+                                        <a asp-controller="Okul" asp-action="OkulDuzenle" asp-route-Cari_ID="@item.Cari_ID">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Cari_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

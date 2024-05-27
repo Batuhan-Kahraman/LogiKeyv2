@@ -2,6 +2,7 @@
 using BusinessLayer.Concrate;
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +24,15 @@ namespace logikeyv2.Controllers
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
+                    int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
                     int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
-                    var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x => x.EkleyenKullanici_ID == KullaniciID && x.Durum==true);
+                    var ogrenciTahsilatList = ogrenciTahsilatManager.GetAllList(x => x.EkleyenKullaniciID == KullaniciID && x.Durum==true && x.FirmaID == FirmaID);
                         var cariList = cariManager.GetAllList(x => x.Cari_GrupID == 14);
                         var tahsilatBigileri = context.OgrenciTahsilatBilgileri.Where(x => x.Durum == true).ToList();
                         var combinedQuery = (from ot in ogrenciTahsilatList
                                              join ogrenci in cariList on ot.OgrenciId equals ogrenci.Cari_ID
-                                             join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
-                                             join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
+                                             join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
+                                             join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13 && x.Firma_ID == FirmaID) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
                                              select new OgrenciTahsilatViewModel()
                                              {
                                                  //ogrenciTahsilatBilgileri=tb,
@@ -53,7 +55,7 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
 
-            ViewBag.Okul = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13 && x.Firma_ID==FirmaID);
+            ViewBag.Okul = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             return View();
         }
         [HttpPost]
@@ -63,10 +65,11 @@ namespace logikeyv2.Controllers
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
+                    int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
                     int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
 
                     //var ogrenci = ogrenciTahsilatManager.GetByPropertyName("OgrenciId", ogrenciTahsilat.OgrenciId.ToString());
-                    var ogrenci = ogrenciTahsilatManager.GetAllList(x=> x.OgrenciId == ogrenciTahsilat.OgrenciId && x.EkleyenKullanici_ID == KullaniciID);
+                    var ogrenci = ogrenciTahsilatManager.GetAllList(x=> x.OgrenciId == ogrenciTahsilat.OgrenciId && x.EkleyenKullaniciID == KullaniciID && x.FirmaID == FirmaID);
                     if (ogrenci.Count != 0)
                     {
                         TempData["Msg"] = "Bu öğrencinin kaydı daha önce oluşturulmuştur";
@@ -108,7 +111,7 @@ namespace logikeyv2.Controllers
                 }
                     ogrenciTahsilat.KalanBorcTutar = ogrenciTahsilat.AnlasilanTutar;
                     ogrenciTahsilat.Durum = true;
-                    ogrenciTahsilat.EkleyenKullanici_ID = KullaniciID;
+                    ogrenciTahsilat.EkleyenKullaniciID = KullaniciID;
                     ogrenciTahsilat.OlusturmaTarihi = DateTime.Now;
                     ogrenciTahsilat.DuzenlemeTarihi = DateTime.Now;
                     ogrenciTahsilatManager.TAdd(ogrenciTahsilat);

@@ -16,7 +16,7 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<TasinacakUrun> liste = TasinacakUrunManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<TasinacakUrun> liste = TasinacakUrunManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             ViewBag.UnListesi = UnListesiManager.GetAllList(x=>x.Durum==1);
             return View(liste);
         }

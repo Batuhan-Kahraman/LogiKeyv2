@@ -21,7 +21,7 @@
     }
 
     <div class="border table-responsive scrollbar p-2">
-        <form method="post">
+        <form method="post" onsubmit="return validateCheckboxes()">
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
@@ -29,28 +29,29 @@
                     <td><input type="text" class="form-control" asp-for="TC" /></td>
                     <td>İsim</td>
                     <td>
-                        <input type="text" class="form-control" asp-for="Kullanici_Isim" />
+                        <input type="text" class="form-control" asp-for="Kullanici_Isim" required />
 
                     </td>
                     <td>Soyisim</td>
                     <td>
-                        <input type="text" class="form-control" asp-for="Kullanici_Soyisim" />
+                        <input type="text" class="form-control" asp-for="Kullanici_Soyisim" required />
                     </td>
                 </tr>
                 <tr>
                     <td>Kullanıcı Grubu</td>
                     <td>
-                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()">
-                            <option value="0">Seçiniz</option>
-                          
-                            @foreach (var item in ViewBag.KullaniciGrubu)
-                            {
-                                <option value="@item.KullaniciGrup_ID">@item.KullaniciGrup_Adi</option>
-
-                            }
+                        <a asp-controller="KullaniciGrup" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="KullaniciGrupListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()" required>
+                            <option value="" disabled selected>Seçiniz</option>
+                        
                         </select>
                     </td>
-                    <td>Maaş</td>
+                    <td>Brüt Maaş</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" />
                     </td>
@@ -85,23 +86,24 @@
                 </tr>
                 <tr>
                     <td>E-Posta Adresi</td>
-                    <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" /></td>
+                    <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" required /></td>
                     <td>Pozisyon</td>
                     <td>
-                        
+                        <a asp-controller="SurucuPozisyon" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuPozisyonListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="SurucuPozisyonID" id="SurucuPozisyonID" >
-                            <option value="0">Seçiniz</option>
-                          @*   @foreach (var item in ViewBag.SurucuPozisyon)
-                            {
-                                <option value="@item.ID">@item.Adi</option>
-
-                            } *@
+                            <option value="" disabled selected>Seçiniz</option>
+                        
                            
                         </select>
                     </td>
                     <td>Şifre</td>
                     
-                    <td><input type="text" class="form-control" name="Kullanici_Sifre" /></td>
+                    <td><input type="text" class="form-control" name="Kullanici_Sifre" required /></td>
 
                     
                 </tr>
@@ -122,7 +124,7 @@
                     <td>İl</td>
                     <td>
                         <select class="form-control" asp-for="IlID" id="IlID" onchange="IlDegistir(this.value)">
-                            <option value="0">Seçiniz</option>
+                            <option value="" disabled selected>Seçiniz</option>
                             @foreach (var item in ViewBag.Iller)
                             {
 
@@ -133,7 +135,7 @@
                     <td>İlçe</td>
                     <td>
                         <select class="form-control" asp-for="IlceID" id="IlceID">
-                            <option value="0">Seçiniz</option>
+                            <option value="" disabled selected>Seçiniz</option>
                         </select>
                     </td>
                 </tr>
@@ -147,14 +149,15 @@
                 <tr id="hiddenFields">
                     <td>Ehliyet Sınıfı</td>
                     <td>
-                        
-                        <select class="form-control" asp-for="EhliyetSinifiID" id="EhliyetSinifiID">
-                            <option value="0">Seçiniz</option>
-                          @*   @foreach (var item in ViewBag.EhliyetSinifi)
-                            {
-                                <option value="@item.ID">@item.Adi</option>
 
-                            } *@
+                        <a asp-controller="EhliyetSinifi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="EhliyetSinifiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="EhliyetSinifiID" id="EhliyetSinifiID">
+                            <option value="" disabled selected>Seçiniz</option>
                          
                         </select>
 
@@ -234,56 +237,113 @@
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        //SurucuPozisyon listele
-        $.ajax({
-            url: '../Ajax/SurucuPozisyonListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#SurucuPozisyonID').empty();
-                $('#SurucuPozisyonID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#SurucuPozisyonID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
-                    }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
-        //EhliyetSinifi listele
-        $.ajax({
-            url: '../Ajax/EhliyetSinifiListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#EhliyetSinifiID').empty();
-                $('#EhliyetSinifiID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#EhliyetSinifiID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
-                    }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
+
+        $(document).ready(function () {
+            $('select').select2();
+            const bugün = new Date();
+            let yil = bugün.getFullYear();
+            let ay = ('0' + (bugün.getMonth() + 1)).slice(-2); // Ayı iki haneli yapmak için
+            let gün = ('0' + bugün.getDate()).slice(-2); // Günü iki haneli yapmak için
+            var bugununTarihi = `${yil}-${ay}-${gün}`;
+            $('input[type="date"]').each(function () {
+                $(this).val(bugununTarihi);
+            });
         });
 
+        function KullaniciGrupListe() {
+            //araç tür listele
+            $.ajax({
+                url: '../Ajax/KullaniciGrupListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#KullaniciGrup_ID').empty();
+                    $('#KullaniciGrup_ID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#KullaniciGrup_ID').append($('<option>', {
+                            value: item.kullaniciGrup_ID, // Verinin değer özelliği
+                            text: item.kullaniciGrup_Adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        KullaniciGrupListe();
+
+
+        function SurucuPozisyonListe() {
+            //araç tür listele
+            $.ajax({
+                url: '../Ajax/SurucuPozisyonListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#SurucuPozisyonID').empty();
+                    $('#SurucuPozisyonID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#SurucuPozisyonID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        SurucuPozisyonListe();
+
+        function EhliyetSinifiListe() {
+
+            //EhliyetSinifi listele
+            $.ajax({
+                url: '../Ajax/EhliyetSinifiListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#EhliyetSinifiID').empty();
+                    $('#EhliyetSinifiID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#EhliyetSinifiID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        EhliyetSinifiListe();
     </script>
     <script>
         $(document).ready(function () {
@@ -296,7 +356,12 @@
                         data: { ilKodu: ilKodu },
                         success: function (response) {
                             $('#IlceID').empty();
-                            $('#IlceID').append($('<option>').text('Seçiniz').attr('value', '0'));
+                            $('#IlceID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
                             $.each(response, function (index, ilce) {
                                 $('#IlceID').append($('<option>').text(ilce.Ilce).attr('value', ilce.Adres_ID));
                             });
@@ -373,8 +438,10 @@
                 success: function (data) {
                     $('#IlceID').empty();
                     $('#IlceID').append($('<option>', {
-                        value: 0, // Verinin değer özelliği
-                        text: "Seçiniz" // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
                     }));
                     // Verileri selectbox'a ekle
                     $.each(data, function (index, item) {
@@ -389,6 +456,23 @@
                     console.log('Hata oluştu:', error);
                 }
             });
+        }
+
+
+        function validateCheckboxes() {
+            var checkboxes = document.getElementsByName('FirmaModul_ID[]');
+            var isChecked = false;
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+            if (!isChecked) {
+                alert("Lütfen en az bir modül seçiniz.");
+                return false;
+            }
+            return true;
         }
     </script>
 

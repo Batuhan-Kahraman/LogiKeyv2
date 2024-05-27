@@ -17,9 +17,9 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<DuyuruViewModel> viewModel = duyuruManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+            List<DuyuruViewModel> viewModel = duyuruManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID ==-2))
                .Join(
-               bildirimManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+               bildirimManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                duyuru => duyuru.BildirimID,
                bildirim => bildirim.ID,
                (duyuru, bildirim) => new DuyuruViewModel
@@ -28,10 +28,11 @@ namespace logikeyv2.Controllers
                    BildirimID = duyuru.BildirimID,
                    Icerik = duyuru.Icerik,
                    KategoriAdi  = bildirim.KategoriAdi,
+                   FirmaID=duyuru.FirmaID
                }
                ).ToList();
 
-            List<Bildirim> bildirimler = bildirimManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Bildirim> bildirimler = bildirimManager.GetAllList(x => x.Durum == true &&( x.FirmaID == FirmaID || x.FirmaID==-2));
             ViewBag.AracTur = bildirimler;
             return View(viewModel);
         }

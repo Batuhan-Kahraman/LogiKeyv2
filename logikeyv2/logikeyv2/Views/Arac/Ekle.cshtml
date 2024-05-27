@@ -4,62 +4,6 @@
 @{
     ViewData["Title"] = "Araç Ekle";
 }
-<!--
-<div class="modal fade" id="uyariModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-body-tertiary lh-lg mb-0">Lütfen ruhsat tarattıktan sonra bilgileri giriniz. Bilgileri girdikten sonra ruhsat taratılması halinde veriler silinecektir. </p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Tamam</button>
-            </div>
-        </div>
-    </div>
-</div>
--->
-
-
-<div class="row mb-3">
-    <div class="col-3">
-
-        <input type="button" class="btn btn-success w-100" value="Araç Ekle" />
-    </div>
-    <div class="col-5 text-center">
-        Araç Kayıt Tarihi: @DateTime.Now
-    </div>
-    <!--
-    <div class="col-3">
-        <div class="modal fade" id="ruhsatModal" tabindex="-1" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ruhsatModalLabel">Ruhsat Tarayın</h5>
-                        <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
-                            <svg class="svg-inline--fa fa-xmark fs-9" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg>
-                        </button>
-                    </div>
-                    <!-<form id="fileForm" enctype="multipart/form-data" method="post" asp-controller="Ajax" asp-action="FileUpload">--
-
-                    <form id="fileForm" enctype="multipart/form-data" method="post" action="RuhsatEkle">
-                        <div class="modal-body">
-                            <p class="text-body-tertiary lh-lg mb-0">
-                                <input type="file" id="file" name="file" class="form-control">
-                            </p>
-                        </div>
-                        <div class="modal-footer"><button class="btn btn-primary" type="submit">Oku</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <input type="button" class="btn btn-info w-100" value="Ruhsattan Bilgi Tara" data-bs-toggle="modal" data-bs-target="#ruhsatModal" />
-    </div>-->
-</div>
-
 <div class="col-lg-30 col-xxl-12">
 
     @if (TempData["Msg"] != null)
@@ -86,33 +30,60 @@
                         <h5 style="color:#fff !important;">Sahiplik</h5>
                     </td>
                     <td>Plaka</td>
-                    <td><input type="text" class="form-control" asp-for="Plaka" /></td>
+                    <td><input type="text" class="form-control" asp-for="Plaka" required /></td>
+
+                    <td>Araç Türü</td>
+                    <td>
+
+                        <a asp-controller="AracTur" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracTurListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value);" required>
+                            <option value="" disabled selected>Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Araç Tipi</td>
+                    <td>
+                        <a asp-controller="AracTip" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracTipListele(document.getElementById('AracTurID').value" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="AracTipID" id="AracTipID" required>
+                            <option value="" disabled selected>Seçiniz</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>Sahiplik</td>
                     <td>
+                        <a asp-controller="Sahiplik" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SahiplikListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="SahiplikID" id="SahiplikID" onchange="SahiplikKontrol(this.value)">
-                            <option value="0">Seçiniz</option>
+                            <option value="" disabled selected>Seçiniz</option>
                         </select>
 
                     </td>
                     <td>Grup</td>
                     <td>
+
+                        <a asp-controller="Grup" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="GrupListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="GrupID" id="GrupID">
                             <option value="0">Seçiniz</option>
 
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Araç Türü</td>
-                    <td>
-                        <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value);">
-                            <option value="0">Seçiniz</option>
-                        </select>
-                    </td>
-                    <td>Araç Tipi</td>
-                    <td>
-                        <select class="form-control" asp-for="AkuTipID" id="AracTipID">
-                            <option value="0">Seçiniz</option>
                         </select>
                     </td>
                     <td>Bakım Periyodu (KM)</td>
@@ -120,7 +91,7 @@
                 </tr>
                 <tr id="GozSatir1" style="display:none;">
                     <td>Göz 1</td>
-                    <td><input type="text" class="form-control" asp-for="Goz1" /></td>
+                    <td><input type="text" class="form-control" asp-for="Goz1" id="Goz1" /></td>
                     <td>Göz 2</td>
                     <td><input type="text" class="form-control" asp-for="Goz2" /></td>
                     <td>Göz 3</td>
@@ -136,24 +107,38 @@
                 </tr>
                 <tr id="KapasiteSatir1" style="display:none;">
                     <td>Kapasite</td>
-                    <td colspan="5"><input type="text" class="form-control" asp-for="Goz1" /></td>
-                  
-                </tr>
-                 <tr id="bosSatir1">
+                    <td colspan="5"><input type="text" class="form-control" asp-for="Goz1" id="Kapasite" /></td>
 
-                </tr><tr id="bosSatir2"></tr>
+                </tr>
+                <tr id="bosSatir1">
+                </tr>
+                <tr id="bosSatir2"></tr>
                 <tr>
                     <td>Marka</td>
                     <td>
-                        <select class="form-control" asp-for="MarkaID" id="MarkaID" onchange="ModelListele(this.value)">
-                            <option value="0">Seçiniz</option>
+
+                        <a asp-controller="Marka" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="MarkaListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="MarkaID" id="MarkaID" onchange="ModelListele(this.value)" required>
+                            <option value="" disabled selected>Seçiniz</option>
                         </select>
 
                     </td>
                     <td>Model</td>
                     <td>
-                        <select class="form-control" asp-for="ModelID" id="ModelID">
-                            <option value="0">Seçiniz</option>
+
+                        <a asp-controller="Model" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="ModelListele(document.getElementById('MarkaID').value" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="ModelID" id="ModelID" required>
+                            <option value="" disabled selected>Seçiniz</option>
                         </select>
 
                     </td>
@@ -163,14 +148,22 @@
                 <tr>
                     <td>Sürücü</td>
                     <td>
+
+                        <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="SurucuID" id="SurucuID">
-                            
+
                             <option value="0">Seçiniz</option>
                         </select>
 
                     </td>
                     <td>Şirketi</td>
                     <td colspan="3">
+
                         <select class="form-control" asp-for="SirketID" id="SirketID">
                             <!--  todo:sahipliğe göre cari listelenecek -->
                             <option value="0">Seçiniz</option>
@@ -246,6 +239,13 @@
 
                     <td>Yakıt Tipi</td>
                     <td>
+
+                        <a asp-controller="YakitTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="YakitTipiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="YakitTipiID" id="YakitTipiID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -286,18 +286,37 @@
 
                     <td>Lastik Tip 1 </td>
                     <td>
+
+                        <a asp-controller="LastikTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="LastikTipiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="LastikTip1" id="LastikTip1">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
                     <td>Lastik Tip 2 </td>
                     <td>
+                        <a asp-controller="LastikTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="LastikTipiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="LastikTip2" id="LastikTip2">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
                     <td>Lastik Tip 3 </td>
                     <td>
+                        <a asp-controller="LastikTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="LastikTipiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="LastikTip3" id="LastikTip3">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -316,6 +335,12 @@
 
                     <td>Akü Tipi</td>
                     <td>
+                        <a asp-controller="AkuTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AkuTipiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="AkuTipID" id="AkuTipID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -531,7 +556,24 @@
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
+
+        $(document).ready(function () {
+            $('select').select2();
+            const bugün = new Date();
+            let yil = bugün.getFullYear();
+            let ay = ('0' + (bugün.getMonth() + 1)).slice(-2); // Ayı iki haneli yapmak için
+            let gün = ('0' + bugün.getDate()).slice(-2); // Günü iki haneli yapmak için
+            var bugununTarihi = `${yil}-${ay}-${gün}`;
+            $('input[type="date"]').each(function () {
+                $(this).val(bugununTarihi);
+            });
+        });
+    </script>
+    <script>
+        function SahiplikListe() {
         //sahiplik listele
         $.ajax({
             url: '../Ajax/SahiplikListe', // Verileri sağlayan API'nin endpoint'i
@@ -540,8 +582,10 @@
             success: function (data) {
                 $('#SahiplikID').empty();
                 $('#SahiplikID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
@@ -556,6 +600,9 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        SahiplikListe();
+        function GrupListe() {
         //grup listele
         $.ajax({
             url: '../Ajax/GrupListe', // Verileri sağlayan API'nin endpoint'i
@@ -564,8 +611,10 @@
             success: function (data) {
                 $('#GrupID').empty();
                 $('#GrupID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
@@ -580,7 +629,10 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        GrupListe();
 
+        function AracTurListe() {
         //araç tür listele
         $.ajax({
             url: '../Ajax/AracTurListe', // Verileri sağlayan API'nin endpoint'i
@@ -589,15 +641,17 @@
             success: function (data) {
                 $('#AracTurID').empty();
                 $('#AracTurID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
                     console.log(item);
                     $('#AracTurID').append($('<option>', {
                         value: item.aracTur.id, // Verinin değer özelliği
-                        text:  item.aracTur.adi // Verinin görünen metni
+                        text: item.aracTur.adi // Verinin görünen metni
                     }));
                 });
             },
@@ -605,20 +659,25 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        AracTurListe();
+
         //araç türüne göre araç tipleri listele
         function AracTipListele(AracTurID) {
             if (AracTurID == 1 || AracTurID == 4 || AracTurID == 13) {
-                document.getElementById("GozSatir1").style.display = "";
-                document.getElementById("GozSatir2").style.display = "";
-                document.getElementById("KapasiteSatir1").style.display = "none";
-                document.getElementById("bosSatir1").style.display = "none";
-                document.getElementById("bosSatir2").style.display = "none";
-            } else {
-
                 document.getElementById("GozSatir1").style.display = "none";
                 document.getElementById("GozSatir2").style.display = "none";
                 document.getElementById("KapasiteSatir1").style.display = "";
+                $('#Kapasite').attr('required', true);
                 document.getElementById("bosSatir1").style.display = "";
+                document.getElementById("bosSatir2").style.display = "none";
+            } else {
+
+                document.getElementById("GozSatir1").style.display = "";
+                document.getElementById("GozSatir2").style.display = "";
+                $('#Goz1').attr('required', true);
+                document.getElementById("KapasiteSatir1").style.display = "none";
+                document.getElementById("bosSatir1").style.display = "none";
                 document.getElementById("bosSatir2").style.display = "none";
             }
             $.ajax({
@@ -629,8 +688,10 @@
                 success: function (data) {
                     $('#AracTipID').empty();
                     $('#AracTipID').append($('<option>', {
-                        value: 0, // Verinin değer özelliği
-                        text: "Seçiniz" // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
                     }));
                     // Verileri selectbox'a ekle
                     $.each(data, function (index, item) {
@@ -647,7 +708,7 @@
             });
         }
 
-
+        function MarkaListe() {
         //marka listele
         $.ajax({
             url: '../Ajax/MarkaListe', // Verileri sağlayan API'nin endpoint'i
@@ -656,8 +717,10 @@
             success: function (data) {
                 $('#MarkaID').empty();
                 $('#MarkaID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
@@ -672,6 +735,8 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        MarkaListe();
         //markaya göre model listele
         function ModelListele(MarkaID) {
 
@@ -683,8 +748,10 @@
                 success: function (data) {
                     $('#ModelID').empty();
                     $('#ModelID').append($('<option>', {
-                        value: 0, // Verinin değer özelliği
-                        text: "Seçiniz" // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
                     }));
                     // Verileri selectbox'a ekle
                     $.each(data, function (index, item) {
@@ -701,6 +768,8 @@
             });
         }
 
+        function YakitTipiListe(){
+            
         //yakit tipi listele
         $.ajax({
             url: '../Ajax/YakitTipiListe', // Verileri sağlayan API'nin endpoint'i
@@ -709,8 +778,10 @@
             success: function (data) {
                 $('#YakitTipiID').empty();
                 $('#YakitTipiID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
@@ -725,33 +796,42 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        YakitTipiListe();
 
-        //akü tipi listele
-        $.ajax({
-            url: '../Ajax/AkuTipiListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#AkuTipID').empty();
-                $('#AkuTipID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+        function AkuTipiListe() {
+
+            //akü tipi listele
+            $.ajax({
+                url: '../Ajax/AkuTipiListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#AkuTipID').empty();
                     $('#AkuTipID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#AkuTipID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        AkuTipiListe();
 
-
+        function LastikTipiListe() {
+            
         //lastik tipi listele
         $.ajax({
             url: '../Ajax/LastikTipListe', // Verileri sağlayan API'nin endpoint'i
@@ -762,8 +842,10 @@
                 $('#LastikTip2').empty();
                 $('#LastikTip3').empty();
                 $('#LastikTip1').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
@@ -774,8 +856,10 @@
                     }));
                 });
                 $('#LastikTip2').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
@@ -786,8 +870,10 @@
                     }));
                 });
                 $('#LastikTip3').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
+                    value: "", // Verinin değer özelliği
+                    text: "Seçiniz", // Verinin görünen metni
+                    disabled: true, // Option elementini devre dışı bırak
+                    selected: true  // Option elementini seçili yap
                 }));
                 // Verileri selectbox'a ekle
                 $.each(data, function (index, item) {
@@ -802,54 +888,62 @@
                 console.log('Hata oluştu:', error);
             }
         });
-        //sürücü listele
-        $.ajax({
-            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#SurucuID').empty();
-                $('#SurucuID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#SurucuID').append($('<option>', {
-                        value: item.kullanici_ID, // Verinin değer özelliği
-                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
-                    }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
-
-      /*  function TurKontrol(TurID) { 
-        if(TurID==1)
-                document.getElementById('username').setAttribute('required', 'true');
         }
-        */
+        LastikTipiListe();
 
-       function SahiplikKontrol(SahiplikID)
-       {
-           if (SahiplikID == 5) {
+        function SurucuListe() {
+            //sürücü listele
+            $.ajax({
+                url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#SurucuID').empty();
+                    $('#SurucuID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#SurucuID').append($('<option>', {
+                            value: item.kullanici_ID, // Verinin değer özelliği
+                            text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+
+        }
+        SurucuListe();
+
+        /*  function TurKontrol(TurID) {
+          if(TurID==1)
+                  document.getElementById('username').setAttribute('required', 'true');
+          }
+          */
+
+        function SahiplikKontrol(SahiplikID) {
+            if (SahiplikID == 5) {
                 var element = document.getElementById("Taseron");
                 if (element !== null) {
                     element.style.display = "none";
                 }
-               document.getElementById("Kiralama").style.display = "table-row";
-           }
+                document.getElementById("Kiralama").style.display = "table-row";
+            }
             else if (SahiplikID == 4) {
                 var element = document.getElementById("Kiralama");
                 if (element !== null) {
                     element.style.display = "none";
                 }
-               document.getElementById("Taseron").style.display = "table-row";
-           }
-       }
+                document.getElementById("Taseron").style.display = "table-row";
+            }
+        }
     </script>
     @if (Model == null)
     {
@@ -859,4 +953,4 @@
             });
         </script>
     }
-    }
+}

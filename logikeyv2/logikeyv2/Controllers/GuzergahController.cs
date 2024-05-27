@@ -23,10 +23,10 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var combinedQuery = from guzergah in guzergahManager.GetAllList(x => x.Durum == true && x.FirmaID== FirmaID)
-                                join arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID==FirmaID)) on guzergah.AracPlaka_ID equals arac.ID
-                                join sofor in kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.Firma_ID == FirmaID)) on guzergah.SoforCari_ID equals sofor.Kullanici_ID
-                                join hostes in kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.Firma_ID == FirmaID)) on guzergah.HostesCari_ID equals hostes.Kullanici_ID
+            var combinedQuery = from guzergah in guzergahManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                join arac in aracManager.GetAllList((y => y.Durum == true && (y.FirmaID==FirmaID || y.FirmaID ==-2) )) on guzergah.AracPlaka_ID equals arac.ID
+                                join sofor in kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && (y.Firma_ID == FirmaID || y.Firma_ID == -2))) on guzergah.SoforCari_ID equals sofor.Kullanici_ID
+                                join hostes in kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 &&(y.Firma_ID == FirmaID || y.Firma_ID == -2))) on guzergah.HostesCari_ID equals hostes.Kullanici_ID
 
                                 select new OkulGuzergahModel { Guzergah = guzergah, Arac = arac, Sofor = sofor, Hostes = hostes };
 
@@ -38,13 +38,13 @@ namespace logikeyv2.Controllers
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
 
-            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && y.Firma_ID==FirmaID));
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Sofor = servisSoforleri;
-            List<Arac> arac = aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            List<Arac> arac = aracManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2)));
             ViewBag.Arac = arac;
-            List<Kullanicilar> Hostes = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID ==4 && y.Firma_ID == FirmaID));
+            List<Kullanicilar> Hostes = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID ==4 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Hostes = Hostes;
-            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID==FirmaID));
+            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Okullar = okullar;
             return View();
         }
@@ -67,7 +67,7 @@ namespace logikeyv2.Controllers
                         string[] DonusGunleri = donusGunleri.Split(";");
                         string[] DonusSaatleri = donusSaatleri.Split(";");
 
-                        var guzergahBul = guzergahManager.GetAllList(x => x.FirmaID == FirmaID && x.Guzergah_Adi == guzergah.Guzergah_Adi).FirstOrDefault();
+                        var guzergahBul = guzergahManager.GetAllList(x => x.Guzergah_Adi == guzergah.Guzergah_Adi && (x.FirmaID == FirmaID || x.FirmaID == -2)).FirstOrDefault();
                         if (guzergahBul == null)
                         {
                             guzergah.Durum = true;
@@ -78,7 +78,7 @@ namespace logikeyv2.Controllers
                             guzergahManager.TAdd(guzergah);
                             var okulsirasi = 1;
 
-                            var eklenenGuzergah = guzergahManager.GetAllList(x => x.FirmaID == FirmaID && x.Guzergah_Adi == guzergah.Guzergah_Adi).FirstOrDefault();
+                            var eklenenGuzergah = guzergahManager.GetAllList(x =>  x.Guzergah_Adi == guzergah.Guzergah_Adi && (x.FirmaID == FirmaID || x.FirmaID == -2)).FirstOrDefault();
 
                             foreach (string okulDegeri in okulDegerleri)
                             {
@@ -96,7 +96,7 @@ namespace logikeyv2.Controllers
                                 Okul_GuzergahManager.TAdd(okul_Guzergah);
                                 int dizi = 0;
                                 
-                                var okul_GuzergahID = Okul_GuzergahManager.GetAllList(x => x.FirmaID == FirmaID && x.Okul_ID == okulID && x.Okul_Sira == okulsirasi && x.EkleyenKullaniciID == KullaniciID).FirstOrDefault();
+                                var okul_GuzergahID = Okul_GuzergahManager.GetAllList(x =>x.Okul_ID == okulID && x.Okul_Sira == okulsirasi && x.EkleyenKullaniciID == KullaniciID && (x.FirmaID == FirmaID || x.FirmaID == -2)).FirstOrDefault();
                                 
                                 foreach (string ogrenciID in ogrenciDegerleri)
                                 {
@@ -160,13 +160,13 @@ namespace logikeyv2.Controllers
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
 
-            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && y.Firma_ID == FirmaID));
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && (y.Firma_ID == FirmaID || y.Firma_ID==-2 )));
             ViewBag.Sofor = servisSoforleri;
-            List<Arac> arac = aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            List<Arac> arac = aracManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID==-2 )));
             ViewBag.Arac = arac;
-            List<Kullanicilar> Hostes = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 4 && y.KullaniciGrup_ID == 5 && y.Firma_ID == FirmaID));
+            List<Kullanicilar> Hostes = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 4 && y.KullaniciGrup_ID == 5 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Hostes = Hostes;
-            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID));
+            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Okullar = okullar;
             Guzergah guzergah = guzergahManager.GetByID(ID);
             return View(guzergah);
@@ -250,9 +250,9 @@ namespace logikeyv2.Controllers
         public IActionResult OgrenciListesi(int okulID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var ogrenciModulu = ogrenciModuluManager.GetAllList(x => x.CariOkul_ID == okulID && x.Durum==1);
+            var ogrenciModulu = ogrenciModuluManager.GetAllList(x => x.CariOkul_ID == okulID && x.Durum==true && x.FirmaID==FirmaID);
             var ogrenciIDler = ogrenciModulu.Select(om => om.CariOgrenci_ID).ToList();
-            List<Cari> ogrenciler = cariManager.GetAllList(y => y.Durum == 1 && y.Cari_GrupID == 14 && y.Firma_ID == FirmaID && ogrenciIDler.Contains(y.Cari_ID));
+            List<Cari> ogrenciler = cariManager.GetAllList(y => y.Durum == 1 && y.Cari_GrupID == 14 && (y.Firma_ID == FirmaID || y.Firma_ID == -2) && ogrenciIDler.Contains(y.Cari_ID));
             return Json(ogrenciler);
         }
 

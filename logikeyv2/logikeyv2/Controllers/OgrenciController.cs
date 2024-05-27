@@ -19,9 +19,9 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1)
-                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
-                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
+            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && (y.Firma_ID == FirmaID || y.Firma_ID == -2))) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
+                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14 && (y.Firma_ID == FirmaID || y.Firma_ID == -2))) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
 
                                 select new OkulOgrenciModel { OgrenciModulu = ogrencimodulu, Okul = okul, Ogrenci= ogrenci };
 
@@ -32,14 +32,14 @@ namespace logikeyv2.Controllers
         public IActionResult OgrenciEkle()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID));
+            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Okullar = okullar;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
-            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && y.Firma_ID==FirmaID));
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
            ViewBag.Sofor= servisSoforleri;
             return View();
         }
@@ -89,7 +89,7 @@ namespace logikeyv2.Controllers
                         var kaydedilenOgrenci = cariManager.GetAllList(x => x.Cari_TCNO_VergiNo == model.Ogrenci.Cari_TCNO_VergiNo && x.Durum == 1 && x.Cari_GrupID == 14).FirstOrDefault();
                         model.OgrenciModulu.CariOgrenci_ID = kaydedilenOgrenci.Cari_ID;
 
-                        model.OgrenciModulu.Durum = 1;
+                        model.OgrenciModulu.Durum = true;
                         ogrenciModuluManager.TAdd(model.OgrenciModulu);
                         if (model.Ogrenci.FaturaDurum == true)
                         {
@@ -133,18 +133,18 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID));
+            List<Cari> okullar = cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Okullar = okullar;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
-            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && y.Firma_ID==FirmaID));
+            List<Kullanicilar> servisSoforleri = kullanicilarManager.GetAllList((y => y.Kullanici_Durum == 1 && y.KullaniciGrup_ID == 5 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.Sofor = servisSoforleri;
-            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == 1 && x.ID == ID )
-                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
-                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14 && y.Firma_ID == FirmaID)) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
+            var combinedQuery = from ogrencimodulu in ogrenciModuluManager.GetAllList(x => x.Durum == true && x.ID == ID )
+                                join okul in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 13 && (y.Firma_ID == FirmaID || y.Firma_ID == -2))) on ogrencimodulu.CariOkul_ID equals okul.Cari_ID
+                                join ogrenci in cariManager.GetAllList((y => y.Durum == 1 && y.Cari_GrupID == 14 && (y.Firma_ID == FirmaID || y.Firma_ID == -2))) on ogrencimodulu.CariOgrenci_ID equals ogrenci.Cari_ID
                                 select new OkulOgrenciModel { OgrenciModulu = ogrencimodulu, Okul = okul, Ogrenci = ogrenci };
 
             var combinedModel = combinedQuery.FirstOrDefault();
@@ -214,7 +214,7 @@ namespace logikeyv2.Controllers
                     try
                     {
                        OgrenciModulu ogrenci= ogrenciModuluManager.GetByID(int.Parse(form["ID"]));
-                        ogrenci.Durum = 0;
+                        ogrenci.Durum = false;
                         ogrenciModuluManager.TUpdate(ogrenci);
                         Cari item = cariManager.GetByID(ogrenci.ID);
                         item.Durum = 0;

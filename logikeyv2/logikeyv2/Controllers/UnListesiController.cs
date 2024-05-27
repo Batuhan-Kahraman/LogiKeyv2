@@ -16,7 +16,7 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<UnListesi> liste = unListesiManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
+            List<UnListesi> liste = unListesiManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             return View(liste);
         }
 
@@ -71,18 +71,15 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        UnListesi item = new UnListesi();
-                        item.Durum = 1;
-                        item.Un_Isim = form["Adi"];
-                        item.Un_No = form["UnNo"];
-                        item.Un_BakanlikKodu = form["UnBakanlikNo"];
-                        item.Un_Sinif = form["UnSinif"];
-                        item.Un_SiniflandirmaKodu = form["UnSiniflandirmaKodu"];
+                        UnListesi item = unListesiManager.GetByID(int.Parse(form["Un_ID"]));
+                        item.Un_Isim = form["Un_Isim"];
+                        item.Un_No = form["Un_No"];
+                        item.Un_BakanlikKodu = form["Un_BakanlikKodu"];
+                        item.Un_Sinif = form["Un_Sinif"];
+                        item.Un_SiniflandirmaKodu = form["Un_SiniflandirmaKodu"];
 
                         item.Firma_ID = FirmaID;
-                        item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.EkleyenKullanici_ID = KullaniciID;
                         item.DuzenleyenKullanici_ID = KullaniciID;
                         unListesiManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";

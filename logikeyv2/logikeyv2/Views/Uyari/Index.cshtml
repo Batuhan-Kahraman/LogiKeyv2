@@ -60,13 +60,14 @@
 
 
                                 <td>
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
 
-
-                                    <a asp-controller="Uyari" asp-action="Duzenle" asp-route-UyariID="@item.UyariID">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.UyariID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                        <a asp-controller="Uyari" asp-action="Duzenle" asp-route-UyariID="@item.UyariID">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.UyariID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

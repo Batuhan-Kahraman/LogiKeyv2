@@ -21,7 +21,7 @@ namespace logikeyv2.Controllers
             ViewBag.MesajTipi = TempData["MesajTipi"];
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<UyariTip> uyariTip = uyariTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<UyariTip> uyariTip = uyariTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(uyariTip);
         }
 

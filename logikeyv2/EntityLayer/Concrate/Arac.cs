@@ -66,10 +66,10 @@ namespace EntityLayer.Concrate
         public int? AkuAmper { get; set; }
         public int? AkuAdet { get;set; }
         public string? MotorYagTipi {  get; set; }
-        public string MotorYagListesi {  get; set; }
+        public string? MotorYagListesi {  get; set; }
         public float? MotorYagPeriyot { get; set; }
         public string? HidrolikYagTipi {  get; set; }
-        public string HidrolikYagListesi {  get; set; }
+        public string? HidrolikYagListesi {  get; set; }
         public float? HidrolikYagPeriyot {  get; set; }
         public string? GresYagTipi { get; set; }
         public float? GresYagKg { get; set; }

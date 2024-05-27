@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace logikeyv2.Controllers
     public class MasrafCezaController : BaseController
     {
         MasrafCezaManager MasrafCezaManager = new MasrafCezaManager(new EFMasrafCezaRepository());
+        MasrafTuruManager MasrafTuruManager = new MasrafTuruManager(new EFMasrafTuruRepository());
         AracManager AracManager = new AracManager(new EFAracRepository());
         KullanicilarManager SurucuManager = new KullanicilarManager(new EFKullanicilarRepository());
 
@@ -18,9 +20,9 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<MasrafCezaViewModel> viewModel = MasrafCezaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+            List<MasrafCezaViewModel> viewModel = MasrafCezaManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
     .GroupJoin(
-        AracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+        AracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
         masraf => masraf.AracID,
         arac => arac.ID,
         (masraf, aracGroup) => new { masraf, aracGroup }
@@ -30,7 +32,7 @@ namespace logikeyv2.Controllers
         (result, arac) => new { result.masraf, arac }
     )
     .GroupJoin(
-        SurucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID),
+        SurucuManager.GetAllList(x => x.Kullanici_Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2)),
         result => result.masraf.SurucuID,
         surucu => surucu.Kullanici_ID,
         (result, surucuGroup) => new { result.masraf, result.arac, surucuGroup }
@@ -55,7 +57,8 @@ namespace logikeyv2.Controllers
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    ViewBag.MasrafTurleri = context.MasrafTuru.Where(x=>x.Durum == true ).ToList();
+                    int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+                    ViewBag.MasrafTurleri = context.MasrafTuru.Where(x=>x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)).ToList();
                     return View();
                 } 
             }
@@ -98,6 +101,8 @@ namespace logikeyv2.Controllers
 
         public IActionResult Duzenle(int MasrafCezaID)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            ViewBag.MasrafTurleri = MasrafTuruManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             MasrafCeza masrafCeza = MasrafCezaManager.GetByID(MasrafCezaID);
             return View(masrafCeza);
         }

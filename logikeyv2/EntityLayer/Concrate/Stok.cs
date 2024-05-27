@@ -11,11 +11,13 @@ namespace EntityLayer.Concrate
     {
         [Key]
         public int ID { get; set; }
+        public int StokKategoriID { get; set; }
 
         public string? StokKodu { get; set; }
         public string? StokAdi { get; set; }
         public int Adet { get; set; }
         public int BirimFiyat { get; set; }
+        public string? Aciklama { get; set; }
 
         [Required]
         public int FirmaID { get; set; }

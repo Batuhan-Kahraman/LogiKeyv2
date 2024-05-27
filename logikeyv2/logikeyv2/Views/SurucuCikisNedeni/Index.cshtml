@@ -5,11 +5,8 @@
     ViewData["Title"] = "Sürücü Çıkış Nedeni";
 }
 <div class="col-lg-30 col-xxl-12">
-<<<<<<< HEAD
+
     <h2 class="mb-3 lh-sm">Sürücü Çıkış Nedeni</h2>
-=======
-    <h2 class="mb-3 lh-sm">Markalar</h2>
->>>>>>> bb2bf595b356dd4d3d1badcd9b6e18f5da9f17e0
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -30,7 +27,7 @@
                 <div class="row g-3 justify-content-between align-items-center">
                     <div class="col-md-8">
                         <input type="hidden" name="ID" id="ID" value="" />
-                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" />
+                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" required />
                     </div>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
@@ -66,11 +63,13 @@
                             <tr>
                                 <td>@item.Adi</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.ID, '@item.Adi')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.ID, '@item.Adi')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -84,7 +83,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
                             </div>
-                            <form action="Marka/Sil" method="post">
+                            <form action="SurucuCikisNedeni/Sil" method="post">
                                 <div class="modal-body">
 
                                     <p class="text-body-tertiary lh-lg mb-0">

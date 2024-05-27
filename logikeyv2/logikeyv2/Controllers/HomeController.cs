@@ -1,6 +1,9 @@
-﻿using logikeyv2.Models;
+﻿using BusinessLayer.Concrate;
+using DataAccessLayer.EntityFramework;
+using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text;
 
 namespace logikeyv2.Controllers
 {
@@ -16,6 +19,10 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
+            FirmaManager firmaManager = new FirmaManager(new EFFirmaRepository());
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var firma = firmaManager.GetByID(FirmaID);
+            var giris = Task.Run(async () => await EFaturaHelper.Login(firma.Firma_EFatura_KullaniciAdi, firma.Firma_EFatura_Sifre)).Result;
             return View();
         }
 

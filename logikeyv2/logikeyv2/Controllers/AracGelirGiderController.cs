@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrate;
 using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,8 @@ namespace logikeyv2.Controllers
         public IActionResult AracGelirListesi()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var combinedQuery = from aracgelir in aracGelirManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID)
-                                join arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on aracgelir.Arac_ID equals arac.ID
+            var combinedQuery = from aracgelir in aracGelirManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2))
+                                join arac in aracManager.GetAllList((y => y.Durum == true &&( y.FirmaID == FirmaID || y.FirmaID == -2))) on aracgelir.Arac_ID equals arac.ID
                                 select new AracGelirGider { AracGelir = aracgelir, Arac = arac };
 
             List<AracGelirGider> combinedList = combinedQuery.ToList();
@@ -27,8 +28,8 @@ namespace logikeyv2.Controllers
         public IActionResult AracGiderListesi()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            var combinedQuery1 = from aracgider in aracGiderManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID)
-                                join arac in aracManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID)) on aracgider.Arac_ID equals arac.ID
+            var combinedQuery1 = from aracgider in aracGiderManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2))
+                                 join arac in aracManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2))) on aracgider.Arac_ID equals arac.ID
                                 select new AracGelirGider { AracGider = aracgider, Arac = arac };
 
             List<AracGelirGider> combinedList = combinedQuery1.ToList();
@@ -36,10 +37,16 @@ namespace logikeyv2.Controllers
         }
         public IActionResult AracGelirEkle()
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Arac> arac = aracManager.GetAllList(x=>x.Durum==true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            ViewBag.Arac = arac;
             return View();
         }
         public IActionResult AracGiderEkle()
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Arac> arac = aracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            ViewBag.Arac = arac;
             return View();
         }
         [HttpPost]

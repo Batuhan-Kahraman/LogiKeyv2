@@ -18,9 +18,9 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<IstasyondanYakitVer> istasyondanYakitVerList = istasyondanYakitVerManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<TankaYakitEkle> tankaYakitEkleList = tankaYakitEkleManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<TanktanYakitVer> tanktanYakitVerList = tanktanYakitVerManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<IstasyondanYakitVer> istasyondanYakitVerList = istasyondanYakitVerManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<TankaYakitEkle> tankaYakitEkleList = tankaYakitEkleManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<TanktanYakitVer> tanktanYakitVerList = tanktanYakitVerManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             ViewBag.istasyondanYakitVerList = istasyondanYakitVerList;
             ViewBag.tankaYakitEkleList = tankaYakitEkleList;
             ViewBag.tanktanYakitVerList = tanktanYakitVerList;

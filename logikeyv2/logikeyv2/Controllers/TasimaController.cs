@@ -33,23 +33,23 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID);
-            List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
-            List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
-            List<CariUcretlendirme> Ucretlendirme = ucretlendirme.GetAllList(x => x.Durum == true && x.Firma_ID == FirmaID);
-            List<AracTip> aracTip = aracTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<AracTur> aracTur = aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<Birimler> birimler = birimlerManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
-            List<TasimaTipi> tasimaTipi = tasimaTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<CariUcretlendirme> Ucretlendirme = ucretlendirme.GetAllList(x => x.Durum == true && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<AracTip> aracTip = aracTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AracTur> aracTur = aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Birimler> birimler = birimlerManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<TasimaTipi> tasimaTipi = tasimaTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
-            List<Arac> cekiciPlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID==1 && x.FirmaID == FirmaID);
-            List<Arac> dorsePlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID==4 && x.FirmaID == FirmaID);
-            List<AracTip> dorseListesi = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID==4 && x.FirmaID == FirmaID);
+            List<Arac> cekiciPlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID==1 && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Arac> dorsePlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID==4 && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AracTip> dorseListesi = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID==4 && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
 
-            List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID==8 && x.Firma_ID == FirmaID);
+            List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID==8 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
 
             ViewBag.Araclar = aracListesi;
             ViewBag.CekiciPlaka = cekiciPlaka;

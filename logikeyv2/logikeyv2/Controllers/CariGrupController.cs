@@ -15,7 +15,7 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<CariGrup> liste = CariGrupManager.GetAllList(x => x.Durum == 1 && x.Firma_ID == FirmaID);
+            List<CariGrup> liste = CariGrupManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             return View(liste);
         }
 

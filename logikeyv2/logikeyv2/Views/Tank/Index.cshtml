@@ -26,18 +26,18 @@
                 <div class="row g-3 justify-content-between align-items-center">
                     <div class="col-md-6">
                         <input type="hidden" name="ID" id="ID" value="" />
-                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" />
+                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" required />
                         </div>
 
                     <div class="col-md-6">
-                        <input class="form-control" id="Kapasite" type="number" name="Kapasite" placeholder="Kapasite (LT) Giriniz" />
+                        <input class="form-control" id="Kapasite" type="number" name="Kapasite" placeholder="Kapasite (LT) Giriniz" required/>
                         </div>
 
-                    <div class="col-md-6">
-                        <input class="form-control" id="Aciklama" type="text" name="Aciklama" placeholder="Açıklama Giriniz" />
-                    </div>
                     <div class="col-md-6">
                         <input class="form-control" id="MevcutYakit" type="text" name="MevcutYakit" placeholder="Mevcut Yakıtı Giriniz" />
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" id="Aciklama" type="text" name="Aciklama" placeholder="Açıklama Giriniz" />
                     </div>
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
@@ -61,9 +61,9 @@
                     <thead>
                         <tr>
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Adı</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="aciklama">Açıklama</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="kapasite">Kapasite</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="mevcut">Mevcut Yakıt</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="aciklama">Açıklama</th>
                             <th class="sort border-top">
                                 İşlemler
                             </th>
@@ -75,15 +75,17 @@
                         {
                             <tr>
                                 <td>@item.Adi</td>
-                                <td>@item.Aciklama</td>
                                 <td>@item.Kapasite</td>
                                 <td>@item.MevcutYakit</td>
+                                <td>@item.Aciklama</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.ID, '@item.Adi','@item.Aciklama',@item.Kapasite,@item.MevcutYakit)">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.ID, '@item.Adi','@item.Aciklama',@item.Kapasite,@item.MevcutYakit)">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

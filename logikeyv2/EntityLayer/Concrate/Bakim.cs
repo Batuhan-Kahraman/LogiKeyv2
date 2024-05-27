@@ -12,15 +12,15 @@ namespace EntityLayer.Concrate
         public int ID { get; set; }
         public int CekiciID {  get; set; }
         public int DorseID { get; set; }
-        public string AracKm { get;set; }
+        public string? AracKm { get;set; }
         public int SurucuID {  get; set; }
         public string? ArizaNedeni { get; set; } 
         public string? YapilmasiGereken { get; set; } 
-        public DateTime TarihSaat { get; set; } 
+        public DateTime TarihSaat { get; set; }
         public int ServisBakimDurumID {  get; set; }
         public int ServisBakimTurID { get;set; }
-        public string? BakimYeri { get; set; }
-        public int PersonelID { get; set; } 
+        public string BakimYeri { get; set; }
+        public int? PersonelID { get; set; } 
         public string? Aciklama { get; set; }
 
         [Required]

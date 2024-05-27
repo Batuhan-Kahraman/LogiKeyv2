@@ -17,7 +17,7 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Bakim> liste = bakimManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Bakim> liste = bakimManager.GetAllList(x => x.Durum == true &&( x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(liste);
         }
         public IActionResult Ekle()

@@ -1,4 +1,5 @@
-﻿@using EntityLayer.Concrate;
+﻿@using BusinessLayer.Concrate
+@using EntityLayer.Concrate;
 @model List<Stok>
 
 @{
@@ -20,24 +21,54 @@
         </div>
 
     }
+
+    <form action="Stok/StokKategoriEkle" method="post">
+        <div class="card shadow-none border my-4" data-component-card="data-component-card">
+            <div class="card-header p-4 border-bottom bg-body">
+                <div class="row g-3 justify-content-between align-items-center">
+                    <div class="col-md-6">
+                        <input class="form-control" id="StokKategoriAdi" type="text" name="StokKategoriAdi" placeholder="Stok Kategori Adını Giriniz" required />
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        </form>
+
     <form id="form" action="Stok/Ekle" method="post">
         <div class="card shadow-none border my-4" data-component-card="data-component-card">
             <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
                     <div class="col-md-6">
-                        <input type="hidden" name="ID" id="ID" value="" />
-                         <input class="form-control" id="StokKodu" type="text" name="StokKodu" placeholder="Stok Kodu Giriniz" />
+                        <select name="StokKategoriID" id="StokKategoriID" class="form-control" required>
+                            <option value="" disabled selected>Stok Kategorisi Seçiniz</option>
+                            @foreach (var item in ViewBag.StokKategori)
+                            {
+                                <option value="@item.ID">@item.StokKategoriAdi</option>
+                            }
+                        </select>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" id="StokAdi" type="text" name="StokAdi" placeholder="Stok Adı Giriniz" />
+                        <input type="hidden" name="ID" id="ID" value="" />
+                        <input class="form-control" id="StokKodu" type="text" name="StokKodu" placeholder="Stok Kodu Giriniz" required />
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" id="StokAdi" type="text" name="StokAdi" placeholder="Stok Adı Giriniz" required />
                         </div>
 
                     <div class="col-md-6">
-                        <input class="form-control" id="Adet" type="number" name="Adet" placeholder="Adet Giriniz" />
+                        <input class="form-control" id="Adet" type="number" name="Adet" placeholder="Adet Giriniz" required />
                         </div>
 
                     <div class="col-md-6">
-                        <input class="form-control" id="BirimFiyat" type="number" name="BirimFiyat" placeholder="Birim Fiyatı Giriniz" />
+                        <input class="form-control" id="BirimFiyat" type="number" name="BirimFiyat" placeholder="Birim Fiyatı Giriniz" required />
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" id="Aciklama" type="text" name="Aciklama" placeholder="Açıklama Giriniz"  />
                     </div>
                     <div class="col-md-6">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
@@ -49,7 +80,7 @@
         </div>
     </form>
     <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["ad,kod,adet,birimFiyat"],"page":20,"pagination":true}'>
+        <div id="tableExample3" data-list='{"valueNames":["kategori,ad,kod,adet,birimFiyat"],"page":20,"pagination":true}'>
             <div class="search-box mb-3 mx-auto">
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                     <input class="form-control search-input search form-control-sm" type="search" placeholder="Ara" aria-label="Ara" />
@@ -60,8 +91,9 @@
                 <table class="table table-striped table-sm fs-9 mb-0">
                     <thead>
                         <tr>
-                            <th class="sort border-top border-translucent ps-3" data-sort="ad">Stok Adı</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="kategori">Stok Kategorisi</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="kod">Stok Kodu</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="ad">Stok Adı</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="adet">Adet</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="birimFiyat">Birim Fiyat</th>
                             <th class="sort border-top">
@@ -74,15 +106,19 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td>@Helper.StokKategori(item.StokKategoriID)</td>
                                 <td>@item.StokKodu</td>
                                 <td>@item.StokAdi</td>
                                 <td>@item.Adet</td>
                                 <td>@item.BirimFiyat</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.ID, '@item.StokKodu', '@item.StokAdi',@item.Adet,@item.BirimFiyat)">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.ID, '@item.StokKodu', '@item.StokAdi',@item.Adet,@item.BirimFiyat,@item.StokKategoriID,'@item.Aciklama')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
 
                                 </td>
                             </tr>
@@ -129,20 +165,24 @@
 </div>
 @section Scripts {
     <script>
-        function Duzenle(ID, Kod,Ad,Adet,BirimFiyat) {
+        function Duzenle(ID, Kod, Ad, Adet, BirimFiyat, StokKategoriID, Aciklama) {
+            document.getElementById("StokKategoriID").value = StokKategoriID;
             document.getElementById("StokKodu").value = Kod;
             document.getElementById("StokAdi").value = Ad;
             document.getElementById("Adet").value = Adet;
             document.getElementById("BirimFiyat").value = BirimFiyat;
+            document.getElementById("Aciklama").value = Aciklama;
             document.getElementById("ID").value = ID;
             document.getElementById("form").setAttribute("action", "Stok/Duzenle");
 
         }
         function Temizle() {
             document.getElementById("StokKodu").value = "";
+            document.getElementById("StokKategoriID").value = "";
             document.getElementById("StokAdi").value = "";
             document.getElementById("Adet").value = "";
             document.getElementById("BirimFiyat").value = "";
+            document.getElementById("Aciklama").value = "";
             document.getElementById("ID").value = "";
             document.getElementById("form").setAttribute("action", "Stok/Ekle");
         }
