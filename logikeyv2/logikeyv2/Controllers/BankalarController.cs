@@ -11,7 +11,7 @@ namespace logikeyv2.Controllers
     {
         BankalarManager BankalarManager = new BankalarManager(new EFBankalarRepository());
 
-
+        //Branch Test
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
