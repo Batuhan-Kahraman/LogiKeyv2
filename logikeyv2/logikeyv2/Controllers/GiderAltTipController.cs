@@ -17,9 +17,9 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<GiderTipiViewModel> viewModel = GiderTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+            List<GiderTipiViewModel> viewModel = GiderTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
                 .Join(
-                GiderAltTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+                GiderAltTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                 giderTip=>giderTip.ID,
                 giderAltTip => giderAltTip.GiderTipID,
                 (giderTip, giderAltTip) => new GiderTipiViewModel
@@ -28,9 +28,10 @@ namespace logikeyv2.Controllers
                     GiderAltTipID = giderAltTip.ID,
                     GiderTipAdi = giderTip.Adi,
                     GiderAltTipAdi = giderAltTip.Adi,
+                    FirmaID=giderAltTip.FirmaID
                 }
                 ).ToList();
-            List<GiderTip> turListe = GiderTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<GiderTip> turListe = GiderTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             ViewBag.GiderTip = turListe;
             return View(viewModel);
         }

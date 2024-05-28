@@ -25,8 +25,8 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID)
-                .GroupJoin(ehliyetSinifiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+            List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2))
+                .GroupJoin(ehliyetSinifiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     surucu => surucu.EhliyetSinifiID,
                     ehliyetSinifi => ehliyetSinifi.ID,
                     (surucu, ehliyetSinifiGroup) => new { surucu, ehliyetSinifiGroup })
@@ -35,7 +35,7 @@ namespace logikeyv2.Controllers
                     (result, ehliyetSinifi) => new { result.surucu, ehliyetSinifi }
             )
             .GroupJoin(
-                    surucuPozisyonManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+                    surucuPozisyonManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     result => result.surucu.SurucuPozisyonID,
                     surucuPozisyon => surucuPozisyon.ID,
                     (result, surucuPozisyonGroup) => new { result.surucu, result.ehliyetSinifi, surucuPozisyonGroup }
@@ -59,11 +59,11 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<KullaniciGrubu> KullaniciGrubu = kullaniciGrubuManager.GetAllList((y => y.KullaniciGrup_Durum == 1 && y.Firma_ID == FirmaID));
+            List<KullaniciGrubu> KullaniciGrubu = kullaniciGrubuManager.GetAllList((y => y.KullaniciGrup_Durum == 1 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.KullaniciGrubu = KullaniciGrubu;
-            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2)));
             ViewBag.SurucuPozisyon = SurucuPozisyon;
-            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2)));
             ViewBag.EhliyetSinifi = ehliyetSinifi; 
             var adres = adresManager.List();
 
@@ -126,11 +126,11 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             Kullanicilar arac = surucuManager.GetByID(SurucuID);
-            List<KullaniciGrubu> KullaniciGrubu = kullaniciGrubuManager.GetAllList((y => y.KullaniciGrup_Durum == 1 && y.Firma_ID == FirmaID));
+            List<KullaniciGrubu> KullaniciGrubu = kullaniciGrubuManager.GetAllList((y => y.KullaniciGrup_Durum == 1 && (y.Firma_ID == FirmaID || y.Firma_ID == -2)));
             ViewBag.KullaniciGrubu = KullaniciGrubu;
-            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2)));
             ViewBag.SurucuPozisyon = SurucuPozisyon;
-            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && y.FirmaID == FirmaID));
+            List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2)));
             ViewBag.EhliyetSinifi = ehliyetSinifi;
             var adres = adresManager.List();
 

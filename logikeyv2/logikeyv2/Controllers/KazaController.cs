@@ -33,8 +33,8 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<KazaViewModel> viewModel = KazaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
-                .GroupJoin(AracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+            List<KazaViewModel> viewModel = KazaManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                .GroupJoin(AracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     kaza => kaza.AracID,
                     arac => arac.ID,
                     (kaza, aracGroup) => new { kaza, aracGroup })
@@ -43,7 +43,7 @@ namespace logikeyv2.Controllers
                     (result, arac) => new { result.kaza, arac }
                 )
                 .GroupJoin(
-                    SurucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.Firma_ID == FirmaID),
+                    SurucuManager.GetAllList(x => x.Kullanici_Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2)),
                     result => result.kaza.SurucuID,
                     surucu => surucu.Kullanici_ID,
                     (result, surucuGroup) => new { result.kaza, result.arac, surucuGroup }

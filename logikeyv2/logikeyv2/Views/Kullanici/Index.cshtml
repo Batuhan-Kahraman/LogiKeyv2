@@ -50,11 +50,13 @@
                                 <td>@item.Kullanici_Eposta</td>
                                 <td>@item.CepTelefonu</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.Kullanici_ID, '@item.Kullanici_Isim')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Firma_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    @if (item.Firma_ID != -2 || item.Firma_ID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.Kullanici_ID, '@item.Kullanici_Isim')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Firma_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

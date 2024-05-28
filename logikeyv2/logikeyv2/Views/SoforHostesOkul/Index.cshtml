@@ -56,10 +56,13 @@
                                 <td>@item.Pozisyon</td>
                                 <td>@item.EhliyetSinifi</td>
                                 <td>
-                                    <a asp-controller="SoforHostesOkul" asp-action="Duzenle" asp-route-SurucuID="@item.Surucu.Kullanici_ID">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Surucu.Kullanici_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    @if (item.Surucu.Firma_ID != -2 || item.Surucu.Firma_ID == ViewBag.FirmaID)
+                                    {
+                                        <a asp-controller="SoforHostesOkul" asp-action="Duzenle" asp-route-SurucuID="@item.Surucu.Kullanici_ID">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Surucu.Kullanici_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

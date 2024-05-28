@@ -24,18 +24,21 @@
         <div class="card shadow-none border my-4" data-component-card="data-component-card">
             <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
-                    <div class="col-md-4">
-                        <input type="hidden" name="ID" id="ID" value="" />
+                    <div class="col-md-4 d-flex align-items-center">
+                        <input type="hidden" name="ID" id="ID" value="" /> 
+                        <a asp-controller="GiderTip" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="GiderTipListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select name="GiderTipID" id="GiderTipID" class="form-control" required>
-                            <option value="0">Gider Tipi Seçiniz</option>
-                            @foreach (var item in ViewBag.GiderTip)
-                            {
-                                <option value="@item.ID">@item.Adi</option>
-                            }
+                            <option value="" disabled selected>Gider Tipi Seçiniz</option>
+                           
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" />
+                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" required />
                     </div>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
@@ -73,11 +76,13 @@
                                 <td>@item.GiderTipAdi</td>
                                 <td>@item.GiderAltTipAdi</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.GiderAltTipID, '@item.GiderAltTipAdi',@item.GiderTipID)">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.GiderAltTipID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.GiderAltTipID, '@item.GiderAltTipAdi',@item.GiderTipID)">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.GiderAltTipID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -122,6 +127,46 @@
 
 </div>
 @section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('select').select2();
+        });
+        function GiderTipListe() {
+            //araç tür listele
+            $.ajax({
+                url: '../Ajax/GiderTipListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#GiderTipID').empty();
+                    $('#GiderTipID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Gider Tip Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#GiderTipID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        GiderTipListe();
+    </script>
+
     <script>
         function Duzenle(ID, Ad, TipID) {
             document.getElementById("Adi").value = Ad;

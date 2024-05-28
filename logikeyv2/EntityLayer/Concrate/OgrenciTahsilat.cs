@@ -19,10 +19,12 @@ namespace EntityLayer.Concrate
         public int TaksitSayisi { get; set; }
         public DateTime VadeBaslangicTarihi { get; set; }
         public decimal KalanBorcTutar { get; set; }
-        public int EkleyenKullanici_ID { get; set; }
-        public bool Durum { get; set; }
         public DateTime OlusturmaTarihi { get; set; }
         public DateTime DuzenlemeTarihi { get; set; }
+        public bool Durum { get; set; }
+        public int EkleyenKullaniciID { get; set; }
+        public int FirmaID { get; set; }
+        public int DuzenleyenKullaniciID { get; set; }
 
     }
 }

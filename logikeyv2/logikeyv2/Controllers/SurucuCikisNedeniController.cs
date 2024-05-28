@@ -16,7 +16,7 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<SurucuCikisNedeni> liste = SurucuCikisNedeniManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<SurucuCikisNedeni> liste = SurucuCikisNedeniManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(liste);
         }
 

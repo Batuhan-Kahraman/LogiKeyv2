@@ -45,8 +45,8 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
-                .GroupJoin(aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+            List<AracViewModel> viewModel = aracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                .GroupJoin(aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     arac => arac.AracTurID,
                     tur => tur.ID,
                     (arac, turGroup) => new { arac, turGroup })
@@ -55,7 +55,7 @@ namespace logikeyv2.Controllers
                     (result, tur) => new { result.arac, tur }
                 )
                 .GroupJoin(
-                    aracTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+                    aracTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     result => result.arac.AracTipID,
                     tip => tip.ID,
                     (result, tipGroup) => new { result.arac, result.tur, tipGroup }
@@ -65,7 +65,7 @@ namespace logikeyv2.Controllers
                     (result, tip) => new { result.arac, result.tur, tip }
                 )
                 .GroupJoin(
-                    markaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+                    markaManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     result => result.arac.MarkaID,
                     marka => marka.ID,
                     (result, markaGroup) => new { result.arac, result.tur, result.tip, markaGroup }
@@ -75,7 +75,7 @@ namespace logikeyv2.Controllers
                     (result, marka) => new { result.arac, result.tur, result.tip, marka }
                 )
                 .GroupJoin(
-                    modelManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+                    modelManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     result => result.arac.ModelID,
                     model => model.ID,
                     (result, modelGroup) => new { result.arac, result.tur, result.tip, result.marka, modelGroup }
@@ -111,7 +111,7 @@ namespace logikeyv2.Controllers
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             ViewBag.Iller = iller;
-            List<Sahiplik> sahiplikList = sahiplikManager.GetAllList(x => x.Durum==true &&  x.FirmaID==FirmaID && x.Adi=="Özmal" || x.Adi == "Taşeron" || x.Adi == "Kiralama");
+            List<Sahiplik> sahiplikList = sahiplikManager.GetAllList(x => x.Durum==true &&  (x.FirmaID == FirmaID || x.FirmaID == -2) && x.Adi=="Özmal" || x.Adi == "Taşeron" || x.Adi == "Kiralama");
 
             ViewBag.sahiplikList = sahiplikList;
             return View();

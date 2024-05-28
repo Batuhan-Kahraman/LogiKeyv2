@@ -69,12 +69,13 @@
                                         <td>@item.LtFiyat</td>
                                         <td>@item.AracKm</td>
                                         <td>
-
-                                            <a asp-controller="TankYakit" asp-action="TankaYakitDuzenle" asp-route-ID="@item.ID">
-                                                <span class="text-body fs-5" data-feather="edit"></span>
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('tankaYakitSilID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                            @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                            {
+                                                <a asp-controller="TankYakit" asp-action="TankaYakitDuzenle" asp-route-ID="@item.ID">
+                                                    <span class="text-body fs-5" data-feather="edit"></span>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('tankaYakitSilID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -159,12 +160,13 @@
                                         <td>@item.LtFiyat</td>
                                         <td>@item.AracKm</td>
                                         <td>
-
-                                            <a asp-controller="TankYakit" asp-action="TanktanYakitVerDuzenle" asp-route-ID="@item.ID">
-                                                <span class="text-body fs-5" data-feather="edit"></span>
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#silTankaYakit" onclick="document.getElementById('tanktanYakitVerSilID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                            @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                            {
+                                                <a asp-controller="TankYakit" asp-action="TanktanYakitVerDuzenle" asp-route-ID="@item.ID">
+                                                    <span class="text-body fs-5" data-feather="edit"></span>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#silTankaYakit" onclick="document.getElementById('tanktanYakitVerSilID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -251,11 +253,13 @@
                                         <td>@item.LtFiyat</td>
                                         <td>@item.AracKm</td>
                                         <td>
-                                            <a asp-controller="TankYakit" asp-action="IstasyondanYakitVerDuzenle" asp-route-ID="@item.ID">
-                                                <span class="text-body fs-5" data-feather="edit"></span>
-                                            </a>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#silIstasyon" onclick="document.getElementById('istasyondanYakitVerSilID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                            @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                            {
+                                                <a asp-controller="TankYakit" asp-action="IstasyondanYakitVerDuzenle" asp-route-ID="@item.ID">
+                                                    <span class="text-body fs-5" data-feather="edit"></span>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#silIstasyon" onclick="document.getElementById('istasyondanYakitVerSilID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                            }
                                         </td>
                                     </tr>
                                 }

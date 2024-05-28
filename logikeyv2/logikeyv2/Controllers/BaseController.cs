@@ -17,6 +17,7 @@ namespace logikeyv2.Controllers
             var KullaniciGrup_ID = HttpContext.Session.GetString("KullaniciGrup_ID");
             var MenuModulID = HttpContext.Session.GetString("MenuModulID");
             var KullaniciModul_ID = HttpContext.Session.GetString("KullaniciModul_ID");
+            ViewBag.FirmaID = HttpContext.Session.GetInt32("FirmaID");
 
 
             var firmaAdi = HttpContext.Session.GetString("Firma");

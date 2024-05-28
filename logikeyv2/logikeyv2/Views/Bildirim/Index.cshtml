@@ -75,11 +75,14 @@
                                 <td>@item.KategoriRengi</td>
                                 <td>@item.KategoriSimgesi</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.ID, '@item.KategoriAdi','@item.KategoriRengi','@item.KategoriSimgesi')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
 
+                                        <a href="#" onclick="Duzenle(@item.ID, '@item.KategoriAdi','@item.KategoriRengi','@item.KategoriSimgesi')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

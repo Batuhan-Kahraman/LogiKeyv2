@@ -22,7 +22,7 @@
     }
 
     <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["name"],"page":20,"pagination":true}'>
+        <div id="tableExample3" data-list='{"valueNames":["name","tc","adres","telefon","eposta"],"page":20,"pagination":true}'>
             <div>
                 <a asp-controller="Cari" asp-action="Ekle">Cari Ekle</a>
             </div>
@@ -31,11 +31,11 @@
                     <thead>
                         <tr>
                             <th class="sort border-top border-translucent ps-3" data-sort="name">Cari Adı</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">TC NO / Vergi No</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="tc">TC NO / Vergi No</th>
 
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Adresi</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Telefon No</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Yetkili Adı</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="adres">Adresi</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="telefon">Telefon</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="eposta">E-posta</th>
                             <th class="sort border-top">
                                 İşlemler
                             </th>
@@ -50,16 +50,19 @@
                                 <td>@item.Cari_TCNO_VergiNo</td>
                                 <td>@item.Cari_Adres</td>
                                 <td>@item.Cari_CepNo</td>
-                                <td>@item.Cari_YetkiliAdi @item.Cari_YetkiliSoyadi</td>
+                                <td>@item.Cari_FirmaEposta</td>
                                 <td>
-                                    <a asp-controller="Cari" asp-action="CariHareket" asp-route-CariID="@item.Cari_ID" title="Cari Hareketleri">
-                                        <span class="text-body fs-5" data-feather="repeat"></span>
-                                    </a>
-                                    <a asp-controller="Cari" asp-action="Duzenle" asp-route-ID="@item.Cari_ID">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Firma_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
 
+                                    @if (item.Firma_ID != -2 || item.Firma_ID == ViewBag.FirmaID)
+                                    {
+                                        <a asp-controller="Cari" asp-action="CariHareket" asp-route-CariID="@item.Cari_ID" title="Cari Hareketleri">
+                                            <span class="text-body fs-5" data-feather="repeat"></span>
+                                        </a>
+                                        <a asp-controller="Cari" asp-action="Duzenle" asp-route-ID="@item.Cari_ID">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Cari_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

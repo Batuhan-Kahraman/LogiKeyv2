@@ -12,16 +12,16 @@ namespace EntityLayer.Concrate
         [Key]
         public int UyariID { get; set; }
         public int UyariTipID { get; set; }
-        public int SurucuID { get; set; }
-        public int AracID { get; set; }
-        public int Aciklama { get; set; }
-        public DateTime BaslangicTarihi { get; set; }
-        public DateTime BitisTarihi { get; set; }
-        public int GunSayisi { get; set; }
-        public int Fiyat { get; set; }
-        public DateTime UyariTarihi { get; set; }   
-        public string UyariYapilsinMi { get; set;}//Evet-Hayır
-        public int RaporGunSayisi { get; set;}
+        public int? SurucuID { get; set; }
+        public int? AracID { get; set; }
+        public int? Aciklama { get; set; }
+        public DateTime? BaslangicTarihi { get; set; }
+        public DateTime? BitisTarihi { get; set; }
+        public int? GunSayisi { get; set; }
+        public int? Fiyat { get; set; }
+        public DateTime? UyariTarihi { get; set; }   
+        public string? UyariYapilsinMi { get; set;}//Evet-Hayır
+        public int? RaporGunSayisi { get; set;}
 
 
         [Required]

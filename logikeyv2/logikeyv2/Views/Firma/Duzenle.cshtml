@@ -22,14 +22,15 @@
     }
 
     <div class="border table-responsive scrollbar p-2">
-        <form method="post">
+        <form method="post" onsubmit="return validateCheckboxes()">
             <table class="table table-borderless">
                
                 <tr>
                     
                     <td>Müşteri Adı</td>
                     <td><input type="hidden" class="form-control" asp-for="Firma_ID" />
-                        <input type="text" class="form-control" asp-for="Firma_Unvan" /></td>
+                        <input type="text" class="form-control" asp-for="Firma_Unvan" required />
+                    </td>
                     <td>Müşteri Tipi</td>
                     <td>
                         <select class="form-control" asp-for="Firma_Tipi" id="Firmatipi">
@@ -57,19 +58,26 @@
                    
                     <td>İl</td>
                     <td>
-                        <select class="form-control" asp-for="Firma_AdresIL_ID" id="Firma_AdresIL_ID">
+                        <select class="form-control" asp-for="Firma_AdresIL_ID" id="Firma_AdresIL_ID" onchange="IlDegistir(this.value)">
                             <option value="0">Seçiniz</option>
-                            <option value="1">izmir</option>
+                            @foreach (var item in ViewBag.Iller)
+                            {
+                                if (item.IL_KODU == Model.Firma_AdresIL_ID.ToString())
+                                {
+                                    <option value="@item.IL_KODU" selected>@item.Il</option>
+                                }
+                                else
+                                {
+                                    
+                                <option value="@item.IL_KODU">@item.Il</option>
+                                }
+                            }
                         </select>
                     </td>
                     <td>İlçe</td>
                     <td>
                         <select class="form-control" asp-for="Firma_AdresILCE_ID" id="Firma_AdresILCE_ID">
                             <option value="0">Seçiniz</option>
-                            <option value="1">Konak</option>
-                            <option value="2">Bornova</option>
-                            <option value="3">Karabağlar</option>
-                            <option value="4">Balçova</option>
 
                         </select>
                     </td>
@@ -114,6 +122,16 @@
                     
                 </tr>
 
+                <tr>
+
+                    <td>E-Fatura Kullanıcı Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="Firma_EFatura_KullaniciAdi" /></td>
+
+                    <td>E-Fatura Kullanıcı Şifresi</td>
+                    <td><input type="text" class="form-control" asp-for="Firma_EFatura_Sifre" /></td>
+
+
+                </tr>
 
             </table>
             <input type="submit" class="btn btn-success w-100" value="Müşteri Düzenle" />
@@ -123,3 +141,72 @@
     </div>
 
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('select').select2();
+        });
+    </script>
+    <script>
+      
+        function IlDegistir(IlKodu) {
+
+            $.ajax({
+                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                data: { IlKodu: IlKodu },
+                dataType: 'json',
+                success: function (data) {
+                    $('#Firma_AdresILCE_ID').empty();
+                    $('#Firma_AdresILCE_ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Firma_AdresILCE_ID').append($('<option>', {
+                            value: item.ilcE_KODU, // Verinin değer özelliği
+                            text: item.ilce // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+            var Firma_AdresILCE_ID = @Json.Serialize(Model.Firma_AdresILCE_ID);
+
+            if (Firma_AdresILCE_ID !== null || Firma_AdresILCE_ID != "") {
+                document.getElementById("Firma_AdresILCE_ID").value = @Model.Firma_AdresILCE_ID;
+            }
+        } 
+        var Firma_AdresIL_ID = @Json.Serialize(Model.Firma_AdresIL_ID);
+
+        if (Firma_AdresIL_ID !== null || Firma_AdresIL_ID != "") {
+            IlDegistir(Firma_AdresIL_ID);
+        }
+
+
+        function validateCheckboxes() {
+            var checkboxes = document.getElementsByName('FirmaModul_ID[]');
+            var isChecked = false;
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+            if (!isChecked) {
+                alert("Lütfen en az bir modül seçiniz.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

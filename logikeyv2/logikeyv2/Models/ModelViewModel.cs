@@ -6,5 +6,6 @@
         public string MarkaAdi { get; set;}
         public int ModelID { get; set; }
         public string ModelAdi { get; set;}
+        public int FirmaID { get; set;}
     }
 }

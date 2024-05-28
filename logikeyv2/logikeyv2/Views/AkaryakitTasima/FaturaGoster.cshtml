@@ -1,7 +1,7 @@
 ﻿@using BusinessLayer.Concrate
 @using EntityLayer.Concrate
 
-
+<a asp-controller="EFatura" asp-action="FaturaGonder" asp-route-FaturaID="@ViewBag.FaturaID">E-Fatura Oluştur</a>
 @{
     int sayac = 1;
     foreach (var grupFatura in ViewBag.GrupFatura)

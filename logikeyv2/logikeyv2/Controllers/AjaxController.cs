@@ -28,9 +28,11 @@ namespace logikeyv2.Controllers
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
         KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
+        KullaniciGrubuManager kullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
         KazaTuruManager kazaTuruManager = new KazaTuruManager(new EFKazaTuruRepository());
         AracManager aracManager = new AracManager(new EFAracRepository());
         MasrafTipiManager masrafTipiManager = new MasrafTipiManager(new EFMasrafTipiRepository());
+        MasrafTuruManager masrafTuruManager = new MasrafTuruManager(new EFMasrafTuruRepository());
 
         LastikTipiManager lastikTipiManager = new LastikTipiManager(new EFLastikTipiRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
@@ -38,6 +40,7 @@ namespace logikeyv2.Controllers
         TasinacakUrunManager tasinacakUrunManager = new TasinacakUrunManager(new EFTasinacakUrunRepository());
         AkaryakitTasimaManager akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
         CariManager cariManager = new CariManager(new EFCariRepository());
+        CariGrupManager cariGrupManager = new CariGrupManager(new EFCariGrupRepository());
         OgrenciModuluManager ogrenciModuluManager = new OgrenciModuluManager(new EFOgrenciModuluRepository());
         OgrenciTahsilatManager ogrenciTahsilatManager = new OgrenciTahsilatManager(new EFOgrenciTahsilatRepository());
 
@@ -53,35 +56,69 @@ namespace logikeyv2.Controllers
         GiderAltTipManager giderAltTipManager =new GiderAltTipManager(new EFGiderAltTipRepository());
         IstasyonManager istasyonManager =new IstasyonManager(new EFIstasyonRepository());
         TankManager tankManager =new TankManager(new EFTankRepository());
+        KDVOraniManager kDVOraniManager = new KDVOraniManager(new EFKDVOraniRepository());
 
         #endregion
 
+
+        [HttpGet]
+        public IActionResult KDVListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<KDVOrani> liste = kDVOraniManager.GetAllList(x => x.FirmaID == FirmaID || x.FirmaID == -2);
+            return Json(liste);
+        }  
+
+        [HttpGet]
+        public IActionResult AkaryakitAracTurListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<AkaryakitAracTur> liste = akaryakitAracTurManager.GetAllList(x => x.FirmaID == FirmaID || x.FirmaID == -2);
+            return Json(liste);
+        }  
+
+        [HttpGet]
+        public IActionResult KullaniciGrupListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<KullaniciGrubu> liste = kullaniciGrubuManager.GetAllList(x => x.KullaniciGrup_Durum == 1  && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            return Json(liste);
+        }  
+        
+        
+        [HttpGet]
+        public IActionResult CariGrupListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<CariGrup> liste = cariGrupManager.GetAllList(x => x.Durum == 1  && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            return Json(liste);
+        }
         [HttpGet]
         public IActionResult TankListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Tank> liste = tankManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<Tank> liste = tankManager.GetAllList(x => x.Durum == true  && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult IstasyonListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Istasyon> liste = istasyonManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<Istasyon> liste = istasyonManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult SahiplikListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<Sahiplik> liste = sahiplikManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult ServisBakimDurumListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<ServisBakimDurum> liste = servisBakimDurumManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<ServisBakimDurum> liste = servisBakimDurumManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         
@@ -89,7 +126,7 @@ namespace logikeyv2.Controllers
         public IActionResult ServisBakimTuruListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<ServisBakimTuru> liste = servisBakimTuruManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<ServisBakimTuru> liste = servisBakimTuruManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         
@@ -97,7 +134,7 @@ namespace logikeyv2.Controllers
         public IActionResult ServisBakimYeriListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<BakimYeri> liste = bakimYeriManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<BakimYeri> liste = bakimYeriManager.GetAllList(x => x.Durum == true  && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         
@@ -105,7 +142,7 @@ namespace logikeyv2.Controllers
         public IActionResult StokListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Stok> liste = stokManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<Stok> liste = stokManager.GetAllList(x => x.Durum == true  && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
 
@@ -114,7 +151,7 @@ namespace logikeyv2.Controllers
         public IActionResult TedarikciListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 8);
+            List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 8 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             return Json(liste);
         }
 
@@ -122,14 +159,14 @@ namespace logikeyv2.Controllers
         public IActionResult GiderTipListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<GiderTip> liste = giderTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<GiderTip> liste = giderTipManager.GetAllList(x => x.Durum == true &&  (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult GiderAltTipListe(int GiderTipID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<GiderAltTip> liste = giderAltTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID && x.GiderTipID==GiderTipID);
+            List<GiderAltTip> liste = giderAltTipManager.GetAllList(x => x.Durum == true && x.GiderTipID==GiderTipID && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         
@@ -146,7 +183,7 @@ namespace logikeyv2.Controllers
         public IActionResult UyariTipListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<UyariTip> liste = uyariTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.FirmaID == FirmaID);
+            List<UyariTip> liste = uyariTipManager.GetAllList(x => x.Durum == true  && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
 
@@ -154,7 +191,7 @@ namespace logikeyv2.Controllers
         public IActionResult GrupListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Grup> liste = grupManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Grup> liste = grupManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
@@ -168,8 +205,8 @@ namespace logikeyv2.Controllers
             {
                 if (MenuModulID == 3)
                 {
-                    var liste = from akaryakitAracTur in akaryakitAracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
-                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID) on akaryakitAracTur.TurID equals aracTur.ID
+                    var liste = from akaryakitAracTur in akaryakitAracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)) on akaryakitAracTur.TurID equals aracTur.ID
                                 select new { AracTur = aracTur };
 
                     return Json(liste);
@@ -177,22 +214,22 @@ namespace logikeyv2.Controllers
                 }
                 else if (MenuModulID == 2)
                 {
-                    var liste = from normalAkaryakitTur in normalAracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
-                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID) on normalAkaryakitTur.TurID equals aracTur.ID
+                    var liste = from normalAkaryakitTur in normalAracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)) on normalAkaryakitTur.TurID equals aracTur.ID
                                 select new { AracTur = aracTur };
                     return Json(liste);
                 }
                 else if (MenuModulID == 4)
                 {
-                    var liste = from okulTur in okulAracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
-                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID) on okulTur.TurID equals aracTur.ID
+                    var liste = from okulTur in okulAracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)) on okulTur.TurID equals aracTur.ID
                                 select new { AracTur = aracTur };
                     return Json(liste);
                 }
                 else
                 {
 
-                    List<AracTur> liste = (from aracTur in aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+                    List<AracTur> liste = (from aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
                                            select aracTur).ToList();
                     
                     return Json(liste);
@@ -200,7 +237,7 @@ namespace logikeyv2.Controllers
             }
             else
             {
-                List<AracTur> liste = aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+                List<AracTur> liste = aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
                 return Json(liste);
 
             }
@@ -209,63 +246,63 @@ namespace logikeyv2.Controllers
         public IActionResult AracTipListe(int AracTurID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<AracTip> liste = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID == AracTurID && x.FirmaID == FirmaID);
+            List<AracTip> liste = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID == AracTurID && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult MarkaListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Marka> liste = markaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Marka> liste = markaManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult ModelListe(int MarkaID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Model> liste = modelManager.GetAllList(x => x.Durum == true && x.MarkaID == MarkaID && x.FirmaID == FirmaID);
+            List<Model> liste = modelManager.GetAllList(x => x.Durum == true && x.MarkaID == MarkaID && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult YakitTipiListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<YakitTipi> liste = yakitTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<YakitTipi> liste = yakitTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult YakitAltTipiListe(int ID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<YakitAltTipi> liste = yakitAltTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.YakitTipiID==ID);
+            List<YakitAltTipi> liste = yakitAltTipiManager.GetAllList(x => x.Durum == true && x.YakitTipiID==ID && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult AkuTipiListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<AkuTipi> liste = akuTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<AkuTipi> liste = akuTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult SurucuPozisyonListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<SurucuPozisyon> liste = surucuPozisyonManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<SurucuPozisyon> liste = surucuPozisyonManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult EhliyetSinifiListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<EhliyetSinifi> liste = ehliyetSinifiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<EhliyetSinifi> liste = ehliyetSinifiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult KazaTuruListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<KazaTuru> liste = kazaTuruManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<KazaTuru> liste = kazaTuruManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
@@ -293,21 +330,40 @@ namespace logikeyv2.Controllers
         public IActionResult PlakaListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Arac> liste = aracManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Arac> liste = aracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
+
+
+        [HttpGet]
+        public IActionResult TureAitPlakaListe(int AracTurID)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Arac> liste = aracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2) && x.AracTurID==AracTurID);
+            return Json(liste);
+        }
+
+
+        [HttpGet]
+        public IActionResult MasrafTurListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<MasrafTuru> liste = masrafTuruManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            return Json(liste);
+        }
+
         [HttpGet]
         public IActionResult MasrafTipiListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<MasrafTipi> liste = masrafTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<MasrafTipi> liste = masrafTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult LastikTipListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<LastikTipi> liste = lastikTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<LastikTipi> liste = lastikTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
 
@@ -330,7 +386,8 @@ namespace logikeyv2.Controllers
         [HttpGet]
         public IActionResult OgrenciListe(int OkulId)
         {
-            var ogrenciOkul = from ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1)
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var ogrenciOkul = from ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == true && x.FirmaID==FirmaID)
                               join ogrenci in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 14) on ogrenciModul.CariOgrenci_ID equals ogrenci.Cari_ID
                               join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
                               where ogrenciModul.CariOkul_ID == OkulId
@@ -348,21 +405,21 @@ namespace logikeyv2.Controllers
         public IActionResult GozSayisiBul(int AracID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            Arac liste = aracManager.GetAllList(x => x.ID == AracID && x.FirmaID == FirmaID).SingleOrDefault();
+            Arac liste = aracManager.GetAllList(x => x.ID == AracID && (x.FirmaID == FirmaID || x.FirmaID == -2)).SingleOrDefault();
             return Json(liste);
         }
         [HttpGet]
         public IActionResult DorseListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 4 && x.FirmaID == FirmaID);
+            List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 4 && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
         [HttpGet]
         public IActionResult CekiciListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 1 && x.FirmaID == FirmaID);
+            List<Arac> liste = aracManager.GetAllList(x => x.AracTurID == 1 && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }
 
@@ -371,7 +428,7 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             TasinacakUrun urun = tasinacakUrunManager.GetByID(UrunID);
-            UnListesi liste = unListesiManager.GetAllList(x => x.Un_ID == urun.Un_ID && x.Firma_ID == FirmaID).SingleOrDefault();
+            UnListesi liste = unListesiManager.GetAllList(x => x.Un_ID == urun.Un_ID && (x.Firma_ID == FirmaID || x.Firma_ID == -2)).SingleOrDefault();
             return Json(liste);
         }
 
@@ -379,7 +436,7 @@ namespace logikeyv2.Controllers
         public IActionResult AkaryakitTasimaKontrol(int AracID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            AkaryakitTasima liste = akaryakitTasimaManager.GetAllList(x => x.AracID == AracID && x.Durum == true && x.FirmaID == FirmaID).LastOrDefault();
+            AkaryakitTasima liste = akaryakitTasimaManager.GetAllList(x => x.AracID == AracID && x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)).LastOrDefault();
             return Json(liste);
         }
 
@@ -387,13 +444,14 @@ namespace logikeyv2.Controllers
         public IActionResult NormalTasimaKontrol(int AracID)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            NormalTasima liste = normalTasimaManager.GetAllList(x => x.AracID == AracID && x.Durum == true && x.FirmaID == FirmaID).LastOrDefault();
+            NormalTasima liste = normalTasimaManager.GetAllList(x => x.AracID == AracID && x.Durum == true &&( x.FirmaID == FirmaID || x.FirmaID == -2)).LastOrDefault();
             return Json(liste);
         }
 
         [HttpGet]
         public IActionResult OgrenciTahsilatDetay(int id)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -402,7 +460,7 @@ namespace logikeyv2.Controllers
                     var cariList = cariManager.GetAllList(x => x.Cari_ID == id);
                     var combinedQuery = (from ot in ogrenciTahsilatList
                                          join ogrenci in cariList on ot.OgrenciId equals ogrenci.Cari_ID
-                                         join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
+                                         join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
                                          join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
                                          join tb in context.OgrenciTahsilatBilgileri.Where(x => x.Durum == true && x.OgrenciId == id).ToList() on ot.OgrenciId equals tb.OgrenciId
                                          where tb.OgrenciId == id
@@ -415,7 +473,7 @@ namespace logikeyv2.Controllers
                                          });
                     var ogrenciBilgi = (from ot in ogrenciTahsilatList
                                         join ogrenci in cariList on ot.OgrenciId equals ogrenci.Cari_ID
-                                        join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == 1) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
+                                        join ogrenciModul in ogrenciModuluManager.GetAllList(x => x.Durum == true && x.FirmaID==FirmaID) on ogrenci.Cari_ID equals ogrenciModul.CariOgrenci_ID
                                         join okul in cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 13) on ogrenciModul.CariOkul_ID equals okul.Cari_ID
                                         where ot.OgrenciId == id
                                         select new OgrenciTahsilatViewModel()

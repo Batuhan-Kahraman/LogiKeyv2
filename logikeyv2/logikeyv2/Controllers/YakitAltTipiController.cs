@@ -17,9 +17,9 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<YakitTipi> tip = YakitTipiManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<YakitTipi> tip = YakitTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             ViewBag.YakitTip = tip;
-            List<YakitAltTipi> liste = YakitAltTipiManager.GetAllList(x => x.Durum == true && x.FirmaID==FirmaID);
+            List<YakitAltTipi> liste = YakitAltTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(liste);
         }
 

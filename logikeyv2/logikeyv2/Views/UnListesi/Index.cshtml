@@ -29,9 +29,9 @@
 
                         <input type="hidden" name="Un_ID" id="Un_ID" value="" />
                         <label>Un Adı</label>
-                        <input class="form-control" id="Un_Isim" type="text" name="Un_Isim" placeholder="Un Adını Giriniz" />
+                        <input class="form-control" id="Un_Isim" type="text" name="Un_Isim" placeholder="Un Adını Giriniz" required />
                         <label>Un No</label>
-                        <input class="form-control" id="Un_No" type="text" name="Un_No" placeholder="Un Numarasını Giriniz" />
+                        <input class="form-control" id="Un_No" type="text" name="Un_No" placeholder="Un Numarasını Giriniz" required />
                         <label>Un Bakanlık Kodu</label>
                         <input class="form-control" id="Un_BakanlikKodu" type="text" name="Un_BakanlikKodu" placeholder="Un Bakanlık Kodunu Giriniz" />
                         <label>Un Sınıflandırma Kodu</label>
@@ -84,11 +84,13 @@
                                 <td>@item.Un_Sinif</td>
 
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.Un_ID, '@item.Un_Isim')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Un_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    @if (item.Firma_ID != -2 || item.Firma_ID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.Un_ID, '@item.Un_Isim','@item.Un_No','@item.Un_BakanlikKodu','@item.Un_SiniflandirmaKodu','@item.Un_Sinif')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Un_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -134,14 +136,22 @@
 </div>
 @section Scripts {
     <script>
-        function Duzenle(ID, Ad) {
-            document.getElementById("Adi").value = Ad;
-            document.getElementById("ID").value = ID;
+        function Duzenle(ID, Un_Isim, Un_No, Un_BakanlikKodu, Un_SiniflandirmaKodu, Un_Sinif) {
+            document.getElementById("Un_Isim").value = Un_Isim;
+            document.getElementById("Un_No").value = Un_No;
+            document.getElementById("Un_BakanlikKodu").value = Un_BakanlikKodu;
+            document.getElementById("Un_SiniflandirmaKodu").value = Un_SiniflandirmaKodu;
+            document.getElementById("Un_Sinif").value = Un_Sinif;
+            document.getElementById("Un_ID").value = ID;
             document.getElementById("form").setAttribute("action", "UnListesi/Duzenle");
 
         }
         function Temizle() {
-            document.getElementById("Adi").value = "";
+            document.getElementById("Un_Isim").value = "";
+            document.getElementById("Un_No").value = "";
+            document.getElementById("Un_BakanlikKodu").value = "";
+            document.getElementById("Un_SiniflandirmaKodu").value = "";
+            document.getElementById("Un_Sinif").value = ""
             document.getElementById("ID").value = "";
             document.getElementById("form").setAttribute("action", "UnListesi/Ekle");
         }

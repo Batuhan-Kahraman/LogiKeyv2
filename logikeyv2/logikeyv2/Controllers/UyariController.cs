@@ -20,7 +20,7 @@ namespace logikeyv2.Controllers
             ViewBag.Mesaj=TempData["Mesaj"];
             ViewBag.MesajTipi = TempData["MesajTipi"];
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Uyari> uyari = uyariManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Uyari> uyari = uyariManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(uyari);
         }
 
@@ -51,17 +51,16 @@ namespace logikeyv2.Controllers
                         transaction.Commit();
                         TempData["Mesaj"] = "Uyarı Eklendi.";
                         TempData["MesajTipi"] = "success";
-                        return RedirectToAction("Index");
                     }
                     catch
                     {
                         transaction.Rollback();
                         TempData["Mesaj"] = "Uyarı Eklenemedi.";
                         TempData["MesajTipi"] = "warning";
-                        return View(uyari);
                     }
                 }
             }
+                        return RedirectToAction("Index");
         }
 
         public IActionResult Duzenle(int UyariID)
@@ -123,15 +122,15 @@ namespace logikeyv2.Controllers
                 }
             }
         }
-
-        public IActionResult Sil(int UyariID)
+        [HttpPost]
+        public IActionResult Sil(IFormCollection form)
         {
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    var item = uyariManager.GetByID(UyariID);
+                    Uyari item = uyariManager.GetByID(int.Parse(form["ID"]));
                     try
                     {
                         if (item != null)

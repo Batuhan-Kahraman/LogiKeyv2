@@ -17,9 +17,9 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<AracTipiViewModel> viewModel = aracTipManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID)
+            List<AracTipiViewModel> viewModel = aracTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
                 .Join(
-                aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID),
+                aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                 tip => tip.AracTurID,
                 tur => tur.ID,
                 (tip, tur) => new AracTipiViewModel
@@ -28,9 +28,10 @@ namespace logikeyv2.Controllers
                     TurID = tur.ID,
                     TipAdi = tip.Adi,
                     TurAdi = tur.Adi,
+                    FirmaID=tip.FirmaID
                 }
                 ).ToList();
-            List<AracTur> turListe = aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<AracTur> turListe = aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             ViewBag.AracTur = turListe;
             return View(viewModel);
         }

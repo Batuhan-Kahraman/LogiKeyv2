@@ -6,5 +6,6 @@
         public string TipAdi { get; set;}
         public int TurID { get; set; }
         public string TurAdi { get; set;}
+        public int FirmaID { get;set; }
     }
 }

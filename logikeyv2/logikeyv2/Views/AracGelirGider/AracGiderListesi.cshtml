@@ -57,11 +57,14 @@
                                 <td>@item.AracGider.Tutar_Periyot</td>
 
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.AracGider.aracGider_ID, '@item.AracGider.Gider')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.AracGider.aracGider_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    @if (item.Arac.FirmaID != -2 || item.Arac.FirmaID == ViewBag.FirmaID)
+                                    {
 
+                                        <a href="#" onclick="Duzenle(@item.AracGider.aracGider_ID, '@item.AracGider.Gider')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.AracGider.aracGider_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

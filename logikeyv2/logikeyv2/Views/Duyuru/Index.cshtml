@@ -27,7 +27,7 @@
                     <div class="col-md-4">
                         <input type="hidden" name="ID" id="ID" value="" />
                         <select name="BildirimID" id="BildirimID" class="form-control" required>
-                            <option value="0">Bildirim Kategorisi Seçiniz</option>
+                            <option value="" disabled selected>Bildirim Kategorisi Seçiniz</option>
                             @foreach (var item in ViewBag.AracTur)
                             {
                                 <option value="@item.ID">@item.KategoriAdi</option>
@@ -76,11 +76,13 @@
                                 <td>@item.KategoriAdi</td>
                                 <td>@item.Icerik</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.DuyuruID, '@item.BildirimID','@item.Icerik')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.DuyuruID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.DuyuruID, '@item.BildirimID','@item.Icerik')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.DuyuruID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

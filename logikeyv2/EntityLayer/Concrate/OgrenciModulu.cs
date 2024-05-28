@@ -25,8 +25,13 @@ namespace EntityLayer.Concrate
         public string? Veli3Adi { get; set; }
         public string? Veli3Soyadi { get; set; }
         public string? Veli3TelefonNo { get; set; }
-        public byte Durum { get; set; }
-        
+        public DateTime OlusturmaTarihi { get; set; }
+        public DateTime DuzenlemeTarihi { get; set; }
+        public bool Durum { get; set; }
+        public int EkleyenKullaniciID { get; set; }
+        public int FirmaID { get; set; }
+        public int DuzenleyenKullaniciID { get; set; }
+
 
     }
 }

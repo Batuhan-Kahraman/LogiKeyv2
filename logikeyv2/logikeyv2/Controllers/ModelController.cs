@@ -17,8 +17,8 @@ namespace logikeyv2.Controllers
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<ModelViewModel> viewModel = modelManager.GetAllList(x=>x.Durum== true && x.FirmaID == FirmaID).Join(
-                markaManager.GetAllList(x=>x.Durum== true && x.FirmaID == FirmaID),
+            List<ModelViewModel> viewModel = modelManager.GetAllList(x=>x.Durum== true && (x.FirmaID == FirmaID || x.FirmaID == -2)).Join(
+                markaManager.GetAllList(x=>x.Durum== true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                 model=>model.MarkaID,
                 marka=>marka.ID,
                 (model, marka) => new ModelViewModel
@@ -27,9 +27,10 @@ namespace logikeyv2.Controllers
                     MarkaID = marka.ID,
                     ModelAdi = model.Adi,
                     MarkaAdi = marka.Adi,
+                    FirmaID=model.FirmaID
                 }
                 ).ToList();
-            List<Marka> markaListe = markaManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Marka> markaListe = markaManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             ViewBag.Marka = markaListe;
             return View(viewModel);
         }

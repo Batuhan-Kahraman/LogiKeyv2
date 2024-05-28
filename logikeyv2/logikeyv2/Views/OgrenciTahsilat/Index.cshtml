@@ -1,10 +1,10 @@
 ﻿@model List<OgrenciTahsilatViewModel>
 
 @{
-    ViewData["Title"] = "Öğrenci Tahsilat";
+    ViewData["Title"] = "Öğrenci Cari";
 }
 <div class="col-lg-30 col-xxl-12">
-    <h2 class="mb-3 lh-sm">Öğrenci Tahsilat </h2>
+    <h2 class="mb-3 lh-sm">Öğrenci Cari </h2>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -44,7 +44,7 @@
     <div class="p-4 code-to-copy">
         <div id="tableExample3" data-list='{"valueNames":["tcNo","adi","soyadi","anlasmaTutar","okulAdi","vadeBaslangicTarihi"],"page":20,"pagination":true}'>
             <div>
-                <a asp-controller="OgrenciTahsilat" asp-action="OgrenciTahsilatEkle">Tahsilat Ekle</a>
+                <a asp-controller="OgrenciTahsilat" asp-action="OgrenciTahsilatEkle">Öğrenci Cari Ekle</a>
             </div>
             <div class="search-box mb-3 mx-auto">
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
@@ -92,12 +92,15 @@
                                     <td class="sort border-top border-translucent ps-3 anlasmaTarihi">@item.okul.Cari_Unvan</td>
                                     <td class="sort border-top border-translucent ps-3 vadeBaslangicTarihi">@item.ogrenciTahsilat.VadeBaslangicTarihi</td>
                                     <td>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="OgrenciTahsilatDetay(@item.ogrenci.Cari_ID)"  >
-                                            <span class="text-body fs-5" data-feather="edit"></span>
-                                        </a>
-                                      <a type="button"  data-bs-toggle="modal" data-bs-target="#silModal" onclick="document.getElementById('silID').value='@item.ogrenciTahsilat.Id';">
-                                        <span class="text-body fs-5" data-feather="trash-2"></span>
-                                      </a>
+                                        @if (item.ogrenci.Firma_ID != -2 || item.ogrenci.Firma_ID == ViewBag.FirmaID)
+                                        {
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="OgrenciTahsilatDetay(@item.ogrenci.Cari_ID)"  >
+                                                <span class="text-body fs-5" data-feather="edit"></span>
+                                            </a>
+                                            <a type="button"  data-bs-toggle="modal" data-bs-target="#silModal" onclick="document.getElementById('silID').value='@item.ogrenciTahsilat.Id';">
+                                                <span class="text-body fs-5" data-feather="trash-2"></span>
+                                      </a>}
+
 
                                     </td>
                                 </tr>

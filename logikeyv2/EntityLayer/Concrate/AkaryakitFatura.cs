@@ -19,6 +19,7 @@ namespace EntityLayer.Concrate
         public int FaturaKesilenID { get; set; } 
         public int AkaryakitTasimaDetayUrunID { get; set; }  
         public int Odeme { get; set; }  
+        public int ToplamTutar { get; set; }  
 
 
         [Required]

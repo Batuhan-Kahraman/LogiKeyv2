@@ -15,6 +15,7 @@ namespace logikeyv2.Controllers
         FirmaManager firmaManager = new FirmaManager(new EFFirmaRepository());
         KullanicilarManager kullaniciManager = new KullanicilarManager(new EFKullanicilarRepository());
         ModullerManager modullerManager = new ModullerManager(new EFModullerRepository());
+        AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         public IActionResult Index()
         {
             List<Firma> liste = firmaManager.GetAllList(x => x.Firma_Durum == 1);
@@ -23,6 +24,10 @@ namespace logikeyv2.Controllers
         }
         public IActionResult Ekle()
         {
+            var adres = adresManager.List();
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
             ViewBag.Moduller = liste;
             return View();
@@ -39,7 +44,7 @@ namespace logikeyv2.Controllers
                     try
                     {
                         var moduller = form["FirmaModul_ID[]"];
-
+                        
                         var hashPswd = ComputeSHA256Hash(firma.Firma_Sifre);
                         firma.Firma_Sifre = hashPswd;
                         firma.Firma_Durum = 1;
@@ -60,6 +65,7 @@ namespace logikeyv2.Controllers
                         kullanicilar.DuzenleyenID = KullaniciID;
                         kullanicilar.Kullanici_OlusturmaTarihi = DateTime.Now;
                         kullanicilar.Kullanici_DuzenlemeTarihi = DateTime.Now;
+                        kullanicilar.KullaniciModul_ID = moduller;
                         kullaniciManager.TAdd(kullanicilar);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
@@ -93,6 +99,10 @@ namespace logikeyv2.Controllers
 
         public IActionResult Duzenle(int FirmaID)
         {
+            var adres = adresManager.List();
+            var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
+
+            ViewBag.Iller = iller;
             List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
             ViewBag.Moduller = liste;
             Firma firma = firmaManager.GetByID(FirmaID);
@@ -122,6 +132,8 @@ namespace logikeyv2.Controllers
                         kayit.Firma_Unvan = firma.Firma_Unvan;
                         kayit.Firma_WebSitesi = firma.Firma_WebSitesi;
                         kayit.DuzenlemeTarihi = DateTime.Now;
+                        kayit.Firma_EFatura_KullaniciAdi = firma.Firma_EFatura_KullaniciAdi;
+                        kayit.Firma_EFatura_Sifre = firma.Firma_EFatura_Sifre;
                         kayit.FirmaModul_ID = moduller;
                         firmaManager.TUpdate(kayit);
                         TempData["Msg"] = "İşlem başarılı.";
@@ -151,7 +163,6 @@ namespace logikeyv2.Controllers
                     {
                         Firma item = firmaManager.GetByID(int.Parse(form["ID"]));
                         item.Firma_Durum = 0;
-                        item.Firma_ID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
                         firmaManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";

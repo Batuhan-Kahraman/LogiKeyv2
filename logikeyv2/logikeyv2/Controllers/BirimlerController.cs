@@ -15,7 +15,7 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Birimler> liste = BirimlerManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<Birimler> liste = BirimlerManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(liste);
         }
 
@@ -57,6 +57,8 @@ namespace logikeyv2.Controllers
         [HttpPost]
         public IActionResult Duzenle(IFormCollection form)
         {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
             using (var context = new Context())
             {
                 using (var transaction = context.Database.BeginTransaction())
@@ -65,9 +67,9 @@ namespace logikeyv2.Controllers
                     {
                         Birimler item = BirimlerManager.GetByID(int.Parse(form["ID"]));
                         item.Adi = form["Adi"];
-                        item.FirmaID = 1;//değişçek
+                        item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
-                        item.DuzenleyenID = 1;//değişcek
+                        item.DuzenleyenID = KullaniciID;
                         BirimlerManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";

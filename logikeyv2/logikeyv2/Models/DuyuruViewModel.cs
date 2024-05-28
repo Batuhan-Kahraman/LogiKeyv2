@@ -6,5 +6,6 @@
         public string Icerik { get; set;}
         public int BildirimID { get; set; }
         public string KategoriAdi { get; set;}
+        public int FirmaID { get; set; }
     }
 }

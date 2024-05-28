@@ -14,6 +14,7 @@ namespace EntityLayer.Concrate
         public string? CariGrup_Adi { get; set; }
         public int Firma_ID { get; set; }
         public int EkleyenKullanici_ID { get; set; }
+        public int DuzenleyenKullanici_ID { get; set; }
         public DateTime Olusturma_Tarihi { get; set; }
         public DateTime Duzenleme_Tarihi { get; set; }
         public byte Durum { get; set; }

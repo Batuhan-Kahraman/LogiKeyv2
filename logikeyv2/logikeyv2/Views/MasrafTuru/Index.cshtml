@@ -26,7 +26,7 @@
                 <div class="row g-3 justify-content-between align-items-center">
                     <div class="col-md-8">
                         <input type="hidden" name="ID" id="ID" value="" />
-                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" />
+                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" required />
                     </div>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
@@ -62,11 +62,13 @@
                             <tr>
                                 <td>@item.Adi</td>
                                 <td>
-                                    <a href="#" onclick="Duzenle(@item.ID, '@item.Adi')">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-
+                                    @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                                    {
+                                        <a href="#" onclick="Duzenle(@item.ID, '@item.Adi')">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }

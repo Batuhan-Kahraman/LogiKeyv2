@@ -15,7 +15,7 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<AracTur> liste = aracTurManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID);
+            List<AracTur> liste = aracTurManager.GetAllList(x => x.Durum == true &&( x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(liste);
         }
 

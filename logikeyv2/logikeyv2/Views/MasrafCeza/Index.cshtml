@@ -1,4 +1,5 @@
-﻿@model List<logikeyv2.Models.MasrafCezaViewModel>
+﻿@using BusinessLayer.Concrate
+@model List<logikeyv2.Models.MasrafCezaViewModel>
 
 @{
     ViewData["Title"] = "Masraf Ceza Ekle";
@@ -52,25 +53,22 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                @if (item.MasrafCeza.Tur == 1)
-                                {
+                               
                                     <td>
-                                        Masraf
+                                    @Helper.MasrafTuru(item.MasrafCeza.Tur)
                                     </td>
-                                } else{
-                                    <td>
-                                        Ceza
-                                    </td>
-                                }
                                 <td>@item.Plaka</td>
                                 <td>@item.Surucu</td>
                                 <td>@item.MasrafCeza.FaturaTarihi</td>
                                 <td>@item.MasrafCeza.FaturaNo</td>
                                 <td>
-                                    <a asp-controller="MasrafCeza" asp-action="Duzenle" asp-route-MasrafCezaID="@item.MasrafCeza.ID">
-                                        <span class="text-body fs-5" data-feather="edit"></span>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.MasrafCeza.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    @if (item.MasrafCeza.FirmaID != -2 || item.MasrafCeza.FirmaID == ViewBag.FirmaID)
+                                    {
+                                        <a asp-controller="MasrafCeza" asp-action="Duzenle" asp-route-MasrafCezaID="@item.MasrafCeza.ID">
+                                            <span class="text-body fs-5" data-feather="edit"></span>
+                                        </a>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.MasrafCeza.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                                    }
                                 </td>
                             </tr>
                         }
