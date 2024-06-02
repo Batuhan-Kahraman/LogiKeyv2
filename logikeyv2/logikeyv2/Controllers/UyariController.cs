@@ -17,8 +17,6 @@ namespace logikeyv2.Controllers
         public IActionResult Index()
         {
 
-            ViewBag.Mesaj=TempData["Mesaj"];
-            ViewBag.MesajTipi = TempData["MesajTipi"];
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Uyari> uyari = uyariManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             return View(uyari);
@@ -49,14 +47,16 @@ namespace logikeyv2.Controllers
                         uyari.DuzenlemeTarihi = DateTime.Now;
                         uyariManager.TAdd(uyari);
                         transaction.Commit();
-                        TempData["Mesaj"] = "Uyarı Eklendi.";
-                        TempData["MesajTipi"] = "success";
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
+
                     }
-                    catch
+                    catch (Exception e)
                     {
                         transaction.Rollback();
-                        TempData["Mesaj"] = "Uyarı Eklenemedi.";
-                        TempData["MesajTipi"] = "warning";
+
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
                     }
                 }
             }
@@ -108,15 +108,15 @@ namespace logikeyv2.Controllers
                         }
 
                         transaction.Commit();
-                        TempData["Mesaj"] = "Uyarı Düzenlendi.";
-                        TempData["MesajTipi"] = "success";
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");
                     }
-                    catch
+                    catch (Exception e)
                     {
                         transaction.Rollback();
-                        TempData["Mesaj"] = "Uyarı Düzenlenemedi.";
-                        TempData["MesajTipi"] = "warning";
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
                         return View(uyari);
                     }
                 }
@@ -142,15 +142,15 @@ namespace logikeyv2.Controllers
                             uyariManager.TUpdate(item);
                         }
                         transaction.Commit();
-                        TempData["Mesaj"] = "Uyarı Silindi.";
-                        TempData["MesajTipi"] = "success";
+                        TempData["Msg"] = "İşlem başarılı.";
+                        TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");
                     }
-                    catch
+                    catch (Exception e)
                     {
                         transaction.Rollback();
-                        TempData["Mesaj"] = "Uyarı Silinemedi.";
-                        TempData["MesajTipi"] = "warning";
+                        TempData["Msg"] = "İşlem başarısız.Hata: " + e;
+                        TempData["Bgcolor"] = "red";
                         return RedirectToAction("Index");
                     }
 

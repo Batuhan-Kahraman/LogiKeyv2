@@ -107,6 +107,8 @@ namespace logikeyv2.Controllers
         }
         public IActionResult Ekle()
         {
+
+            ViewBag.MenuModulID = @HttpContext.Session.GetInt32("MenuModulID");
             if (TempData.ContainsKey("Arac"))
             {
                 string aracJson = TempData["Arac"] as string;
@@ -317,6 +319,7 @@ namespace logikeyv2.Controllers
 
         public IActionResult Duzenle(int AracID)
         {
+            ViewBag.MenuModulID = @HttpContext.Session.GetInt32("MenuModulID");
             ViewBag.Resimler=aracResimlerManager.GetAllList(x=>x.AracID==AracID );
             Arac arac = aracManager.GetByID(AracID);
             return View(arac);

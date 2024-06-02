@@ -26,6 +26,8 @@ namespace DataAccessLayer.Concrate
         public DbSet<AdresOzellikTanimlama> AdresOzellikTanimlama { get; set; }
 
         public DbSet<AracTur> AracTur { get; set; }
+        public DbSet<Evraklar> Evraklar { get; set; }
+        public DbSet<KullaniciEvraklar> KullaniciEvraklar { get; set; }
         public DbSet<AracTip> AracTip { get; set; }
         public DbSet<Sahiplik> Sahiplik { get; set; }
         public DbSet<Durumlar> Durumlar { get; set; }
@@ -45,6 +47,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<Moduller> Moduller { get; set; }
         public DbSet<Kullanicilar> Kullanicilar { get; set; }
         public DbSet<Cari> Cari { get; set; }
+        public DbSet<CariHareket> CariHareket { get; set; }
 
         public DbSet<CariGrup> CariGrup { get; set; }
         public DbSet<CariUcretlendirme> CariUcretlendirme { get; set; }

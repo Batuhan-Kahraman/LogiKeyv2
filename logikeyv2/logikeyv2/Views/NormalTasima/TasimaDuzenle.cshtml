@@ -1,4 +1,4 @@
-﻿@using BusinessLayer.Concrate
+﻿﻿@using BusinessLayer.Concrate
 @using EntityLayer.Concrate
 @model EntityLayer.Concrate.NormalTasima
 
@@ -139,7 +139,7 @@
                                 }
                                 else
                                 {
-                                
+
                                     <option value="@surucu.Kullanici_ID">@surucu.Kullanici_Isim @surucu.Kullanici_Soyisim</option>
                                 }
                             }
@@ -372,7 +372,7 @@
                                                     </td>
 
                                                     <td>Yükleme Miktarı</td>
-                                                    <td><input type="number" class="form-control" name="YuklemeMiktari@(sayac)[]" id="YuklemeMiktari@(sayac)_@(sayacUrun)" value="@urun.YuklemeMiktari" onblur="toplamYuk()"/></td>
+                                                    <td><input type="number" class="form-control" name="YuklemeMiktari@(sayac)[]" id="YuklemeMiktari@(sayac)_@(sayacUrun)" value="@urun.YuklemeMiktari" onblur="toplamYuk()" /></td>
                                                 </tr>
                                                 <tr style="border-bottom: 1px solid #ddd; margin-bottom:2%;" id="templateRow@(sayac)_2">
                                                     <td>Ödeme Yapan Cari</td>
@@ -880,5 +880,3 @@
         }
     </script>
 }
-
-

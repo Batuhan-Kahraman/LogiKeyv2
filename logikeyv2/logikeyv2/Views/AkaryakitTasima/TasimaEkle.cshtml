@@ -1,4 +1,4 @@
-﻿@using BusinessLayer.Concrate
+﻿﻿@using BusinessLayer.Concrate
 @model EntityLayer.Concrate.AkaryakitTasima
 
 @{
@@ -399,12 +399,12 @@
     <script>
 
         $(document).ready(function () {
-            $('select').select2(); 
+            $('select').select2();
             const bugün = new Date();
             let yil = bugün.getFullYear();
             let ay = ('0' + (bugün.getMonth() + 1)).slice(-2); // Ayı iki haneli yapmak için
             let gün = ('0' + bugün.getDate()).slice(-2); // Günü iki haneli yapmak için
-            var bugununTarihi= `${yil}-${ay}-${gün}`;
+            var bugununTarihi = `${yil}-${ay}-${gün}`;
             $('input[type="date"]').each(function () {
                 $(this).val(bugununTarihi);
             });
@@ -867,7 +867,5 @@
             return true;
         }
     </script>
-   
+
 }
-
-

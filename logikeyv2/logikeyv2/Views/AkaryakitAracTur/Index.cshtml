@@ -6,7 +6,16 @@
     ViewData["Title"] = "Araç Türleri";
 }
 <div class="col-lg-30 col-xxl-12">
+
     <h2 class="mb-3 lh-sm">Araç Türleri</h2>
+
+    <a asp-controller="AracTur" asp-action="Index" target="_blank" class="me-2  text-decoration-none">
+        <span class="text-body fs-5" data-feather="plus"></span>Araç Türü Ekle
+    </a>
+    <a asp-controller="AkaryakitAracTur" asp-action="Index" class="me-2  text-decoration-none" style="cursor:pointer;">
+        <span class="text-body fs-5" data-feather="refresh-ccw"></span>Yenile
+    </a>
+
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -21,7 +30,8 @@
         </div>
 
     }
- 
+
+
     <div class="p-4 code-to-copy">
         <form method="post" asp-controller="AkaryakitAracTur" asp-action="Kaydet">
             <ul style=" list-style-type: none;">

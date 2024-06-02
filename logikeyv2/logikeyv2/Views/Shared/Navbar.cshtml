@@ -127,6 +127,11 @@
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Evraklar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Evraklar</span></div>
+                                            </a>
+                                        </li>
                                         
                                         <li>
                                             <a class="nav-link" asp-controller="GiderTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -275,6 +280,13 @@
                                                 </div>
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="CariOdemeHareketleri" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Cari Ödeme Hareketleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
                                         <li class="nav-item ">
                                             <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center">
@@ -327,12 +339,6 @@
                                     <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-normalTasima">
                                         <li class="collapsed-nav-item-title d-none">Normal Taşıma</li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-controller="NormalTasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Taşıma Listesi</span>
-                                                </div>
-                                            </a>
-                                        </li>
 
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -342,6 +348,13 @@
                                             </a>
                                         </li>
 
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="CariOdemeHareketleri" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Cari Ödeme Hareketleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
 
                                         <li class="nav-item ">
                                             <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -365,6 +378,12 @@
                                             </a>
                                         </li>
 
+                                        <a class="nav-link" asp-controller="NormalTasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Taşıma Listesi</span>
+                                            </div>
+                                        </a>
+                        </li>
                                     </ul>
                                 </div>
                             </div>

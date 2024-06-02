@@ -8,16 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
+
 namespace logikeyv2.Controllers
 {
     [OturumKontrolAttributeController]
     public class SurucuController : BaseController
     {
         KullanicilarManager surucuManager = new KullanicilarManager(new EFKullanicilarRepository());
+        KullaniciEvraklarManager kullaniciEvraklarManager = new KullaniciEvraklarManager(new EFKullaniciEvraklarRepository());
         EhliyetSinifiManager ehliyetSinifiManager = new EhliyetSinifiManager(new EFEhliyetSinifiRepository());
         SurucuPozisyonManager surucuPozisyonManager = new SurucuPozisyonManager(new EFSurucuPozisyonRepository());
         KullaniciGrubuManager kullaniciGrubuManager = new KullaniciGrubuManager(new EFKullaniciGrubuRepository());
-       AdresOzellikTanimlamaManager adresOzellikTanimlamaManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
+        AdresOzellikTanimlamaManager adresOzellikTanimlamaManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
 
         ModullerManager modullerManager = new ModullerManager(new EFModullerRepository());
@@ -64,7 +66,7 @@ namespace logikeyv2.Controllers
             List<SurucuPozisyon> SurucuPozisyon = surucuPozisyonManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2)));
             ViewBag.SurucuPozisyon = SurucuPozisyon;
             List<EhliyetSinifi> ehliyetSinifi = ehliyetSinifiManager.GetAllList((y => y.Durum == true && (y.FirmaID == FirmaID || y.FirmaID == -2)));
-            ViewBag.EhliyetSinifi = ehliyetSinifi; 
+            ViewBag.EhliyetSinifi = ehliyetSinifi;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
@@ -76,7 +78,7 @@ namespace logikeyv2.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Ekle(Kullanicilar surucu,IFormCollection form)
+        public IActionResult Ekle(Kullanicilar surucu, IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -102,6 +104,28 @@ namespace logikeyv2.Controllers
                         surucu.EkleyenKullanici_ID = KullaniciID;
                         surucu.DuzenleyenID = KullaniciID;
                         surucuManager.TAdd(surucu);
+
+
+                        int kayitSayisi = form["Evraklar[]"].Count();
+                        for (int i = 0; i < kayitSayisi; i++)
+                        {
+
+                            KullaniciEvraklar kullaniciEvraklar = new KullaniciEvraklar();
+                            kullaniciEvraklar.KullaniciID = surucu.Kullanici_ID;
+                            kullaniciEvraklar.EvrakID = int.Parse(form["Evraklar[]"][i]);
+                            kullaniciEvraklar.EvraklarVerilisTarihi =DateTime.Parse( form["EvraklarVerilisTarihi[]"][i]);
+                            kullaniciEvraklar.EvraklarGecerlilikTarihi =DateTime.Parse( form["EvraklarGecerlilikTarihi[]"][i]);
+                            kullaniciEvraklar.Durum = true;
+                            kullaniciEvraklar.FirmaID = FirmaID;
+                            kullaniciEvraklar.OlusturmaTarihi = DateTime.Now;
+                            kullaniciEvraklar.DuzenlemeTarihi = DateTime.Now;
+                            kullaniciEvraklar.OlusturanId = KullaniciID;
+                            kullaniciEvraklar.DuzenleyenID = KullaniciID;
+                            kullaniciEvraklarManager.TAdd(kullaniciEvraklar);
+
+                        }
+
+
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                     }
@@ -117,7 +141,7 @@ namespace logikeyv2.Controllers
         }
         public JsonResult GetIlceler(string il)
         {
-            List<AdresOzellikTanimlama> adres = adresOzellikTanimlamaManager.GetAllList((y => y.Il== il));
+            List<AdresOzellikTanimlama> adres = adresOzellikTanimlamaManager.GetAllList((y => y.Il == il));
             var ilceler = adres.Select(a => new { a.Adres_ID, a.Ilce }).ToList();
 
             return Json(ilceler);
@@ -138,14 +162,16 @@ namespace logikeyv2.Controllers
 
             ViewBag.Iller = iller;
 
+            List<KullaniciEvraklar> kullaniciEvraklar = kullaniciEvraklarManager.GetAllList(x=>x.Durum==true && x.FirmaID==FirmaID && x.KullaniciID==SurucuID);
+            ViewBag.KullaniciEvraklar= kullaniciEvraklar;
 
-           List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
+            List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
             ViewBag.TumModuller = liste;
             return View(arac);
         }
 
         [HttpPost]
-        public IActionResult Duzenle(Kullanicilar surucu,IFormCollection form)
+        public IActionResult Duzenle(Kullanicilar surucu, IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -157,37 +183,37 @@ namespace logikeyv2.Controllers
                     {
                         Kullanicilar item = surucuManager.GetByID(surucu.Kullanici_ID);
                         item.SurucuPozisyonID = surucu.SurucuPozisyonID;
-                        var hashPswd="";
+                        var hashPswd = "";
                         if (form["Kullanici_Sifre"].ToString() != null && form["Kullanici_Sifre"].ToString() != "")
                         {
                             hashPswd = ComputeSHA256Hash(form["Kullanici_Sifre"].ToString());
                             item.Kullanici_Sifre = hashPswd;
                         }
 
-                            item.Kullanici_Isim=surucu.Kullanici_Isim;
-                        item.Kullanici_Soyisim=surucu.Kullanici_Soyisim;
-                        item.TC=surucu.TC;
-                        item.GirisTarihi=surucu.GirisTarihi;
+                        item.Kullanici_Isim = surucu.Kullanici_Isim;
+                        item.Kullanici_Soyisim = surucu.Kullanici_Soyisim;
+                        item.TC = surucu.TC;
+                        item.GirisTarihi = surucu.GirisTarihi;
                         item.CikisTarihi = surucu.CikisTarihi;
                         item.CikisNedeni = surucu.CikisNedeni;
-                        item.DurumID=surucu.DurumID;
+                        item.DurumID = surucu.DurumID;
                         item.DogumTarihi = surucu.DogumTarihi;
-                        item.Kullanici_Eposta=surucu.Kullanici_Eposta;
-                        item.KanGrubu=surucu.KanGrubu;
+                        item.Kullanici_Eposta = surucu.Kullanici_Eposta;
+                        item.KanGrubu = surucu.KanGrubu;
                         item.CepTelefonu = surucu.CepTelefonu;
-                        item.Adres=surucu.Adres;
-                        item.Notlar=surucu.Notlar;
+                        item.Adres = surucu.Adres;
+                        item.Notlar = surucu.Notlar;
                         item.EhliyetSinifiID = surucu.EhliyetSinifiID;
                         item.EhliyetVerilisTarihi = surucu.EhliyetVerilisTarihi;
                         item.EhliyetVerilisYeri = surucu.EhliyetVerilisYeri;
                         item.EhliyetSonaErisTarihi = surucu.EhliyetSonaErisTarihi;
                         item.EhliyetResmi = surucu.EhliyetResmi;
-                        item.BankaAdi= surucu.BankaAdi;
+                        item.BankaAdi = surucu.BankaAdi;
                         item.BankaIban = surucu.BankaIban;
                         item.MeslekiYeterlilikGecTarih = surucu.MeslekiYeterlilikGecTarih;
                         item.PsikoTeknikGecTarih = surucu.PsikoTeknikGecTarih;
                         item.PsikoTeknikKurumu = surucu.PsikoTeknikKurumu;
-                        item.BGecerlilikTarih=surucu.BGecerlilikTarih;
+                        item.BGecerlilikTarih = surucu.BGecerlilikTarih;
                         item.BEGecerlilikTarih = surucu.BEGecerlilikTarih;
                         item.C1EGecerlilikTarih = surucu.C1EGecerlilikTarih;
                         item.C1GecerlilikTarih = surucu.C1GecerlilikTarih;
@@ -196,6 +222,9 @@ namespace logikeyv2.Controllers
                         item.D1EGecerlilikTarih = surucu.D1EGecerlilikTarih;
                         item.FGecerlilikTarih = surucu.FGecerlilikTarih;
                         item.Maas = surucu.Maas;
+                        item.EhliyetGecerlilikTarihi = surucu.EhliyetGecerlilikTarihi;
+                        item.EhliyetSeriNumarasi = surucu.EhliyetSeriNumarasi;
+                        item.EhliyetNumarasi = surucu.EhliyetNumarasi;
                         item.IlID = surucu.IlID;
                         item.IlceID = surucu.IlceID;
                         item.Kullanici_DuzenlemeTarihi = DateTime.Now;
@@ -205,6 +234,30 @@ namespace logikeyv2.Controllers
 
                         item.KullaniciModul_ID = moduller;
                         surucuManager.TUpdate(item);
+
+                        Helper.TumKullaniciEvraklariSil(surucu.Kullanici_ID);
+
+                        int kayitSayisi = form["Evraklar[]"].Count();
+                        for (int i = 0; i < kayitSayisi; i++)
+                        {
+
+                            KullaniciEvraklar kullaniciEvraklar = new KullaniciEvraklar();
+                            kullaniciEvraklar.KullaniciID = surucu.Kullanici_ID;
+                            kullaniciEvraklar.EvrakID = int.Parse(form["Evraklar[]"][i]);
+                            kullaniciEvraklar.EvraklarVerilisTarihi = DateTime.Parse(form["EvraklarVerilisTarihi[]"][i]);
+                            kullaniciEvraklar.EvraklarGecerlilikTarihi = DateTime.Parse(form["EvraklarGecerlilikTarihi[]"][i]);
+                            kullaniciEvraklar.Durum = true;
+                            kullaniciEvraklar.FirmaID = FirmaID;
+                            kullaniciEvraklar.OlusturmaTarihi = DateTime.Now;
+                            kullaniciEvraklar.DuzenlemeTarihi = DateTime.Now;
+                            kullaniciEvraklar.OlusturanId = KullaniciID;
+                            kullaniciEvraklar.DuzenleyenID = KullaniciID;
+                            kullaniciEvraklarManager.TAdd(kullaniciEvraklar);
+
+                        }
+
+
+
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
 
@@ -215,12 +268,12 @@ namespace logikeyv2.Controllers
                         TempData["Bgcolor"] = "red";
                         transaction.Rollback();
                     }
-                        return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
             }
         }
 
-            [HttpPost]
+        [HttpPost]
         public IActionResult Sil(IFormCollection form)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");

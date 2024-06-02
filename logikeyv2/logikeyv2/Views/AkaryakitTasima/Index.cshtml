@@ -1,4 +1,5 @@
-﻿@using EntityLayer.Concrate;
+﻿@using BusinessLayer.Concrate
+@using EntityLayer.Concrate;
 @model List<TasimaModel>
 
 @{
@@ -22,7 +23,7 @@
     }
 
     <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["tip","plaka","surucu","tur","miktar","tarih"],"page":20,"pagination":true}'>
+        <div id="tableExample3" data-list='{"valueNames":["tarih","plaka","dorseplaka","surucu","musteri","ay"],"page":20,"pagination":true}'>
             <div>
                 <a asp-controller="AkaryakitTasima" asp-action="TasimaEkle" asp-route-ModulID="3" class="button-style">Taşıma Ekle</a>
             </div>
@@ -31,10 +32,12 @@
                 <table class="table table-striped table-sm fs-9 mb-0">
                     <thead>
                         <tr>
-                            <th class="sort border-top border-translucent ps-3" data-sort="plaka">Araç Plaka</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="surucu">Sürücü</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="miktar">Toplam Yüklenen Miktar</th>
                             <th class="sort border-top border-translucent ps-3" data-sort="tarih">Tarih</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="plaka">Araç Plaka</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="dorseplaka">Dorse Plaka</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="surucu">Sürücü</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="musteri">İlk Gönderen Müşteri</th>
+                            <th class="sort border-top border-translucent ps-3" data-sort="say">Müşteri Sayısı</th>
                             <th class="sort border-top">
                                 İşlemler
                             </th>
@@ -45,11 +48,12 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.Arac.Plaka</td>
-                                <td>@item.Surucu.Kullanici_Isim @item.Surucu.Kullanici_Soyisim</td>
-                               
-                                <td>@item.Tasima.ToplamYuklenenMiktar</td>
                                 <td>@item.Tasima.OlusturmaTarihi</td>
+                                <td>@item.Arac.Plaka</td>
+                                <td>@item.Dorse.Plaka</td>
+                                <td>@item.Surucu.Kullanici_Isim @item.Surucu.Kullanici_Soyisim</td>
+                               <td>@Helper.AkaryakitTasimaIlkMusteri(item.Tasima.ID)</td>
+                                <td>@Helper.AkaryakitTasimaMusteriSayi(item.Tasima.ID)</td>
 
                                 <td>
 

@@ -33,16 +33,26 @@ namespace logikeyv2.Controllers
         AkaryakitTasimaDetayUrunManager akaryakitTasimaDetayUrunManager = new AkaryakitTasimaDetayUrunManager(new EFAkaryakitTasimaDetayUrunRepository());
         AkaryakitFaturaManager akaryakitFaturaManager = new AkaryakitFaturaManager(new EFAkaryakitFaturaRepository());
         AkaryakitAracTurManager akaryakitAracTurManager = new AkaryakitAracTurManager(new EFAkaryakitAracTurRepository());
+        CariHareketManager cariHareketManager = new CariHareketManager(new EFCariHareketRepository());
         #endregion
 
         public IActionResult Index()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
 
-            var combinedQuery = from tasima in akaryakitTasimaManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2))
-                               join arac in aracManager.List() on tasima.AracID equals arac.ID
+            var combinedQuery = from tasima in akaryakitTasimaManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                join arac in aracManager.List() on tasima.AracID equals arac.ID
+                                join dorse in aracManager.List() on tasima.DorsePlakaID equals dorse.ID
                                 join surucu1 in surucuManager.List() on tasima.Kullanici1ID equals surucu1.Kullanici_ID
-                                select new TasimaModel { Tasima = tasima, Arac = arac, Surucu = surucu1 };
+                                select new TasimaModel
+                                {
+                                    Tasima = tasima,
+                                    Arac = arac,
+                                    Dorse = dorse,
+                                    Surucu = surucu1
+                                };
+
+
 
             List<TasimaModel> combinedList = combinedQuery.ToList();
 
@@ -63,18 +73,18 @@ namespace logikeyv2.Controllers
             List<AracTip> aracTip = aracTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             List<AracTur> aracTur = aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             List<Birimler> birimler = birimlerManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<TasimaTipi> tasimaTipi = tasimaTipiManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<TasimaTipi> tasimaTipi = tasimaTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
-            List<Arac> cekiciPlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 1&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<Arac> dorsePlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 4&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<AracTip> dorseListesi = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID == 4&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-
-
-            List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 8&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
-            List<Cari> GondericiListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 6&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Arac> cekiciPlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 1 && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Arac> dorsePlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 4 && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AracTip> dorseListesi = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID == 4 && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
 
-            List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 8 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Cari> GondericiListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 6 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+
+
+            List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
 
 
             ViewBag.CekiciPlaka = cekiciPlaka;
@@ -129,7 +139,7 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                       
+
 
                         var surucuKoparmaIslemi = Helper.AkaryakitSurucuKopar(akaryakitTasima.Kullanici1ID, akaryakitTasima.Kullanici2ID, akaryakitTasima.Kullanici3ID);
                         if (surucuKoparmaIslemi == true)
@@ -154,8 +164,10 @@ namespace logikeyv2.Controllers
                             akaryakitTasima.AracTurID = int.Parse(form["AracTurID"]);
                             akaryakitTasimaManager.TAdd(akaryakitTasima);
                             int kayitSayisi = int.Parse(form["KayitSayisi"]);
+                            int NakliyeToplam = 0;
                             for (var i = 1; i <= kayitSayisi; i++)
                             {
+                                NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                 AkaryakitTasimaDetay akaryakitTasimaDetay = new AkaryakitTasimaDetay();
                                 akaryakitTasimaDetay.AkaryakitTasimaID = akaryakitTasima.ID;
                                 akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
@@ -235,7 +247,7 @@ namespace logikeyv2.Controllers
 
                                     }
 
-                                    AkaryakitCariHareket cariHareket = new AkaryakitCariHareket
+                                    AkaryakitCariHareket akaryakitCariHareket = new AkaryakitCariHareket
                                     {
                                         CariID = akaryakitFatura.FaturaKesenID,
                                         FaturaID = akaryakitFatura.ID,
@@ -249,12 +261,28 @@ namespace logikeyv2.Controllers
                                         OlusturmaTarihi = DateTime.Now,
                                         DuzenlemeTarihi = DateTime.Now
                                     };
-                                    Helper.AkaryakitCariHareketEkle(cariHareket);
+                                    Helper.AkaryakitCariHareketEkle(akaryakitCariHareket);
 
+                                    CariHareket cariHareket = new CariHareket();
+                                    cariHareket.CariID = akaryakitFatura.FaturaKesilenID;
+                                    cariHareket.AkaryakitFaturaID = akaryakitTasima.ID;
+                                    cariHareket.AkaryakitFaturaTutar = NakliyeToplam;
+                                    cariHareket.Durum = true;
+                                    cariHareket.FirmaID = FirmaID;
+                                    cariHareket.OlusturanId = KullaniciID;
+                                    cariHareket.DuzenleyenID = KullaniciID;
+                                    cariHareket.OlusturmaTarihi = DateTime.Now;
+                                    cariHareket.DuzenlemeTarihi = DateTime.Now;
+                                    cariHareketManager.TAdd(cariHareket);
+
+                                    Helper.CariBorcAlacakKalanHesapla(akaryakitFatura.FaturaKesilenID);
 
                                 }
 
                             }
+
+
+
                             TempData["Msg"] = "İşlem başarılı.";
                             TempData["Bgcolor"] = "green";
                         }
@@ -283,27 +311,27 @@ namespace logikeyv2.Controllers
 
             HttpContext.Session.SetInt32("MenuModulID", ModulID);
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID==2&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
-            List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
-            List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
-            List<CariUcretlendirme> Ucretlendirme = ucretlendirme.GetAllList(x => x.Durum == true&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
-            List<AracTip> aracTip = aracTipManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<AracTur> aracTur = aracTurManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<Birimler> birimler = birimlerManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<TasimaTipi> tasimaTipi = tasimaTipiManager.GetAllList(x => x.Durum == true&& (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 2 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<UnListesi> UnListesi = unListesiManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Cari> CariListesi = cariManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<CariUcretlendirme> Ucretlendirme = ucretlendirme.GetAllList(x => x.Durum == true && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<AracTip> aracTip = aracTipManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AracTur> aracTur = aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Birimler> birimler = birimlerManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<TasimaTipi> tasimaTipi = tasimaTipiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
-            List<Arac> cekiciPlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 1&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<Arac> dorsePlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 4&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<AracTip> dorseListesi = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID == 4&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-
-
-            List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 8&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
-            List<Cari> GondericiListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 6&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Arac> cekiciPlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 1 && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<Arac> dorsePlaka = aracManager.GetAllList(x => x.Durum == true && x.AracTurID == 4 && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AracTip> dorseListesi = aracTipManager.GetAllList(x => x.Durum == true && x.AracTurID == 4 && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
 
-            List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true&& (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Cari> AliciListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 8 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<Cari> GondericiListesi = cariManager.GetAllList(x => x.Durum == 1 && x.Cari_GrupID == 6 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+
+
+            List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
 
 
             ViewBag.CekiciPlaka = cekiciPlaka;
@@ -400,10 +428,15 @@ namespace logikeyv2.Controllers
                             akaryakitTasimaManager.TUpdate(akaryakitTasima);
 
 
+                            List<CariHareket> cariHareketEski = cariHareketManager.GetAllList(x => x.AkaryakitFaturaID == akaryakitTasima.ID);
+                            foreach (var silinecek in cariHareketEski)
+                            {
+                                cariHareketManager.TDelete(silinecek);
+                            }
                             int kayitSayisi = int.Parse(form["KayitSayisi"]);
 
                             int ToplamFiyat = 0;
-
+                            int eskiNakliyeToplam = 0, yeniNakliyeToplam = 0;
                             for (var i = 1; i <= kayitSayisi; i++)
                             {
                                 AkaryakitTasimaDetay akaryakitTasimaDetay;
@@ -413,6 +446,9 @@ namespace logikeyv2.Controllers
                                     int detayID = int.Parse(form["detayID" + i + "[]"]);
 
                                     akaryakitTasimaDetay = akaryakitTasimaDetayManager.GetByID(detayID);
+
+                                    eskiNakliyeToplam = akaryakitTasimaDetay.NakliyeToplam;
+                                    yeniNakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
 
                                     akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
                                     akaryakitTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
@@ -436,6 +472,7 @@ namespace logikeyv2.Controllers
                                 }
                                 catch (ArgumentNullException)
                                 {
+
                                     akaryakitTasimaDetay = new AkaryakitTasimaDetay();
                                     akaryakitTasimaDetay.AkaryakitTasimaID = akaryakitTasima.ID;
                                     akaryakitTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
@@ -457,6 +494,8 @@ namespace logikeyv2.Controllers
                                     akaryakitTasimaDetay.OlusturanId = KullaniciID;//değişcek
                                     akaryakitTasimaDetay.DuzenleyenID = KullaniciID;//değişcek
                                     akaryakitTasimaDetayManager.TAdd(akaryakitTasimaDetay);
+
+                                    yeniNakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                 }
 
 
@@ -485,11 +524,11 @@ namespace logikeyv2.Controllers
                                         akaryakitFatura.AkaryakitTasimaID = akaryakitTasima.ID;
                                         akaryakitFatura.AkaryakitTasimaDetayID = akaryakitTasimaDetay.ID;
                                         akaryakitFatura.Durum = true;
-                                        akaryakitFatura.FirmaID = FirmaID;//değişçek
+                                        akaryakitFatura.FirmaID = FirmaID;
                                         akaryakitFatura.OlusturmaTarihi = DateTime.Now;
                                         akaryakitFatura.DuzenlemeTarihi = DateTime.Now;
-                                        akaryakitFatura.OlusturanId = KullaniciID;//değişcek
-                                        akaryakitFatura.DuzenleyenID = KullaniciID;//değişcek
+                                        akaryakitFatura.OlusturanId = KullaniciID;
+                                        akaryakitFatura.DuzenleyenID = KullaniciID;
                                     }
                                     catch
                                     {
@@ -506,14 +545,14 @@ namespace logikeyv2.Controllers
                                         akaryakitTasimaDetayUrun.BirimSeferFiyati = int.Parse(form["Birim_SeferFiyat" + i + "[]"][j]);
 
                                         akaryakitTasimaDetayUrun.Durum = true;
-                                        akaryakitTasimaDetayUrun.FirmaID = FirmaID;  // Değişecek
+                                        akaryakitTasimaDetayUrun.FirmaID = FirmaID;  
                                         akaryakitTasimaDetayUrun.OlusturmaTarihi = DateTime.Now;
                                         akaryakitTasimaDetayUrun.DuzenlemeTarihi = DateTime.Now;
-                                        akaryakitTasimaDetayUrun.OlusturanId = KullaniciID;  // Değişecek
-                                        akaryakitTasimaDetayUrun.DuzenleyenID = KullaniciID;  // Değişecek
-
+                                        akaryakitTasimaDetayUrun.OlusturanId = KullaniciID;
+                                        akaryakitTasimaDetayUrun.DuzenleyenID = KullaniciID; 
 
                                         akaryakitTasimaDetayUrunManager.TAdd(akaryakitTasimaDetayUrun);
+
                                         akaryakitFatura = new AkaryakitFatura();
                                         akaryakitFatura.FaturaNo = akaryakitTasima.ID + "_" + DateTime.Now; //isteğe göre değiştirilebilir
                                         akaryakitFatura.AkaryakitTasimaID = akaryakitTasima.ID;
@@ -550,7 +589,7 @@ namespace logikeyv2.Controllers
 
 
 
-                                    AkaryakitCariHareket cariHareket = new AkaryakitCariHareket
+                                    AkaryakitCariHareket cariHareket1 = new AkaryakitCariHareket
                                     {
                                         CariID = akaryakitFatura.FaturaKesenID,
                                         FaturaID = akaryakitFatura.ID,
@@ -564,7 +603,21 @@ namespace logikeyv2.Controllers
                                         OlusturmaTarihi = DateTime.Now,
                                         DuzenlemeTarihi = DateTime.Now
                                     };
-                                    Helper.AkaryakitCariHareketEkle(cariHareket);
+                                    Helper.AkaryakitCariHareketEkle(cariHareket1);
+
+                                    CariHareket cariHareket = new CariHareket();
+                                    cariHareket.CariID = akaryakitFatura.FaturaKesilenID;
+                                    cariHareket.AkaryakitFaturaID = akaryakitTasima.ID;
+                                    cariHareket.AkaryakitFaturaTutar = yeniNakliyeToplam;
+                                    cariHareket.Durum = true;
+                                    cariHareket.FirmaID = FirmaID;
+                                    cariHareket.OlusturanId = KullaniciID;
+                                    cariHareket.DuzenleyenID = KullaniciID;
+                                    cariHareket.OlusturmaTarihi = DateTime.Now;
+                                    cariHareket.DuzenlemeTarihi = DateTime.Now;
+                                    cariHareketManager.TAdd(cariHareket);
+
+                                    Helper.CariBorcAlacakKalanHesapla(akaryakitFatura.FaturaKesilenID);
 
 
                                 }
@@ -634,8 +687,19 @@ namespace logikeyv2.Controllers
                             x.DuzenlemeTarihi = DateTime.Now;
                             x.DuzenleyenID = KullaniciID;
                             akaryakitTasimaDetayUrunManager.TUpdate(x);
+                            List<CariHareket> hareketler = cariHareketManager.GetAllList(y => y.CariID == x.OdemeYapanCariID && y.AkaryakitFaturaID== int.Parse(form["ID"]));
+                            foreach (var item1 in hareketler)
+                            {
+                                item1.Durum = false;
+                                item1.DuzenlemeTarihi = DateTime.Now;
+                                item1.DuzenleyenID = KullaniciID;
+                                cariHareketManager.TUpdate(item1);
+                            }
+                            Helper.CariBorcAlacakKalanHesapla(x.OdemeYapanCariID);
 
                         }
+
+
                         TempData["Msg"] = "İşlem başarılı.";
                         TempData["Bgcolor"] = "green";
                         return RedirectToAction("Index");
@@ -656,12 +720,12 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             AkaryakitTasima tasima = akaryakitTasimaManager.GetByID(ID);
-            List<AkaryakitTasimaDetay> tasimaDetay = akaryakitTasimaDetayManager.GetAllList(x => x.AkaryakitTasimaID == ID&& (x.FirmaID == FirmaID || x.FirmaID == -2));
-            List<AkaryakitTasimaDetayUrun> tasimaDetayUrun = akaryakitTasimaDetayUrunManager.GetAllList(x => x.AkaryakitTasimaID == ID&& (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AkaryakitTasimaDetay> tasimaDetay = akaryakitTasimaDetayManager.GetAllList(x => x.AkaryakitTasimaID == ID && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AkaryakitTasimaDetayUrun> tasimaDetayUrun = akaryakitTasimaDetayUrunManager.GetAllList(x => x.AkaryakitTasimaID == ID && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
-            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID&& (x.FirmaID == FirmaID || x.FirmaID == -2));
+            List<AkaryakitFatura> faturaList = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
-            ViewBag.GrupFatura = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID&& (x.FirmaID == FirmaID || x.FirmaID == -2))
+            ViewBag.GrupFatura = akaryakitFaturaManager.GetAllList(x => x.AkaryakitTasimaID == ID && (x.FirmaID == FirmaID || x.FirmaID == -2))
              .GroupBy(x => x.FaturaKesenID)
              .Select(group => group.Key)
              .ToList();

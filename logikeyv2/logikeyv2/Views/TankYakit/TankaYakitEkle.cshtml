@@ -31,7 +31,13 @@
 
 
                     <td>Tank</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="Tank" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="TankListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="TankID" id="TankID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -41,13 +47,25 @@
                 </tr>
                 <tr>
                     <td>Yakıt Tipi</td>
-                    <td>
-                        <select class="form-control" asp-for="YakitTipID" id="YakitTipID" onchange="yakitAltTipListe(this.value)">
+                    <td class="d-flex">
+                        <a asp-controller="YakitTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="YakitTipiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="YakitTipID" id="YakitTipID" onchange="yakitAltTipListe()">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
                     <td>Yakıt Alt Tipi</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="YakitAltTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="yakitAltTipListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="YakitAltTipID" id="YakitAltTipID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -55,7 +73,13 @@
                 </tr>
                 <tr>
                     <td>Tedarikçi</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="Cari" asp-action="Ekle" asp-route-Grup="3" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="TedarikciListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="TedarikciID" id="TedarikciID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -95,60 +119,71 @@
     </script>
     <script>
 
+        function TankListe() {
 
-        //tank listele
-        $.ajax({
-            url: '../Ajax/TankListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#TankID').empty();
-                $('#TankID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#TankID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
-                    }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
-
-        //yakıt tipi listele
-        $.ajax({
-            url: '../Ajax/YakitTipiListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#YakitTipID').empty();
-                $('#YakitTipID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#YakitTipID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
-                    }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
-        //yakıt alt tipi listele
-        function yakitAltTipListe(ID) {
+            //tank listele
             $.ajax({
-                url: '../Ajax/YakitAltTipiListe', // Verileri sağlayan API'nin endpoint'i
+                url: '../../Ajax/TankListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#TankID').empty();
+                    $('#TankID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#TankID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        TankListe();
+
+        function YakitTipiListe() {
+
+            //yakıt tipi listele
+            $.ajax({
+                url: '../../Ajax/YakitTipiListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#YakitTipID').empty();
+                    $('#YakitTipID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#YakitTipID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        YakitTipiListe();
+
+        //yakıt alt tipi listele
+        function yakitAltTipListe() {
+            var ID = document.getElementById("YakitTipID").value;
+            $.ajax({
+                url: '../../Ajax/YakitAltTipiListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 dataType: 'json',
                 data: { ID: ID },
@@ -165,6 +200,34 @@
                             value: item.id, // Verinin değer özelliği
                             text: item.adi // Verinin görünen metni
                         }));
+                    }); 
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        yakitAltTipListe();
+
+        function TedarikciListe() {
+            //tedarikci listele
+            $.ajax({
+                url: '../../Ajax/TedarikciListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#TedarikciID').empty();
+                    $('#TedarikciID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#TedarikciID').append($('<option>', {
+                            value: item.kullanici_ID, // Verinin değer özelliği
+                            text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                        }));
                     });
                 },
                 error: function (error) {
@@ -172,31 +235,8 @@
                 }
             });
         }
-
-        //tedarikci listele
-        $.ajax({
-            url: '../Ajax/TedarikciListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#TedarikciID').empty();
-                $('#TedarikciID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));  
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#TedarikciID').append($('<option>', {
-                        value: item.kullanici_ID, // Verinin değer özelliği
-                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
-                    })); 
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+        TedarikciListe();
     </script>
+
 
 }
