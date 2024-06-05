@@ -62,6 +62,21 @@ namespace logikeyv2.Controllers
 
         #endregion
 
+        [HttpGet]
+        public IActionResult TasinacakUrunListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<TasinacakUrun> liste = tasinacakUrunManager.GetAllList(x =>x.Durum==true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            return Json(liste);
+        }
+        
+        [HttpGet]
+        public IActionResult CariGrubaGoreListe(int GrupID)
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<Cari> liste = cariManager.GetAllList(x =>x.Durum==1 && x.Cari_GrupID==GrupID && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            return Json(liste);
+        }
 
         [HttpGet]
         public IActionResult OkulListe()
@@ -135,6 +150,7 @@ namespace logikeyv2.Controllers
             return Json(liste);
         }  
         
+
         [HttpGet]
         public IActionResult AkaryakitAracTurListe()
         {
