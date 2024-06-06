@@ -3,7 +3,7 @@ using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrate;
 using logikeyv2.Models;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc; 
 using Tesseract;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -406,6 +406,22 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 7);
+            return Json(liste);
+        }
+
+        [HttpGet]
+        public IActionResult DorseHaricPlakaListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var liste = from arac in aracManager.GetAllList(x => x.Durum == true && x.AracTurID != 4 && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                               join aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                       on arac.AracTurID equals aracTur.ID
+                               select new
+                               {
+                                   Arac = arac,
+                                   AracTur = aracTur
+                               };
+
             return Json(liste);
         }
         [HttpGet]

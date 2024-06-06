@@ -538,6 +538,28 @@ namespace BusinessLayer.Concrate
             }
         }
 
+        public static bool BakimStokTemizle(int BakimID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecek = context.BakimStok.Where(e => e.BakimID == BakimID).ToList();
+
+                    context.BakimStok.RemoveRange(silinecek);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
         public static bool AkaryakitCariHareketTemizle(int FaturaID)
         {
             using (var context = new Context())

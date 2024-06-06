@@ -28,7 +28,7 @@
         <form method="post" enctype="multipart/form-data">
             <table class="table table-borderless">
                 <tr>
-                    <td>Çekici</td>
+                    <td>Araçlar</td>
                     <td>
                         <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
@@ -54,7 +54,7 @@
                         <a onclick="DorseListe()" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
                         </a>
-                        <select class="form-control" asp-for="DorseID" id="DorseID" required>
+                        <select class="form-control" asp-for="DorseID" id="DorseID" >
 
                             <option value="" disable selected>Seçiniz</option>
                         </select>
@@ -462,7 +462,7 @@
         function CekiciListe() {
             //çekici listele
             $.ajax({
-                url: '../Ajax/CekiciListe', // Verileri sağlayan API'nin endpoint'i
+                url: '../Ajax/DorseHaricPlakaListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -477,8 +477,8 @@
                     $.each(data, function (index, item) {
                         console.log(item);
                         $('#CekiciID').append($('<option>', {
-                            value: item.id, // Verinin değer özelliği
-                            text: item.plaka // Verinin görünen metni
+                            value: item.arac.id, // Verinin değer özelliği
+                            text: item.arac.plaka + " - "+item.aracTur.adi // Verinin görünen metni
                         }));
                     });
                 },
@@ -630,18 +630,50 @@
             var cell2 = document.createElement('td');
             var cell3 = document.createElement('td');
             var cell4 = document.createElement('td');
-            var cell5 = document.createElement('td');
-            var cell6 = document.createElement('td');
-            var cell7 = document.createElement('td');
 
             // Hücrelere içerik ekle
             cell1.innerHTML = '<select class="form-control" name="StokID' + items + '[]" id="StokID' + items + '"  onchange="StokSec(this.value,' + items + ')"><option value = "0" > Seçiniz </option></select>';
             cell2.innerHTML = '<input type="number" class="form-control" name="Miktar' + items + '[]" id="Miktar' + items + '" />';
             cell3.innerHTML = '<input type="number" class="form-control" name="BirimFiyat' + items + '[]" id="BirimFiyat' + items + '" />';
-            cell4.innerHTML = '<select class="form-control" name="TedarikciID' + items + '[]" id="TedarikciID' + items + '"><option value = "0" > Seçiniz </option></select>';
-            cell5.innerHTML = '<input type="text" class="form-control" name="FisNo' + items + '[]" id="FisNo' + items + '" />';
-            cell6.innerHTML = '<select class="form-control" name="GiderTipID' + items + '[]" id="GiderTipID' + items + '" onchange="GiderAltTipListe(this.value,' + items + ')"><option value = "0" > Seçiniz </option></select>';
-            cell7.innerHTML = '<select class="form-control" name="GiderAltTipID' + items + '[]" id="GiderAltTipID' + items + '"><option value = "0" > Seçiniz </option></select>';
+            cell4.innerHTML = '<input type="number" class="form-control" name = "ToplamFiyat' + items + '[]" id = "ToplamFiyat' + items + '" />';
+
+
+            // Satıra hücreleri ekle
+            newRow.appendChild(cell1);
+            newRow.appendChild(cell2);
+            newRow.appendChild(cell3);
+            newRow.appendChild(cell4);
+
+            // Tablonun tbody bölümüne yeni satırı ekle
+            document.getElementById('stokTable').getElementsByTagName('tbody')[0].appendChild(newRow);
+            document.getElementById('StokSayisi').value = items;
+
+            StokListe(items);
+
+
+        }
+       
+        
+        function HizmetEkle() {
+            items++;
+            var newRow = document.createElement('tr');
+
+            // Yeni satıra hücreler (td) ekle
+            var cell1 = document.createElement('td');
+            var cell2 = document.createElement('td');
+            var cell3 = document.createElement('td');
+            var cell4 = document.createElement('td');
+            var cell5 = document.createElement('td');
+            var cell6 = document.createElement('td');
+
+            // Hücrelere içerik ekle
+            cell1.innerHTML = '<input type="date" class="form-control" name = "Tarih' + items + '[]" id = "Tarih' + items + '" />';
+            cell2.innerHTML = ' <select class="form-control" name = "TedarikciID' + items + '[]" id = "TedarikciID' + items + '" ><option value = "0">Tedarikçi Seçiniz</option></select>';
+            cell3.innerHTML = '<input type="text" class="form-control" name = "HizmetAdi' + items + '[]" id = "HizmetAdi' + items + '" />';
+            cell4.innerHTML = '<input type="text" class="form-control" name = "FaturaNo' + items + '[]" id = "FaturaNo' + items + '" />';
+            cell5.innerHTML = '<input type="text" class="form-control" name = "FiyatKdvHaric' + items + '[]" id = "FiyatKdvHaric' + items + '" />';
+            cell6.innerHTML = '<input type="text" class="form-control" name = "KdvTutar' + items + '[]" id = "KdvTutar' + items + '" />';
+
 
             // Satıra hücreleri ekle
             newRow.appendChild(cell1);
@@ -650,13 +682,11 @@
             newRow.appendChild(cell4);
             newRow.appendChild(cell5);
             newRow.appendChild(cell6);
-            newRow.appendChild(cell7);
 
             // Tablonun tbody bölümüne yeni satırı ekle
-            document.getElementById('stokTable').getElementsByTagName('tbody')[0].appendChild(newRow);
-            document.getElementById('StokSayisi').value = items;
+            document.getElementById('hizmetTable').getElementsByTagName('tbody')[0].appendChild(newRow);
+            document.getElementById('HizmetSayisi').value = items;
 
-            StokListe(items);
             TedarikciListe(items);
             GiderTipListe(items);
 

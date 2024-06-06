@@ -107,6 +107,9 @@ namespace logikeyv2.Controllers
         {
             Bakim bakim = bakimManager.GetByID(ID);
             List<BakimStok> bakimStok = bakimStokManager.GetAllList(x => x.Durum == true && x.BakimID == ID);
+            if (bakimStok[0].StokID == null)
+                ViewBag.BakimHizmet = bakimStok;
+            else
             ViewBag.BakimStok = bakimStok;
             return View(bakim);
         }
@@ -140,29 +143,14 @@ namespace logikeyv2.Controllers
                         item.DuzenleyenID = KullaniciID;
                         bakimManager.TUpdate(item);
 
+                        Helper.BakimStokTemizle(bakim.ID);
+
+
                         int kayitSayisi = int.Parse(form["StokSayisi"]);
                         for (var i = 1; i <= kayitSayisi; i++)
                         {
                             BakimStok bakimStok;
-                            try
-                            {
-                                int BakimStokID = int.Parse(form["BakimStokID" + i + "[]"]);
-                                
-                                bakimStok = bakimStokManager.GetByID(BakimStokID);
-                                bakimStok.BakimID = bakim.ID;
-                                bakimStok.Miktar = int.Parse(form["Miktar" + i + "[]"]);
-                                bakimStok.BirimFiyat = float.Parse(form["BirimFiyat" + i + "[]"]); 
-                                bakimStok.ToplamFiyat = float.Parse(form["ToplamFiyat" + i + "[]"]);
-                                bakimStok.StokID = int.Parse(form["StokID" + i + "[]"]);
-
-                                bakimStok.Durum = true;
-                                bakimStok.FirmaID = FirmaID;
-                                bakimStok.DuzenlemeTarihi = DateTime.Now;
-                                bakimStok.DuzenleyenID = KullaniciID;
-                                bakimStokManager.TUpdate(bakimStok);
-                            }
-                            catch
-                            {
+                          
                                 bakimStok = new BakimStok();
                                 bakimStok.BakimID = bakim.ID;
                                 bakimStok.Miktar = int.Parse(form["Miktar" + i + "[]"]);
@@ -180,34 +168,13 @@ namespace logikeyv2.Controllers
                                 bakimStokManager.TAdd(bakimStok);
                             }
 
-                        }
-
+                        
 
                         int kayitSayisiHizmet = int.Parse(form["HizmetSayisi"]);
                         for (var i = 1; i <= kayitSayisiHizmet; i++)
                         {
                             BakimStok bakimStok;
-                            try
-                            {
-                                int BakimStokID = int.Parse(form["BakimHizmetID" + i + "[]"]);
-
-                                bakimStok = bakimStokManager.GetByID(BakimStokID);
-                                bakimStok.BakimID = bakim.ID;
-                                bakimStok.Tarih = DateTime.Parse(form["Tarih" + i + "[]"]);
-                                bakimStok.TedarikciID = int.Parse(form["TedarikciID" + i + "[]"]);
-                                bakimStok.HizmetAdi = form["HizmetAdi" + i + "[]"];
-                                bakimStok.FaturaNo = form["FaturaNo" + i + "[]"];
-                                bakimStok.FiyatKdvHaric = float.Parse(form["FiyatKdvHaric" + i + "[]"]);
-                                bakimStok.KdvTutar = float.Parse(form["KdvTutar" + i + "[]"]);
-
-                                bakimStok.Durum = true;
-                                bakimStok.FirmaID = FirmaID;
-                                bakimStok.DuzenlemeTarihi = DateTime.Now;
-                                bakimStok.DuzenleyenID = KullaniciID;
-                                bakimStokManager.TUpdate(bakimStok);
-                            }
-                            catch
-                            {
+                          
                                 bakimStok = new BakimStok();
                                 bakimStok.BakimID = bakim.ID;
                                 bakimStok.Tarih = DateTime.Parse(form["Tarih" + i + "[]"]);
@@ -224,7 +191,7 @@ namespace logikeyv2.Controllers
                                 bakimStok.OlusturanId = KullaniciID;
                                 bakimStok.DuzenleyenID = KullaniciID;
                                 bakimStokManager.TAdd(bakimStok);
-                            }
+                      
 
                         }
 

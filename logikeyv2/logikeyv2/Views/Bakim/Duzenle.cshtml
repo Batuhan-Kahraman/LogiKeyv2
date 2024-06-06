@@ -139,7 +139,8 @@
             }
         });
     }
-
+    var itemstok = 0;
+    var itemhizmet = 0;
 </script>
 
 <div class="col-lg-30 col-xxl-12">
@@ -164,7 +165,7 @@
             <input type="hidden" asp-for="ID" />
             <table class="table table-borderless">
                 <tr>
-                    <td>Çekici</td>
+                    <td>Araç</td>
                     <td>
                         <select class="form-control" asp-for="CekiciID" id="CekiciID" required>
 
@@ -179,7 +180,7 @@
                     <td>Dorse</td>
                     <td>
 
-                        <select class="form-control" asp-for="DorseID" id="DorseID" required>
+                        <select class="form-control" asp-for="DorseID" id="DorseID" >
                             <option value="" disable selected>Seçiniz</option>
                         </select>
                     </td>
@@ -269,39 +270,42 @@
                     <tbody>
                         @{
                             int sayi = 0;
+                            if (ViewBag.BakimStok != null && ViewBag.BakimStok.Count > 0)
+                            {
                             foreach (var item in ViewBag.BakimStok)
                             {
                                 sayi++;
-                                <tr>
-                                    <td>
-                                        <input type="hidden" name="BakimStokID@(sayi)[]" value="@item.ID" />
-                                        <select class="form-control" name="StokID@(sayi)[]" id="StokID@(sayi)" onchange="StokSec(this.value,@(sayi))">
-                                            <option value="0">Seçiniz</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" name="Miktar@(sayi)[]" id="Miktar@(sayi)" value="@item.Miktar" />
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" name="BirimFiyat@(sayi)[]" id="BirimFiyat@(sayi)" value="@item.BirimFiyat" />
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" name="ToplamFiyat@(sayi)[]" id="ToplamFiyat@(sayi)" value="@item.ToplamFiyat" />
-                                    </td>
-                                </tr>
-                                <script>
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="BakimStokID@(sayi)[]" value="@item.ID" />
+                                                    <select class="form-control" name="StokID@(sayi)[]" id="StokID@(sayi)" onchange="StokSec(this.value,@(sayi))">
+                                                        <option value="0">Seçiniz</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" name="Miktar@(sayi)[]" id="Miktar@(sayi)" value="@item.Miktar" />
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" name="BirimFiyat@(sayi)[]" id="BirimFiyat@(sayi)" value="@item.BirimFiyat" />
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" name="ToplamFiyat@(sayi)[]" id="ToplamFiyat@(sayi)" value="@item.ToplamFiyat" />
+                                                </td>
+                                            </tr>
+                                            <script>
 
-                                    StokListe(@sayi, @item.StokID);
-                                </script>
+                                                StokListe(@sayi, @item.StokID);
+                                itemstok = @sayi;
+                                            </script>
                             }
                         }
-                        <script>
-                            items = @sayi;
-                        </script>
+                        }
+
+
                     </tbody>
                 </table>
 
-                <input type="hidden" name="StokSayisi" id="StokSayisi" value="@(sayi)" />
+                <input type="hidden" name="StokSayisi" id="StokSayisi" value="" />
             </div>
             <div id="BakimHizmetDiv" style=" display:none;">
 
@@ -325,36 +329,42 @@
                     <tbody>
                         @{
                             int sayiHizmet = 0;
-                            foreach (var item in ViewBag.BakimStok)
+                            if (ViewBag.BakimHizmet != null && ViewBag.BakimHizmet.Count > 0)
                             {
-                                sayiHizmet++;
-                                <tr>
-                                    <td>
-                                        <input type="hidden" name="BakimHizmetID@(sayiHizmet)[]" value="@item.ID" />
-                                        <input type="date" class="form-control" name="Tarih@(sayi)[]" id="Tarih@(sayi)" value="@item.Tarih" />
-                                    </td>
-                                    <td>
-                                        <select class="form-control" name="TedarikciID@(sayiHizmet)[]" id="TedarikciID@(sayiHizmet)">
-                                            <option value="0">Seçiniz</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" name="HizmetAdi@(sayi)[]" id="HizmetAdi@(sayi)" value="@item.HizmetAdi" />
-                                    </td>
+                                foreach (var item in ViewBag.BakimHizmet)
+                                {
+                                    sayiHizmet++;
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" name="BakimHizmetID@(sayiHizmet)[]" value="@item.ID" />
+                                                        <input type="date" class="form-control" name="Tarih@(sayiHizmet)[]" id="Tarih@(sayiHizmet)" value="@item.Tarih.ToString("yyyy-MM-dd")" />
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="TedarikciID@(sayiHizmet)[]" id="TedarikciID@(sayiHizmet)">
+                                                            <option value="0">Seçiniz</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="HizmetAdi@(sayiHizmet)[]" id="HizmetAdi@(sayiHizmet)" value="@item.HizmetAdi" />
+                                                    </td>
 
-                                    <td>
-                                        <input type="text" class="form-control" name="FaturaNo@(sayi)[]" id="FaturaNo@(sayi)" value="@item.FaturaNo" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" name="FiyatKdvHaric@(sayi)[]" id="FiyatKdvHaric@(sayi)" value="@item.FiyatKdvHaric" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" name="KdvTutar@(sayi)[]" id="KdvTutar@(sayi)" value="@item.KdvTutar" />
-                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="FaturaNo@(sayiHizmet)[]" id="FaturaNo@(sayiHizmet)" value="@item.FaturaNo" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="FiyatKdvHaric@(sayiHizmet)[]" id="FiyatKdvHaric@(sayiHizmet)" value="@item.FiyatKdvHaric" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="KdvTutar@(sayiHizmet)[]" id="KdvTutar@(sayiHizmet)" value="@item.KdvTutar" />
+                                                    </td>
 
-                                </tr>
-                        <script>
-                            TedarikciListe(@sayiHizmet, @item.TedarikciID);</script>
+                                                </tr>
+                                                <script>
+                                                    TedarikciListe(@sayiHizmet, @item.TedarikciID);
+
+                                                itemhizmet = @sayi;
+                                                    </script>
+                                }
                             }
                         }
 
@@ -378,6 +388,7 @@
 
         $(document).ready(function () {
             $('select').select2();
+
         });
     </script>
     <script>
@@ -542,9 +553,16 @@
                         }));
                     });
                     var BakimYeri = @Json.Serialize(Model.BakimYeri);
-
+                    debugger;
                     if (BakimYeri !== null || BakimYeri != "") {
                         document.getElementById("BakimYeri").value = BakimYeri;
+                        BakimYeriDegis();
+                        if (BakimYeri == 1)
+
+                            document.getElementById("StokSayisi").value = itemstok;
+                        else
+
+                            document.getElementById("HizmetSayisi").value = itemhizmet;
                     }
                 },
                 error: function (error) {
@@ -592,7 +610,7 @@
         function CekiciListe() {
             //çekici listele
             $.ajax({
-                url: '../../Ajax/CekiciListe', // Verileri sağlayan API'nin endpoint'i
+                url: '../../Ajax/DorseHaricPlakaListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -607,8 +625,8 @@
                     $.each(data, function (index, item) {
                         console.log(item);
                         $('#CekiciID').append($('<option>', {
-                            value: item.id, // Verinin değer özelliği
-                            text: item.plaka // Verinin görünen metni
+                            value: item.arac.id, // Verinin değer özelliği
+                            text: item.arac.plaka + " - " + item.aracTur.adi // Verinin görünen metni
                         }));
                     });
                     var CekiciID = @Json.Serialize(Model.CekiciID);
@@ -626,9 +644,41 @@
 
         /***************/
 
-
         function StokEkle() {
-            items++;
+            itemstok++;
+            var newRow = document.createElement('tr');
+
+            // Yeni satıra hücreler (td) ekle
+            var cell1 = document.createElement('td');
+            var cell2 = document.createElement('td');
+            var cell3 = document.createElement('td');
+            var cell4 = document.createElement('td');
+
+            // Hücrelere içerik ekle
+            cell1.innerHTML = '<select class="form-control" name="StokID' + itemstok + '[]" id="StokID' + itemstok + '"  onchange="StokSec(this.value,' + itemstok + ')"><option value = "0" > Seçiniz </option></select>';
+            cell2.innerHTML = '<input type="number" class="form-control" name="Miktar' + itemstok + '[]" id="Miktar' + itemstok + '" />';
+            cell3.innerHTML = '<input type="number" class="form-control" name="BirimFiyat' + itemstok + '[]" id="BirimFiyat' + itemstok + '" />';
+            cell4.innerHTML = '<input type="number" class="form-control" name = "ToplamFiyat' + itemstok + '[]" id = "ToplamFiyat' + itemstok + '" />';
+
+
+            // Satıra hücreleri ekle
+            newRow.appendChild(cell1);
+            newRow.appendChild(cell2);
+            newRow.appendChild(cell3);
+            newRow.appendChild(cell4);
+
+            // Tablonun tbody bölümüne yeni satırı ekle
+            document.getElementById('stokTable').getElementsByTagName('tbody')[0].appendChild(newRow);
+            document.getElementById('StokSayisi').value = itemstok;
+
+            StokListe(itemstok);
+
+
+        }
+
+
+        function HizmetEkle() {
+            itemhizmet++;
             var newRow = document.createElement('tr');
 
             // Yeni satıra hücreler (td) ekle
@@ -638,16 +688,15 @@
             var cell4 = document.createElement('td');
             var cell5 = document.createElement('td');
             var cell6 = document.createElement('td');
-            var cell7 = document.createElement('td');
 
             // Hücrelere içerik ekle
-            cell1.innerHTML = '<select class="form-control" name="StokID' + items + '[]" id="StokID' + items + '"  onchange="StokSec(this.value,' + items + ')"><option value = "0" > Seçiniz </option></select>';
-            cell2.innerHTML = '<input type="number" class="form-control" name="Miktar' + items + '[]" id="Miktar' + items + '" />';
-            cell3.innerHTML = '<input type="number" class="form-control" name="BirimFiyat' + items + '[]" id="BirimFiyat' + items + '" />';
-            cell4.innerHTML = '<select class="form-control" name="TedarikciID' + items + '[]" id="TedarikciID' + items + '"><option value = "0" > Seçiniz </option></select>';
-            cell5.innerHTML = '<input type="text" class="form-control" name="FisNo' + items + '[]" id="FisNo' + items + '" />';
-            cell6.innerHTML = '<select class="form-control" name="GiderTipID' + items + '[]" id="GiderTipID' + items + '" onchange="GiderAltTipListe(this.value,' + items + ')"><option value = "0" > Seçiniz </option></select>';
-            cell7.innerHTML = '<select class="form-control" name="GiderAltTipID' + items + '[]" id="GiderAltTipID' + items + '"><option value = "0" > Seçiniz </option></select>';
+            cell1.innerHTML = '<input type="date" class="form-control" name = "Tarih' + itemhizmet + '[]" id = "Tarih' + itemhizmet + '" />';
+            cell2.innerHTML = ' <select class="form-control" name = "TedarikciID' + itemhizmet + '[]" id = "TedarikciID' + itemhizmet + '" ><option value = "0">Tedarikçi Seçiniz</option></select>';
+            cell3.innerHTML = '<input type="text" class="form-control" name = "HizmetAdi' + itemhizmet + '[]" id = "HizmetAdi' + itemhizmet + '" />';
+            cell4.innerHTML = '<input type="text" class="form-control" name = "FaturaNo' + itemhizmet + '[]" id = "FaturaNo' + itemhizmet + '" />';
+            cell5.innerHTML = '<input type="text" class="form-control" name = "FiyatKdvHaric' + itemhizmet + '[]" id = "FiyatKdvHaric' + itemhizmet + '" />';
+            cell6.innerHTML = '<input type="text" class="form-control" name = "KdvTutar' + itemhizmet + '[]" id = "KdvTutar' + itemhizmet + '" />';
+
 
             // Satıra hücreleri ekle
             newRow.appendChild(cell1);
@@ -656,20 +705,19 @@
             newRow.appendChild(cell4);
             newRow.appendChild(cell5);
             newRow.appendChild(cell6);
-            newRow.appendChild(cell7);
 
             // Tablonun tbody bölümüne yeni satırı ekle
-            document.getElementById('stokTable').getElementsByTagName('tbody')[0].appendChild(newRow);
-            document.getElementById('StokSayisi').value = items;
+            document.getElementById('hizmetTable').getElementsByTagName('tbody')[0].appendChild(newRow);
+            document.getElementById('HizmetSayisi').value = itemhizmet;
 
-            StokListe(items);
-            TedarikciListe(items);
-            GiderTipListe(items);
+            TedarikciListe(itemhizmet);
+            GiderTipListe(itemhizmet);
 
         }
     </script>
     <script>
         function BakimYeriDegis() {
+            debugger;
             var BakimYeri = document.getElementById("BakimYeri").value;
             if (BakimYeri == "1") {
 
@@ -687,7 +735,6 @@
                 document.getElementById("HizmetSayisi").value = "1";
             }
         }
-        BakimYeriDegis();
 
     </script>
 }

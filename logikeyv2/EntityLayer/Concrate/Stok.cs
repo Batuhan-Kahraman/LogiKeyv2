@@ -18,6 +18,11 @@ namespace EntityLayer.Concrate
         public int Adet { get; set; }
         public int BirimFiyat { get; set; }
         public string? Aciklama { get; set; }
+        public DateTime? Tarih { get; set; }
+        public string? FaturaNo { get; set; }
+        public int? TedarikciID {  get; set; }
+        public int? GiderTipiID {  get; set; }
+
 
         [Required]
         public int FirmaID { get; set; }
