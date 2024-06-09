@@ -1,3 +1,4 @@
+using logikeyv2.ApiServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true; // Make the session cookie essential to the application
 });
+
+builder.Services.AddHttpClient<EFaturaApiService>(x => x.BaseAddress = new Uri(builder.Configuration["BaseUrl"]));
 
 var app = builder.Build();
 
@@ -29,7 +32,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
 // Add session middleware to the request pipeline
 app.UseSession();
 

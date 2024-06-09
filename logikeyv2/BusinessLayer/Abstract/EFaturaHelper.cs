@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using static System.Net.Mime.MediaTypeNames;
-using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http;
 using Google.Cloud.Vision.V1;
 using static Azure.Core.HttpHeader;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
