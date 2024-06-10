@@ -9,12 +9,108 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Http;
 
 
 namespace BusinessLayer.Concrate
 {
     public class Helper : Context
     {
+        public static bool CariBorcAlacakKalanHesapla(int CariID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var cariHareket = context.CariHareket.Where(e => e.CariID == CariID && e.Durum==true).ToList();
+                    double akaryakitTutar = cariHareket.Where(e => e.AkaryakitFaturaTutar.HasValue).Sum(e => e.AkaryakitFaturaTutar.GetValueOrDefault());
+                    double normalTutar = cariHareket.Where(e => e.NormalFaturaTutar.HasValue).Sum(e => e.NormalFaturaTutar.GetValueOrDefault());
+                    double krediTutar = cariHareket.Where(e => e.KrediTutar.HasValue).Sum(e => e.KrediTutar.GetValueOrDefault());
+                    double cekTutar = cariHareket.Where(e => e.CekTutar.HasValue).Sum(e => e.CekTutar.GetValueOrDefault());
+                    double senetTutar = cariHareket.Where(e => e.SenetTutar.HasValue).Sum(e => e.SenetTutar.GetValueOrDefault());
+                    double havaleTutar = cariHareket.Where(e => e.HavaleTutar.HasValue).Sum(e => e.HavaleTutar.GetValueOrDefault());
+
+
+                    double borc = 0, alacak = 0, kalan = 0;
+                    borc = akaryakitTutar + normalTutar;
+                    alacak = krediTutar + cekTutar + senetTutar + havaleTutar;
+                    kalan = borc - alacak;
+
+                    var cari = context.Cari.Where(x => x.Cari_ID == CariID).SingleOrDefault();
+                    if (cari != null)
+                    {
+                        cari.ToplamAlacak = alacak;
+                        cari.ToplamBorc = borc;
+                        cari.ToplamKalan = kalan;
+                        // Değişiklikleri kaydedin
+                        context.SaveChanges();
+                        return true;
+                    }
+                    else return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        public static string AkaryakitTasimaIlkMusteri(int TasimaID)
+        {
+            using (var context = new Context())
+            {
+
+                var entity = context.AkaryakitTasimaDetay.OrderBy(x => x.ID).FirstOrDefault(e => e.AkaryakitTasimaID == TasimaID);
+
+                if (entity != null)
+                {
+                    return CariUnvan(entity.GondericiID);
+                }
+                else
+                    return "";
+
+            }
+        }
+        public static string AkaryakitTasimaMusteriSayi(int TasimaID)
+        {
+            using (var context = new Context())
+            {
+
+                var entity = context.AkaryakitTasimaDetay.Count(e => e.AkaryakitTasimaID == TasimaID);
+
+                if (entity != null)
+                {
+                    return entity.ToString();
+                }
+                else
+                    return "";
+
+            }
+        }
+        public static string CariBorcAlacak(int CariID)
+        {
+            using (var context = new Context())
+            {
+                if (CariID != 0)
+                {
+
+                    var entity = context.Cari.FirstOrDefault(e => e.Cari_ID == CariID);
+
+                    if (entity != null)
+                    {
+                        return "<span style='color:red;'>Borç:" + entity.ToplamBorc + "  </span><span style='color:green;'>Alacak:" + entity.ToplamAlacak + "  </span><span style='color:blue;'>Kalan:" + entity.ToplamKalan+"</span>";
+                    }
+                    else
+                        return "";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         public static string StokKategori(int id)
         {
             using (var context = new Context())
@@ -127,7 +223,7 @@ namespace BusinessLayer.Concrate
                 var entity = context.Kullanicilar.FirstOrDefault(e => e.Kullanici_ID == id);
                 if (entity != null)
                 {
-                    return entity.Kullanici_Isim+" "+entity.Kullanici_Soyisim;
+                    return entity.Kullanici_Isim + " " + entity.Kullanici_Soyisim;
                 }
                 else
                 {
@@ -442,6 +538,28 @@ namespace BusinessLayer.Concrate
             }
         }
 
+        public static bool BakimStokTemizle(int BakimID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecek = context.BakimStok.Where(e => e.BakimID == BakimID).ToList();
+
+                    context.BakimStok.RemoveRange(silinecek);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
         public static bool AkaryakitCariHareketTemizle(int FaturaID)
         {
             using (var context = new Context())
@@ -452,6 +570,28 @@ namespace BusinessLayer.Concrate
                     var silinecekUrunler = context.AkaryakitCariHareket.Where(e => e.FaturaID == FaturaID).ToList();
 
                     context.AkaryakitCariHareket.RemoveRange(silinecekUrunler);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+        public static bool TumKullaniciEvraklariSil(int KullaniciID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekEvraklar = context.KullaniciEvraklar.Where(e => e.KullaniciID == KullaniciID).ToList();
+
+                    context.KullaniciEvraklar.RemoveRange(silinecekEvraklar);
 
                     // Değişiklikleri kaydedin
                     context.SaveChanges();

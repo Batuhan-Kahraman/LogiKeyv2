@@ -10,6 +10,8 @@ namespace BusinessLayer.Abstract
 
 
     public interface IAracTurService : IGenericService<AracTur> { }
+    public interface IEvraklarService : IGenericService<Evraklar> { }
+    public interface IKullaniciEvraklarService : IGenericService<KullaniciEvraklar> { }
     public interface IAracTipService : IGenericService<AracTip> { }
     public interface ISahiplikService : IGenericService<Sahiplik> { }
     public interface IDurumlarService : IGenericService<Durumlar> { }
@@ -102,5 +104,6 @@ namespace BusinessLayer.Abstract
     public interface IYakitAltTipiService : IGenericService<YakitAltTipi> { }
 
     public interface IOkulAracTurService : IGenericService<OkulAracTur> { }
+    public interface ICariHareketService : IGenericService<CariHareket> { }
 
 }

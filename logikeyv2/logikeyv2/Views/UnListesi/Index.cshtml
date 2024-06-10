@@ -24,22 +24,33 @@
         <div class="card shadow-none border my-4" data-component-card="data-component-card">
             <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
 
 
                         <input type="hidden" name="Un_ID" id="Un_ID" value="" />
                         <label>Un Adı</label>
+
                         <input class="form-control" id="Un_Isim" type="text" name="Un_Isim" placeholder="Un Adını Giriniz" required />
+                    </div>
+                    <div class="col-md-6">
                         <label>Un No</label>
                         <input class="form-control" id="Un_No" type="text" name="Un_No" placeholder="Un Numarasını Giriniz" required />
+                    </div>
+
+                    <div class="col-md-6">
                         <label>Un Bakanlık Kodu</label>
                         <input class="form-control" id="Un_BakanlikKodu" type="text" name="Un_BakanlikKodu" placeholder="Un Bakanlık Kodunu Giriniz" />
+                    </div>
+                    <div class="col-md-6">
                         <label>Un Sınıflandırma Kodu</label>
                         <input class="form-control" id="Un_SiniflandirmaKodu" type="text" name="Un_SiniflandirmaKodu" placeholder="Un Sınıflandırma Numarasını Giriniz" />
+                    </div>
+
+                    <div class="col-md-6">
                         <label>Un Sınıfı</label>
                         <input class="form-control" id="Un_Sinif" type="text" name="Un_Sinif" placeholder="Un Sınıfını Giriniz" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
                     </div>
 
@@ -48,7 +59,14 @@
 
         </div>
     </form>
+
+
+
+
+
+
     <div class="p-4 code-to-copy">
+
         <div id="tableExample3" data-list='{"valueNames":["kod","ad","no","sinifkod","sinif"],"page":20,"pagination":true}'>
             <div class="search-box mb-3 mx-auto">
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
@@ -136,6 +154,15 @@
 </div>
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            var options = {
+                valueNames: ['kod', 'ad', 'no', 'sinifkod', 'sinif'],
+                page: 20,
+                pagination: true
+            };
+
+            var userList = new List('tableExample3', options);
+        });
         function Duzenle(ID, Un_Isim, Un_No, Un_BakanlikKodu, Un_SiniflandirmaKodu, Un_Sinif) {
             document.getElementById("Un_Isim").value = Un_Isim;
             document.getElementById("Un_No").value = Un_No;

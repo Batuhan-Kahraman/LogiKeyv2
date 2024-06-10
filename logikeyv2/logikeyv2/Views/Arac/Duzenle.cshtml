@@ -29,36 +29,59 @@
                     <td rowspan="11" class="vertical-text text-center" style="background:#a9a4a4;">
                         <h5 style="color:#fff !important;">Sahiplik</h5>
                     </td>
-                    <td>Plaka</td>
+                    <td><span style="color:red;">*</span>Plaka</td>
                     <td><input type="text" class="form-control" asp-for="Plaka" required /></td>
-                    <td>Araç Türü</td>
+                    <td><span style="color:red;">*</span>Araç Türü</td>
                     <td>
-                        <a asp-controller="AracTur" asp-action="Index" target="_blank" class="me-2">
-                            <span class="text-body fs-5" data-feather="plus"></span>
-                        </a>
+                        <div class="d-flex align-items-center">
+                        @if (ViewBag.MenuModulID == 3)
+                        {
+
+                            <a asp-controller="AkaryakitAracTur" asp-action="Index" target="_blank" class="me-2">
+                                <span class="text-body fs-5" data-feather="plus"></span>
+                            </a>
+                        }
+                        else if (ViewBag.MenuModulID == 2)
+                        {
+                            <a asp-controller="NormalAracTur" asp-action="Index" target="_blank" class="me-2">
+                                <span class="text-body fs-5" data-feather="plus"></span>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <a asp-controller="AracTur" asp-action="Index" target="_blank" class="me-2">
+                                <span class="text-body fs-5" data-feather="plus"></span>
+                            </a>
+
+                        }
                         <a onclick="AracTurListe()" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
                         </a>
                         <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value)" required>
                             <option value="" disabled selected>Seçiniz</option>
                         </select>
+                        </div>
                     </td>
                     <td>Araç Tipi</td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="AracTip" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
                         <a onclick="AracTipListele(document.getElementById('AracTurID').value" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
                         </a>
-                        <select class="form-control" asp-for="AracTipID" id="AracTipID" required>
+                            <select class="form-control" asp-for="AracTipID" id="AracTipID"  onchange="TipKontrol()">
                             <option value="" disabled selected>Seçiniz</option>
                         </select>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td>Sahiplik</td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="Sahiplik" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -68,10 +91,11 @@
                         <select class="form-control" asp-for="SahiplikID" id="SahiplikID">
                             <option value="0">Seçiniz</option>
                         </select>
-
+                        </div>
                     </td>
                     <td>Grup</td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="Grup" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -82,12 +106,13 @@
                             <option value="0">Seçiniz</option>
 
                         </select>
+                        </div>
                     </td>
                     <td>Bakım Periyodu (KM)</td>
                     <td><input type="text" class="form-control" asp-for="BakimPeriyodu" /></td>
                 </tr>
                 <tr id="GozSatir1" style="display:none;">
-                    <td>Göz 1</td>
+                    <td><span style="color:red;">*</span>Göz 1</td>
                     <td><input type="text" class="form-control" asp-for="Goz1" id="Goz1" /></td>
                     <td>Göz 2</td>
                     <td><input type="text" class="form-control" asp-for="Goz2" /></td>
@@ -103,7 +128,7 @@
                     <td><input type="text" class="form-control" asp-for="Goz6" /></td>
                 </tr>
                 <tr id="KapasiteSatir1" style="display:none;">
-                    <td>Kapasite</td>
+                    <td><span style="color:red;">*</span>Kapasite</td>
                     <td colspan="5"><input type="text" class="form-control" asp-for="Goz1" id="Kapasite" /></td>
 
                 </tr>
@@ -111,8 +136,9 @@
                 </tr>
                 <tr id="bosSatir2"></tr>
                 <tr>
-                    <td>Marka</td>
+                    <td><span style="color:red;">*</span>Marka</td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="Marka" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -122,11 +148,11 @@
                         <select class="form-control" asp-for="MarkaID" id="MarkaID" onchange="ModelListele(this.value)">
                             <option value="" disabled selected>Seçiniz</option>
                         </select>
-
+                        </div>
                     </td>
-                    <td>Model</td>
+                    <td><span style="color:red;">*</span>Model</td>
                     <td>
-
+                        <div class="d-flex align-items-center">
                         <a asp-controller="Model" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -136,7 +162,7 @@
                         <select class="form-control" asp-for="ModelID" id="ModelID">
                             <option value="" disabled selected>Seçiniz</option>
                         </select>
-
+                        </div>
                     </td>
                     <td>Yıl</td>
                     <td><input type="text" class="form-control" asp-for="Yil" /></td>
@@ -144,6 +170,7 @@
                 <tr>
                     <td>Sürücü</td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -154,7 +181,7 @@
 
                             <option value="0">Seçiniz</option>
                         </select>
-
+                        </div>
                     </td>
                     <td>Şirketi</td>
                     <td colspan="3">
@@ -234,6 +261,7 @@
 
                     <td>Yakıt Tipi</td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="YakitTipi" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -243,6 +271,7 @@
                         <select class="form-control" asp-for="YakitTipiID" id="YakitTipiID">
                             <option value="0">Seçiniz</option>
                         </select>
+                        </div>
                     </td>
                     <td>Yakıt Depo / Litre</td>
                     <td><input type="text" class="form-control" asp-for="YakitDepo" /></td>
@@ -280,6 +309,7 @@
 
                     <td>Lastik Tip 1 </td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="LastikTipi" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -289,9 +319,11 @@
                         <select class="form-control" asp-for="LastikTip1" id="LastikTip1">
                             <option value="0">Seçiniz</option>
                         </select>
+                        </div>
                     </td>
                     <td>Lastik Tip 2 </td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="LastikTipi" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -301,9 +333,11 @@
                         <select class="form-control" asp-for="LastikTip2" id="LastikTip2">
                             <option value="0">Seçiniz</option>
                         </select>
+                        </div>
                     </td>
                     <td>Lastik Tip 3 </td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="LastikTipi" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -313,6 +347,7 @@
                         <select class="form-control" asp-for="LastikTip3" id="LastikTip3">
                             <option value="0">Seçiniz</option>
                         </select>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -328,6 +363,7 @@
 
                     <td>Akü Tipi</td>
                     <td>
+                        <div class="d-flex align-items-center">
                         <a asp-controller="AkuTipi" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
                         </a>
@@ -337,6 +373,7 @@
                         <select class="form-control" asp-for="AkuTipID" id="AkuTipID">
                             <option value="0">Seçiniz</option>
                         </select>
+                        </div>
                     </td>
                     <td>Akü Amperi (Birim)</td>
                     <td><input type="number" class="form-control" asp-for="AkuAmper" max="99" /></td>
@@ -754,6 +791,30 @@
             });
         }
         AracTurListe();
+
+
+
+        function TipKontrol() {
+            var AracTipID = document.getElementById("AracTipID").value;
+            if (AracTipID == 10 || AracTipID == 11) {
+                document.getElementById("GozSatir1").style.display = "none";
+                document.getElementById("GozSatir2").style.display = "none";
+                document.getElementById("KapasiteSatir1").style.display = "";
+                $('#Kapasite').attr('required', true);
+                document.getElementById("bosSatir1").style.display = "";
+                document.getElementById("bosSatir2").style.display = "none";
+            }
+            else {
+
+                document.getElementById("GozSatir1").style.display = "";
+                document.getElementById("GozSatir2").style.display = "";
+                $('#Goz1').attr('required', true);
+                document.getElementById("KapasiteSatir1").style.display = "none";
+                document.getElementById("bosSatir1").style.display = "none";
+                document.getElementById("bosSatir2").style.display = "none";
+            }
+        }
+
         //araç türüne göre araç tipleri listele
         function AracTipListele(AracTurID) {
             if (AracTurID == 1 || AracTurID == 4 || AracTurID == 13) {
@@ -763,8 +824,8 @@
                 document.getElementById("KapasiteSatir1").style.display = "none";
                 document.getElementById("bosSatir1").style.display = "none";
                 document.getElementById("bosSatir2").style.display = "none";
-            } else {
 
+            } else {
                 document.getElementById("GozSatir1").style.display = "none";
                 document.getElementById("GozSatir2").style.display = "none";
                 document.getElementById("KapasiteSatir1").style.display = "";

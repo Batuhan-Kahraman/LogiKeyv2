@@ -14,7 +14,7 @@ namespace EntityLayer.Concrate
         public int UyariTipID { get; set; }
         public int? SurucuID { get; set; }
         public int? AracID { get; set; }
-        public int? Aciklama { get; set; }
+        public string? Aciklama { get; set; }
         public DateTime? BaslangicTarihi { get; set; }
         public DateTime? BitisTarihi { get; set; }
         public int? GunSayisi { get; set; }

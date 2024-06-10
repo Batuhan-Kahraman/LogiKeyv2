@@ -30,6 +30,7 @@ namespace logikeyv2.Controllers
         NormalTasimaDetayUrunManager NormalTasimaDetayUrunManager = new NormalTasimaDetayUrunManager(new EFNormalTasimaDetayUrunRepository());
         NormalFaturaManager NormalFaturaManager = new NormalFaturaManager(new EFNormalFaturaRepository());
         NormalAracTurManager NormalAracTurManager = new NormalAracTurManager(new EFNormalAracTurRepository());
+        CariHareketManager cariHareketManager = new CariHareketManager(new EFCariHareketRepository());
         #endregion
 
         public IActionResult Index()
@@ -143,8 +144,10 @@ namespace logikeyv2.Controllers
                             NormalTasima.AracTurID = int.Parse(form["AracTurID"]);
                             NormalTasimaManager.TAdd(NormalTasima);
                             int kayitSayisi = int.Parse(form["KayitSayisi"]);
+                            int NakliyeToplam = 0;
                             for (var i = 1; i <= kayitSayisi; i++)
                             {
+                                NakliyeToplam += int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                 NormalTasimaDetay NormalTasimaDetay = new NormalTasimaDetay();
                                 NormalTasimaDetay.NormalTasimaID = NormalTasima.ID;
                                 NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
@@ -224,7 +227,7 @@ namespace logikeyv2.Controllers
 
                                     }
 
-                                    NormalCariHareket cariHareket = new NormalCariHareket
+                                    NormalCariHareket cariHareket1 = new NormalCariHareket
                                     {
                                         CariID = NormalFatura.FaturaKesenID,
                                         FaturaID = NormalFatura.ID,
@@ -238,8 +241,20 @@ namespace logikeyv2.Controllers
                                         OlusturmaTarihi = DateTime.Now,
                                         DuzenlemeTarihi = DateTime.Now
                                     };
-                                    Helper.NormalCariHareketEkle(cariHareket);
+                                    Helper.NormalCariHareketEkle(cariHareket1);
 
+                                    CariHareket cariHareket = new CariHareket();
+                                    cariHareket.CariID = NormalFatura.FaturaKesilenID;
+                                    cariHareket.NormalFaturaID = NormalTasima.ID;
+                                    cariHareket.NormalFaturaTutar = NakliyeToplam;
+                                    cariHareket.Durum = true;
+                                    cariHareket.FirmaID = FirmaID;
+                                    cariHareket.OlusturanId = KullaniciID;
+                                    cariHareket.DuzenleyenID = KullaniciID;
+                                    cariHareket.OlusturmaTarihi = DateTime.Now;
+                                    cariHareket.DuzenlemeTarihi = DateTime.Now;
+                                    cariHareketManager.TAdd(cariHareket);
+                                    Helper.CariBorcAlacakKalanHesapla(NormalFatura.FaturaKesilenID);
 
                                 }
                             }
@@ -370,11 +385,16 @@ namespace logikeyv2.Controllers
 
                             NormalTasimaManager.TUpdate(NormalTasima);
 
+                            List<CariHareket> cariHareketEski = cariHareketManager.GetAllList(x => x.NormalFaturaID == NormalTasima.ID);
+                            foreach (var silinecek in cariHareketEski)
+                            {
+                                cariHareketManager.TDelete(silinecek);
+                            }
 
                             int kayitSayisi = int.Parse(form["KayitSayisi"]);
 
                             int ToplamFiyat = 0;
-
+                            int eskiNakliyeToplam = 0, yeniNakliyeToplam = 0;
                             for (var i = 1; i <= kayitSayisi; i++)
                             {
                                 NormalTasimaDetay NormalTasimaDetay;
@@ -384,6 +404,8 @@ namespace logikeyv2.Controllers
                                     int detayID = int.Parse(form["detayID" + i + "[]"]);
 
                                     NormalTasimaDetay = NormalTasimaDetayManager.GetByID(detayID);
+                                    eskiNakliyeToplam = NormalTasimaDetay.NakliyeToplam;
+                                    yeniNakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
 
                                     NormalTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
                                     NormalTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
@@ -427,6 +449,8 @@ namespace logikeyv2.Controllers
                                     NormalTasimaDetay.OlusturanId = KullaniciID;
                                     NormalTasimaDetay.DuzenleyenID = KullaniciID;
                                     NormalTasimaDetayManager.TAdd(NormalTasimaDetay);
+
+                                    yeniNakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                 }
 
 
@@ -520,7 +544,7 @@ namespace logikeyv2.Controllers
 
 
 
-                                    NormalCariHareket cariHareket = new NormalCariHareket
+                                    NormalCariHareket cariHareket1 = new NormalCariHareket
                                     {
                                         CariID = NormalFatura.FaturaKesenID,
                                         FaturaID = NormalFatura.ID,
@@ -534,8 +558,22 @@ namespace logikeyv2.Controllers
                                         OlusturmaTarihi = DateTime.Now,
                                         DuzenlemeTarihi = DateTime.Now
                                     };
-                                    Helper.NormalCariHareketEkle(cariHareket);
+                                    Helper.NormalCariHareketEkle(cariHareket1);
 
+
+                                    CariHareket cariHareket = new CariHareket();
+                                    cariHareket.CariID = NormalFatura.FaturaKesilenID;
+                                    cariHareket.NormalFaturaID = NormalFatura.ID;
+                                    cariHareket.AkaryakitFaturaTutar = yeniNakliyeToplam;
+                                    cariHareket.Durum = true;
+                                    cariHareket.FirmaID = FirmaID;
+                                    cariHareket.OlusturanId = KullaniciID;
+                                    cariHareket.DuzenleyenID = KullaniciID;
+                                    cariHareket.OlusturmaTarihi = DateTime.Now;
+                                    cariHareket.DuzenlemeTarihi = DateTime.Now;
+                                    cariHareketManager.TAdd(cariHareket);
+
+                                    Helper.CariBorcAlacakKalanHesapla(NormalFatura.FaturaKesilenID);
 
                                 }
 
@@ -603,6 +641,16 @@ namespace logikeyv2.Controllers
                             x.DuzenlemeTarihi = DateTime.Now;
                             x.DuzenleyenID = KullaniciID;
                             NormalTasimaDetayUrunManager.TUpdate(x);
+                            List<CariHareket> hareketler = cariHareketManager.GetAllList(y => y.CariID == x.OdemeYapanCariID && y.NormalFaturaID == int.Parse(form["ID"]));
+                            foreach (var item1 in hareketler)
+                            {
+                                item1.Durum = false;
+                                item1.DuzenlemeTarihi = DateTime.Now;
+                                item1.DuzenleyenID = KullaniciID;
+                                cariHareketManager.TUpdate(item1);
+                            }
+                            Helper.CariBorcAlacakKalanHesapla(x.OdemeYapanCariID);
+
 
                         }
                         TempData["Msg"] = "İşlem başarılı.";

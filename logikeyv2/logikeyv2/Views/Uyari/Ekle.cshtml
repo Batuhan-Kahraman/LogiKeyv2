@@ -23,120 +23,130 @@
     }
 
     <div class="border table-responsive scrollbar p-2">
+
         <form method="post" enctype="multipart/form-data">
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        <label class="form-label">Tip</label>
+                    </td>
 
 
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Tip</label>
-                    <a asp-controller="UyariTip" asp-action="Index" target="_blank" class="me-2">
-                        <span class="text-body fs-5" data-feather="plus"></span>
-                    </a>
-                    <a onclick="UyariTipListe()" class="me-2" style="cursor:pointer;">
-                        <span class="text-body fs-5" data-feather="refresh-ccw"></span>
-                    </a>
-                    <select class="form-control" asp-for="UyariTipID" id="UyariTipID" required>
-                        <option value="" disable selected>Seçiniz</option>
-                    </select>
+                    <td>
+                        <div class="d-flex">
+                        <a asp-controller="UyariTip" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="UyariTipListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="UyariTipID" id="UyariTipID" required>
+                            <option value="" disable selected>Seçiniz</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <label class="form-label">Sürücü</label>
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                        <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="SurucuID" id="SurucuID" required>
+                            <option value="" disable selected>Seçiniz</option>
+                        </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="form-label">Araç</label>
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                        <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="AracID" id="AracID" required>
+                            <option value="" disable selected>Seçiniz</option>
+                        </select>
+                        </div>
+                    </td>
 
-                </div>
-            </div>
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Sürücü</label>
-                    <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
-                        <span class="text-body fs-5" data-feather="plus"></span>
-                    </a>
-                    <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
-                        <span class="text-body fs-5" data-feather="refresh-ccw"></span>
-                    </a>
-                    <select class="form-control" asp-for="SurucuID" id="SurucuID" required>
-                        <option value="" disable selected>Seçiniz</option>
-                    </select>
-                </div>
-            </div>
+                    <td>
+                        <label class="form-label">Fiyat</label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Fiyat">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="form-label">Başlangıç Tarihi</label>
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" asp-for="BaslangicTarihi">
+                    </td>
+                    <td>
+                        <label class="form-label">Bitiş Tarihi</label>
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" asp-for="BitisTarihi">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="form-label">Uyarı Tarihi</label>
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" asp-for="UyariTarihi">
+                    </td>
+                    <td>
+                        <label class="form-label">Uyarı Gün Sayısı</label>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="GunSayisi">
+                    </td>
 
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Araç</label>
-                    <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
-                        <span class="text-body fs-5" data-feather="plus"></span>
-                    </a>
-                    <a onclick="AracListe()" class="me-2" style="cursor:pointer;">
-                        <span class="text-body fs-5" data-feather="refresh-ccw"></span>
-                    </a>
-                    <select class="form-control" asp-for="AracID" id="AracID" required>
-                        <option value="" disable selected>Seçiniz</option>
-
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Fiyat</label>
-                    <input type="text" class="form-control" asp-for="Fiyat">
-                </div>
-            </div>
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Başlangıç Tarihi</label>
-                    <input type="date" class="form-control" asp-for="BaslangicTarihi">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Bitiş Tarihi</label>
-                    <input type="date" class="form-control" asp-for="BitisTarihi">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Uyarı Tarihi</label>
-                    <input type="date" class="form-control" asp-for="UyariTarihi">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Uyarı Gün Sayısı</label>
-                    <input type="number" class="form-control" asp-for="GunSayisi">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Rapor Gün Sayısı</label>
-                    <input type="number" class="form-control" asp-for="RaporGunSayisi">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Hatırlatma Yapılsın mı</label>
-                    <select class="form-control" asp-for="UyariYapilsinMi">
-                        <option value="Evet">Evet</option>
-                        <option value="Hayır">Hayır</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Açıklama</label>
-                    <textarea class="form-control" asp-for="Aciklama">
-                            </textarea>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3">
-
-                    <input type="submit" class="btn btn-success w-100" value="Kaydet" />
-                </div>
-            </div>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="form-label">Rapor Gün Sayısı</label>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="RaporGunSayisi">
+                    </td>
+                    <td>
+                        <label class="form-label">Hatırlatma Yapılsın mı</label>
+                    </td>
+                    <td>
+                        <select class="form-control" asp-for="UyariYapilsinMi">
+                            <option value="Evet">Evet</option>
+                            <option value="Hayır">Hayır</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="form-label">Açıklama</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea class="form-control" asp-for="Aciklama"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <input type="submit" class="btn btn-success w-100" value="Kaydet" />
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
 
@@ -191,34 +201,34 @@
             });
         }
         SurucuListe();
-        
+
         function UyariTipListe() {
-        //uyari tip listele
-        $.ajax({
-            url: '../Ajax/UyariTipListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#UyariTipID').empty();
-                $('#UyariTipID').append($('<option>', {
-                    value: "", // Verinin değer özelliği
-                    text: "Seçiniz", // Verinin görünen metni
-                    disabled: true,
-                    selected: true,
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+            //uyari tip listele
+            $.ajax({
+                url: '../Ajax/UyariTipListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#UyariTipID').empty(); 
                     $('#UyariTipID').append($('<option>', {
-                        value: item.uyariTipID, // Verinin değer özelliği
-                        text: item.ad // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true,
+                        selected: true,
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#UyariTipID').append($('<option>', {
+                            value: item.uyariTipID, // Verinin değer özelliği
+                            text: item.ad // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
         }
         UyariTipListe();
 
@@ -249,7 +259,7 @@
                     console.log('Hata oluştu:', error);
                 }
             });
-        } 
+        }
         AracListe();
 
     </script>

@@ -30,7 +30,13 @@
 
 
                     <td>İstasyon</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="Istasyon" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="IstasyonListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="IstasyonID" id="IstasyonID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -40,13 +46,25 @@
                 </tr>
                 <tr>
                     <td>Yakıt Tipi</td>
-                    <td>
-                        <select class="form-control" asp-for="YakitTipID" id="YakitTipID" onchange="yakitAltTipListe(this.value)">
+                    <td class="d-flex">
+                        <a asp-controller="YakitTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="YakitTipiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="YakitTipID" id="YakitTipID" onchange="yakitAltTipListe()">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
                     <td>Yakıt Alt Tipi</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="YakitAltTipi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="yakitAltTipListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="YakitAltTipID" id="YakitAltTipID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -54,21 +72,51 @@
                 </tr>
                 <tr>
                     <td>Araç</td>
-                    <td colspan="3">
+                    <td colspan="3" class="d-flex">
+                        <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="AracID" id="AracID">
+                            <option value="0">Seçiniz</option>
+                        </select>
+                    </td>
+                    <td>Dorse</td>
+                    <td colspan="3" class="d-flex">
+                        <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="DorseListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="DorseID" id="DorseID">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>Sürücü 1</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="Surucu1ID" id="Surucu1ID">
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
                     <td>Sürücü 2</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="Surucu2ID" id="Surucu2ID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -97,70 +145,75 @@
 </div>
 @section Scripts {
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>  
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-  <script>
-
-      $(document).ready(function () {
-          $('select').select2();
-      });
-  </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
 
-
-        //istasyon listele
-        $.ajax({
-            url: '../Ajax/IstasyonListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#IstasyonID').empty();
-                $('#IstasyonID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#IstasyonID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
-                    }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
+        $(document).ready(function () {
+            $('select').select2();
         });
+    </script>
+    <script>
+        function IstasyonListe() {
+            //istasyon listele
+            $.ajax({
+                url: '../Ajax/IstasyonListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#IstasyonID').empty();
+                    $('#IstasyonID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#IstasyonID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        IstasyonListe();
 
         //yakıt alt tipi listele
-        function yakitAltTipListe(ID) { 
-        $.ajax({
-            url: '../Ajax/YakitAltTipiListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            data: { ID: ID },
-            success: function (data) {
-                $('#YakitAltTipID').empty();
-                $('#YakitAltTipID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+        function yakitAltTipListe() {
+            var ID = document.getElementById("YakitTipID").value;
+            $.ajax({
+                url: '../Ajax/YakitAltTipiListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                data: { ID: ID },
+                success: function (data) {
+                    $('#YakitAltTipID').empty();
                     $('#YakitAltTipID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#YakitAltTipID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
         }
+        
+        function YakitTipiListe() { 
+        
         //yakıt tipi listele
         $.ajax({
             url: '../Ajax/YakitTipiListe', // Verileri sağlayan API'nin endpoint'i
@@ -185,88 +238,105 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        
+        YakitTipiListe();
 
-
-        //dorse
-        $.ajax({
-            url: '../Ajax/DorseListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#DorseID').empty();
-                $('#DorseID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+        function DorseListe() {
+            //dorse listele
+            $.ajax({
+                url: '../Ajax/DorseListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#DorseID').empty();
                     $('#DorseID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.plaka // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true,
+                        selected: true
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
-        //arac
-        $.ajax({
-            url: '../Ajax/PlakaListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#AracID').empty();
-                $('#AracID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#DorseID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.plaka // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        DorseListe();
+        function AracListe() {
+
+            $.ajax({
+                url: '../Ajax/DorseHaricPlakaListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#AracID').empty();
                     $('#AracID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.plaka // Verinin görünen metni
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
-        //sürücü listele
-        $.ajax({
-            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#Surucu1ID').empty();
-                $('#Surucu1ID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));  
-                $('#Surucu2ID').empty();
-                $('#Surucu2ID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#AracID').append($('<option>', {
+                            value: item.arac.id, // Verinin değer özelliği
+                            text: item.arac.plaka + " - " + item.aracTur.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+
+        }
+
+        AracListe();
+
+        function SurucuListe() {
+            //sürücü listele
+            $.ajax({
+                url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#Surucu1ID').empty();
                     $('#Surucu1ID').append($('<option>', {
-                        value: item.kullanici_ID, // Verinin değer özelliği
-                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
-                    })); $('#Surucu2ID').append($('<option>', {
-                        value: item.kullanici_ID, // Verinin değer özelliği
-                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+                    $('#Surucu2ID').empty();
+                    $('#Surucu2ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Surucu1ID').append($('<option>', {
+                            value: item.kullanici_ID, // Verinin değer özelliği
+                            text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                        })); $('#Surucu2ID').append($('<option>', {
+                            value: item.kullanici_ID, // Verinin değer özelliği
+                            text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+
+        SurucuListe();
     </script>
 
 }

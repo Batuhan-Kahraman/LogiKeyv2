@@ -16,11 +16,10 @@
       <div class="content">
             @if (currentPage != "Home")
             {
-                <div class="mb-3">
-                    <a href="#" onclick="goBack()" class="text-decoration-none">
-                        <i class="fas fa-arrow-left me-1"></i> Geri Dön
-                    </a>
-                </div>
+                <!--<div class="mb-3">
+                    <button onclick="window.close()"><i class="far fa-window-close me-1"></i> Geri Dön</button>
+
+                </div>-->
             }
            @RenderBody()
     
@@ -36,6 +35,9 @@
     <script>
         function goBack() {
             window.history.back();
+        }
+        function close() {
+            window.close();
         }
     </script>
   </body>

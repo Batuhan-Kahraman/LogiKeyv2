@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EntityLayer.Concrate
+namespace EntityLayer.Concrate 
 {
     public class Kullanicilar
     {
@@ -58,7 +58,12 @@ namespace EntityLayer.Concrate
         public DateTime? D1EGecerlilikTarih { get; set; }
         public DateTime? FGecerlilikTarih { get; set; }
         public decimal? Maas { get; set; }
-        
+
+        public string? EhliyetNumarasi {  get; set; }
+        public string? EhliyetSeriNumarasi {  get; set; }
+        public DateTime? EhliyetGecerlilikTarihi {  get; set; }
+
+
 
     }
 

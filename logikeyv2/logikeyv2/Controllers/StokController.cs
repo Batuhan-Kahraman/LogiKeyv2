@@ -41,6 +41,32 @@ namespace logikeyv2.Controllers
                         item.Aciklama = form["Aciklama"];
                         item.Adet = int.Parse(form["Adet"]);
                         item.BirimFiyat = int.Parse(form["BirimFiyat"]);
+                        item.Tarih = DateTime.Parse(form["Tarih"]);
+                        item.FaturaNo = form["FaturaNo"];
+                        /*item.GiderTipiID = int.Parse(form["GiderTipiID"]);
+                        item.TedarikciID = int.Parse(form["TedarikciID"]);
+                        */
+
+                        if (form["TedarikciID"] != "" && !string.IsNullOrEmpty(form["TedarikciID"]))
+                        {
+                            item.TedarikciID = int.Parse(form["TedarikciID"]);
+                        }
+                        else
+                        {
+                            item.TedarikciID = 0;
+                        }
+                        
+                        if (form["GiderTipiID"] != "" && !string.IsNullOrEmpty(form["GiderTipiID"]))
+                        {
+                            item.GiderTipiID = int.Parse(form["GiderTipiID"]);
+                        }
+                        else
+                        {
+                            item.GiderTipiID = 0;
+                        }
+
+
+
                         item.FirmaID = FirmaID;
                         item.OlusturmaTarihi = DateTime.Now;
                         item.DuzenlemeTarihi = DateTime.Now;
@@ -116,6 +142,28 @@ namespace logikeyv2.Controllers
                         item.Adet = int.Parse(form["Adet"]);
                         item.BirimFiyat = int.Parse(form["BirimFiyat"]);
                         item.Aciklama = form["Aciklama"];
+
+                        item.Tarih = DateTime.Parse(form["Tarih"]);
+                        item.FaturaNo = form["FaturaNo"];
+                        if (form["TedarikciID"] != "" && !string.IsNullOrEmpty(form["TedarikciID"]))
+                        {
+                            item.TedarikciID = int.Parse(form["TedarikciID"]);
+                        }
+                        else
+                        {
+                            item.TedarikciID = 0;
+                        }
+
+                        if (form["GiderTipiID"] != "" && !string.IsNullOrEmpty(form["GiderTipiID"]))
+                        {
+                            item.GiderTipiID = int.Parse(form["GiderTipiID"]);
+                        }
+                        else
+                        {
+                            item.GiderTipiID = 0;
+                        }
+
+
                         item.FirmaID = FirmaID;
                         item.DuzenlemeTarihi = DateTime.Now;
                         item.DuzenleyenID = KullaniciID;

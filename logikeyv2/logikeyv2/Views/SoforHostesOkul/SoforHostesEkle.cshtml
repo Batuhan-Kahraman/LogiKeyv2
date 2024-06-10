@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td>Kullanıcı Grubu</td>
-                    <td>
+                    <td class="d-flex">
                         <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()" required>
                             <option value="">Seçiniz</option>
                             <option value="5">Servis Söför</option>
@@ -148,83 +148,77 @@
                 </tr>
                 <tr id="hiddenFields">
                     <td>Ehliyet Sınıfı</td>
-                    <td>
-
+                    <td class="d-flex">
+                        <a asp-controller="EhliyetSinifi" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="EhliyetSinifiListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="EhliyetSinifiID" id="EhliyetSinifiID">
-                            <option value="0">Seçiniz</option>
-                            @*   @foreach (var item in ViewBag.EhliyetSinifi)
-                            {
-                            <option value="@item.ID">@item.Adi</option>
-
-                            } *@
+                            <option value="" disabled selected>Seçiniz</option>
 
                         </select>
 
                     </td>
-                    <td>Veriliş Tarihi</td>
+
+                    <td>Ehliyet Numarası</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="EhliyetNumarasi" />
+                    </td>
+                    <td>Ehliyet Seri Numarası</td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="EhliyetSeriNumarasi" />
+                    </td>
+                </tr>
+
+                <tr id="hiddenFields2">
+                    <td> Ehliyet Veriliş Tarihi</td>
                     <td>
                         <input type="date" class="form-control" asp-for="EhliyetVerilisTarihi" />
                     </td>
-                    <td>Veriliş Yeri</td>
+                    <td>Ehliyet Geçerlilik Tarihi</td>
                     <td>
-                        <input type="date" class="form-control" asp-for="EhliyetVerilisYeri" />
+                        <input type="date" class="form-control" asp-for="EhliyetGecerlilikTarihi" />
                     </td>
                 </tr>
 
+
+
+            </table>
+            <table class="table table-borderless" id="hiddenFields4" style="width:100%;">
+
                 <tr>
-                    <td>Sona Eriş Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="EhliyetSonaErisTarihi" /></td>
-                    <td>Banka Adı</td>
-                    <td><input type="text" class="form-control" asp-for="BankaAdi" /></td>
-                    <td>Banka Iban No</td>
-                    <td><input type="text" class="form-control" asp-for="BankaIban" /></td>
+
+                    <td colspan="6">
+                        <a onclick="EvrakSatiriEkle()"> Evrak Ekle</a>
+                    </td>
                 </tr>
-                <tr id="hiddenFields2">
-                    <td>B Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="BGecerlilikTarih" /></td>
-                    <td>BE Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="BEGecerlilikTarih" /></td>
-                    <td>C1 Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="C1GecerlilikTarih" /></td>
+                <tr>
 
+                    <td>Evrak</td>
+                    <td class="d-flex">
+                        <a asp-controller="Evraklar" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="EvraklarListe(1)" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" name="Evraklar[]" id="Evraklar1ID" style="width:100%">
+                            <option value="" disabled selected>Seçiniz</option>
 
+                        </select>
+                    </td>
+                    <td>Veriliş Tarihi</td>
+                    <td>
+                        <input type="date" class="form-control" name="EvraklarVerilisTarihi[]" />
+
+                    </td>
+                    <td>Geçerlilik Tarihi</td>
+                    <td>
+                        <input type="date" class="form-control" name="EvraklarGecerlilikTarihi[]" />
+                    </td>
                 </tr>
-                <tr id="hiddenFields3">
-
-                    <td>C1E Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="C1EGecerlilikTarih" /></td>
-
-                    <td>C Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="CGecerlilikTarih" /></td>
-                    <td>CE Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="CEGecerlilikTarih" /></td>
-
-
-
-                </tr>
-                <tr id="hiddenFields4">
-
-                    <td>D1 Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="D1GecerlilikTarih" /></td>
-
-                    <td>D1E Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="D1EGecerlilikTarih" /></td>
-                    <td>F Geçerlilik Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="FGecerlilikTarih" /></td>
-
-
-                </tr>
-
-                <tr id="hiddenFields5">
-
-                    <td>Mesleki Yeterlilik Geç. Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="MeslekiYeterlilikGecTarih" /></td>
-                    <td>Psiko Teknik Kurumu</td>
-                    <td><input type="text" class="form-control" asp-for="PsikoTeknikKurumu" /></td>
-                    <td>Psiko Teknik Geç. Tarihi</td>
-                    <td><input type="date" class="form-control" asp-for="PsikoTeknikGecTarih" /></td>
-                </tr>
-
             </table>
             <input type="submit" class="btn btn-success w-100" value="Kullanıcıyı Kaydet" />
         </form>
@@ -277,30 +271,39 @@
                 console.log('Hata oluştu:', error);
             }
         });
-        //EhliyetSinifi listele
-        $.ajax({
-            url: '../Ajax/EhliyetSinifiListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#EhliyetSinifiID').empty();
-                $('#EhliyetSinifiID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+
+        function EhliyetSinifiListe() {
+
+            //Evraklar listele
+            $.ajax({
+                url: '../Ajax/EhliyetSinifiListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#EhliyetSinifiID').empty();
                     $('#EhliyetSinifiID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#EhliyetSinifiID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        EhliyetSinifiListe();
+
+
         function IlDegistir(IlKodu) {
 
             $.ajax({
@@ -328,6 +331,38 @@
                 }
             });
         }
+
+
+        function EvraklarListe(sira) {
+
+            //EhliyetSinifi listele
+            $.ajax({
+                url: '../Ajax/EvraklarListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#Evraklar' + sira + 'ID').empty();
+                    $('#Evraklar' + sira + 'ID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Evraklar' + sira + 'ID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        EvraklarListe(1);
     </script>
   
 
@@ -340,47 +375,100 @@
             display: none;
         }
 
-        #hiddenFields3 {
-            display: none;
-        }
-
-        #hiddenFields4 {
-            display: none;
-        }
-
-        #hiddenFields5 {
-            display: none;
-        }
-
     </style>
     <script>
         function toggleFields() {
-
-
             var selectedOption = document.getElementById("KullaniciGrup_ID");
             var selectedValue = selectedOption.options[selectedOption.selectedIndex].text;
             var hiddenFields = document.getElementById("hiddenFields");
             var hiddenFields2 = document.getElementById("hiddenFields2");
-            var hiddenFields3 = document.getElementById("hiddenFields3");
-            var hiddenFields4 = document.getElementById("hiddenFields4");
-            var hiddenFields5 = document.getElementById("hiddenFields5");
             console.log(hiddenFields, "hiddenFields");
             console.log(selectedValue, "selectedValue");
             if (selectedValue === "Servis Söför") {
 
                 hiddenFields.style.display = "table-row";
                 hiddenFields2.style.display = "table-row";
-                hiddenFields3.style.display = "table-row";
-                hiddenFields4.style.display = "table-row";
-                hiddenFields5.style.display = "table-row";
             } else {
                 hiddenFields.style.display = "none";
                 hiddenFields2.style.display = "none";
-                hiddenFields3.style.display = "none";
-                hiddenFields4.style.display = "none";
-                hiddenFields5.style.display = "none";
+            }
+
+        }
+
+
+        function validateCheckboxes() {
+            var checkboxes = document.getElementsByName('FirmaModul_ID[]');
+            var isChecked = false;
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+            if (!isChecked) {
+                alert("Lütfen en az bir modül seçiniz.");
+                return false;
+            }
+            return true;
+        }
+
+        function EvrakSatiriEkle() {
+            // hiddenFields4 satırını klonlayın
+            var table = document.getElementById("hiddenFields4");
+
+            // Yeni bir satır ekle
+            var newRow = table.insertRow();
+
+            // Yeni satıra hücreler ekle ve içeriği kopyala
+            var cell0 = newRow.insertCell(0);
+            var cell1 = newRow.insertCell(1);
+            var cell2 = newRow.insertCell(2);
+            var cell3 = newRow.insertCell(3);
+            var cell4 = newRow.insertCell(4);
+            var cell5 = newRow.insertCell(5);
+            var cell6 = newRow.insertCell(6);
+            var sira = table.getElementsByTagName('tr').length + 1;
+
+
+            // İçeriği doldur
+            cell0.innerHTML = `<a onclick='EvrakSatirSil("TREvraklar` + sira + `ID") '>
+                            <span class="text-body fs-5" data-feather="x" style = "color:red;"  width="16px" height="16px"> </span>
+                        </a>`;
+            cell1.innerHTML = 'Evrak';
+            cell2.innerHTML = `<div class="d-flex align-items-center">
+                                 <a href="/Evraklar/Index" target="_blank" class="me-2">
+                                                    <span class="text-body fs-5" data-feather="plus" width="16px" height="16px"></span>
+                                        </a>
+                                                <a onclick="EvraklarListe(`+ sira + `)" class="me-2" style="cursor:pointer;">
+                                                    <span class="text-body fs-5" data-feather="refresh-ccw" width="16px" height="16px"></span>
+                                        </a>
+                                                                        <select class="form-control" name="Evraklar[]" id="Evraklar`+ sira + `ID" style="width:100%">
+                            <option value="" disabled selected>Seçiniz</option>
+                        </select></div>
+                    `;
+            cell3.innerHTML = 'Veriliş Tarihi';
+            cell4.innerHTML = '<input type="date" class="form-control" name="EvraklarVerilisTarihi[]" />';
+            cell5.innerHTML = 'Geçerlilik Tarihi';
+            cell6.innerHTML = '<input type="date" class="form-control" name="EvraklarGecerlilikTarihi[]" />';
+            EvraklarListe(sira);
+
+            feather.replace();
+
+            $('#Evraklar' + sira + 'ID').select2();
+        }
+
+        function EvrakSatirSil(satirID) {
+            var satir = document.getElementById(satirID);
+
+            // Satırı sil
+            if (satir) {
+                satir.parentNode.removeChild(satir);
+                console.log("Satır başarıyla silindi.");
+            } else {
+                console.error("Belirtilen satır bulunamadı.");
             }
         }
+
     </script>
 
 }

@@ -32,6 +32,9 @@ namespace EntityLayer.Concrate
         public string? Cari_BankaIBAN2 { get; set; }
         public string? Cari_BankaAdi3 { get; set; }
         public string? Cari_BankaIBAN3 { get; set; }
+        public double? ToplamAlacak { get; set; }
+        public double? ToplamBorc { get; set; }
+        public double? ToplamKalan { get; set; }
         public int Firma_ID { get; set; }
         public int EkleyenKullanici_ID { get; set; }
         public int DuzenleyenKullanici_ID { get; set; }

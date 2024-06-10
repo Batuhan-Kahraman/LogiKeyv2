@@ -71,15 +71,16 @@
                 <tr>
 
                     <td>Okulu</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="Okul" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="OkulListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="OgrenciModulu.CariOkul_ID" id="CariOkul_ID" required>
                             <option value="">Seçiniz</option>
 
-                            @foreach (var item in ViewBag.Okullar)
-                            {
-                                <option value="@item.Cari_ID">@item.Cari_Unvan</option>
-
-                            }
                         </select>
                     </td>
 
@@ -296,6 +297,44 @@
                 }
             });
         }
+
+
+
+        function OkulListe() {
+            $.ajax({
+                url: '../Ajax/OkulListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+
+                    $('#CariOkul_ID').empty();
+                    $('#CariOkul_ID').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#CariOkul_ID').append($('<option>', {
+                            value: item.cari_ID, // Verinin değer özelliği
+                            text: item.cari_Unvan // Verinin görünen metni
+                        }));
+                    });
+                    var CariOkul_ID = @Json.Serialize(Model.OgrenciModulu.CariOkul_ID);
+
+                    if (CariOkul_ID !== null) {
+
+                        $('#CariOkul_ID').val(null).trigger('change'); // Seçimi temizle
+                        $('#CariOkul_ID').val(CariOkul_ID).trigger('change');
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        OkulListe();
     </script>
 }
 <style>

@@ -112,6 +112,7 @@ namespace logikeyv2.Controllers
                         item.Surucu1ID = kayit.Surucu1ID;
                         item.Surucu2ID = kayit.Surucu2ID;
                         item.AracID = kayit.AracID;
+                        item.DorseID = kayit.DorseID;
                         item.AracKm = kayit.AracKm;
                         item.LtFiyat = kayit.LtFiyat;
                         item.IstasyonID = kayit.IstasyonID;
@@ -485,6 +486,7 @@ namespace logikeyv2.Controllers
                         item.Surucu1ID = kayit.Surucu1ID;
                         item.Surucu2ID = kayit.Surucu2ID;
                         item.AracID = kayit.AracID;
+                        item.DorseID = kayit.DorseID;
                         item.AracKm = kayit.AracKm;
                         item.LtFiyat = kayit.LtFiyat;
                         item.FaturaNo = kayit.FaturaNo;

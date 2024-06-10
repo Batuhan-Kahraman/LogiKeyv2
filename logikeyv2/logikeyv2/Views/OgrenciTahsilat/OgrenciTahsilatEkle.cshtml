@@ -29,21 +29,29 @@
 
                     <td>Okul Adı</td>
                     <td>
-                        <select class="form-control" id="okulId" onchange="OkulSec(this.value)">
-                            <option value="">Seçiniz</option>
-                            @foreach (var item in ViewBag.Okul)
-                            {
-                                <option value="@item.Cari_ID">@item.Cari_Unvan</option>
-                            }
 
-
+                        <a asp-controller="Okul" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="OkulListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" id="okulId" onchange="OkulSec()">
+                            <option value="" disabled selected>Seçiniz</option>
+                           
                         </select>
 
                     </td>
                     <td>Öğrenci Adı</td>
                     <td>
+                        <a asp-controller="Ogrenci" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="OkulSec()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="OgrenciId" id="OgrenciId" >
-                            <option value="">Seçiniz</option>
+                            <option value="" disabled selected>Seçiniz</option>
                           
 
                         </select>
@@ -103,8 +111,8 @@
     </script>
 <script>
        
-    function OkulSec(OkulId) {
-            console.log(OkulId)
+    function OkulSec() {
+        var OkulId = document.getElementById("okulId").value;
         $.ajax({
             url: '../Ajax/OgrenciListe', // Verileri sağlayan API'nin endpoint'i
             method: 'GET',
@@ -132,5 +140,34 @@
             }
         });
     }
+
+    function OkulListe() {
+            $.ajax({
+                url: '../Ajax/OkulListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+
+                    $('#okulId').empty();
+                    $('#okulId').append($('<option>', {
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#okulId').append($('<option>', {
+                            value: item.cari_ID, // Verinin değer özelliği
+                            text: item.cari_Unvan // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+    }
+    OkulListe();
 </script>
 }

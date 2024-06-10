@@ -14,7 +14,7 @@ namespace logikeyv2.Controllers
 
         public IActionResult Index()
         {
-            List<Versiyon> liste = versiyonManager.GetAllList(x => x.Durum == true);
+            List<Versiyon> liste = versiyonManager.GetAllList(x => x.Durum == true).OrderByDescending(x=>x.ID).ToList();
             return View(liste);
         }
 

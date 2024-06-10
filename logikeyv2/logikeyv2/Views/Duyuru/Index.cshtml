@@ -28,7 +28,7 @@
                         <input type="hidden" name="ID" id="ID" value="" />
                         <select name="BildirimID" id="BildirimID" class="form-control" required>
                             <option value="" disabled selected>Bildirim Kategorisi Seçiniz</option>
-                            @foreach (var item in ViewBag.AracTur)
+                            @foreach (var item in ViewBag.bildirimler)
                             {
                                 <option value="@item.ID">@item.KategoriAdi</option>
                             }

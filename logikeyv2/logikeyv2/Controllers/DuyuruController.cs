@@ -33,7 +33,7 @@ namespace logikeyv2.Controllers
                ).ToList();
 
             List<Bildirim> bildirimler = bildirimManager.GetAllList(x => x.Durum == true &&( x.FirmaID == FirmaID || x.FirmaID==-2));
-            ViewBag.AracTur = bildirimler;
+            ViewBag.bildirimler = bildirimler;
             return View(viewModel);
         }
 

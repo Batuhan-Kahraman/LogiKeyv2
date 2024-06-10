@@ -49,6 +49,14 @@
                 <tr>
                     <td>Araç Türü</td>
                     <td>
+
+
+                        <a asp-controller="AracTur" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracTurListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="AracTurID" id="AracTurID" onchange="AracTipListele(this.value)">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -496,6 +504,43 @@
         $(document).ready(function () {
             $('select').select2();
         });
+
+        function AracTurListe() {
+            //araç tür listele
+            $.ajax({
+                url: '../Ajax/AracTurListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#AracTurID').empty();
+                    $('#AracTurID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#AracTurID').append($('<option>', {
+                            value: item.aracTur.id, // Verinin değer özelliği
+                            text: item.aracTur.adi // Verinin görünen metni
+                        }));
+                    });
+
+                    var AracTurID = @Json.Serialize(Model.AracTurID);
+
+                    if (AracTurID !== null) {
+                        document.getElementById("AracTurID").value = AracTurID;
+                        AracTipListele(AracTurID);
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        AracTurListe();
     </script>
     <script>
         //sahiplik listele
