@@ -168,26 +168,25 @@
                     <td>
                         <span style="color:red;">*</span>Araç
                     </td>
-                    <td>
+                    <td class="d-flex">    <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="CekiciID" id="CekiciID" required>
 
                             <option value="" disable selected>Seçiniz</option>
                         </select>
                     </td>
-                    <td>Tarih Saat</td>
-                    <td><input type="datetime-local" class="form-control" asp-for="TarihSaat" /></td>
+                    <td>Araç Km</td>
+                    <td><input type="number" class="form-control" asp-for="AracKm" step="0.01" /></td>
                 </tr>
 
                 <tr>
-                    <td>
-                        <span style="color:red;">*</span>Dorse
-                    </td>
-                    <td>
 
-                        <select class="form-control" asp-for="DorseID" id="DorseID" >
-                            <option value="" disable selected>Seçiniz</option>
-                        </select>
-                    </td>
+                    <td>Tarih Saat</td>
+                    <td><input type="datetime-local" class="form-control" asp-for="TarihSaat" /></td>
                     <td>Servis Bakım Durum</td>
                     <td>
                         <select class="form-control" asp-for="ServisBakimDurumID" id="ServisBakimDurumID" required>
@@ -198,8 +197,6 @@
                 </tr>
 
                 <tr>
-                    <td>Araç Km</td>
-                    <td><input type="number" class="form-control" asp-for="AracKm" step="0.01" /></td>
                     <td>
                         <span style="color:red;">*</span>Servis Bakım Türü
                     </td>
@@ -209,9 +206,7 @@
                         </select>
                     </td>
 
-                </tr>
-
-                <tr>
+                
                     <td>
                         <span style="color:red;">*</span>Sürücü
                     </td>
@@ -221,6 +216,9 @@
                         </select>
 
                     </td>
+                </tr>
+
+                <tr>
                     <td>
                         <span style="color:red;">*</span>Bakım Yeri
                     </td>
@@ -230,12 +228,13 @@
                             <option value="" disable selected>Seçiniz</option>
                         </select>
                     </td>
-                </tr>
-                <tr>
                     <td>Arıza Nedeni</td>
                     <td>
                         <textarea class="form-control" asp-for="ArizaNedeni"></textarea>
                     </td>
+                </tr>
+
+                <tr>
                     <td>Bakım Personeli</td>
                     <td>
 
@@ -581,7 +580,7 @@
             });
         } ServisBakimYeriListe();
 
-        function DorseListe() {
+    /*    function DorseListe() {
             //dorse listele
             $.ajax({
                 url: '../../Ajax/DorseListe', // Verileri sağlayan API'nin endpoint'i
@@ -650,7 +649,7 @@
                 }
             });
         }
-        CekiciListe();
+        CekiciListe();*/
 
         /***************/
 
@@ -726,6 +725,35 @@
         }
     </script>
     <script>
+        function AracListe() {
+            //dorse listele
+            $.ajax({
+                url: '../../Ajax/TurAdiPlakaListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#CekiciID').empty();
+                    $('#CekiciID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true,
+                        selected: true
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#CekiciID').append($('<option>', {
+                            value: item.arac.id, // Verinin değer özelliği
+                            text: item.arac.plaka + " - " + item.aracTur.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        AracListe();
         function BakimYeriDegis() {
             debugger;
             var BakimYeri = document.getElementById("BakimYeri").value;

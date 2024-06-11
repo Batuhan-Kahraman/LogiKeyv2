@@ -86,20 +86,7 @@
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>
-                    <td>Dorse</td>
-                    <td colspan="3" class="d-flex">
-                        <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
-                            <span class="text-body fs-5" data-feather="plus"></span>
-                        </a>
-                        <a onclick="DorseListe()" class="me-2" style="cursor:pointer;">
-                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
-                        </a>
-                        <select class="form-control" asp-for="DorseID" id="DorseID">
-                            <option value="0">Seçiniz</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
+                   
                 </tr>
                 <tr>
                     <td>Sürücü 1</td>
@@ -251,15 +238,15 @@
 
         yakitAltTipListe();
 
-        function DorseListe() {
+        function AracListe() {
             //dorse listele
             $.ajax({
-                url: '../Ajax/DorseListe', // Verileri sağlayan API'nin endpoint'i
+                url: '../Ajax/TurAdiPlakaListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    $('#DorseID').empty();
-                    $('#DorseID').append($('<option>', {
+                    $('#AracID').empty();
+                    $('#AracID').append($('<option>', {
                         value: "", // Verinin değer özelliği
                         text: "Seçiniz", // Verinin görünen metni
                         disabled: true,
@@ -268,9 +255,9 @@
                     // Verileri selectbox'a ekle
                     $.each(data, function (index, item) {
                         console.log(item);
-                        $('#DorseID').append($('<option>', {
-                            value: item.id, // Verinin değer özelliği
-                            text: item.plaka // Verinin görünen metni
+                        $('#AracID').append($('<option>', {
+                            value: item.arac.id, // Verinin değer özelliği
+                            text: item.arac.plaka + " - " + item.aracTur.adi // Verinin görünen metni
                         }));
                     });
                 },
@@ -279,36 +266,6 @@
                 }
             });
         }
-        DorseListe();
-        function AracListe() {
-
-            //arac
-            $.ajax({
-                url: '../../Ajax/DorseHaricPlakaListe', // Verileri sağlayan API'nin endpoint'i
-                method: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    $('#AracID').empty();
-                    $('#AracID').append($('<option>', {
-                        value: 0, // Verinin değer özelliği
-                        text: "Seçiniz" // Verinin görünen metni
-                    }));
-                    // Verileri selectbox'a ekle
-                    $.each(data, function (index, item) {
-                        console.log(item);
-                        $('#AracID').append($('<option>', {
-                            value: item.arac.id, // Verinin değer özelliği
-                            text: item.arac.plaka + " - " + item.aracTur.adi // Verinin görünen metni
-                        }));
-                    }); 
-
-                },
-                error: function (error) {
-                    console.log('Hata oluştu:', error);
-                }
-            });
-        }
-
         AracListe();
 
 

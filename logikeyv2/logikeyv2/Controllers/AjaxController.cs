@@ -410,6 +410,21 @@ namespace logikeyv2.Controllers
         }
 
         [HttpGet]
+        public IActionResult TurAdiPlakaListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            var liste = from arac in aracManager.GetAllList(x => x.Durum == true &&  (x.FirmaID == FirmaID || x.FirmaID == -2))
+                        join aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                on arac.AracTurID equals aracTur.ID
+                        select new
+                        {
+                            Arac = arac,
+                            AracTur = aracTur
+                        };
+
+            return Json(liste);
+        }
+        [HttpGet]
         public IActionResult DorseHaricPlakaListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
