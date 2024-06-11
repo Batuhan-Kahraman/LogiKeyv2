@@ -188,7 +188,13 @@
                     <td>Tarih Saat</td>
                     <td><input type="datetime-local" class="form-control" asp-for="TarihSaat" /></td>
                     <td>Servis Bakım Durum</td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="ServisBakimDurum" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="ServisBakimDurumListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="ServisBakimDurumID" id="ServisBakimDurumID" required>
                             <option value="" disable selected>Seçiniz</option>
                         </select>
@@ -200,7 +206,13 @@
                     <td>
                         <span style="color:red;">*</span>Servis Bakım Türü
                     </td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="ServisBakimTuru" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="ServisBakimTuruListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="ServisBakimTurID" id="ServisBakimTurID" required>
                             <option value="" disable selected>Seçiniz</option>
                         </select>
@@ -210,7 +222,13 @@
                     <td>
                         <span style="color:red;">*</span>Sürücü
                     </td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="SurucuID" id="SurucuID" required>
                             <option value="" disable selected>Seçiniz</option>
                         </select>
@@ -222,7 +240,13 @@
                     <td>
                         <span style="color:red;">*</span>Bakım Yeri
                     </td>
-                    <td>
+                    <td class="d-flex">
+                        <a asp-controller="BakimYeri" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="BakimYeriListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
 
                         <select class="form-control" asp-for="BakimYeri" id="BakimYeri" onchange="BakimYeriDegis()" required>
                             <option value="" disable selected>Seçiniz</option>
@@ -292,10 +316,10 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="number" class="form-control" name="Miktar@(sayi)[]" id="Miktar@(sayi)" value="@item.Miktar" />
+                                            <input type="number" class="form-control" name="Miktar@(sayi)[]" id="Miktar@(sayi)" value="@item.Miktar" onchange="ToplamFiyatHesapla(@sayi)" />
                                                 </td>
                                                 <td>
-                                                    <input type="number" class="form-control" name="BirimFiyat@(sayi)[]" id="BirimFiyat@(sayi)" value="@item.BirimFiyat" />
+                                            <input type="number" class="form-control" name="BirimFiyat@(sayi)[]" id="BirimFiyat@(sayi)" value="@item.BirimFiyat" onchange="ToplamFiyatHesapla(@sayi)" />
                                                 </td>
                                                 <td>
                                                     <input type="number" class="form-control" name="ToplamFiyat@(sayi)[]" id="ToplamFiyat@(sayi)" value="@item.ToplamFiyat" />
@@ -401,6 +425,12 @@
         });
     </script>
     <script>
+
+        function ToplamFiyatHesapla(sira) {
+            var miktar = document.getElementById("Miktar" + sira).value;
+            var fiyat = document.getElementById("BirimFiyat" + sira).value;
+            document.getElementById("ToplamFiyat" + sira).value = miktar * fiyat;
+        }
         function SurucuListe() {
             //sürücü listele
             $.ajax({
@@ -665,8 +695,8 @@
 
             // Hücrelere içerik ekle
             cell1.innerHTML = '<select class="form-control" name="StokID' + itemstok + '[]" id="StokID' + itemstok + '"  onchange="StokSec(this.value,' + itemstok + ')"><option value = "0" > Seçiniz </option></select>';
-            cell2.innerHTML = '<input type="number" class="form-control" name="Miktar' + itemstok + '[]" id="Miktar' + itemstok + '" />';
-            cell3.innerHTML = '<input type="number" class="form-control" name="BirimFiyat' + itemstok + '[]" id="BirimFiyat' + itemstok + '" />';
+            cell2.innerHTML = '<input type="number" class="form-control" name="Miktar' + itemstok + '[]" id="Miktar' + itemstok + '" onchange="ToplamFiyatHesapla(' + items + ')"/>';
+            cell3.innerHTML = '<input type="number" class="form-control" name="BirimFiyat' + itemstok + '[]" id="BirimFiyat' + itemstok + '" onchange="ToplamFiyatHesapla(' + items + ')"/>';
             cell4.innerHTML = '<input type="number" class="form-control" name = "ToplamFiyat' + itemstok + '[]" id = "ToplamFiyat' + itemstok + '" />';
 
 
