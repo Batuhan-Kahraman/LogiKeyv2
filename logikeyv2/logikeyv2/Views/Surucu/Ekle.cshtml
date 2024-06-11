@@ -8,7 +8,14 @@
 </script>
 <div class="col-lg-30 col-xxl-12">
 
-    <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
+    @if (ViewBag.KullaniciGrup == 2)
+    {
+        <h2 class="mb-3 lh-sm">Sürücü Ekle</h2>
+    }
+    else
+    {
+        <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
+    }
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -44,7 +51,10 @@
                         <input type="text" class="form-control" asp-for="Kullanici_Soyisim" required />
                     </td>
                 </tr>
+                
                 <tr>
+                @if (ViewBag.KullaniciGrup != 2)
+                {
                     <td>
                         <span style="color:red;">*</span>Kullanıcı Grubu
                     </td>
@@ -59,7 +69,14 @@
                             <option value="" disabled selected>Seçiniz</option>
 
                         </select>
-                    </td>
+                        </td>
+                    }
+                    else
+                    {
+                      <td>  <input asp-for="KullaniciGrup_ID" type="hidden" value="2"/></td>
+                    }
+
+                    
                     <td>Brüt Maaş</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" />

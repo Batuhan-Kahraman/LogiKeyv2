@@ -496,6 +496,7 @@ namespace logikeyv2.Controllers
             List<AdresOzellikTanimlama> liste = adresManager.GetAllList(x => x.IL_KODU == IlKodu);
             return Json(liste);
         }
+     
         [HttpGet]
         public IActionResult OgrenciListe(int OkulId)
         {

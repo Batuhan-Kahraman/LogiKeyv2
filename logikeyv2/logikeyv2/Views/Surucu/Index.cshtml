@@ -1,12 +1,22 @@
 ﻿@model List<logikeyv2.Models.SurucuViewModel>
 
 @{
-    ViewData["Title"] = "Araç Ekle";
+    ViewData["Title"] = "Kullanıcı Ekle";
 }
 <div class="col-lg-30 col-xxl-12">
 
-    <h2 class="mb-3 lh-sm">Kullanıcılar</h2>
-    <a asp-controller="Surucu" asp-action="Ekle">Kullanıcı Ekle</a>
+
+    @if (ViewBag.KullaniciGrup == 2)
+    {
+        <h2 class="mb-3 lh-sm">Sürücü Ekle</h2>
+        <a asp-controller="Surucu" asp-action="Ekle" asp-route-KullaniciGrup="@ViewBag.KullaniciGrup">Sürücü Ekle</a>
+    }
+    else
+    {
+        <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
+        <a asp-controller="Surucu" asp-action="Ekle" asp-route-KullaniciGrup="@ViewBag.KullaniciGrup">Kullanıcı Ekle</a>
+    }
+
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">

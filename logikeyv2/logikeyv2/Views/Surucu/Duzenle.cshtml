@@ -52,7 +52,14 @@
 
 <div class="col-lg-30 col-xxl-12">
 
-    <h2 class="mb-3 lh-sm">Kullanıcı Düzenle</h2>
+    @if (Model.KullaniciGrup_ID == 2)
+    {
+        <h2 class="mb-3 lh-sm">Sürücü Düzenle</h2>
+    }
+    else
+    {
+        <h2 class="mb-3 lh-sm">Kullanıcı Düzenle</h2>
+    }
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -90,21 +97,30 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <span style="color:red;">*</span>Kullanıcı Grubu
-                    </td>
-                    <td class="d-flex">
-                        <a asp-controller="KullaniciGrup" asp-action="Index" target="_blank" class="me-2">
-                            <span class="text-body fs-5" data-feather="plus"></span>
-                        </a>
-                        <a onclick="KullaniciGrupListe()" class="me-2" style="cursor:pointer;">
-                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
-                        </a>
-                        <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()" required>
-                            <option value="" disabled selected>Seçiniz</option>
+                    @if (Model.KullaniciGrup_ID != 2)
+                    {
+                        <td>
+                            <span style="color:red;">*</span>Kullanıcı Grubu
+                        </td>
+                        <td class="d-flex">
+                            <a asp-controller="KullaniciGrup" asp-action="Index" target="_blank" class="me-2">
+                                <span class="text-body fs-5" data-feather="plus"></span>
+                            </a>
+                            <a onclick="KullaniciGrupListe()" class="me-2" style="cursor:pointer;">
+                                <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                            </a>
+                            <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()" required>
+                                <option value="" disabled selected>Seçiniz</option>
 
-                        </select>
-                    </td>
+                            </select>
+                        </td>
+                    }
+                    else
+                    {
+                       <input asp-for="KullaniciGrup_ID" type="hidden" value="2" />
+                    }
+
+                   
                     <td>Brüt Maaş</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" />
