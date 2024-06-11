@@ -27,9 +27,13 @@
                
                 <tr>
                     
-                    <td>Müşteri Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>Müşteri Adı
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Firma_Unvan" required /></td>
-                    <td>Müşteri Tipi</td>
+                    <td>
+                        <span style="color:red;">*</span>Müşteri Tipi
+                    </td>
                     <td>
 
                         <select class="form-control" asp-for="Firma_Tipi" id="Firmatipi">
@@ -84,7 +88,9 @@
                     <td>Cep Telefon No</td>
                     <td> <input type="text" class="form-control" asp-for="Firma_CepTel" /></td>
                   
-                    <td>Modul</td>
+                    <td>
+                        <span style="color:red;">*</span>Modul
+                    </td>
                     <td>
                         @foreach(var item in ViewBag.Moduller){
                             <input type="checkbox" name="FirmaModul_ID[]" value="@item.Modul_ID"/>
@@ -101,7 +107,9 @@
 
                     <td>Web Sitesi</td>
                     <td> <input type="text" class="form-control" asp-for="Firma_WebSitesi" /></td>
-                    <td>Yetkili Eposta</td>
+                    <td>
+                        <span style="color:red;">*</span>Yetkili Eposta
+                    </td>
                     <td><input type="email" class="form-control" asp-for="Firma_YetkiliEposta" required/></td>
                     
                 </tr>
@@ -119,7 +127,9 @@
 
                 <tr>
 
-                    <td>Yetkili Şifre</td>
+                    <td>
+                        <span style="color:red;">*</span>Yetkili Şifre
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Firma_Sifre" required /></td>
 
 

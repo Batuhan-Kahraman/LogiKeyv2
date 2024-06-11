@@ -29,7 +29,9 @@
                 <tr>
 
 
-                    <td>İstasyon</td>
+                    <td>
+                        <span style="color:red;">*</span>İstasyon
+                    </td>
                     <td class="d-flex">
                         <a asp-controller="Istasyon" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
@@ -37,7 +39,7 @@
                         <a onclick="IstasyonListe()" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
                         </a>
-                        <select class="form-control" asp-for="IstasyonID" id="IstasyonID">
+                        <select class="form-control" asp-for="IstasyonID" id="IstasyonID" required>
                             <option value="0">Seçiniz</option>
                         </select>
                     </td>

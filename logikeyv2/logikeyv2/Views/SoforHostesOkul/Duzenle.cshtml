@@ -26,20 +26,27 @@
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
-                    <td>T.C. Numarası</td>
+                    <td>
+                        <span style="color:red;">*</span>T.C. Numarası
+                    </td>
                     <td><input type="text" class="form-control" asp-for="TC" /></td>
-                    <td>İsim</td>
+                    <td>
+                        <span style="color:red;">*</span>İsim
+                    </td>
                     <td>
                         <input type="text" class="form-control" asp-for="Kullanici_Isim" required />
 
                     </td>
-                    <td>Soyisim</td>
+                    <td>
+                        <span style="color:red;">*</span>Soyisim</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Kullanici_Soyisim" required />
                     </td>
                 </tr>
                 <tr>
-                    <td>Kullanıcı Grubu</td>
+                    <td>
+                        <span style="color:red;">*</span>Kullanıcı Grubu
+                    </td>
                     <td>
                         <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()">
                             <option value="0">Seçiniz</option>
@@ -49,13 +56,16 @@
                     </td>
 
 
-                    <td>Maaş</td>
+                    <td>
+                        <span style="color:red;">*</span>Maaş</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" required />
                     </td>
 
 
-                    <td>Modul</td>
+                    <td>
+                        <span style="color:red;">*</span>Modul
+                    </td>
                     <td>
                         @foreach (var item in ViewBag.TumModuller)
                         {
@@ -132,7 +142,9 @@
                         <textarea asp-for="Adres" class="form-control"></textarea>
 
                     </td>
-                    <td>İl</td>
+                    <td>
+                        <span style="color:red;">*</span>İl
+                    </td>
                     <td>
                         <select class="form-control" asp-for="IlID" id="Cari_IL_ID" onchange="IlDegistir(this.value)" required>
                             <option value="0">Seçiniz</option>
@@ -144,7 +156,9 @@
 
                         </select>
                     </td>
-                    <td>İlçe</td>
+                    <td>
+                        <span style="color:red;">*</span>İlçe
+                    </td>
                     <td>
                         <select class="form-control" asp-for="IlceID" id="Cari_ILCE_ID" required>
                             <option value="0">Seçiniz</option>

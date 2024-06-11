@@ -27,11 +27,15 @@
                
                 <tr>
                     
-                    <td>Müşteri Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>Müşteri Adı
+                    </td>
                     <td><input type="hidden" class="form-control" asp-for="Firma_ID" />
                         <input type="text" class="form-control" asp-for="Firma_Unvan" required />
                     </td>
-                    <td>Müşteri Tipi</td>
+                    <td>
+                        <span style="color:red;">*</span>Müşteri Tipi
+                    </td>
                     <td>
                         <select class="form-control" asp-for="Firma_Tipi" id="Firmatipi">
                             <option value="">Seçiniz</option>
@@ -92,7 +96,9 @@
                     <td>Cep Telefon No</td>
                     <td> <input type="text" class="form-control" asp-for="Firma_CepTel" /></td>
                   
-                    <td>Modul</td>
+                    <td>
+                        <span style="color:red;">*</span>Modul
+                    </td>
                     <td>
                         @foreach(var item in ViewBag.Moduller){
 
@@ -132,7 +138,9 @@
 
 
                 </tr>
-
+                <tr>
+                    <td colspan="4"><a asp-controller="Surucu" asp-action="Index">Firma Yetkilisini Düzenlemek İçin Tıklayınız</a></td>
+                </tr>
             </table>
             <input type="submit" class="btn btn-success w-100" value="Müşteri Düzenle" />
         </form>

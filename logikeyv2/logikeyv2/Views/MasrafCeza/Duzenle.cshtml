@@ -33,6 +33,7 @@
                         <a onclick="MasrafTurListe()" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
                         </a>
+                        <span style="color:red;">*</span>
                         <select class="form-control" asp-for="Tur" onchange="turDegis(this.value)" required>
                             <option value="" disable selected>Tür Seçiniz</option>
                            
@@ -41,7 +42,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Plaka</td>
+                    <td>
+                        <span style="color:red;">*</span>Plaka
+                    </td>
                     <td>
                         <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
@@ -53,7 +56,9 @@
                             <option value="" disable selected>Tür Seçiniz</option>
                         </select>
                     </td>
-                    <td>Sürücü</td>
+                    <td>
+                        <span style="color:red;">*</span>Sürücü
+                    </td>
                     <td>
                         <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>

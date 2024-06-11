@@ -28,7 +28,9 @@
 
                 <tr>
 
-                    <td>Cari</td>
+                    <td>
+                        <span style="color:red;">*</span>Cari
+                    </td>
                     <td colspan="2">
                         <select class="form-control" asp-for="CariID" id="CariID" required>
                             <option value="" disabled selected>Seçiniz</option>
@@ -36,7 +38,9 @@
 
                     </td>
 
-                    <td>Ödeme Yöntemi</td>
+                    <td>
+                        <span style="color:red;">*</span>Ödeme Yöntemi
+                    </td>
                     <td colspan="2">
                         <select class="form-control" asp-for="OdemeYontemi" id="OdemeYontemi" required onchange="OdemeYontemiDegistir()">
                             <option value="" disabled selected>Seçiniz</option>

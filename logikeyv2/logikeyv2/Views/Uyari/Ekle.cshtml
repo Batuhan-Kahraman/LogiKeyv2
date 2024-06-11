@@ -40,8 +40,10 @@
                         <a onclick="UyariTipListe()" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
                         </a>
+                        <span style="color:red;">*</span>
                         <select class="form-control" asp-for="UyariTipID" id="UyariTipID" required>
-                            <option value="" disable selected>Seçiniz</option>
+                            <option value="" disable selected>
+                        Seçiniz</option>
                             </select>
                         </div>
                     </td>
@@ -55,7 +57,8 @@
                         </a>
                         <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
-                        </a>
+                            </a>
+                            <span style="color:red;">*</span>
                         <select class="form-control" asp-for="SurucuID" id="SurucuID" required>
                             <option value="" disable selected>Seçiniz</option>
                         </select>
@@ -73,7 +76,8 @@
                         </a>
                         <a onclick="AracListe()" class="me-2" style="cursor:pointer;">
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
-                        </a>
+                            </a>
+                            <span style="color:red;">*</span>
                         <select class="form-control" asp-for="AracID" id="AracID" required>
                             <option value="" disable selected>Seçiniz</option>
                         </select>

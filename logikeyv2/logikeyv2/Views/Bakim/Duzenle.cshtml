@@ -165,7 +165,9 @@
             <input type="hidden" asp-for="ID" />
             <table class="table table-borderless">
                 <tr>
-                    <td>Araç</td>
+                    <td>
+                        <span style="color:red;">*</span>Araç
+                    </td>
                     <td>
                         <select class="form-control" asp-for="CekiciID" id="CekiciID" required>
 
@@ -177,7 +179,9 @@
                 </tr>
 
                 <tr>
-                    <td>Dorse</td>
+                    <td>
+                        <span style="color:red;">*</span>Dorse
+                    </td>
                     <td>
 
                         <select class="form-control" asp-for="DorseID" id="DorseID" >
@@ -196,7 +200,9 @@
                 <tr>
                     <td>Araç Km</td>
                     <td><input type="number" class="form-control" asp-for="AracKm" step="0.01" /></td>
-                    <td>Servis Bakım Türü</td>
+                    <td>
+                        <span style="color:red;">*</span>Servis Bakım Türü
+                    </td>
                     <td>
                         <select class="form-control" asp-for="ServisBakimTurID" id="ServisBakimTurID" required>
                             <option value="" disable selected>Seçiniz</option>
@@ -206,14 +212,18 @@
                 </tr>
 
                 <tr>
-                    <td>Sürücü</td>
+                    <td>
+                        <span style="color:red;">*</span>Sürücü
+                    </td>
                     <td>
                         <select class="form-control" asp-for="SurucuID" id="SurucuID" required>
                             <option value="" disable selected>Seçiniz</option>
                         </select>
 
                     </td>
-                    <td>Bakım Yeri</td>
+                    <td>
+                        <span style="color:red;">*</span>Bakım Yeri
+                    </td>
                     <td>
 
                         <select class="form-control" asp-for="BakimYeri" id="BakimYeri" onchange="BakimYeriDegis()" required>

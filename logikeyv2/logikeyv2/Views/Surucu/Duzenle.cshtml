@@ -77,7 +77,9 @@
                 <tr>
                     <td>T.C. Numarası</td>
                     <td><input type="text" class="form-control" asp-for="TC" /></td>
-                    <td>İsim</td>
+                    <td>
+                        <span style="color:red;">*</span>İsim
+                    </td>
                     <td>
                         <input type="text" class="form-control" asp-for="Kullanici_Isim" required />
 
@@ -88,7 +90,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Kullanıcı Grubu</td>
+                    <td>
+                        <span style="color:red;">*</span>Kullanıcı Grubu
+                    </td>
                     <td class="d-flex">
                         <a asp-controller="KullaniciGrup" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
@@ -107,7 +111,9 @@
                     </td>
 
 
-                    <td>Modul</td>
+                    <td>
+                        <span style="color:red;">*</span>Modul
+                    </td>
                     <td>
                         @foreach (var item in ViewBag.TumModuller)
                         {
@@ -148,7 +154,9 @@
                     <td><input type="text" class="form-control" asp-for="CepTelefonu" /></td>
                 </tr>
                 <tr>
-                    <td>E-Posta Adresi</td>
+                    <td>
+                        <span style="color:red;">*</span>E-Posta Adresi
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" required /></td>
                     <td>Pozisyon</td>
                     <td class="d-flex">

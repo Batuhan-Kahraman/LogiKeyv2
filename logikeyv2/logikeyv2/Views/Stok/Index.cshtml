@@ -43,7 +43,8 @@
         <div class="card shadow-none border my-4" data-component-card="data-component-card">
             <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
-                    <div class="col-md-4">
+                    <div class="col-md-4 d-flex">
+                        <span style="color:red;">*</span>
                         <select name="StokKategoriID" id="StokKategoriID" class="form-control" required>
                             <option value="" disabled selected>Stok Kategorisi Seçiniz</option>
                             @foreach (var item in ViewBag.StokKategori)
@@ -52,19 +53,23 @@
                             }
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 d-flex">
                         <input type="hidden" name="ID" id="ID" value="" />
+                        <span style="color:red;">*</span>
                         <input class="form-control" id="StokKodu" type="text" name="StokKodu" placeholder="Stok Kodu Giriniz" required />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 d-flex">
+                        <span style="color:red;">*</span>
                         <input class="form-control" id="StokAdi" type="text" name="StokAdi" placeholder="Stok Adı Giriniz" required />
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4 d-flex">
+                        <span style="color:red;">*</span>
                         <input class="form-control" id="Adet" type="number" name="Adet" placeholder="Adet Giriniz" required />
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4 d-flex">
+                        <span style="color:red;">*</span>
                         <input class="form-control" id="BirimFiyat" type="number" name="BirimFiyat" placeholder="Birim Fiyatı Giriniz" required />
                     </div>
                     <div class="col-md-4">

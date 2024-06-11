@@ -25,20 +25,27 @@
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
-                    <td>T.C. Numarası</td>
+                    <td>
+                        <span style="color:red;">*</span>T.C. Numarası
+                    </td>
                     <td><input type="text" class="form-control" asp-for="TC" required/></td>
-                    <td>İsim</td>
+                    <td>
+                        <span style="color:red;">*</span>İsim</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Kullanici_Isim" required />
 
                     </td>
-                    <td>Soyisim</td>
+                    <td>
+                        <span style="color:red;">*</span>Soyisim
+                    </td>
                     <td>
                         <input type="text" class="form-control" asp-for="Kullanici_Soyisim" required />
                     </td>
                 </tr>
                 <tr>
-                    <td>Kullanıcı Grubu</td>
+                    <td>
+                        <span style="color:red;">*</span>Kullanıcı Grubu
+                    </td>
                     <td class="d-flex">
                         <select class="form-control" asp-for="KullaniciGrup_ID" id="KullaniciGrup_ID" onchange="toggleFields()" required>
                             <option value="">Seçiniz</option>
@@ -46,12 +53,16 @@
                             <option value="4">Hostes</option>
                         </select>
                     </td>
-                    <td>Maaş</td>
+                    <td>
+                        <span style="color:red;">*</span>Maaş
+                    </td>
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" required />
                     </td>
 
-                    <td>Modul</td>
+                    <td>
+                        <span style="color:red;">*</span>Modul
+                    </td>
                     <td>
                         @foreach (var item in ViewBag.TumModuller)
                         {
@@ -68,19 +79,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Doğum Tarihi</td>
+                    <td>
+                        <span style="color:red;">*</span>Doğum Tarihi
+                    </td>
                     <td>
                         <input type="date" class="form-control" asp-for="DogumTarihi" required />
                     </td>
-                    <td>Kan Grubu</td>
+                    <td>
+                        <span style="color:red;">*</span>Kan Grubu
+                    </td>
                     <td>
                         <input type="text" class="form-control" asp-for="KanGrubu" required />
                     </td>
-                    <td>Cep Telefonu</td>
+                    <td>
+                        <span style="color:red;">*</span>Cep Telefonu
+                    </td>
                     <td><input type="text" class="form-control" asp-for="CepTelefonu" required /></td>
                 </tr>
                 <tr>
-                    <td>E-Posta Adresi</td>
+                    <td>
+                        <span style="color:red;">*</span>E-Posta Adresi
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" required /></td>
                     @* <td>Pozisyon</td>
                     <td>
@@ -95,14 +114,18 @@
 
                         </select>
                     </td> *@
-                    <td>Şifre</td>
+                    <td>
+                        <span style="color:red;">*</span>Şifre
+                    </td>
 
                     <td><input type="text" class="form-control" asp-for="Kullanici_Sifre" required /></td>
 
 
                 </tr>
                 <tr>
-                    <td>İşe Giriş Tarihi</td>
+                    <td>
+                        <span style="color:red;">*</span>İşe Giriş Tarihi
+                    </td>
                     <td><input type="date" class="form-control" asp-for="GirisTarihi" required /></td>
                     <td>İşten Çıkış Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="CikisTarihi" /></td>
@@ -110,14 +133,18 @@
                     <td><input type="text" class="form-control" asp-for="CikisNedeni" /></td>
                 </tr>
                 <tr>
-                    <td>Adres</td>
+                    <td>
+                        <span style="color:red;">*</span>Adres
+                    </td>
                     <td>
                         <textarea asp-for="Adres" class="form-control" required></textarea>
 
                     </td>
                 <tr>
 
-                    <td>İl</td>
+                    <td>
+                        <span style="color:red;">*</span>İl
+                    </td>
                     <td>
                         <select class="form-control" asp-for="IlID" id="Cari_IL_ID" onchange="IlDegistir(this.value)" required>
                             <option value="0">Seçiniz</option>
@@ -129,7 +156,9 @@
 
                         </select>
                     </td>
-                    <td>İlçe</td>
+                    <td>
+                        <span style="color:red;">*</span>İlçe
+                    </td>
                     <td>
                         <select class="form-control" asp-for="IlceID" id="Cari_ILCE_ID" required>
                             <option value="0">Seçiniz</option>
