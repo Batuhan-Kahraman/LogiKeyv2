@@ -111,6 +111,36 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+        public static string IlAdi(string id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AdresOzellikTanimlama.FirstOrDefault(e => e.IL_KODU == id);
+                if (entity != null)
+                {
+                    return entity.Il;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public static string IlceAdi(string id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AdresOzellikTanimlama.FirstOrDefault(e => e.ILCE_KODU == id);
+                if (entity != null)
+                {
+                    return entity.Ilce;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         public static string StokKategori(int id)
         {
             using (var context = new Context())
