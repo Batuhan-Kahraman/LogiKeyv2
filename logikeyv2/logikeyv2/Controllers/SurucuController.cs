@@ -23,11 +23,14 @@ namespace logikeyv2.Controllers
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
 
         ModullerManager modullerManager = new ModullerManager(new EFModullerRepository());
-        public IActionResult Index()
+        public IActionResult Index(int KullaniciGrup = 0)
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<SurucuViewModel> viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2))
+            List<SurucuViewModel> viewModel;
+            if (KullaniciGrup == 2)
+            {
+                viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2) && x.KullaniciGrup_ID == 2)
                 .GroupJoin(ehliyetSinifiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
                     surucu => surucu.EhliyetSinifiID,
                     ehliyetSinifi => ehliyetSinifi.ID,
@@ -53,11 +56,42 @@ namespace logikeyv2.Controllers
         }
     )
     .ToList();
+            }
+            else
+            {
+                viewModel = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2))
+                .GroupJoin(ehliyetSinifiManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
+                    surucu => surucu.EhliyetSinifiID,
+                    ehliyetSinifi => ehliyetSinifi.ID,
+                    (surucu, ehliyetSinifiGroup) => new { surucu, ehliyetSinifiGroup })
+                .SelectMany(
+                    result => result.ehliyetSinifiGroup.DefaultIfEmpty(),
+                    (result, ehliyetSinifi) => new { result.surucu, ehliyetSinifi }
+            )
+            .GroupJoin(
+                    surucuPozisyonManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)),
+                    result => result.surucu.SurucuPozisyonID,
+                    surucuPozisyon => surucuPozisyon.ID,
+                    (result, surucuPozisyonGroup) => new { result.surucu, result.ehliyetSinifi, surucuPozisyonGroup }
+                )
+                .SelectMany(
+                    result => result.surucuPozisyonGroup.DefaultIfEmpty(),
+
+        (result, surucuPozisyon) => new SurucuViewModel
+        {
+            Surucu = result.surucu,
+            EhliyetSinifi = result.ehliyetSinifi != null ? result.ehliyetSinifi.Adi : "",
+            Pozisyon = surucuPozisyon != null ? surucuPozisyon.Adi : "",
+        }
+    )
+    .ToList();
+            }
+            ViewBag.KullaniciGrup = KullaniciGrup;
 
             return View(viewModel);
         }
 
-        public IActionResult Ekle()
+        public IActionResult Ekle(int KullaniciGrup)
         {
 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
@@ -75,6 +109,7 @@ namespace logikeyv2.Controllers
 
             List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
             ViewBag.TumModuller = liste;
+            ViewBag.KullaniciGrup = KullaniciGrup;
             return View();
         }
         [HttpPost]
@@ -113,8 +148,8 @@ namespace logikeyv2.Controllers
                             KullaniciEvraklar kullaniciEvraklar = new KullaniciEvraklar();
                             kullaniciEvraklar.KullaniciID = surucu.Kullanici_ID;
                             kullaniciEvraklar.EvrakID = int.Parse(form["Evraklar[]"][i]);
-                            kullaniciEvraklar.EvraklarVerilisTarihi =DateTime.Parse( form["EvraklarVerilisTarihi[]"][i]);
-                            kullaniciEvraklar.EvraklarGecerlilikTarihi =DateTime.Parse( form["EvraklarGecerlilikTarihi[]"][i]);
+                            kullaniciEvraklar.EvraklarVerilisTarihi = DateTime.Parse(form["EvraklarVerilisTarihi[]"][i]);
+                            kullaniciEvraklar.EvraklarGecerlilikTarihi = DateTime.Parse(form["EvraklarGecerlilikTarihi[]"][i]);
                             kullaniciEvraklar.Durum = true;
                             kullaniciEvraklar.FirmaID = FirmaID;
                             kullaniciEvraklar.OlusturmaTarihi = DateTime.Now;
@@ -162,8 +197,8 @@ namespace logikeyv2.Controllers
 
             ViewBag.Iller = iller;
 
-            List<KullaniciEvraklar> kullaniciEvraklar = kullaniciEvraklarManager.GetAllList(x=>x.Durum==true && x.FirmaID==FirmaID && x.KullaniciID==SurucuID);
-            ViewBag.KullaniciEvraklar= kullaniciEvraklar;
+            List<KullaniciEvraklar> kullaniciEvraklar = kullaniciEvraklarManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.KullaniciID == SurucuID);
+            ViewBag.KullaniciEvraklar = kullaniciEvraklar;
 
             List<Moduller> liste = modullerManager.GetAllList(x => x.Durum == 1);
             ViewBag.TumModuller = liste;

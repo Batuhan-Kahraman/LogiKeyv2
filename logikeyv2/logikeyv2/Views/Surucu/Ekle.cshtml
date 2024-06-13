@@ -8,7 +8,14 @@
 </script>
 <div class="col-lg-30 col-xxl-12">
 
-    <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
+    @if (ViewBag.KullaniciGrup == 2)
+    {
+        <h2 class="mb-3 lh-sm">Sürücü Ekle</h2>
+    }
+    else
+    {
+        <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
+    }
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -30,18 +37,27 @@
                 <tr>
                     <td>T.C. Numarası</td>
                     <td><input type="text" class="form-control" asp-for="TC" /></td>
-                    <td>İsim</td>
+                    <td>
+                        <span style="color:red;">*</span>İsim
+                    </td>
                     <td>
                         <input type="text" class="form-control" asp-for="Kullanici_Isim" required />
 
                     </td>
-                    <td>Soyisim</td>
+                    <td>
+                        <span style="color:red;">*</span>Soyisim
+                    </td>
                     <td>
                         <input type="text" class="form-control" asp-for="Kullanici_Soyisim" required />
                     </td>
                 </tr>
+                
                 <tr>
-                    <td>Kullanıcı Grubu</td>
+                @if (ViewBag.KullaniciGrup != 2)
+                {
+                    <td>
+                        <span style="color:red;">*</span>Kullanıcı Grubu
+                    </td>
                     <td class="d-flex">
                         <a asp-controller="KullaniciGrup" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
@@ -53,13 +69,22 @@
                             <option value="" disabled selected>Seçiniz</option>
 
                         </select>
-                    </td>
+                        </td>
+                    }
+                    else
+                    {
+                      <td>  <input asp-for="KullaniciGrup_ID" type="hidden" value="2"/></td>
+                    }
+
+                    
                     <td>Brüt Maaş</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Maas" />
                     </td>
 
-                    <td>Modul</td>
+                    <td>
+                        <span style="color:red;">*</span>Modul
+                    </td>
                     <td>
                         @foreach (var item in ViewBag.TumModuller)
                         {
@@ -88,7 +113,9 @@
                     <td><input type="text" class="form-control" asp-for="CepTelefonu" /></td>
                 </tr>
                 <tr>
-                    <td>E-Posta Adresi</td>
+                    <td>
+                        <span style="color:red;">*</span>E-Posta Adresi
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Kullanici_Eposta" required /></td>
                     <td>Pozisyon</td>
                     <td class="d-flex">
@@ -104,7 +131,9 @@
 
                         </select>
                     </td>
-                    <td>Şifre</td>
+                    <td>
+                        <span style="color:red;">*</span>Şifre
+                    </td>
 
                     <td><input type="text" class="form-control" name="Kullanici_Sifre" required /></td>
 

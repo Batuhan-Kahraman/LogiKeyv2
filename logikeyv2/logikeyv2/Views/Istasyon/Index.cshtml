@@ -25,32 +25,39 @@
         <div class="card shadow-none border my-4" data-component-card="data-component-card">
             <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex">
                         <input type="hidden" name="ID" id="ID" value="" />
+                        <span style="color:red;">*</span>
                         <input class="form-control" id="Kod" type="text" name="Kod" placeholder="Kod Giriniz" required />
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex">
+                        <span style="color:red;">*</span>
                         <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" required />
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex">
+                        <span style="color:red;">*</span>
                         <select name="TedarikciID" id="TedarikciID" class="form-control" required>
                             <option value="0">Tedarikçi Seçiniz</option>
                         </select>
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex">
+                        
+                        <span style="color:red;">*</span>
                         <select name="BolgeID" id="BolgeID" class="form-control" required>
                             <option value="0">Bölge Seçiniz</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex">
+                        <span style="color:red;">*</span>
                         <select name="IlID" id="IlID" class="form-control" onchange="IlDegistir(this.value)"
                             required>
                             <option value="0">İl Seçiniz</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex">
+                        <span style="color:red;">*</span>
                         <select name="IlceID" id="IlceID" class="form-control" required>
                             <option value="0">İlçe Seçiniz</option>
                         </select>

@@ -28,34 +28,48 @@
 
                 <tr>
 
-                    <td>Öğrenci Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>Öğrenci Adı
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliAdi" required /></td>
-                    <td>Öğrenci Soyadı</td>
+                    <td>
+                        <span style="color:red;">*</span>Öğrenci Soyadı
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_YetkiliSoyadi" required /></td>
 
 
                 </tr>
 
                 <tr>
-                    <td>Öğrenci Telefon No</td>
+                    <td>
+                        <span style="color:red;">*</span>Öğrenci Telefon No
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaTelefon" required /></td>
-                    <td>Öğrenci TC Kimlik No</td>
+                    <td>
+                        <span style="color:red;">*</span>Öğrenci TC Kimlik No
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_TCNO_VergiNo" required /></td>
 
 
 
                 </tr>
                 <tr>
-                    <td>Kayıt Başlangıç Tarihi</td>
+                    <td>
+                        <span style="color:red;">*</span>Kayıt Başlangıç Tarihi
+                    </td>
                     <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBaslangicTarihi" required /></td>
-                    <td>Kayıt Bitiş Tarihi</td>
+                    <td>
+                        <span style="color:red;">*</span>Kayıt Bitiş Tarihi
+                    </td>
                     <td> <input type="date" class="form-control" asp-for="OgrenciModulu.KayitBitisTarihi" required /></td>
 
 
 
                 </tr>
                 <tr>
-                    <td>Servis Kullanım Durumu</td>
+                    <td>
+                        <span style="color:red;">*</span>Servis Kullanım Durumu
+                    </td>
                     <td>
                         <select class="form-control" asp-for="OgrenciModulu.Servis_Kullanim_Durumu" id="Servis_Kullanim_Durumu" required>
                             <option value="">Seçiniz</option>
@@ -70,7 +84,9 @@
                 </tr>
                 <tr>
 
-                    <td>Okulu</td>
+                    <td>
+                        <span style="color:red;">*</span>Okulu
+                    </td>
                     <td class="d-flex">
                         <a asp-controller="Okul" asp-action="Index" target="_blank" class="me-2">
                             <span class="text-body fs-5" data-feather="plus"></span>
@@ -86,7 +102,9 @@
 
                 </tr>
                 <tr>
-                    <td>İl</td>
+                    <td>
+                        <span style="color:red;">*</span>İl
+                    </td>
                     <td>
                         <select class="form-control" asp-for="Ogrenci.Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)" required>
                             <option value="">Seçiniz</option>
@@ -98,7 +116,9 @@
 
                         </select>
                     </td>
-                    <td>İlçe</td>
+                    <td>
+                        <span style="color:red;">*</span>İlçe
+                    </td>
                     <td>
                         <select class="form-control" asp-for="Ogrenci.Cari_ILCE_ID" id="Cari_ILCE_ID" required>
                             <option value="">Seçiniz</option>
@@ -109,50 +129,76 @@
                 </tr>
                 <tr>
 
-                    <td>Adres</td>
+                    <td>
+                        <span style="color:red;">*</span>Adres
+                    </td>
                     <td colspan="5"> <input type="text" class="form-control" asp-for="Ogrenci.Cari_Adres" required /></td>
 
                 </tr>
                 <tr>
 
 
-                    <td>Öğrenci Eposta</td>
+                    <td>
+                        <span style="color:red;">*</span>Öğrenci Eposta
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Ogrenci.Cari_FirmaEposta" required /></td>
 
 
                 </tr>
 
                 <tr>
-                    <td>1. Veli Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>1. Veli Adı
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Adi" required /></td>
-                    <td>1.Veli Soyadı</td>
+                    <td>
+                        <span style="color:red;">*</span>1.Veli Soyadı
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli1Soyadi" required /></td>
-                    <td>1.Veli Telefon No</td>
+                    <td>
+                        <span style="color:red;">*</span>1.Veli Telefon No
+                    </td>
                     <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli1TelefonNo" required /></td>
                 </tr>
                 <tr>
-                    <td>2. Veli Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>2. Veli Adı
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Adi" required /></td>
-                    <td>2.Veli Soyadı</td>
+                    <td>
+                        <span style="color:red;">*</span>2.Veli Soyadı
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Soyadi" required /></td>
-                    <td>2.Veli Telefon No</td>
+                    <td>
+                        <span style="color:red;">*</span>2.Veli Telefon No
+                    </td>
                     <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli2TelefonNo" required /></td>
 
                 </tr>
                 <tr>
-                    <td>3. Veli Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>3. Veli Adı
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Adi" required /></td>
-                    <td>3.Veli Soyadı</td>
+                    <td>
+                        <span style="color:red;">*</span>3.Veli Soyadı
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Soyadi" required /></td>
-                    <td>3.Veli Telefon No</td>
+                    <td>
+                        <span style="color:red;">*</span>3.Veli Telefon No
+                    </td>
                     <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli3TelefonNo" required /></td>
                 </tr>
 
 
                 <tr>
-                    <td>Banka Adı 1</td>
+                    <td>
+                        <span style="color:red;">*</span>Banka Adı 1
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi1" required /></td>
-                    <td>Banka IBAN No 1</td>
+                    <td>
+                        <span style="color:red;">*</span>Banka IBAN No 1
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN1" required /></td>
 
                 </tr>

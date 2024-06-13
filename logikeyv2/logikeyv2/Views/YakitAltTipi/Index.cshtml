@@ -33,13 +33,16 @@
                             <span class="text-body fs-5" data-feather="refresh-ccw"></span>
                         </a>
                         <select name="YakitTipiID" id="YakitTipiID" class="form-control" required>
-                            <option value="" disabled selected>Yakıt Tipi Seçiniz</option>
+                            <option value="" disabled selected>
+                                <span style="color:red;">*</span>Yakıt Tipi Seçiniz
+                            </option>
                          
 
                         </select>
                     </div>
                     <div class="col-md-8">
                         <input type="hidden" name="ID" id="ID" value="" />
+                        <span style="color:red;">*</span>
                         <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" required>
                     </div>
                     <div class="col-md-4">
