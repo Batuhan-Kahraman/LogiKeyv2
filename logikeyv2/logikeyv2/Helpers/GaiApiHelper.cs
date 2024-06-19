@@ -21,8 +21,7 @@ namespace logikeyv2.Helpers
                 }else
                 {
                     throw new Exception("Gai Api Servise Bağlanılamadı.");
-                }
-            }
+                }           }
             else
             {
                 RefreshTokenModel refreshToken = new RefreshTokenModel();
