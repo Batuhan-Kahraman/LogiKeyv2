@@ -79,7 +79,15 @@ namespace logikeyv2.Controllers
                         return View(ogrenciTahsilat);
                     }
                     var taksitliTutar = ogrenciTahsilat.AnlasilanTutar / ogrenciTahsilat.TaksitSayisi;
-             
+
+                    ogrenciTahsilat.KalanBorcTutar = ogrenciTahsilat.AnlasilanTutar;
+                    ogrenciTahsilat.Durum = true;
+                    ogrenciTahsilat.EkleyenKullaniciID = KullaniciID;
+                    ogrenciTahsilat.DuzenleyenKullaniciID = KullaniciID;
+                    ogrenciTahsilat.FirmaID = FirmaID;
+                    ogrenciTahsilat.OlusturmaTarihi = DateTime.Now;
+                    ogrenciTahsilat.DuzenlemeTarihi = DateTime.Now;
+                    ogrenciTahsilatManager.TAdd(ogrenciTahsilat);
                     for (var i = 1; i <= ogrenciTahsilat.TaksitSayisi; i++)
                     {
                         var yeniOgrenciTahsilat = new OgrenciTahsilatBilgileri(); // Yeni bir OgrenciTahsilat nesnesi oluştur
@@ -88,6 +96,11 @@ namespace logikeyv2.Controllers
                         yeniOgrenciTahsilat.Tutar = taksitliTutar;
                         yeniOgrenciTahsilat.OdemeDurumu = false;
                         yeniOgrenciTahsilat.Durum = true;
+                        yeniOgrenciTahsilat.EkleyenKullaniciID = KullaniciID;
+                        yeniOgrenciTahsilat.DuzenleyenKullaniciID = KullaniciID;
+                        yeniOgrenciTahsilat.FirmaID = FirmaID;
+                        yeniOgrenciTahsilat.OlusturmaTarihi = DateTime.Now;
+                        yeniOgrenciTahsilat.DuzenlemeTarihi = DateTime.Now;
 
                         if (i == 1)
                         {
@@ -109,12 +122,6 @@ namespace logikeyv2.Controllers
                         Console.WriteLine("Hata: " + ex.Message);
                         }
                 }
-                    ogrenciTahsilat.KalanBorcTutar = ogrenciTahsilat.AnlasilanTutar;
-                    ogrenciTahsilat.Durum = true;
-                    ogrenciTahsilat.EkleyenKullaniciID = KullaniciID;
-                    ogrenciTahsilat.OlusturmaTarihi = DateTime.Now;
-                    ogrenciTahsilat.DuzenlemeTarihi = DateTime.Now;
-                    ogrenciTahsilatManager.TAdd(ogrenciTahsilat);
 
                     return RedirectToAction("Index");
                 }

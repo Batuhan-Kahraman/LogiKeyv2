@@ -41,7 +41,7 @@ namespace logikeyv2.Controllers
                         item.Aciklama = form["Aciklama"];
                         item.Adet = int.Parse(form["Adet"]);
                         item.BirimFiyat = int.Parse(form["BirimFiyat"]);
-                        item.Tarih = DateTime.Parse(form["Tarih"]);
+                        item.Tarih = string.IsNullOrEmpty(form["Tarih"]) ? (DateTime?)null : DateTime.Parse(form["Tarih"]);
                         item.FaturaNo = form["FaturaNo"];
                         /*item.GiderTipiID = int.Parse(form["GiderTipiID"]);
                         item.TedarikciID = int.Parse(form["TedarikciID"]);

@@ -6,6 +6,7 @@
 }
 <div class="col-lg-30 col-xxl-12">
     <h2 class="mb-3 lh-sm">Araç Gelir</h2>
+    <a asp-controller="AracGelirGider" asp-action="AracGelirEkle">Arac Gelir Ekle</a>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -21,67 +22,62 @@
 
     }
 
-    <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["name"],"page":20,"pagination":true}'>
-            <div>
-                <a asp-controller="AracGelirGider" asp-action="AracGelirEkle">Arac Gelir Ekle</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm fs-9 mb-0">
-                    <thead>
-                        <tr>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Arac Plakası</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Gelir</th>
+    <table id="example" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Arac Plakası</th>
+                <th>Gelir</th>
+                <th>Saatlik Kiralama</th>
+                <th>Günlük Kiralama</th>
+                <th>Aylık Kiralama</th>
+                <th>Tutar Periyot</th>
+                <th>
+                    İşlemler
+                </th>
 
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Saatlik Kiralama</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Günlük Kiralama</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Aylık Kiralama</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Tutar Periyot</th>
-
-                            <th class="sort border-top">
-                                İşlemler
-                            </th>
-
-                        </tr>
-                    </thead>
-                    <tbody class="list">
-                        @foreach (var item in Model)
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Arac.Plaka</td>
+                    <td>@item.AracGelir.Gelir</td>
+                    <td>@item.AracGelir.Saatlik_Kiralama_Tutari</td>
+                    <td>@item.AracGelir.Gunluk_Kiralama_Tutari</td>
+                    <td>@item.AracGelir.Aylık_Kiralama_Tutarı</td>
+                    <td>@item.AracGelir.Tutar_Periyot</td>
+                    <td>
+                        @if (item.Arac.FirmaID != -2 || item.Arac.FirmaID == ViewBag.FirmaID)
                         {
-                            <tr>
-                                <td>@item.Arac.Plaka</td>
-                                <td>@item.AracGelir.Gelir</td>
-                                <td>@item.AracGelir.Saatlik_Kiralama_Tutari</td>
-                                <td>@item.AracGelir.Gunluk_Kiralama_Tutari</td>
-                                <td>@item.AracGelir.Aylık_Kiralama_Tutarı</td>
-                                <td>@item.AracGelir.Tutar_Periyot</td>
-                                <td>
-                                    @if (item.Arac.FirmaID != -2 || item.Arac.FirmaID == ViewBag.FirmaID)
-                                    {
 
-                                        <a href="#" onclick="Duzenle(@item.AracGelir.aracGelir_ID, '@item.AracGelir.Gelir')">
-                                            <span class="text-body fs-5" data-feather="edit"></span>
-                                        </a>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.AracGelir.aracGelir_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-                                    }
-                                </td>
-                            </tr>
+                            <a href="#" onclick="Duzenle(@item.AracGelir.aracGelir_ID, '@item.AracGelir.Gelir')">
+                                <span class="text-body fs-5" data-feather="edit"></span>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.AracGelir.aracGelir_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
                         }
-                    </tbody>
-                </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Arac Plakası</th>
+                <th>Gelir</th>
+                <th>Saatlik Kiralama</th>
+                <th>Günlük Kiralama</th>
+                <th>Aylık Kiralama</th>
+                <th>Tutar Periyot</th>
+                <th>
+                    İşlemler
+                </th>
+
+            </tr>
+        </tfoot>
+    </table>
 
 
 
 
-
-            </div>
-            <div class="d-flex justify-content-between mt-3">
-                <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
-                <div class="d-flex">
-                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
-                    <ul class="mb-0 pagination"></ul><button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
