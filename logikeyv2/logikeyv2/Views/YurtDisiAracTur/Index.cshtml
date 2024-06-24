@@ -1,0 +1,53 @@
+﻿@using BusinessLayer.Concrate
+@using EntityLayer.Concrate;
+@model List<AracTur>
+
+@{
+    ViewData["Title"] = "Araç Türleri";
+}
+<div class="col-lg-30 col-xxl-12">
+    <h2 class="mb-3 lh-sm">Araç Türleri</h2>
+
+    <a asp-controller="AracTur" asp-action="Index" target="_blank" class="me-2  text-decoration-none">
+        <span class="text-body fs-5" data-feather="plus"></span>Araç Türü Ekle
+    </a>
+    <a asp-controller="YurtDisiAracTur" asp-action="Index" class="me-2  text-decoration-none" style="cursor:pointer;">
+        <span class="text-body fs-5" data-feather="refresh-ccw"></span>Yenile
+    </a>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+ 
+    <div class="p-4 code-to-copy">
+        <form method="post" asp-controller="YurtDisiAracTur" asp-action="Kaydet">
+            <ul style=" list-style-type: none;">
+
+            @foreach (var item in Model)
+            {
+                <li>
+                        @{
+                            // Veritabanında ID varsa 'selected' sınıfını ekle
+                            string selectedClass = Helper.YurtDisiAracTurKontrol(item.ID) ? "checked" : "";
+                        }
+                        <input type="checkbox" value="@item.ID" @selectedClass name="check" />
+                    @item.Adi
+                </li>
+            }
+        </ul>
+
+            <button type="submit" class="form-control">Kaydet</button>
+        </form>
+    </div>
+
+</div>

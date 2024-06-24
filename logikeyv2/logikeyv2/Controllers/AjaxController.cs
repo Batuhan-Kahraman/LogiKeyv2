@@ -18,6 +18,7 @@ namespace logikeyv2.Controllers
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
         AkaryakitAracTurManager akaryakitAracTurManager = new AkaryakitAracTurManager(new EFAkaryakitAracTurRepository());
         NormalAracTurManager normalAracTurManager = new NormalAracTurManager(new EFNormalAracTurRepository());
+        YurtDisiAracTurManager yurtDisiAracTurManager = new YurtDisiAracTurManager(new EFYurtDisiAracTurRepository());
         OkulAracTurManager okulAracTurManager = new OkulAracTurManager(new EFOkulAracTurRepository());
         AracTipManager aracTipManager = new AracTipManager(new EFAracTipRepository());
         MarkaManager markaManager = new MarkaManager(new EFMarkaRepository());
@@ -46,6 +47,7 @@ namespace logikeyv2.Controllers
 
 
         NormalTasimaManager normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
+        YurtDisiTasimaManager yurtDisiTasimaManager = new YurtDisiTasimaManager(new EFYurtDisiTasimaRepository());
         UyariTipManager uyariTipManager = new UyariTipManager(new EFUyariTipRepository());
 
         ServisBakimDurumManager servisBakimDurumManager =new ServisBakimDurumManager(new EFServisBakimDurumRepository());
@@ -59,6 +61,7 @@ namespace logikeyv2.Controllers
         KDVOraniManager kDVOraniManager = new KDVOraniManager(new EFKDVOraniRepository());
         BankalarManager bankaManager = new BankalarManager(new EFBankalarRepository());
         EvraklarManager evraklarManager = new EvraklarManager(new EFEvraklarRepository());
+        YurtDisiEvraklarManager yurtDisiEvraklarManager = new YurtDisiEvraklarManager(new EFYurtDisiEvraklarRepository());
 
         #endregion
 
@@ -91,7 +94,15 @@ namespace logikeyv2.Controllers
         public IActionResult EvraklarListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Evraklar> liste = evraklarManager.GetAllList(x => x.FirmaID == FirmaID || x.FirmaID == -2);
+            List<Evraklar> liste = evraklarManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            return Json(liste);
+        }  
+
+        [HttpGet]
+        public IActionResult YurtDisiEvraklarListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<YurtDisiEvraklar> liste = yurtDisiEvraklarManager.GetAllList(x =>x.Durum==true && ( x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }  
         [HttpGet]
@@ -148,8 +159,25 @@ namespace logikeyv2.Controllers
                         };
 
             return Json(liste);
-        }  
-        
+        }
+
+
+        [HttpGet]
+        public IActionResult YurtDisiAracTurAdliListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+
+            var liste = from yurtDisiAracTur in yurtDisiAracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                        join aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                        on yurtDisiAracTur.TurID equals aracTur.ID
+                        select new
+                        {
+                            YurtDisiAracTur = yurtDisiAracTur,
+                            AracTur = aracTur
+                        };
+
+            return Json(liste);
+        }
 
         [HttpGet]
         public IActionResult AkaryakitAracTurListe()
@@ -308,6 +336,13 @@ namespace logikeyv2.Controllers
                                 select new { AracTur = aracTur };
                     return Json(liste);
                 }
+                else if (MenuModulID == 10)
+                {
+                    var liste = from yurtDisiAracTur in normalAracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                join aracTur in aracTurManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2)) on yurtDisiAracTur.TurID equals aracTur.ID
+                                select new { AracTur = aracTur };
+                    return Json(liste);
+                }
                 else
                 {
 
@@ -391,7 +426,7 @@ namespace logikeyv2.Controllers
         public IActionResult SurucuListe()
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
-            List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 2);
+            List<Kullanicilar> liste = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID == 2 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             return Json(liste);
         }
         [HttpGet]

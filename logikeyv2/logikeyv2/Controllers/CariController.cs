@@ -121,10 +121,10 @@ namespace logikeyv2.Controllers
 
                         item.Cari_BankaAdi1 = cari.Cari_BankaAdi1;
                         item.Cari_BankaAdi2 = cari.Cari_BankaAdi2;
-                        item.Cari_BankaAdi3 = cari.Cari_BankaAdi3;
+                        //item.Cari_BankaAdi3 = cari.Cari_BankaAdi3;
                         item.Cari_BankaIBAN1 = cari.Cari_BankaIBAN1;
                         item.Cari_BankaIBAN2 = cari.Cari_BankaIBAN2;
-                        item.Cari_BankaIBAN3 = cari.Cari_BankaIBAN3;
+                        //item.Cari_BankaIBAN3 = cari.Cari_BankaIBAN3;
                         item.Cari_CepNo=cari.Cari_CepNo;
                      
                         

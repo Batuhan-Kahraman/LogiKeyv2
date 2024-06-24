@@ -23,6 +23,7 @@ namespace EntityLayer.Concrate
         public string? FaturaNo { get; set; }
         public double? FiyatKdvHaric { get; set; }
         public double? KdvTutar { get; set; }
+        public double? KdvliTutar { get; set; }
 
 
         [Required]

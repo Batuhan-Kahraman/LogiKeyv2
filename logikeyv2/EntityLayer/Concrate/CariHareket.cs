@@ -16,6 +16,8 @@ namespace EntityLayer.Concrate
         public double? AkaryakitFaturaTutar { get; set; }
         public int? NormalFaturaID { get; set; }
         public double? NormalFaturaTutar { get; set; }
+        public int? YurtDisiFaturaID { get; set; }
+        public double? YurtDisiFaturaTutar { get; set; }
         public string? OdemeYontemi { get; set; }
         public string? KrediKartNo { get; set; }
         public double? KrediTutar { get; set; }

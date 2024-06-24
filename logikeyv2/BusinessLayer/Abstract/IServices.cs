@@ -11,7 +11,9 @@ namespace BusinessLayer.Abstract
 
     public interface IAracTurService : IGenericService<AracTur> { }
     public interface IEvraklarService : IGenericService<Evraklar> { }
+    public interface IYurtDisiEvraklarService : IGenericService<YurtDisiEvraklar> { }
     public interface IKullaniciEvraklarService : IGenericService<KullaniciEvraklar> { }
+    public interface IYurtDisiTasimaEvraklarService : IGenericService<YurtDisiTasimaEvraklar> { }
     public interface IAracTipService : IGenericService<AracTip> { }
     public interface ISahiplikService : IGenericService<Sahiplik> { }
     public interface IDurumlarService : IGenericService<Durumlar> { }
@@ -105,5 +107,14 @@ namespace BusinessLayer.Abstract
 
     public interface IOkulAracTurService : IGenericService<OkulAracTur> { }
     public interface ICariHareketService : IGenericService<CariHareket> { }
+
+
+
+    public interface IYurtDisiTasimaService : IGenericService<YurtDisiTasima> { }
+    public interface IYurtDisiTasimaDetayService : IGenericService<YurtDisiTasimaDetay> { }
+    public interface IYurtDisiTasimaDetayUrunService : IGenericService<YurtDisiTasimaDetayUrun> { }
+    public interface IYurtDisiFaturaService : IGenericService<YurtDisiFatura> { }
+    public interface IYurtDisiAracTurService : IGenericService<YurtDisiAracTur> { }
+    public interface IYurtDisiCariHareketService : IGenericService<YurtDisiCariHareket> { }
 
 }

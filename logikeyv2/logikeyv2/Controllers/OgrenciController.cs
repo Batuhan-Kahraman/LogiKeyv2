@@ -81,8 +81,8 @@ namespace logikeyv2.Controllers
                         model.Ogrenci.EkleyenKullanici_ID = KullaniciID;
                         model.Ogrenci.DuzenleyenKullanici_ID = KullaniciID;
                         model.Ogrenci.Firma_ID = FirmaID;
-                        model.Ogrenci.Olusturma_Tarihi = DateTime.UtcNow;
-                        model.Ogrenci.Duzenleme_Tarihi = DateTime.UtcNow;
+                        model.Ogrenci.Olusturma_Tarihi = DateTime.Now;
+                        model.Ogrenci.Duzenleme_Tarihi = DateTime.Now;
                         model.Ogrenci.Cari_CepNo = telno;
                         // Öğrenciyi ekleme işlemi
                         cariManager.TAdd(model.Ogrenci);
@@ -90,6 +90,11 @@ namespace logikeyv2.Controllers
                         model.OgrenciModulu.CariOgrenci_ID = kaydedilenOgrenci.Cari_ID;
 
                         model.OgrenciModulu.Durum = true;
+                        model.OgrenciModulu.FirmaID = FirmaID;
+                        model.OgrenciModulu.OlusturmaTarihi = DateTime.Now;
+                        model.OgrenciModulu.DuzenlemeTarihi = DateTime.Now;
+                        model.OgrenciModulu.EkleyenKullaniciID = KullaniciID;
+                        model.OgrenciModulu.DuzenleyenKullaniciID = KullaniciID;
                         ogrenciModuluManager.TAdd(model.OgrenciModulu);
                         if (model.Ogrenci.FaturaDurum == true)
                         {
@@ -106,8 +111,8 @@ namespace logikeyv2.Controllers
                             okul.IbanNo = Fatura_BankaIBAN;
                             okul.Durum = true;
                             okul.CariOgrenciID = model.Ogrenci.Cari_ID;
-                            okul.OlusturmaTarihi = DateTime.UtcNow;
-                            okul.DuzenlemeTarihi = DateTime.UtcNow;
+                            okul.OlusturmaTarihi = DateTime.Now;
+                            okul.DuzenlemeTarihi = DateTime.Now;
                             okul.DuzenleyenKullaniciID = KullaniciID;
                             okul.EkleyenKullaniciID = KullaniciID;
                             okul.FirmaID = FirmaID;
@@ -155,7 +160,7 @@ namespace logikeyv2.Controllers
 
         }
         [HttpPost]
-        public IActionResult OgrenciDuzenle(Cari cari)
+        public IActionResult OgrenciDuzenle(OkulOgrenciModel cari)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             int KullaniciID = (int)HttpContext.Session.GetInt32("KullaniciID");
@@ -165,28 +170,28 @@ namespace logikeyv2.Controllers
                 {
                     try
                     {
-                        Cari item = cariManager.GetByID(cari.Cari_ID);
-                        item.Cari_Unvan = cari.Cari_Unvan;
-                        item.Cari_FirmaTelefon = cari.Cari_FirmaTelefon;
-                        item.Cari_IL_ID = cari.Cari_IL_ID;
-                        item.Cari_ILCE_ID = cari.Cari_ILCE_ID;
-                        item.Cari_Adres = cari.Cari_Adres;
-                        item.Cari_FirmaEposta = cari.Cari_FirmaEposta;
-                        item.Cari_WebSitesi = cari.Cari_WebSitesi;
-                        item.Cari_CepNo = cari.Cari_CepNo;
-                        item.Cari_YetkiliAdi = cari.Cari_YetkiliAdi;
-                        item.Cari_YetkiliSoyadi = cari.Cari_YetkiliSoyadi;
-                        item.Cari_BankaAdi1 = cari.Cari_BankaAdi1;
+                        Cari item = cariManager.GetByID(cari.Ogrenci.Cari_ID);
+                        item.Cari_Unvan = cari.Ogrenci.Cari_Unvan;
+                        item.Cari_FirmaTelefon = cari.Ogrenci.Cari_FirmaTelefon;
+                        item.Cari_IL_ID = cari.Ogrenci.Cari_IL_ID;
+                        item.Cari_ILCE_ID = cari.Ogrenci.Cari_ILCE_ID;
+                        item.Cari_Adres = cari.Ogrenci.Cari_Adres;
+                        item.Cari_FirmaEposta = cari.Ogrenci.Cari_FirmaEposta;
+                        item.Cari_WebSitesi = cari.Ogrenci.Cari_WebSitesi;
+                        item.Cari_CepNo = cari.Ogrenci.Cari_CepNo;
+                        item.Cari_YetkiliAdi = cari.Ogrenci.Cari_YetkiliAdi;
+                        item.Cari_YetkiliSoyadi = cari.Ogrenci.Cari_YetkiliSoyadi;
+                        item.Cari_BankaAdi1 = cari.Ogrenci.Cari_BankaAdi1;
                    
-                        item.Cari_BankaIBAN1 = cari.Cari_BankaIBAN1;
-                        item.FaturaDurum = cari.FaturaDurum;
+                        item.Cari_BankaIBAN1 = cari.Ogrenci.Cari_BankaIBAN1;
+                        item.FaturaDurum = cari.Ogrenci.FaturaDurum;
 
 
 
 
 
 
-                        item.Duzenleme_Tarihi = DateTime.UtcNow;
+                        item.Duzenleme_Tarihi = DateTime.Now;
                         item.DuzenleyenKullanici_ID = KullaniciID;
                         cariManager.TUpdate(item);
                         TempData["Msg"] = "İşlem başarılı.";
