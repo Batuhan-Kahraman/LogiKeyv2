@@ -33,6 +33,7 @@ namespace logikeyv2.Controllers
         YurtDisiFaturaManager YurtDisiFaturaManager = new YurtDisiFaturaManager(new EFYurtDisiFaturaRepository());
         YurtDisiAracTurManager YurtDisiAracTurManager = new YurtDisiAracTurManager(new EFYurtDisiAracTurRepository());
         CariHareketManager cariHareketManager = new CariHareketManager(new EFCariHareketRepository());
+        UlkeParaBirimManager ulkeParaBirimManager = new UlkeParaBirimManager(new EFUlkeParaBirimRepository());
         #endregion
 
         public IActionResult Index()
@@ -73,8 +74,10 @@ namespace logikeyv2.Controllers
 
 
             List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<UlkeParaBirim> paraBirim = ulkeParaBirimManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
 
 
+            ViewBag.ParaBirimleri = paraBirim;
             ViewBag.CekiciPlaka = cekiciPlaka;
             ViewBag.DorsePlaka = dorsePlaka;
             ViewBag.DorseListe = dorseListesi;
@@ -178,17 +181,23 @@ namespace logikeyv2.Controllers
                                 YurtDisiTasimaDetay YurtDisiTasimaDetay = new YurtDisiTasimaDetay();
                                 YurtDisiTasimaDetay.YurtDisiTasimaID = YurtDisiTasima.ID;
                                 YurtDisiTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
-                                YurtDisiTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
-                                YurtDisiTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                YurtDisiTasimaDetay.GondericiYuklemeUlke = form["GondericiYuklemeUlke" + i + "[]"];
+                                YurtDisiTasimaDetay.GondericiYuklemeIl = form["GondericiYuklemeIl" + i + "[]"];
+                                YurtDisiTasimaDetay.GondericiYuklemeIlce = form["GondericiYuklemeIlce" + i + "[]"];
+                                YurtDisiTasimaDetay.GondericiYuklemeAcikAdres = form["GondericiYuklemeAcikAdres" + i + "[]"];
                                 YurtDisiTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
                                 YurtDisiTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
-                                YurtDisiTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
-                                YurtDisiTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                YurtDisiTasimaDetay.AliciIndirilenUlke = form["AliciIndirilenUlke" + i + "[]"];
+                                YurtDisiTasimaDetay.AliciIndirilenIl = form["AliciIndirilenIl" + i + "[]"];
+                                YurtDisiTasimaDetay.AliciIndirilenIlce = form["AliciIndirilenIlce" + i + "[]"];
+                                YurtDisiTasimaDetay.AliciIndirilenAcikAdres = form["AliciIndirilenAcikAdres" + i + "[]"];
                                 YurtDisiTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
                                 YurtDisiTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
                                 YurtDisiTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
                                 YurtDisiTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                 YurtDisiTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                                YurtDisiTasimaDetay.YurtDisiTasimaTipiID = int.Parse(form["YurtDisiTasimaTipi_ID" + i+"[]"]);
+                                YurtDisiTasimaDetay.GumruklemeTarihi = DateTime.Parse(form["GumruklemeTarihi" + i+"[]"]);
                                 YurtDisiTasimaDetay.Durum = true;
                                 YurtDisiTasimaDetay.FirmaID = FirmaID;
                                 YurtDisiTasimaDetay.OlusturmaTarihi = DateTime.Now;
@@ -412,7 +421,7 @@ namespace logikeyv2.Controllers
                             YurtDisiTasima.DuzenleyenID = KullaniciID;
 
                             YurtDisiTasima.AracTurID = int.Parse(form["AracTurID"]);
-                            YurtDisiTasima.ToplamYuklenenMiktar = kayit.ToplamYuklenenMiktar;
+                            //YurtDisiTasima.ToplamYuklenenMiktar = kayit.ToplamYuklenenMiktar;
 
                             YurtDisiTasimaManager.TUpdate(YurtDisiTasima);
 
@@ -465,18 +474,24 @@ namespace logikeyv2.Controllers
                                     yeniNakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
 
                                     YurtDisiTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                    YurtDisiTasimaDetay.GondericiYuklemeUlke = form["GondericiYuklemeUlke" + i + "[]"];
+                                    YurtDisiTasimaDetay.GondericiYuklemeIl = form["GondericiYuklemeIl" + i + "[]"];
+                                    YurtDisiTasimaDetay.GondericiYuklemeIlce = form["GondericiYuklemeIlce" + i + "[]"];
+                                    YurtDisiTasimaDetay.GondericiYuklemeAcikAdres = form["GondericiYuklemeAcikAdres" + i + "[]"];
                                     YurtDisiTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
                                     YurtDisiTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                    YurtDisiTasimaDetay.AliciIndirilenUlke = form["AliciIndirilenUlke" + i + "[]"];
+                                    YurtDisiTasimaDetay.AliciIndirilenIl = form["AliciIndirilenIl" + i + "[]"];
+                                    YurtDisiTasimaDetay.AliciIndirilenIlce = form["AliciIndirilenIlce" + i + "[]"];
+                                    YurtDisiTasimaDetay.AliciIndirilenAcikAdres = form["AliciIndirilenAcikAdres" + i + "[]"];
                                     YurtDisiTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
 
+                                    YurtDisiTasimaDetay.YurtDisiTasimaTipiID = int.Parse(form["YurtDisiTasimaTipi_ID" + i + "[]"]);
+                                    YurtDisiTasimaDetay.GumruklemeTarihi = DateTime.Parse(form["GumruklemeTarihi" + i + "[]"]);
                                     YurtDisiTasimaDetay.DuzenlemeTarihi = DateTime.Now;
                                     YurtDisiTasimaDetay.DuzenleyenID = KullaniciID;
                                     YurtDisiTasimaDetayManager.TUpdate(YurtDisiTasimaDetay);
@@ -488,17 +503,23 @@ namespace logikeyv2.Controllers
                                     YurtDisiTasimaDetay = new YurtDisiTasimaDetay();
                                     YurtDisiTasimaDetay.YurtDisiTasimaID = YurtDisiTasima.ID;
                                     YurtDisiTasimaDetay.GondericiID = int.Parse(form["GondericiCari_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.GondericiYuklemeIlID = int.Parse(form["MalYuklemeAdres_IL_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.GondericiYuklemeIlceID = int.Parse(form["MalYuklemeAdres_ILCE_ID" + i + "[]"]);
+                                    YurtDisiTasimaDetay.GondericiYuklemeUlke = form["GondericiYuklemeUlke" + i + "[]"];
+                                    YurtDisiTasimaDetay.GondericiYuklemeIl = form["GondericiYuklemeIl" + i + "[]"];
+                                    YurtDisiTasimaDetay.GondericiYuklemeIlce = form["GondericiYuklemeIlce" + i + "[]"];
+                                    YurtDisiTasimaDetay.GondericiYuklemeAcikAdres = form["GondericiYuklemeAcikAdres" + i + "[]"];
                                     YurtDisiTasimaDetay.GondericiYuklemeTarihSaat = DateTime.Parse(form["GondericiFirmaTarihSaat" + i + "[]"]);
                                     YurtDisiTasimaDetay.AliciID = int.Parse(form["AliciCari_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.AliciIndirilenIlID = int.Parse(form["IndirilenAdres_IL_ID" + i + "[]"]);
-                                    YurtDisiTasimaDetay.AliciIndirilenIlceID = int.Parse(form["IndirilenAdres_ILCE_ID" + i + "[]"]);
+                                    YurtDisiTasimaDetay.AliciIndirilenUlke = form["AliciIndirilenUlke" + i + "[]"];
+                                    YurtDisiTasimaDetay.AliciIndirilenIl = form["AliciIndirilenIl" + i + "[]"];
+                                    YurtDisiTasimaDetay.AliciIndirilenIlce = form["AliciIndirilenIlce" + i + "[]"];
+                                    YurtDisiTasimaDetay.AliciIndirilenAcikAdres = form["AliciIndirilenAcikAdres" + i + "[]"];
                                     YurtDisiTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                     YurtDisiTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                                    YurtDisiTasimaDetay.YurtDisiTasimaTipiID = int.Parse(form["YurtDisiTasimaTipi_ID" + i + "[]"]);
+                                    YurtDisiTasimaDetay.GumruklemeTarihi = DateTime.Parse(form["GumruklemeTarihi" + i + "[]"]);
                                     YurtDisiTasimaDetay.Durum = true;
                                     YurtDisiTasimaDetay.FirmaID = FirmaID;
                                     YurtDisiTasimaDetay.OlusturmaTarihi = DateTime.Now;

@@ -62,9 +62,19 @@ namespace logikeyv2.Controllers
         BankalarManager bankaManager = new BankalarManager(new EFBankalarRepository());
         EvraklarManager evraklarManager = new EvraklarManager(new EFEvraklarRepository());
         YurtDisiEvraklarManager yurtDisiEvraklarManager = new YurtDisiEvraklarManager(new EFYurtDisiEvraklarRepository());
+        YurtDisiTasimaMasraflarManager yurtDisiTasimaMasraflarManager = new YurtDisiTasimaMasraflarManager(new EFYurtDisiTasimaMasraflarRepository());
+        YurtDisiMasraflarManager yurtDisiMasraflarManager = new YurtDisiMasraflarManager(new EFYurtDisiMasraflarRepository());
+        YurtDisiTasimaTipiManager yurtDisiTasimaTipiManager = new YurtDisiTasimaTipiManager(new EFYurtDisiTasimaTipiRepository());
 
         #endregion
 
+        [HttpGet]
+        public IActionResult YurtDisiTasimaTipiListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<YurtDisiTasimaTipi> liste = yurtDisiTasimaTipiManager.GetAllList(x =>x.Durum==true && (x.FirmaID == FirmaID || x.FirmaID == -2));
+            return Json(liste);
+        }
         [HttpGet]
         public IActionResult TasinacakUrunListe()
         {
@@ -103,6 +113,20 @@ namespace logikeyv2.Controllers
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<YurtDisiEvraklar> liste = yurtDisiEvraklarManager.GetAllList(x =>x.Durum==true && ( x.FirmaID == FirmaID || x.FirmaID == -2));
+            return Json(liste);
+        }  
+        [HttpGet]
+        public IActionResult YurtDisiTasimaMasraflarListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<YurtDisiTasimaMasraflar> liste = yurtDisiTasimaMasraflarManager.GetAllList(x =>x.Durum==true && ( x.FirmaID == FirmaID || x.FirmaID == -2));
+            return Json(liste);
+        }  
+        [HttpGet]
+        public IActionResult YurtDisiMasraflarListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<YurtDisiMasraflar> liste = yurtDisiMasraflarManager.GetAllList(x =>x.Durum==true && ( x.FirmaID == FirmaID || x.FirmaID == -2));
             return Json(liste);
         }  
         [HttpGet]

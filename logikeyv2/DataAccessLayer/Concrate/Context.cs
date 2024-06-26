@@ -24,10 +24,13 @@ namespace DataAccessLayer.Concrate
 
         }
         public DbSet<AdresOzellikTanimlama> AdresOzellikTanimlama { get; set; }
+        public DbSet<UlkeParaBirim> UlkeParaBirim { get; set; }
 
         public DbSet<AracTur> AracTur { get; set; }
         public DbSet<Evraklar> Evraklar { get; set; }
         public DbSet<YurtDisiEvraklar> YurtDisiEvraklar { get; set; }
+        public DbSet<YurtDisiTasimaMasraflar> YurtDisiTasimaMasraflar { get; set; }
+        public DbSet<YurtDisiMasraflar> YurtDisiMasraflar { get; set; }
         public DbSet<KullaniciEvraklar> KullaniciEvraklar { get; set; }
         public DbSet<YurtDisiTasimaEvraklar> YurtDisiTasimaEvraklar { get; set; }
         public DbSet<AracTip> AracTip { get; set; }
@@ -60,6 +63,7 @@ namespace DataAccessLayer.Concrate
         public DbSet<KazaTuru> KazaTuru { get; set; }
         public DbSet<TasinacakUrun> TasinacakUrun { get; set; }
         public DbSet<TasimaTipi> TasimaTipi { get; set; }
+        public DbSet<YurtDisiTasimaTipi> YurtDisiTasimaTipi { get; set; }
         public DbSet<Bankalar> Bankalar { get; set; }
         public DbSet<Birimler> Birimler { get; set; }
         public DbSet<Kaza> Kaza { get; set; }

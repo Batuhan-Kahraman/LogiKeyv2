@@ -14,12 +14,18 @@ namespace EntityLayer.Concrate
        
         public int YurtDisiTasimaID { get; set; }
         public int GondericiID { get; set; }
-        public int GondericiYuklemeIlID { get; set; }
-        public int GondericiYuklemeIlceID { get; set; }
+        public int YurtDisiTasimaTipiID { get; set; }
+        public DateTime GumruklemeTarihi { get; set; }
+        public string GondericiYuklemeUlke { get; set; }
+        public string GondericiYuklemeIl { get; set; }
+        public string GondericiYuklemeIlce { get; set; }
+        public string GondericiYuklemeAcikAdres { get; set; }
         public DateTime GondericiYuklemeTarihSaat { get; set; }
         public int AliciID { get; set; }
-        public int AliciIndirilenIlID { get; set; }
-        public int AliciIndirilenIlceID { get; set; }
+        public string AliciIndirilenUlke { get; set; }
+        public string AliciIndirilenIl { get; set; }
+        public string AliciIndirilenIlce { get; set; }
+        public string AliciIndirilenAcikAdres { get; set; }
         public DateTime AliciIndirilenTarihSaat { get; set; }
         public int NakliyeTutarKDVHaric { get; set; }
         public int NakliyeKDV { get; set; }
