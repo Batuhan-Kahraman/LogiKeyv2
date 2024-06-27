@@ -23,6 +23,9 @@ namespace EntityLayer.Concrate
         public string? Cari_WebSitesi { get; set; }
         public string? Cari_FirmaEposta { get; set; }
         public string? Cari_FirmaTelefon { get; set; }
+        public string? Cari_Ulke { get; set; }
+        public string? Cari_Il { get; set; }
+        public string? Cari_Ilce { get; set; }
         public int? Cari_IL_ID { get; set; }
         public int? Cari_ILCE_ID { get; set; }
         public string? Cari_Adres { get; set; }

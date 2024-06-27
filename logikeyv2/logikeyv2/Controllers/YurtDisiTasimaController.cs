@@ -28,6 +28,7 @@ namespace logikeyv2.Controllers
         TasimaTipiManager tasimaTipiManager = new TasimaTipiManager(new EFTasimaTipiRepository());
         AdresOzellikTanimlamaManager adresManager = new AdresOzellikTanimlamaManager(new EFAdresOzellikTanimlamaRepository());
         YurtDisiTasimaManager YurtDisiTasimaManager = new YurtDisiTasimaManager(new EFYurtDisiTasimaRepository());
+        YurtDisiTasimaMasraflarManager YurtDisiTasimaMasraflarManager = new YurtDisiTasimaMasraflarManager(new EFYurtDisiTasimaMasraflarRepository());
         YurtDisiTasimaDetayManager YurtDisiTasimaDetayManager = new YurtDisiTasimaDetayManager(new EFYurtDisiTasimaDetayRepository());
         YurtDisiTasimaDetayUrunManager YurtDisiTasimaDetayUrunManager = new YurtDisiTasimaDetayUrunManager(new EFYurtDisiTasimaDetayUrunRepository());
         YurtDisiFaturaManager YurtDisiFaturaManager = new YurtDisiFaturaManager(new EFYurtDisiFaturaRepository());
@@ -205,6 +206,30 @@ namespace logikeyv2.Controllers
                                 YurtDisiTasimaDetay.OlusturanId = KullaniciID;
                                 YurtDisiTasimaDetay.DuzenleyenID = KullaniciID;
                                 YurtDisiTasimaDetayManager.TAdd(YurtDisiTasimaDetay);
+
+                                int masrafSayisi = form["Masraflar"+i+"[]"].Count();
+                                for (int j = 0; j < masrafSayisi; j++)
+                                {
+
+                                    YurtDisiTasimaMasraflar tasimaMasraflar = new YurtDisiTasimaMasraflar();
+                                    tasimaMasraflar.YurtDisiTasimaID = YurtDisiTasima.ID;
+                                    tasimaMasraflar.YurtDisiTasimaDetayID = YurtDisiTasimaDetay.ID;
+                                    tasimaMasraflar.MasrafID = int.Parse(form["Masraflar"+i+"[]"][j]);
+                                    tasimaMasraflar.Fiyat = float.Parse(form["MasrafFiyat"+i+"[]"][j]);
+                                    tasimaMasraflar.ParaBirimID = int.Parse(form["ParaBirimID"+i+"[]"][j]);
+                                    tasimaMasraflar.Durum = true;
+                                    tasimaMasraflar.FirmaID = FirmaID;
+                                    tasimaMasraflar.OlusturmaTarihi = DateTime.Now;
+                                    tasimaMasraflar.DuzenlemeTarihi = DateTime.Now;
+                                    tasimaMasraflar.OlusturanId = KullaniciID;
+                                    tasimaMasraflar.DuzenleyenID = KullaniciID;
+                                    YurtDisiTasimaMasraflarManager.TAdd(tasimaMasraflar);
+                                   
+
+
+                                }
+
+
                                 ToplamFiyat += YurtDisiTasimaDetay.NakliyeFiyat;
                                 string detayUrunId = "";
                                 string faturaKesenId = "";
@@ -323,6 +348,8 @@ namespace logikeyv2.Controllers
 
             List<YurtDisiTasimaEvraklar> evraklar = evrakManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.YurtDisiTasimaID == ID);
             ViewBag.YurtDisiTasimaEvraklar = evraklar;
+            List<YurtDisiTasimaMasraflar> masraflar = YurtDisiTasimaMasraflarManager.GetAllList(x => x.Durum == true && x.FirmaID == FirmaID && x.YurtDisiTasimaID == ID);
+            ViewBag.YurtDisiTasimaMasraflar = masraflar;
             List<Arac> aracListesi = aracManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
             List<Kullanicilar> surucuListesi = surucuManager.GetAllList(x => x.Kullanici_Durum == 1 && x.KullaniciGrup_ID==2 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             List<TasinacakUrun> tasinacakUrun = tasinacakUrunManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2));
@@ -344,7 +371,10 @@ namespace logikeyv2.Controllers
 
 
             List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            List<UlkeParaBirim> paraBirim = ulkeParaBirimManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
 
+
+            ViewBag.ParaBirimleri = paraBirim;
             ViewBag.CekiciPlaka = cekiciPlaka;
             ViewBag.DorsePlaka = dorsePlaka;
             ViewBag.DorseListe = dorseListesi;
@@ -495,6 +525,34 @@ namespace logikeyv2.Controllers
                                     YurtDisiTasimaDetay.DuzenlemeTarihi = DateTime.Now;
                                     YurtDisiTasimaDetay.DuzenleyenID = KullaniciID;
                                     YurtDisiTasimaDetayManager.TUpdate(YurtDisiTasimaDetay);
+
+
+                                    Helper.TumYurtDisiTasimaMasraflariSil(YurtDisiTasima.ID);
+
+
+                                    int masrafSayisi = form["Masraflar" + i + "[]"].Count();
+                                    for (int j = 0; j < masrafSayisi; j++)
+                                    {
+
+                                        YurtDisiTasimaMasraflar tasimaMasraflar = new YurtDisiTasimaMasraflar();
+                                        tasimaMasraflar.YurtDisiTasimaID = YurtDisiTasima.ID;
+                                        tasimaMasraflar.YurtDisiTasimaDetayID = YurtDisiTasimaDetay.ID;
+                                        tasimaMasraflar.MasrafID = int.Parse(form["Masraflar" + i + "[]"][j]);
+                                        tasimaMasraflar.Fiyat = float.Parse(form["MasrafFiyat" + i + "[]"][j]);
+                                        tasimaMasraflar.ParaBirimID = int.Parse(form["ParaBirimID" + i + "[]"][j]);
+                                        tasimaMasraflar.Durum = true;
+                                        tasimaMasraflar.FirmaID = FirmaID;
+                                        tasimaMasraflar.OlusturmaTarihi = DateTime.Now;
+                                        tasimaMasraflar.DuzenlemeTarihi = DateTime.Now;
+                                        tasimaMasraflar.OlusturanId = KullaniciID;
+                                        tasimaMasraflar.DuzenleyenID = KullaniciID;
+                                        YurtDisiTasimaMasraflarManager.TAdd(tasimaMasraflar);
+
+
+
+                                    }
+
+
                                     ToplamFiyat += YurtDisiTasimaDetay.NakliyeFiyat;
 
                                 }
@@ -527,7 +585,30 @@ namespace logikeyv2.Controllers
                                     YurtDisiTasimaDetay.OlusturanId = KullaniciID;
                                     YurtDisiTasimaDetay.DuzenleyenID = KullaniciID;
                                     YurtDisiTasimaDetayManager.TAdd(YurtDisiTasimaDetay);
+                                    Helper.TumYurtDisiTasimaMasraflariSil(YurtDisiTasima.ID);
 
+
+                                    int masrafSayisi = form["Masraflar" + i + "[]"].Count();
+                                    for (int j = 0; j < masrafSayisi; j++)
+                                    {
+
+                                        YurtDisiTasimaMasraflar tasimaMasraflar = new YurtDisiTasimaMasraflar();
+                                        tasimaMasraflar.YurtDisiTasimaID = YurtDisiTasima.ID;
+                                        tasimaMasraflar.YurtDisiTasimaDetayID = YurtDisiTasimaDetay.ID;
+                                        tasimaMasraflar.MasrafID = int.Parse(form["Masraflar" + i + "[]"][j]);
+                                        tasimaMasraflar.Fiyat = float.Parse(form["MasrafFiyat" + i + "[]"][j]);
+                                        tasimaMasraflar.ParaBirimID = int.Parse(form["ParaBirimID" + i + "[]"][j]);
+                                        tasimaMasraflar.Durum = true;
+                                        tasimaMasraflar.FirmaID = FirmaID;
+                                        tasimaMasraflar.OlusturmaTarihi = DateTime.Now;
+                                        tasimaMasraflar.DuzenlemeTarihi = DateTime.Now;
+                                        tasimaMasraflar.OlusturanId = KullaniciID;
+                                        tasimaMasraflar.DuzenleyenID = KullaniciID;
+                                        YurtDisiTasimaMasraflarManager.TAdd(tasimaMasraflar);
+
+
+
+                                    }
                                     yeniNakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
                                 }
 

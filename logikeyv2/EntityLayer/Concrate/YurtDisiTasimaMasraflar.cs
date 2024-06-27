@@ -13,6 +13,7 @@ namespace EntityLayer.Concrate
         public int ID { get; set; }
         [Required] 
         public int YurtDisiTasimaID { get; set; }
+        public int YurtDisiTasimaDetayID { get; set; }
         [Required] 
         public int MasrafID { get; set; }
         public double? Fiyat { get; set; }

@@ -52,8 +52,24 @@
                     <td>Vergi Dairesi</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Cari_VergiDairesi" />
+
                     </td>
                 </tr>
+                @{
+                    if(ViewBag.ModulID==10)
+                    {
+                        <tr>
+                            <td>Ülke</td>
+                            <td><input type="text" class="form-control" asp-for="Cari_Ulke" /></td>
+                            <td>İl</td>
+                            <td><input type="text" class="form-control" asp-for="Cari_Il" /></td>
+                            <td>İlçe/Bölge</td>
+                            <td><input type="text" class="form-control" asp-for="Cari_Ilce" /></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        
                 <tr>
 
                     <td>İl</td>
@@ -77,6 +93,8 @@
                         </select>
                     </td>
                 </tr>
+                    }
+                }
                 <tr>
 
                     <td>Adres</td>

@@ -655,6 +655,27 @@ namespace BusinessLayer.Concrate
                     return false;
                 }
             }
+        }public static bool TumYurtDisiTasimaMasraflariSil(int YurtDisiTasimaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekMasraflar = context.YurtDisiTasimaMasraflar.Where(e => e.YurtDisiTasimaID == YurtDisiTasimaID).ToList();
+
+                    context.YurtDisiTasimaMasraflar.RemoveRange(silinecekMasraflar);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
 
 

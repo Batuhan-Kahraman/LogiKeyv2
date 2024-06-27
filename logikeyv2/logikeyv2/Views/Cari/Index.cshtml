@@ -7,7 +7,7 @@
 }
 <div class="col-lg-30 col-xxl-12">
     <h2 class="mb-3 lh-sm">Cariler</h2>
-    <a asp-controller="Cari" asp-action="Ekle">Cari Ekle</a>
+    <a asp-controller="Cari" asp-action="Ekle" asp-route-ModulID="@ViewBag.ModulID">Cari Ekle</a>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -28,6 +28,7 @@
             <tr>
                 <th>Cari Adı</th>
                 <th>TC NO / Vergi No</th>
+                <th>Ülke</th>
                 <th>İl</th>
                 <th>İlçe</th>
                 <th>Adresi</th>
@@ -46,8 +47,20 @@
                 <tr>
                     <td>@item.Cari_Unvan</td>
                     <td>@item.Cari_TCNO_VergiNo</td>
-                    <td>@Helper.IlAdi(item.Cari_IL_ID.ToString())</td>
-                    <td>@Helper.IlceAdi(item.Cari_ILCE_ID.ToString())</td>
+                    @{
+                        if (item.Cari_IL_ID == 0 || item.Cari_IL_ID==null)
+                        {
+                            <td>@item.Cari_Ulke</td>
+                            <td>@item.Cari_Il</td>
+                            <td>@item.Cari_Ilce</td>
+                        }
+                        else
+                        {
+                            <td>Türkiye</td>
+                            <td>@Helper.IlAdi(item.Cari_IL_ID.ToString())</td>
+                            <td>@Helper.IlceAdi(item.Cari_ILCE_ID.ToString())</td>
+                        }
+                    }
                     <td>@item.Cari_Adres</td>
                     <td>@item.Cari_YetkiliAdi @item.Cari_YetkiliSoyadi</td>
                     <td>@item.Cari_CepNo</td>
