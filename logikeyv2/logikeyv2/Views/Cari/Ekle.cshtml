@@ -60,7 +60,11 @@
                     {
                         <tr>
                             <td>Ülke</td>
-                            <td><input type="text" class="form-control" asp-for="Cari_Ulke" /></td>
+                            <td>
+                                <select asp-for="Cari_Ulke" class=" form-control" id="Cari_Ulke">
+                                    <option value="0">Seçiniz</option>
+                                </select>
+                          </td>
                             <td>İl</td>
                             <td><input type="text" class="form-control" asp-for="Cari_Il" /></td>
                             <td>İlçe/Bölge</td>
@@ -250,5 +254,36 @@
                 }
             });
         }
+
+        function UlkeListe(id) {
+            $.ajax({
+                url: '../Ajax/UlkeListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#' + id).empty();
+                    $('#' + id).append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true,
+                        selected: true,
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#' + id).append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.ulke // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+
+        }
+
+        UlkeListe("Cari_Ulke");
     </script>
 }

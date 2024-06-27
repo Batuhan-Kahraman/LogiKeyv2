@@ -65,9 +65,17 @@ namespace logikeyv2.Controllers
         YurtDisiTasimaMasraflarManager yurtDisiTasimaMasraflarManager = new YurtDisiTasimaMasraflarManager(new EFYurtDisiTasimaMasraflarRepository());
         YurtDisiMasraflarManager yurtDisiMasraflarManager = new YurtDisiMasraflarManager(new EFYurtDisiMasraflarRepository());
         YurtDisiTasimaTipiManager yurtDisiTasimaTipiManager = new YurtDisiTasimaTipiManager(new EFYurtDisiTasimaTipiRepository());
+        UlkeParaBirimManager ulkeParaBirimManager = new UlkeParaBirimManager(new EFUlkeParaBirimRepository());
 
         #endregion
 
+        [HttpGet]
+        public IActionResult UlkeListe()
+        {
+            int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
+            List<UlkeParaBirim> liste = ulkeParaBirimManager.GetAllList(x =>x.Durum==1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
+            return Json(liste);
+        }
         [HttpGet]
         public IActionResult YurtDisiTasimaTipiListe()
         {
