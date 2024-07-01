@@ -5,6 +5,17 @@ namespace logikeyv2.Models.GaiEFaturaModels
 {
 	public class GaiInvoiceCreateModel
 	{
+        public GaiInvoiceCreateModel()
+        {
+            InvoiceDetail = new List<InvoiceDetail>();
+            InvoiceAccount = new GaiInvoiceAccount();
+            WayBillInfo = new WayBillInfo();
+            InternetShipmentInfo = new InternetShipmentInfo();
+            OrderDetails = new OrderDetails();
+            PaymentMeans = new PaymentMeans();
+            InvoiceCalculation = new InvoiceCalculation();
+            BottomDiscountDetails = new BottomDiscountDetails();
+        }
         //Senaryo türü belirtilmelidir(TEMELFATURA,TICARIFATURA vb.) Ayrıca faturanın e-fatura mı yoksa e-arşiv fatura mı olacağı bilgisi bu parametre ile belirtilmelidir.
         public string Profile { get; set; }
         //Belge tipi belirtilmelidir(SATIS,IADE vb.) İade fatura ise aşağıdaki 3 alan doldurulmalıdır
@@ -87,6 +98,11 @@ namespace logikeyv2.Models.GaiEFaturaModels
     }
     public class GaiCreateInvoiceResponse
     {
+        public GaiCreateInvoiceResponse()
+        {
+            data = new List<ResponseData>();
+            ErrorList = new List<string>();
+        }
         public bool Status { get; set; }
         public string? Message { get; set; }
         public string? ExceptionMessage { get; set; }
@@ -109,6 +125,10 @@ namespace logikeyv2.Models.GaiEFaturaModels
     }
 	public class InvoiceCalculation
     {
+        public InvoiceCalculation()
+        {
+            GidenFaturaDigerVergiDto = new GidenFaturaDigerVergiDto();
+        }
         public double LineExtensionAmount { get; set; }
         public double TaxExclusiveAmount { get; set; }
         public double TaxInclusiveAmount { get; set; }
@@ -131,8 +151,14 @@ namespace logikeyv2.Models.GaiEFaturaModels
     }
     public class InvoiceDetail
     {
+        public InvoiceDetail()
+        {
+            AllowanceCharge = new List<AllowanceCharge>();
+            Tax = new List<Tax>();
+            PackageList = new List<PackageList>();
+        }
         //Mal Hizmet Bilgisi
-		public string ProductName { get; set; }
+        public string ProductName { get; set; }
 		//Mal Hizmet Miktarı
 		public double Quantity { get; set; }
 		//Mal / Hizmete ait Birim Kodu (C62,KGM,PR,MTR,MTQ,LTR,GRM,MTK,CTM vb.)

@@ -3,12 +3,11 @@ using logikeyv2.ApiServices;
 using logikeyv2.Helpers;
 using logikeyv2.Models;
 using logikeyv2.Models.GaiEFaturaModels;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using Microsoft.AspNetCore.Mvc;using System.Net;
 
 namespace logikeyv2.Controllers
 {
-	public class EFaturaTestController : BaseController
+    public class EFaturaTestController : BaseController
     {
 
         public readonly EFaturaApiService _eFaturaApiService;
@@ -16,11 +15,10 @@ namespace logikeyv2.Controllers
         {
             _eFaturaApiService = eFaturaApiService;
         }
-
         public IActionResult Index()
-		{
-			return View();
-		}
+        {
+            return View();
+        }
 
         public async Task<IActionResult> CheckUser()
         {
@@ -29,11 +27,11 @@ namespace logikeyv2.Controllers
             gaiCheckUser.Identifier = "3941069153";
             gaiCheckUser.DocumentType = "Invoice";
             var response = await _eFaturaApiService.CheckUser(gaiCheckUser, HttpContext.Session.GetString("BearerToken"));
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 gaiCheckUserResponse = await response.Content.ReadFromJsonAsync<GaiCheckUserResponse>();
             }
-            else if(response.StatusCode == HttpStatusCode.Unauthorized) // Yetkisiz işlem yapılmışsa güncel token alınıyor ve tekrar talep gönderiliyor
+            else if (response.StatusCode == HttpStatusCode.Unauthorized) // Yetkisiz işlem yapılmışsa güncel token alınıyor ve tekrar talep gönderiliyor
             {
                 GaiApiHelper.CheckBearerToken(_eFaturaApiService, HttpContext);
                 response = await _eFaturaApiService.CheckUser(gaiCheckUser, HttpContext.Session.GetString("BearerToken"));
