@@ -1,0 +1,113 @@
+﻿@using logikeyv2.Models.GaiEFaturaModels;
+@model CreateInvoiceDto
+@{
+    ViewData["Title"] = "E-Fatura Kes";
+}
+
+<div class="col-lg-30 col-xxl-12">
+
+    <h2 class="mb-3 lh-sm">E-Fatura Kes</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="border table-responsive scrollbar p-2">
+        <form method="post">
+            <table class="table table-borderless">
+
+                <tr>
+
+                    <td>Profil</td>
+                    <td><input type="text" class="form-control" asp-for="Profile" placeholder="Senaryo türü belirtilmelidir(TEMELFATURA,TICARIFATURA vb.)" required /></td>
+                    <td>Fatura Tipi</td>
+                    <td> <input type="text" class="form-control" asp-for="InvoiceType" placeholder="Belge tipi belirtilmelidir(SATIS)" required /></td>
+                    <td>Fatura Numarası</td>
+                    <td><input type="text" class="form-control" asp-for="DocNo" placeholder="Fatura no ya da sayaç bilgisi girilir" required /></td>
+                </tr>
+                <tr>
+                    
+                    <td>Para Birimi</td>
+                    <td><input type="text" class="form-control" asp-for="CurrencyCode" required /></td>
+                    <td>Kur Bilgisi</td>
+                    <td> <input type="text" class="form-control" asp-for="InvoiceType" placeholder="Para Birimi Türk Lirası Değilse Doldurulmalıdır" /></td>
+                    <td>Alıcı Vkn/Tckn</td>
+                    <td><input type="text" class="form-control" asp-for="VknTckn" /></td>
+                </tr>
+                <tr>
+                    <td>Hesap Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="AccountName" /></td>
+                    <td>Vergi Dairesi</td>
+                    <td> <input type="text" class="form-control" asp-for="TaxOfficeName" /></td>
+                    <td>Ülke</td>
+                    <td><input type="text" class="form-control" asp-for="CountryName" /></td>
+                </tr>
+                <tr>
+
+                    
+                    <td>Şehir</td>
+                    <td><input type="text" class="form-control" asp-for="CityName" /></td>
+                    <td>İlçe</td>
+                    <td><input type="text" class="form-control" asp-for="District" /></td>
+                    <td>Sokak Adı</td>
+                    <td><input type="text" class="form-control" asp-for="StreetName" /></td>
+                </tr>
+                <tr>
+                    <td>Blok Adı</td>
+                    <td> <input type="text" class="form-control" asp-for="BlockName" /></td>
+                    <td>Bina</td>
+                    <td><input type="text" class="form-control" asp-for="BuildingName" /></td>
+                    <td>Daire</td>
+                    <td> <input type="text" class="form-control" asp-for="Room" /></td>
+                </tr>
+                <tr>
+
+                    <td>Telefon</td>
+                    <td><input type="text" class="form-control" asp-for="Telephone" /></td>
+                    <td>E-Mail</td>
+                    <td> <input type="text" class="form-control" asp-for="Email" /></td>
+                    <td>Ürün Adı</td>
+                    <td><input type="text" class="form-control" asp-for="ProductName" required /></td>
+                </tr>
+                <tr>
+                    <td>Miktar</td>
+                    <td> <input type="text" class="form-control" asp-for="Quantity" required /></td>
+                    <td>Birim Kodu</td>
+                    <td><input type="text" class="form-control" asp-for="UnitCode" required /></td>
+                    <td>Birim Fiyat</td>
+                    <td><input type="text" class="form-control" asp-for="UnitPrice" required /></td>
+                </tr>
+
+                <tr>
+                    <td>Ürün Kodu</td>
+                    <td> <input type="text" class="form-control" asp-for="productCode"  /></td>
+                    <td>Toplam Tutar</td>
+                    <td><input type="text" class="form-control" asp-for="Amount"  /></td>
+                    <td>Kdv Dahil Fiyat</td>
+                    <td><input type="text" class="form-control" asp-for="KdvDahilTutar"  /></td>
+                </tr>
+                
+               
+
+            </table>
+            <input type="submit" class="btn btn-success w-100" value="E-Fatura Kes" />
+        </form>
+
+
+    </div>
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    }
+
