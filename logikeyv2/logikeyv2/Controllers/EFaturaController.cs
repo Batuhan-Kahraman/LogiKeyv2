@@ -35,7 +35,7 @@ namespace logikeyv2.Controllers
         public async Task<IActionResult> EFaturaKes(CreateInvoiceDto dto)
         {
             GaiInvoiceCreateModel model = new GaiInvoiceCreateModel();
-            model.Ettn = Guid.NewGuid().ToString().Replace("-","");
+            model.Ettn = Guid.NewGuid().ToString();
             model.IsDraft = false;
             model.IsCalculateByApi = false;
             model.Profile = dto.Profile;

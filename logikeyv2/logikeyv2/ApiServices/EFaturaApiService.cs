@@ -1,5 +1,6 @@
 ﻿using logikeyv2.Helpers;
 using logikeyv2.Models.GaiEFaturaModels;
+using Newtonsoft.Json;
 using System.Net;
 
 namespace logikeyv2.ApiServices
@@ -36,7 +37,8 @@ namespace logikeyv2.ApiServices
         {
 			var authorizationValue = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 			_httpClient.DefaultRequestHeaders.Authorization = authorizationValue;
-			var response = await _httpClient.PostAsJsonAsync("IntegrationGidenFatura/Create", model);
+            var aaa = JsonConvert.SerializeObject(model);
+			var response = await _httpClient.PostAsJsonAsync("IntegrationGidenFatura/Create",new { itemDto = model });
 			return response;
 		}
         //Daha önce sisteme gönderilmiş taslak ya da GİB'e gönderilmiş durumda olan faturaların görüntüsüne ulaşmak için kullanılır.

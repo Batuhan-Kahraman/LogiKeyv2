@@ -9,7 +9,7 @@ namespace logikeyv2.Models.GaiEFaturaModels
         {
             InvoiceDetail = new List<InvoiceDetail>();
             InvoiceAccount = new GaiInvoiceAccount();
-            WayBillInfo = new WayBillInfo();
+            WayBillInfo = new List<WayBillInfo>();
             InternetShipmentInfo = new InternetShipmentInfo();
             OrderDetails = new OrderDetails();
             PaymentMeans = new PaymentMeans();
@@ -44,7 +44,7 @@ namespace logikeyv2.Models.GaiEFaturaModels
         public string? SenderType { get; set; }
         public GaiInvoiceAccount? InvoiceAccount { get; set; }
 		//Faturaya eklenecek irsaliye bilgisidir. Fatura'nın hangi irsaliyeye konu olduğunu belirtmektedir. Birden fazla irsaliye bilgisi eklenebilir.
-        public WayBillInfo? WayBillInfo { get; set; }
+        public List<WayBillInfo>? WayBillInfo { get; set; }
         public InternetShipmentInfo? InternetShipmentInfo { get; set; }
         public string? Notes { get; set; }
 		//Alıcının posta kutusu bilgisi alanıdır.
@@ -120,14 +120,14 @@ namespace logikeyv2.Models.GaiEFaturaModels
     }
     public class BottomDiscountDetails
     {
-        public double? DicountAmount { get; set; }
-        public double? DicountRate { get; set; }
+        public double? DiscountAmount { get; set; }
+        public double? DiscountRate { get; set; }
     }
 	public class InvoiceCalculation
     {
         public InvoiceCalculation()
         {
-            GidenFaturaDigerVergiDto = new GidenFaturaDigerVergiDto();
+            GidenFaturaDigerVergiDto = new List<GidenFaturaDigerVergiDto>();
         }
         public double LineExtensionAmount { get; set; }
         public double TaxExclusiveAmount { get; set; }
@@ -140,7 +140,7 @@ namespace logikeyv2.Models.GaiEFaturaModels
         public double TaxAmount18 { get; set; }
         public double TaxAmount20 { get; set; }
         public double AllowanceTotalAmount { get; set; }
-        public GidenFaturaDigerVergiDto? GidenFaturaDigerVergiDto { get; set; }
+        public List<GidenFaturaDigerVergiDto>? GidenFaturaDigerVergiDto { get; set; }
 		public double RoundingAmount { get; set; }
 		public double PayableAmount { get; set; }
 	}
