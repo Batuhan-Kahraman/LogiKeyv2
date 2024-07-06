@@ -226,6 +226,7 @@
                             <td>Fatura No</td>
                             <td>Fiyat(KDV Hariç)</td>
                             <td>KDV (Tutar)</td>
+                            <td>KDVli Tutar</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -250,6 +251,9 @@
                             </td>
                             <td>
                                 <input type="text" class="form-control" name="KdvTutar1[]" id="KdvTutar1" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="KdvliTutar1[]" id="KdvliTutar1" />
                             </td>
 
                         </tr>
@@ -715,6 +719,7 @@
             var cell4 = document.createElement('td');
             var cell5 = document.createElement('td');
             var cell6 = document.createElement('td');
+            var cell7 = document.createElement('td');
 
             // Hücrelere içerik ekle
             cell1.innerHTML = '<input type="date" class="form-control" name = "Tarih' + items + '[]" id = "Tarih' + items + '" />';
@@ -723,6 +728,7 @@
             cell4.innerHTML = '<input type="text" class="form-control" name = "FaturaNo' + items + '[]" id = "FaturaNo' + items + '" />';
             cell5.innerHTML = '<input type="text" class="form-control" name = "FiyatKdvHaric' + items + '[]" id = "FiyatKdvHaric' + items + '" />';
             cell6.innerHTML = '<input type="text" class="form-control" name = "KdvTutar' + items + '[]" id = "KdvTutar' + items + '" />';
+            cell7.innerHTML = '<input type="text" class="form-control" name = "KdvliTutar' + items + '[]" id = "KdvliTutar' + items + '" />';
 
 
             // Satıra hücreleri ekle
@@ -732,6 +738,7 @@
             newRow.appendChild(cell4);
             newRow.appendChild(cell5);
             newRow.appendChild(cell6);
+            newRow.appendChild(cell7);
 
             // Tablonun tbody bölümüne yeni satırı ekle
             document.getElementById('hizmetTable').getElementsByTagName('tbody')[0].appendChild(newRow);

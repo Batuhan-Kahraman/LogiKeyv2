@@ -52,8 +52,28 @@
                     <td>Vergi Dairesi</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Cari_VergiDairesi" />
+
                     </td>
                 </tr>
+                @{
+                    if(ViewBag.ModulID==10)
+                    {
+                        <tr>
+                            <td>Ülke</td>
+                            <td>
+                                <select asp-for="Cari_Ulke" class=" form-control" id="Cari_Ulke">
+                                    <option value="0">Seçiniz</option>
+                                </select>
+                          </td>
+                            <td>İl</td>
+                            <td><input type="text" class="form-control" asp-for="Cari_Il" /></td>
+                            <td>İlçe/Bölge</td>
+                            <td><input type="text" class="form-control" asp-for="Cari_Ilce" /></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        
                 <tr>
 
                     <td>İl</td>
@@ -77,6 +97,8 @@
                         </select>
                     </td>
                 </tr>
+                    }
+                }
                 <tr>
 
                     <td>Adres</td>
@@ -145,6 +167,7 @@
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN2" /></td>
 
                 </tr>
+                <!--
                 <tr>
                     <td>Banka Adı 3</td>
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi3" /></td>
@@ -152,7 +175,7 @@
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN3" /></td>
 
                 </tr>
-               
+               -->
 
 
             </table>
@@ -164,7 +187,7 @@
 
 </div>
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
@@ -231,5 +254,36 @@
                 }
             });
         }
+
+        function UlkeListe(id) {
+            $.ajax({
+                url: '../Ajax/UlkeListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#' + id).empty();
+                    $('#' + id).append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true,
+                        selected: true,
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#' + id).append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.ulke // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+
+        }
+
+        UlkeListe("Cari_Ulke");
     </script>
 }

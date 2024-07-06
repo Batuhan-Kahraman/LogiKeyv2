@@ -1,5 +1,4 @@
-﻿
-@using BusinessLayer.Concrate
+﻿@using BusinessLayer.Concrate
 @using EntityLayer.Concrate;
 @model List<Cari>
 
@@ -8,6 +7,7 @@
 }
 <div class="col-lg-30 col-xxl-12">
     <h2 class="mb-3 lh-sm">Cariler</h2>
+    <a asp-controller="Cari" asp-action="Ekle" asp-route-ModulID="@ViewBag.ModulID">Cari Ekle</a>
     @if (TempData["Msg"] != null)
     {
         <div class="d-flex">
@@ -23,97 +23,108 @@
 
     }
 
-    <div class="p-4 code-to-copy">
-        <div id="tableExample3" data-list='{"valueNames":["name","tc","il","ilce","adres","telefon","eposta"],"page":20,"pagination":true}'>
-            <div>
-                <a asp-controller="Cari" asp-action="Ekle">Cari Ekle</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm fs-9 mb-0">
-                    <thead>
-                        <tr>
-                            <th class="sort border-top border-translucent ps-3" data-sort="name">Cari Adı</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="tc">TC NO / Vergi No</th>
+    <table id="example" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Cari Adı</th>
+                <th>TC NO / Vergi No</th>
+                <th>Ülke</th>
+                <th>İl</th>
+                <th>İlçe</th>
+                <th>Adresi</th>
+                <th>Yetkili</th>
+                <th>Telefon</th>
+                <th>E-posta</th>
+                <th>
+                    İşlemler
+                </th>
 
-                            <th class="sort border-top border-translucent ps-3" data-sort="il">İl</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="ilce">İlçe</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="adres">Adresi</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="adres">Yetkili</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="telefon">Telefon</th>
-                            <th class="sort border-top border-translucent ps-3" data-sort="eposta">E-posta</th>
-                            <th class="sort border-top">
-                                İşlemler
-                            </th>
-
-                        </tr>
-                    </thead>
-                    <tbody class="list">
-                        @foreach (var item in Model)
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Cari_Unvan</td>
+                    <td>@item.Cari_TCNO_VergiNo</td>
+                    @{
+                        if (item.Cari_IL_ID == 0 || item.Cari_IL_ID==null)
                         {
-                            <tr>
-                                <td>@item.Cari_Unvan</td>
-                                <td>@item.Cari_TCNO_VergiNo</td>
-                                <td>@Helper.IlAdi(item.Cari_IL_ID.ToString())</td>
-                                <td>@Helper.IlceAdi(item.Cari_ILCE_ID.ToString())</td>
-                                <td>@item.Cari_Adres</td>
-                                <td>@item.Cari_YetkiliAdi @item.Cari_YetkiliSoyadi</td>
-                                <td>@item.Cari_CepNo</td>
-                                <td>@item.Cari_FirmaEposta</td>
-                                <td>
-
-                                    @if (item.Firma_ID != -2 || item.Firma_ID == ViewBag.FirmaID)
-                                    {
-                                        <a asp-controller="Cari" asp-action="CariHareket" asp-route-CariID="@item.Cari_ID" title="Cari Hareketleri">
-                                            <span class="text-body fs-5" data-feather="repeat"></span>
-                                        </a>
-                                        <a asp-controller="Cari" asp-action="Duzenle" asp-route-ID="@item.Cari_ID">
-                                            <span class="text-body fs-5" data-feather="edit"></span>
-                                        </a>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Cari_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
-                                    }
-                                </td>
-                            </tr>
+                            <td>@item.Cari_Ulke</td>
+                            <td>@item.Cari_Il</td>
+                            <td>@item.Cari_Ilce</td>
                         }
-                    </tbody>
-                </table>
+                        else
+                        {
+                            <td>Türkiye</td>
+                            <td>@Helper.IlAdi(item.Cari_IL_ID.ToString())</td>
+                            <td>@Helper.IlceAdi(item.Cari_ILCE_ID.ToString())</td>
+                        }
+                    }
+                    <td>@item.Cari_Adres</td>
+                    <td>@item.Cari_YetkiliAdi @item.Cari_YetkiliSoyadi</td>
+                    <td>@item.Cari_CepNo</td>
+                    <td>@item.Cari_FirmaEposta</td>
+                    <td>
+
+                        @if (item.Firma_ID != -2 || item.Firma_ID == ViewBag.FirmaID)
+                        {
+                            <a asp-controller="Cari" asp-action="CariHareket" asp-route-CariID="@item.Cari_ID" title="Cari Hareketleri">
+                                <span class="text-body fs-5" data-feather="repeat"></span>
+                            </a>
+                            <a asp-controller="Cari" asp-action="Duzenle" asp-route-ID="@item.Cari_ID">
+                                <span class="text-body fs-5" data-feather="edit"></span>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.Cari_ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Cari Adı</th>
+                <th>TC NO / Vergi No</th>
+                <th>İl</th>
+                <th>İlçe</th>
+                <th>Adresi</th>
+                <th>Yetkili</th>
+                <th>Telefon</th>
+                <th>E-posta</th>
+                <th>
+                    İşlemler
+                </th>
+
+            </tr>
+        </tfoot>
+    </table>
 
 
 
-                <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
-                            </div>
-                            <form action="Cari/Sil" method="post">
-                                <div class="modal-body">
+    <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
+                </div>
+                <form action="Cari/Sil" method="post">
+                    <div class="modal-body">
 
-                                    <p class="text-body-tertiary lh-lg mb-0">
-                                        <input type="hidden" name="ID" id="silID" value="" />
-                                        Bu öğeyi silmek istediğinizden emin misiniz?
-                                    </p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-danger" type="submit">Sil</button>
-                                    <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button>
-                                </div>
-                            </form>
-                        </div>
+                        <p class="text-body-tertiary lh-lg mb-0">
+                            <input type="hidden" name="ID" id="silID" value="" />
+                            Bu öğeyi silmek istediğinizden emin misiniz?
+                        </p>
                     </div>
-                </div>
-
-               
-
-
-            </div>
-            <div class="d-flex justify-content-between mt-3">
-                <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
-                <div class="d-flex">
-                    <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
-                    <ul class="mb-0 pagination"></ul><button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
-                </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Sil</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+
+
 
 </div>

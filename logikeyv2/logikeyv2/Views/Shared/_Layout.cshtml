@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     @await Html.PartialAsync("Head")
+
   </head>
 
   <body>
@@ -16,13 +17,22 @@
       <div class="content">
             @if (currentPage != "Home")
             {
-                <div class="mb-3 col-2">
-                    <button class="form-control" onclick="close"><span style="color:red;">X</span> Kaydet & Kapat</button>
-
+                <div class="mb-3 col-6">
+                    <table>
+                        <tr>
+                            <td>
+                                <button class="form-control" onclick="close"> Kaydet & Kapat</button>
+                            </td>
+                            <td>
+                                <button class="form-control" onclick="printDiv('printableArea')">Yazdır</button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             }
+            <div id="printableArea">
            @RenderBody()
-    
+    </div>
       </div>
      
     </main>
@@ -38,6 +48,14 @@
         }
         function close() {
             window.close();
+        }
+        function printDiv(divId) {
+            var printContents = document.getElementById(divId).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
         }
     </script>
   </body>

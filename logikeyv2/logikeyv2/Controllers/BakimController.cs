@@ -78,6 +78,7 @@ namespace logikeyv2.Controllers
                             bakimStok.FaturaNo= form["FaturaNo" + i + "[]"];
                             bakimStok.FiyatKdvHaric= float.Parse(form["FiyatKdvHaric" + i + "[]"]);
                             bakimStok.KdvTutar= float.Parse(form["KdvTutar" + i + "[]"]);
+                            bakimStok.KdvliTutar= float.Parse(form["KdvliTutar" + i + "[]"]);
 
                             bakimStok.Durum = true;
                             bakimStok.FirmaID = FirmaID;
@@ -183,6 +184,7 @@ namespace logikeyv2.Controllers
                                 bakimStok.FaturaNo = form["FaturaNo" + i + "[]"];
                                 bakimStok.FiyatKdvHaric = float.Parse(form["FiyatKdvHaric" + i + "[]"]);
                                 bakimStok.KdvTutar = float.Parse(form["KdvTutar" + i + "[]"]);
+                                bakimStok.KdvliTutar = float.Parse(form["KdvliTutar" + i + "[]"]);
 
                                 bakimStok.Durum = true;
                                 bakimStok.FirmaID = FirmaID;

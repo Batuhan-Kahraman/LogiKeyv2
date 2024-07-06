@@ -9,6 +9,7 @@ namespace logikeyv2.Models
         public Kullanicilar? Surucu { get; set; }
         public TasimaTipi? TasimaTip { get; set; }
         public NormalTasima? NormalTasima { get; set; }
+        public YurtDisiTasima? YurtDisiTasima { get; set; }
         public AkaryakitTasima? Tasima { get; set; }
 
         public AracTur? AracTur { get; set; }

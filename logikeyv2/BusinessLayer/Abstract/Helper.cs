@@ -634,6 +634,49 @@ namespace BusinessLayer.Concrate
                 }
             }
         }
+        public static bool TumYurtDisiTasimaEvraklariSil(int YurtDisiTasimaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekEvraklar = context.YurtDisiTasimaEvraklar.Where(e => e.YurtDisiTasimaID == YurtDisiTasimaID).ToList();
+
+                    context.YurtDisiTasimaEvraklar.RemoveRange(silinecekEvraklar);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }public static bool TumYurtDisiTasimaMasraflariSil(int YurtDisiTasimaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekMasraflar = context.YurtDisiTasimaMasraflar.Where(e => e.YurtDisiTasimaID == YurtDisiTasimaID).ToList();
+
+                    context.YurtDisiTasimaMasraflar.RemoveRange(silinecekMasraflar);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
 
 
 
@@ -809,6 +852,148 @@ namespace BusinessLayer.Concrate
 
                 }
 
+            }
+        }
+
+
+
+        public static bool YurtDisiSurucuKopar(int Kullanici1ID, int Kullanici2ID, int Kullanici3ID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var selectQuery1 = "update YurtDisiTasima set Kullanici1ID=-1 where ID in (select ID from YurtDisiTasima where Kullanici1ID=" + Kullanici1ID + ")";
+                    var selectQuery2 = "update YurtDisiTasima set Kullanici2ID=-1 where ID in (select ID from YurtDisiTasima where Kullanici2ID=" + Kullanici2ID + ")";
+                    var selectQuery3 = "update YurtDisiTasima set Kullanici3ID=-1 where ID in (select ID from YurtDisiTasima where Kullanici3ID=" + Kullanici3ID + ")";
+
+
+                    context.Database.ExecuteSqlRaw(selectQuery1);
+                    context.Database.ExecuteSqlRaw(selectQuery2);
+                    context.Database.ExecuteSqlRaw(selectQuery3);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+
+                }
+
+            }
+        }
+
+
+
+
+
+        public static bool YurtDisiCariHareketEkle(YurtDisiCariHareket cariHareket)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+                    context.YurtDisiCariHareket.Add(cariHareket);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool YurtDisiCariHareketTemizle(int FaturaID)
+        {
+            using (var context = new Context())
+            {
+                try
+                {
+
+                    var silinecekUrunler = context.YurtDisiCariHareket.Where(e => e.FaturaID == FaturaID).ToList();
+
+                    context.YurtDisiCariHareket.RemoveRange(silinecekUrunler);
+
+                    // Değişiklikleri kaydedin
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        public static bool YurtDisiAracTurKontrol(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.YurtDisiAracTur.FirstOrDefault(e => e.TurID == id);
+                if (entity != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public static string YurtDisiAracTur(int id)
+        {
+            using (var context = new Context())
+            {
+                var entity = context.AracTur.FirstOrDefault(e => e.ID == id);
+                if (entity != null)
+                {
+                    return entity.Adi;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+
+        public static List<YurtDisiTasimaDetayUrun> YurtDisiTasimaDetayUrunList(int tasimaID, int detayID)
+        {
+            using (var context = new Context())
+            {
+                List<YurtDisiTasimaDetayUrun> liste = context.YurtDisiTasimaDetayUrun.Where(e => e.YurtDisiTasimaID == tasimaID && e.YurtDisiTasimaDetayID == detayID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+
+        public static List<YurtDisiTasimaDetay> YurtDisiTasimaDetayList(int ID)
+        {
+            using (var context = new Context())
+            {
+                List<YurtDisiTasimaDetay> liste = context.YurtDisiTasimaDetay.Where(e => e.YurtDisiTasimaID == ID).ToList();
+                if (liste != null)
+                {
+                    return liste;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }

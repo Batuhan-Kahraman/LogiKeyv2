@@ -20,6 +20,7 @@ namespace logikeyv2.Controllers
         AracTurManager aracTurManager = new AracTurManager(new EFAracTurRepository());
         AkaryakitTasimaManager akaryakitTasimaManager = new AkaryakitTasimaManager(new EFAkaryakitTasimaRepository());
         NormalTasimaManager normalTasimaManager = new NormalTasimaManager(new EFNormalTasimaRepository());
+        YurtDisiTasimaManager yurtDisiTasimaManager = new YurtDisiTasimaManager(new EFYurtDisiTasimaRepository());
         #endregion
 
         public IActionResult Index(int ModulID=0)
@@ -59,6 +60,30 @@ namespace logikeyv2.Controllers
                                     select new TasimaModel
                                     {
                                         Tasima = tasima,
+                                        AracTur = aracTur,
+                                        Arac = arac,
+                                        Dorse = dorse,
+                                        Surucu = surucu1
+                                    };
+
+
+
+                List<TasimaModel> combinedList = combinedQuery.ToList();
+
+
+                return View(combinedList);
+            }
+            else if (ModulID == 10)
+            {
+
+                var combinedQuery = from tasima in yurtDisiTasimaManager.GetAllList(x => x.Durum == true && (x.FirmaID == FirmaID || x.FirmaID == -2))
+                                    join arac in aracManager.List() on tasima.AracID equals arac.ID
+                                    join aracTur in aracTurManager.List() on arac.AracTurID equals aracTur.ID
+                                    join dorse in aracManager.List() on tasima.DorsePlakaID equals dorse.ID
+                                    join surucu1 in surucuManager.List() on tasima.Kullanici1ID equals surucu1.Kullanici_ID
+                                    select new TasimaModel
+                                    {
+                                        YurtDisiTasima = tasima,
                                         AracTur = aracTur,
                                         Arac = arac,
                                         Dorse = dorse,

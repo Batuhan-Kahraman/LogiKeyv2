@@ -1,0 +1,124 @@
+﻿@using EntityLayer.Concrate;
+@model List<YurtDisiMasraflar>
+
+@{
+    ViewData["Title"] = "Yurtdışı Masraflar";
+}
+<div class="col-lg-30 col-xxl-12">
+    <h2 class="mb-3 lh-sm">Masraflar</h2>
+    @if (TempData["Msg"] != null)
+    {
+        <div class="d-flex">
+            <div class="toast show align-items-center text-white dark__text-gray-1100 border-0 m-3" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true" style="background:@TempData["Bgcolor"]">
+                <div class="d-flex">
+                    <div>
+                        @TempData["Msg"]
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+    <form id="form" action="YurtDisiMasraflar/Ekle" method="post">
+        <div class="card shadow-none border my-4" data-component-card="data-component-card">
+            <div class="card-header p-4 border-bottom bg-body">
+                <div class="row g-3 justify-content-between align-items-center">
+                    <div class="col-md-8 d-flex">
+                        <input type="hidden" name="ID" id="ID" value="" />
+                        <span style="color:red;">*</span>
+                        <input class="form-control" id="Adi" type="text" name="Adi" placeholder="Ad Giriniz" required />
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary">Kaydet</button>  <button type="button" onclick="Temizle()" class="btn btn-subtle-warning me-1 mb-1">Temizle</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+
+    <table id="example" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Adı</th>
+                <th>
+                    İşlemler
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Adi</td>
+                    <td>
+                        @if (item.FirmaID != -2 || item.FirmaID == ViewBag.FirmaID)
+                        {
+
+                            <a href="#" onclick="Duzenle(@item.ID, '@item.Adi')">
+                                <span class="text-body fs-5" data-feather="edit"></span>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#sil" onclick="document.getElementById('silID').value='@item.ID';"><span class="text-body fs-5" data-feather="trash-2"></span></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Adı</th>
+                <th>
+                    İşlemler
+                </th>
+
+            </tr>
+        </tfoot>
+    </table>
+
+
+    <div class="modal fade" id="sil" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Emin Misiniz?</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs-9"></span></button>
+                </div>
+                <form action="YurtDisiMasraflar/Sil" method="post">
+                    <div class="modal-body">
+
+                        <p class="text-body-tertiary lh-lg mb-0">
+                            <input type="hidden" name="ID" id="silID" value="" />
+                            Bu öğeyi silmek istediğinizden emin misiniz?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Sil</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Vazgeç</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    <script>
+        function Duzenle(ID, Ad) {
+            document.getElementById("Adi").value = Ad;
+            document.getElementById("ID").value = ID;
+            document.getElementById("form").setAttribute("action", "YurtDisiMasraflar/Duzenle");
+
+        }
+        function Temizle() {
+            document.getElementById("Adi").value = "";
+            document.getElementById("ID").value = "";
+            document.getElementById("form").setAttribute("action", "YurtDisiMasraflar/Ekle");
+        }
+    </script>
+}

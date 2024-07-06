@@ -3,7 +3,9 @@ using DataAccessLayer.Concrate;
 using DataAccessLayer.EntityFramework;
 using DataAccessLayer.EntityFrameworks;
 using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using EntityLayer.Concrate;
+using Google.Rpc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace logikeyv2.Controllers
@@ -21,17 +23,21 @@ namespace logikeyv2.Controllers
         AkaryakitFaturaManager akaryakitFaturaManager = new AkaryakitFaturaManager(new EFAkaryakitFaturaRepository());
     
 
-        public IActionResult Index()
+        public IActionResult Index(int ModulID=0)
         {
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             List<Cari> liste = cariManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID|| x.Firma_ID ==-2));
-           
+            
+            HttpContext.Session.SetInt32("MenuModulID", ModulID);
+            ViewBag.ModulID = HttpContext.Session.GetInt32("MenuModulID"); 
+
             return View(liste);
 
         }
         public IActionResult Ekle(int Grup=0)
         {
             ViewBag.Grup = Grup;
+            ViewBag.ModulID = HttpContext.Session.GetInt32("MenuModulID"); 
             int FirmaID = (int)HttpContext.Session.GetInt32("FirmaID");
             var CariGrupList = cariGrupManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             ViewBag.CariGrup = CariGrupList;
@@ -83,6 +89,7 @@ namespace logikeyv2.Controllers
             ViewBag.CariGrup = CariGrupList;
             var adres = adresManager.List();
 
+            ViewBag.ModulID = HttpContext.Session.GetInt32("MenuModulID");
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
 
             ViewBag.Iller = iller;
@@ -106,6 +113,9 @@ namespace logikeyv2.Controllers
                         item.Cari_CepNo = cari.Cari_CepNo;
                         item.Cari_ILCE_ID = cari.Cari_ILCE_ID;
                         item.Cari_IL_ID = cari.Cari_IL_ID;
+                        item.Cari_Ulke = cari.Cari_Ulke;
+                        item.Cari_Il = cari.Cari_Il;
+                        item.Cari_Ilce = cari.Cari_Ilce;
                         item.Cari_Unvan = cari.Cari_Unvan;
                         item.Cari_Adres = cari.Cari_Adres;
                         item.Cari_TCNO_VergiNo = cari.Cari_TCNO_VergiNo;
@@ -121,10 +131,10 @@ namespace logikeyv2.Controllers
 
                         item.Cari_BankaAdi1 = cari.Cari_BankaAdi1;
                         item.Cari_BankaAdi2 = cari.Cari_BankaAdi2;
-                        item.Cari_BankaAdi3 = cari.Cari_BankaAdi3;
+                        //item.Cari_BankaAdi3 = cari.Cari_BankaAdi3;
                         item.Cari_BankaIBAN1 = cari.Cari_BankaIBAN1;
                         item.Cari_BankaIBAN2 = cari.Cari_BankaIBAN2;
-                        item.Cari_BankaIBAN3 = cari.Cari_BankaIBAN3;
+                        //item.Cari_BankaIBAN3 = cari.Cari_BankaIBAN3;
                         item.Cari_CepNo=cari.Cari_CepNo;
                      
                         

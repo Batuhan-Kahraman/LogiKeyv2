@@ -161,45 +161,39 @@
                     <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli1TelefonNo" required /></td>
                 </tr>
                 <tr>
-                    <td>
-                        <span style="color:red;">*</span>2. Veli Adı
+                    <td>2. Veli Adı
                     </td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Adi" required /></td>
-                    <td>
-                        <span style="color:red;">*</span>2.Veli Soyadı
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Adi"  /></td>
+                    <td>2.Veli Soyadı
                     </td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Soyadi" required /></td>
-                    <td>
-                        <span style="color:red;">*</span>2.Veli Telefon No
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli2Soyadi"  /></td>
+                    <td>2.Veli Telefon No
                     </td>
-                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli2TelefonNo" required /></td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli2TelefonNo"  /></td>
 
                 </tr>
                 <tr>
-                    <td>
-                        <span style="color:red;">*</span>3. Veli Adı
+                    <td>3. Veli Adı
                     </td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Adi" required /></td>
-                    <td>
-                        <span style="color:red;">*</span>3.Veli Soyadı
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Adi"  /></td>
+                    <td>3.Veli Soyadı
                     </td>
-                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Soyadi" required /></td>
-                    <td>
-                        <span style="color:red;">*</span>3.Veli Telefon No
+                    <td> <input type="text" class="form-control" asp-for="OgrenciModulu.Veli3Soyadi"  /></td>
+                    <td>3.Veli Telefon No
                     </td>
-                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli3TelefonNo" required /></td>
+                    <td> <input type="number" class="form-control" asp-for="OgrenciModulu.Veli3TelefonNo"  /></td>
                 </tr>
 
 
                 <tr>
                     <td>
-                        <span style="color:red;">*</span>Banka Adı 1
+                       Banka Adı 1
                     </td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi1" required /></td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaAdi1"  /></td>
                     <td>
-                        <span style="color:red;">*</span>Banka IBAN No 1
+                    Banka IBAN No 1
                     </td>
-                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN1" required /></td>
+                    <td> <input type="text" class="form-control" asp-for="Ogrenci.Cari_BankaIBAN1"  /></td>
 
                 </tr>
                 <tr>
@@ -291,7 +285,7 @@
         function IlDegistir(IlKodu) {
 
             $.ajax({
-                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                url: '../../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 data: { IlKodu: IlKodu },
                 dataType: 'json',
@@ -319,7 +313,7 @@
         function IlDegistir2(IlKodu) {
 
             $.ajax({
-                url: '../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
+                url: '../../Ajax/IlceListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 data: { IlKodu: IlKodu },
                 dataType: 'json',
@@ -348,7 +342,7 @@
 
         function OkulListe() {
             $.ajax({
-                url: '../Ajax/OkulListe', // Verileri sağlayan API'nin endpoint'i
+                url: '../../Ajax/OkulListe', // Verileri sağlayan API'nin endpoint'i
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
