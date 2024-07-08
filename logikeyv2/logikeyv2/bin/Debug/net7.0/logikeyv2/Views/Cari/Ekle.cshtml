@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Cari Ekle";
 }
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Cari Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -27,8 +27,10 @@
 
                 <tr>
 
-                    <td>Cari Adı</td>
-                    <td><input type="text" class="form-control" asp-for="Cari_Unvan" /></td>
+                    <td>
+                        <span style="color:red;">*</span>Cari Adı
+                    </td>
+                    <td><input type="text" class="form-control" asp-for="Cari_Unvan" required /></td>
                     <td>Cari Tipi</td>
                     <td>
                         <select class="form-control" asp-for="Cari_Tipi" id="Cari_Tipi">
@@ -50,8 +52,28 @@
                     <td>Vergi Dairesi</td>
                     <td>
                         <input type="text" class="form-control" asp-for="Cari_VergiDairesi" />
+
                     </td>
                 </tr>
+                @{
+                    if(ViewBag.ModulID==10)
+                    {
+                        <tr>
+                            <td>Ülke</td>
+                            <td>
+                                <select asp-for="Cari_Ulke" class=" form-control" id="Cari_Ulke">
+                                    <option value="0">Seçiniz</option>
+                                </select>
+                          </td>
+                            <td>İl</td>
+                            <td><input type="text" class="form-control" asp-for="Cari_Il" /></td>
+                            <td>İlçe/Bölge</td>
+                            <td><input type="text" class="form-control" asp-for="Cari_Ilce" /></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        
                 <tr>
 
                     <td>İl</td>
@@ -75,6 +97,8 @@
                         </select>
                     </td>
                 </tr>
+                    }
+                }
                 <tr>
 
                     <td>Adres</td>
@@ -87,14 +111,16 @@
 
                     <td>Cari Grubu</td>
                     <td>
+                        <a asp-controller="CariGrup" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="CariGrupListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="Cari_GrupID" id="Cari_GrupID">
 
                             <option value="0">Seçiniz</option>
 
-                            @foreach (var item in ViewBag.CariGrup)
-                            {
-                                <option value="@item.CariGrup_ID">@item.CariGrup_Adi</option>
-                            }
                           
                         </select>
                     </td>
@@ -141,6 +167,7 @@
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN2" /></td>
 
                 </tr>
+                <!--
                 <tr>
                     <td>Banka Adı 3</td>
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi3" /></td>
@@ -148,7 +175,7 @@
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN3" /></td>
 
                 </tr>
-               
+               -->
 
 
             </table>
@@ -160,7 +187,45 @@
 
 </div>
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('select').select2();
+        });
+        function CariGrupListe() {
+            //araç tür listele
+            $.ajax({
+                url: '../Ajax/CariGrupListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#Cari_GrupID').empty();
+                    $('#Cari_GrupID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true, // Option elementini devre dışı bırak
+                        selected: true  // Option elementini seçili yap
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#Cari_GrupID').append($('<option>', {
+                            value: item.cariGrup_ID, // Verinin değer özelliği
+                            text: item.cariGrup_Adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+           
+        }
+        CariGrupListe();
+    </script>
     <script>
         function IlDegistir(IlKodu) {
 
@@ -189,5 +254,36 @@
                 }
             });
         }
+
+        function UlkeListe(id) {
+            $.ajax({
+                url: '../Ajax/UlkeListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#' + id).empty();
+                    $('#' + id).append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true,
+                        selected: true,
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#' + id).append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.ulke // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+
+        }
+
+        UlkeListe("Cari_Ulke");
     </script>
 }

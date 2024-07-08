@@ -20,73 +20,7 @@
                 </li>
 
                 @{
-                    if (ViewBag.KullaniciGrup_ID == "-1" || ViewBag.KullaniciGrup_ID == "6")
-                    {
-                        <li>
-                            <!-- Yönetici -->
-                            <div class="nav-item-wrapper">
-                                <a class="nav-link dropdown-indicator label-1" href="#nv-yonetici" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-yonetici">
-                                    <div class="d-flex align-items-center">
-                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="pie-chart"></span></span><span class="nav-link-text">Yönetici</span>
-                                    </div>
-                                </a>
-                                <div class="parent-wrapper label-1">
-                                    <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-yonetici">
-                                        <li class="collapsed-nav-item-title d-none">Yönetici</li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Duyuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Duyurular</span>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Bildirim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Bildirimler</span>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Firma" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Müşteriler</span>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="UnListesi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a class="nav-link" asp-controller="EhliyetSinifi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Ehliyet Sınıfı</span></div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link" asp-controller="Moduller" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Modüller</span></div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link" asp-controller="KDVOrani" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">KDV Oranı</span></div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-
-
-
-                    }
-                    if (ViewBag.KullaniciGrup_ID == "3" || ViewBag.KullaniciGrup_ID == "-1" || ViewBag.KullaniciGrup_ID == "6")
+                    if (ViewBag.KullaniciGrup_ID == "3" || ViewBag.KullaniciGrup_ID == "-1" || ViewBag.KullaniciGrup_ID == "6" && ViewBag.KullaniciModul_ID.ToString().Contains("8"))
                     {
                         <li>
                             <!-- Tanımlamalar -->
@@ -98,17 +32,53 @@
                                 </a>
                                 <div class="parent-wrapper label-1">
                                     <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-tanimlamalar">
+                                        @if ( ViewBag.KullaniciGrup_ID == "-1")
+                                        {
+                                           
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Bildirim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Bildirimler</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" asp-controller="Moduller" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Modüller</span></div>
+                                            </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-controller="Duyuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nav-link-text">Duyurular</span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link" asp-controller="Firma" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nav-link-text">Müşteriler</span>
+                                                    </div>
+                                                </a>
+                                            </li>
+
+                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="YakitTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Tipi</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="YakitAltTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Alt Tipi</span></div>
+                                            </a>
+                                        </li>
+                                        <li>
+<hr /></li>
+                                        }
+                                        
                                         <li class="collapsed-nav-item-title d-none">Tanımlamalar</li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Sahiplik" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Sahiplik</span></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Durumlar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Durum</span></div>
-                                            </a>
-                                        </li>
+
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="AracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Araç Türü</span></div>
@@ -117,6 +87,93 @@
                                         <li>
                                             <a class="nav-link" asp-controller="AracTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Araç Tipi</span></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="AkuTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Akü Tipi</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Bankalar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Bankalar</span></div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="nav-link" asp-controller="BakimYeri" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Bakım Yerleri</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Birimler" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Birimler</span></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="CariGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Cari Grup</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Durumlar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Durum</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Grup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Evraklar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Evraklar</span></div>
+                                            </a>
+                                        </li>
+                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="YurtDisiEvraklar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Yurtdışı Evraklar</span></div>
+                                            </a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a class="nav-link" asp-controller="GiderTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Gider Tipleri</span></div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" asp-controller="GiderAltTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Gider Alt Tipleri</span></div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" asp-controller="EhliyetSinifi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Ehliyet Sınıfı</span></div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="nav-link" asp-controller="KDVOrani" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">KDV Oranı</span></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="KazaTuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Kaza Türü</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="KullaniciGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="LastikTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Lastik Tipi</span></div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -129,34 +186,32 @@
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Model</span></div>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Grup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Grup</span></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="YakitTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Yakıt Tipi</span></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="AkuTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Akü Tipi</span></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="LastikTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Lastik Tipi</span></div>
-                                            </a>
-                                        </li>
+
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="MasrafTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Tipi</span></div>
                                             </a>
                                         </li>
-                                         <li class="nav-item">
+                                        <li class="nav-item">
                                             <a class="nav-link" asp-controller="MasrafTuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Masraf Türü</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="UnListesi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="UyariTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Uyarı Tipleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Sahiplik" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Sahiplik</span></div>
                                             </a>
                                         </li>
 
@@ -170,19 +225,21 @@
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Sürücü Çıkış Nedeni</span></div>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="EhliyetSinifi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Ehliyet Sınıfı</span></div>
+                                        
+                                        <li>
+                                            <a class="nav-link" asp-controller="ServisBakimDurum" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Servis Bakım Durumları</span></div>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Bankalar" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Bankalar</span></div>
+                                        <li>
+                                            <a class="nav-link" asp-controller="ServisBakimTuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Servis Bakım Türleri</span></div>
                                             </a>
                                         </li>
+
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Birimler" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Birimler</span></div>
+                                            <a class="nav-link" asp-controller="Tank" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Tank Tanımla</span></div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -191,30 +248,16 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" asp-controller="YurtDisiTasimaTipi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Yurtdışı Taşıma Tipi</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" asp-controller="TasinacakUrun" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Taşınacak Ürün</span></div>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="KazaTuru" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Kaza Türü</span></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="CariGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Cari Grup</span></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="UnListesi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Un Listesi</span></div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="KullaniciGrup" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Kullanıcı Grup</span></div>
-                                            </a>
-                                        </li>
+
 
                                     </ul>
                                 </div>
@@ -222,7 +265,7 @@
                         </li>
                     }
                     //akaryakıt modulu
-                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("3"))
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("3") && ViewBag.KullaniciModul_ID.ToString().Contains("3"))
                     {
                         <li>
                             <!-- Akaryakıt Taşıma -->
@@ -235,22 +278,43 @@
                                 <div class="parent-wrapper label-1">
                                     <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-akaryakitTasima">
                                         <li class="collapsed-nav-item-title d-none">Akaryakıt Taşıma</li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="AkaryakitTasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Taşıma Listesi</span>
-                                                </div>
-                                            </a>
-                                        </li>
 
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                            <a class="nav-link" asp-controller="Cari" asp-action="Index" asp-route-ModulID="3" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Cari</span>
                                                 </div>
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="CariOdemeHareketleri" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Cari Ödeme Hareketleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Kullanıcı</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" asp-route-KullaniciGrup="2" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Sürücü</span>
+                                                </div>
+                                            </a>
+                                        </li>
 
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="AkaryakitAracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Araç Türleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
 
                                         <li class="nav-item ">
                                             <a class="nav-link" asp-controller="Arac" asp-action="Index" asp-route-ModulID="3" data-bs-toggle="" aria-expanded="false">
@@ -259,54 +323,34 @@
                                                 </div>
                                             </a>
                                         </li>
+                                        
                                         <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="AkaryakitAracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                            <a class="nav-link" asp-controller="Eslestirme" asp-action="Index" asp-route-ModulID="3" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Araç Türleri</span>
+                                                    <span class="nav-link-text">Eşleştirme</span>
                                                 </div>
                                             </a>
                                         </li>
-                                        <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="AkaryakitTasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Kullanıcı / Sürücü</span>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Ceza ve Masraflar</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                         <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Bakim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Bakım</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                         <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Yakit" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Yakıt</span>
+                                                    <span class="nav-link-text">Taşıma Listesi</span>
                                                 </div>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
+
                             </div>
                         </li>
                     }
                     //normal modulu
-                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("2"))
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("2") && ViewBag.KullaniciModul_ID.ToString().Contains("2"))
                     {
                         <li>
                             <!-- Normal Taşıma -->
                             <div class="nav-item-wrapper">
-                                <a class="nav-link dropdown-indicator label-1" href="#nv-normalTasima" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-normalSTasima">
+                                <a class="nav-link dropdown-indicator label-1" href="#nv-normalTasima" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-normalTasima">
                                     <div class="d-flex align-items-center">
                                         <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="pie-chart"></span></span><span class="nav-link-text">@Helper.Modul(2)</span>
                                     </div>
@@ -315,26 +359,34 @@
                                     <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-normalTasima">
                                         <li class="collapsed-nav-item-title d-none">Normal Taşıma</li>
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-controller="NormalTasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Taşıma Listesi</span>
-                                                </div>
-                                            </a>
-                                        </li>
 
                                         <li class="nav-item">
-                                            <a class="nav-link" asp-controller="Cari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                            <a class="nav-link" asp-controller="Cari" asp-action="Index" asp-route-ModulID="2" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Cari</span>
                                                 </div>
                                             </a>
                                         </li>
 
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="CariOdemeHareketleri" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Cari Ödeme Hareketleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
 
                                         <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Arac" asp-action="Index" asp-route-ModulID="2" data-bs-toggle="" aria-expanded="false">
+                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Araç</span>
+                                                    <span class="nav-link-text">Kullanıcı</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" asp-route-KullaniciGrup="2" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Sürücü</span>
                                                 </div>
                                             </a>
                                         </li>
@@ -346,41 +398,33 @@
                                             </a>
                                         </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                            <a class="nav-link" asp-controller="Arac" asp-action="Index" asp-route-ModulID="2" data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Kullanıcı / Sürücü</span>
+                                                    <span class="nav-link-text">Araç</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Eslestirme" asp-action="Index" asp-route-ModulID="2" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Eşleştirme</span>
                                                 </div>
                                             </a>
                                         </li>
 
-                                        <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Ceza ve Masraflar</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Bakim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Bakım</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                         <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Yakit" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Yakıt</span>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        <a class="nav-link" asp-controller="NormalTasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Taşıma Listesi</span>
+                                            </div>
+                                        </a>
+                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
                     }
                     //okul servis modulu
-                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("4"))
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("4") && ViewBag.KullaniciModul_ID.ToString().Contains("4"))
                     {
                         <li>
                             <!-- Okul Servisi -->
@@ -405,9 +449,11 @@
                                             </a>
                                         </li>
 
-                                        <li class="nav-item">
-                                            <a class="nav-link" asp-controller="OkulServisi" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Araç</span></div>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="OkulAracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Araç Türleri</span>
+                                                </div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -416,8 +462,23 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Arac" asp-action="Index" asp-route-ModulID="4" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Araç</span></div>
+                                            </a>
+                                        </li>
+                                        @{
+                                            if (ViewBag.KullaniciGrup_ID == "5")
+                                            {
+                                                <li class="nav-item">
+                                                    <a class="nav-link" asp-controller="Guzergah" asp-action="OkulServisOgrencileri" data-bs-toggle="" aria-expanded="false">
+                                                        <div class="d-flex align-items-center"><span class="nav-link-text">Okul Servis Öğrencileri</span></div>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                        <li class="nav-item">
                                             <a class="nav-link" asp-controller="OgrenciTahsilat" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Öğrenci Tahsilat</span></div>
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Öğrenci Cari</span></div>
                                             </a>
                                         <li class="nav-item">
                                             <a class="nav-link" asp-controller="Guzergah" asp-action="Index" data-bs-toggle="" aria-expanded="false">
@@ -425,103 +486,179 @@
                                             </a>
                                         </li>
 
-                                        <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Ceza ve Masraflar</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Bakim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Bakım</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                         <li class="nav-item ">
-                                            <a class="nav-link" asp-controller="Yakit" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center">
-                                                    <span class="nav-link-text">Yakıt</span>
-                                                </div>
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
                     }
-                
+                   //yurtdışı modulu
+                    if (ViewBag.Moduller != null && ViewBag.Moduller.ToString().Contains("10") && ViewBag.KullaniciModul_ID.ToString().Contains("2"))
+                    {
+                        <li>
+                            <!-- Normal Taşıma -->
+                            <div class="nav-item-wrapper">
+                                <a class="nav-link dropdown-indicator label-1" href="#nv-yurtdisiTasima" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-yurtdisiTasima">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="pie-chart"></span></span><span class="nav-link-text">@Helper.Modul(10)</span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-yurtdisiTasima">
+                                        <li class="collapsed-nav-item-title d-none">Yurtdışı Taşıma</li>
+                                        <li class="nav-item">
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Cari" asp-action="Index" asp-route-ModulID="10" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Cari</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="CariOdemeHareketleri" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Cari Ödeme Hareketleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Kullanıcı</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Surucu" asp-action="Index" asp-route-KullaniciGrup="2" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Sürücü</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="YurtDisiAracTur" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Araç Türleri</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Arac" asp-action="Index" asp-route-ModulID="10" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Araç</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" asp-controller="Eslestirme" asp-action="Index" asp-route-ModulID="10" data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="nav-link-text">Eşleştirme</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <a class="nav-link" asp-controller="YurtdisiTasima" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Taşıma Listesi</span>
+                                            </div>
+                                        </a>
+                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                   
                 }
 
+                <li>
+                    <!-- Operasyon  -->
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link dropdown-indicator label-1" href="#nv-operasyon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-operasyon">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="pie-chart"></span></span><span class="nav-link-text">İşlemler</span>
+                            </div>
+                        </a>
+                        <div class="parent-wrapper label-1">
+                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-operasyon">
+                                <li class="collapsed-nav-item-title d-none">İşlemler</li>
+
+                                <li class="nav-item ">
+                                    <a class="nav-link" asp-controller="Kaza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Kaza</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" asp-controller="Uyari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Uyarı</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Ceza ve Masraflar</span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Stok" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-text">Stok</span></div>
+                        </a>
+                    </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" asp-controller="Bakim" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-text">Bakım</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link dropdown-indicator collapsed" href="#nv-yakit" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-yakit">
+                                        <div class="d-flex align-items-center">
+                                            <div class="dropdown-indicator-icon"><svg class="svg-inline--fa fa-caret-right" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""><path fill="currentColor" d="M118.6 105.4l128 127.1C252.9 239.6 256 247.8 256 255.1s-3.125 16.38-9.375 22.63l-128 127.1c-9.156 9.156-22.91 11.9-34.88 6.943S64 396.9 64 383.1V128c0-12.94 7.781-24.62 19.75-29.58S109.5 96.23 118.6 105.4z"></path></svg> </div><span class="nav-link-text">Yakıt</span>
+                                        </div>
+                                    </a>
+                                    <div class="parent-wrapper">
+                                        <ul class="nav collapse parent" data-bs-parent="#forms" id="nv-yakit">
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-controller="Cari" asp-action="Ekle" asp-route-Grup="3" data-bs-toggle="" aria-expanded="false">
+                                                    <div class="d-flex align-items-center"><span class="nav-link-text">Tedarikçi Tanımla</span></div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-controller="Istasyon" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                    <div class="d-flex align-items-center"><span class="nav-link-text">İstasyon Tanımla</span></div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-controller="TankYakit" asp-action="Index" data-bs-toggle="" aria-expanded="false">
+                                                    <div class="d-flex align-items-center"><span class="nav-link-text">Yeni Kayıt</span></div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
 
 
-
-
-
-
-
-
-
-                @*  <li class="nav-item ">
-                <a class="nav-link" asp-controller="Kullanici" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                <div class="d-flex align-items-center">
-                <span class="nav-link-text">Kullanıcılar</span>
-                </div>
-                </a>
-                </li> *@
-                <!--
-                <li class="nav-item ">
-                    <a class="nav-link" asp-controller="MasrafCeza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Ceza ve Masraflar</span>
+                            </ul>
                         </div>
-                    </a>
-                </li>-->
-                @*
-                <li class="nav-item ">
-                <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGelirListesi" data-bs-toggle="" aria-expanded="false">
-                <div class="d-flex align-items-center">
-                <span class="nav-link-text">Araç Gelir</span>
-                </div>
-                </a>
+                    </div>
                 </li>
-                <li class="nav-item ">
-                <a class="nav-link" asp-controller="AracGelirGider" asp-action="AracGiderListesi" data-bs-toggle="" aria-expanded="false">
-                <div class="d-flex align-items-center">
-                <span class="nav-link-text">Araç Gider</span>
-                </div>
-                </a>
-                </li>*@
 
-                <li class="nav-item ">
-                    <a class="nav-link" asp-controller="Kaza" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Kaza</span>
-                        </div>
-                    </a>
-                </li> 
-                <li class="nav-item ">
-                    <a class="nav-link" asp-controller="UyariTip" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Uyarı Tipleri</span>
-                        </div>
-                    </a>
-                </li>  
-                <li class="nav-item ">
-                    <a class="nav-link" asp-controller="Uyari" asp-action="Index" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-text">Uyarı</span>
-                        </div>
-                    </a>
+                <li>
+                    <a class="nav-link" asp-controller="Versiyon" asp-action="Index" data-bs-toggle="" aria-expanded="false" style="color:#000;">v. @ViewBag.Versiyon</a>
                 </li>
- 
-                        <li>
-                            <a class="nav-link" asp-controller="Versiyon" asp-action="Index" data-bs-toggle="" aria-expanded="false" style="color:#000;">v. @ViewBag.Versiyon</a>
-                        </li>
-                 
-
-
+                <li>
+                    <a class="nav-link" href="https://akaryakit.uetdsprogrami.net/uetds/Login" data-bs-toggle="" aria-expanded="false" style="color:#000;">UEDTS</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -742,6 +879,8 @@
 
 
 </nav>
+
+
 <nav class="navbar navbar-top navbar-slim fixed-top navbar-expand" id="topNavSlim" style="display:none;">
     <div class="collapse navbar-collapse justify-content-between">
         <div class="navbar-logo">

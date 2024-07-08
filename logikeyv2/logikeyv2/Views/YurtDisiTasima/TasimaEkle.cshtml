@@ -379,20 +379,44 @@
                                     </td>
                                     <td>Tutar(KDV Hariç)</td>
                                     <td>
-                                        <input type="number" class="form-control" name="NakliyeBedelTutar_KDVsiz1[]" id="NakliyeBedelTutar_KDVsiz1" />
+                                        <input type="number" class="form-control" onchange="NakliyeTutarHesapla()" name="NakliyeBedelTutar_KDVsiz1[]" id="NakliyeBedelTutar_KDVsiz1" />
                                     </td>
 
-                                    <td>Kdv</td>
+                                    <td>Kdv Oran</td>
                                     <td>
-                                        <input type="number" class="form-control" name="NakliyeBedelTutar_KDV1[]" id="NakliyeBedelTutar_KDV1" />
+                                        <select name="NakliyeKdvOran_KDV1[]" onchange="NakliyeTutarHesapla()" class=" form-control" id="NakliyeKdvOran_KDV1">
+                                            <option value="0">Seçiniz</option>
+
+                                            @foreach (var item2 in ViewBag.KdvOranlari)
+                                            {
+
+                                                <option value="@item2.Oran">@item2.Oran</option>
+                                            }
+                                        </select>
+                                        @* <input type="number" class="form-control" name="NakliyeKdvOran_KDV1[]" id="NakliyeKdvOran_KDV1" /> *@
                                     </td>
-                                    <td>Toplam Tutar(KDV Dahil)</td>
-                                    <td><input type="text" class="form-control" name="NakliyeBedeliToplam_KDVli1[]" id="NakliyeBedeliToplam_KDVli1" /></td>
+                                    <td>Kdv Tutarı</td>
+                                    <td><input type="number" class="form-control" name="NakliyeKdvBedeli1[]" id="NakliyeKdvBedeli1" readonly /></td>
 
                                 </tr>
                                 <tr>
-                                    <td>Fiyat</td>
-                                    <td colspan="5"><input type="text" class="form-control" name="Fiyat1[]" id="Fiyat1" readonly /></td>
+                                    <td>Toplam Tutar</td>
+                                    <td colspan="3"><input type="text" class="form-control" name="Fiyat1[]" id="Fiyat1" readonly /></td>
+                                    <td>Para Birimi</td>
+                                    <td>
+                                        <select name="NakliyeParaBirimID1[]" class=" form-control" id="NakliyeParaBirimID1">
+                                            <option value="0">Seçiniz</option>
+
+                                            @foreach (var item2 in ViewBag.ParaBirimleri)
+                                            {
+
+                                                <option value="@item2.ID">@item2.parabirim</option>
+
+                                            }
+
+
+                                        </select>
+                                    </td>
                                 </tr>
                             </table>
 
@@ -400,8 +424,8 @@
 
                                 <tr>
 
-                                    <td colspan="7">
-                                        <a onclick="MasrafSatiriEkle(1,1)"> Masraf Ekle</a>
+                                    <td colspan="8">
+                                        <a class="btn btn-info col-3" onclick="MasrafSatiriEkle(1,1)"> Masraf Ekle</a>
                                     </td>
                                 </tr>
                                 <tr id="TRMasraflar1ID">
@@ -424,6 +448,11 @@
                                         <input type="number" step="0.01" class="form-control" name="MasrafFiyat1[]" id="MasrafFiyat1_1"/>
 
                                     </td>
+                                    <td>Tarih</td>
+                                    <td>
+                                        <input type="date" class="form-control" name="MasrafTarih1[]" id="MasrafTarih1_1" />
+
+                                    </td>
                                     <td>Para Birimi</td>
                                     <td>
                                         <select name="ParaBirimID1[]" class=" form-control" id="ParaBirimID1_1">
@@ -439,6 +468,31 @@
 
                                         </select>
                                     </td>
+                                    <td>Hedef Kur Tutar</td>
+                                    <td>
+                                        <input type="number" class="form-control" name="HedefKurTutar1[]" id="HedefKurTutar1_1" readonly />
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Hedef Kur</td>
+                                    <td>
+                                        <select name="HedefKurID1[]" class=" form-control" id="HedefKurID1_1">
+                                            <option value="0">Seçiniz</option>
+
+                                            @foreach (var item2 in ViewBag.ParaBirimleri)
+                                            {
+
+                                                <option value="@item2.ID">@item2.parabirim</option>
+
+                                            }
+                                        </select>
+                                    </td>
+                                    <td colspan="2"><a class="btn btn-info col-12"> Hedef Kura Göre Hesapla</a></td>
+                                    <td colspan="1"></td>
+                                    <td colspan="1">Toplam Hedef Kur Tutarı:</td>
+                                    <td colspan="2"><strong>Hazırlanıyor...</strong></td>
                                 </tr>
                             </table>
      
@@ -545,7 +599,14 @@
             });
         }
 
-
+        function NakliyeTutarHesapla() {
+            var kdvsizTutar = parseInt(document.getElementById("NakliyeBedelTutar_KDVsiz1").value);
+            var kdvOran = parseInt(document.getElementById("NakliyeKdvOran_KDV1").value);
+            var kdvTutar = kdvsizTutar / 100 * kdvOran;
+            var toplamTutar = parseInt(kdvsizTutar) + parseInt(kdvTutar);
+            document.getElementById("NakliyeKdvBedeli1").value = kdvTutar;
+            document.getElementById("Fiyat1").value = toplamTutar;
+        }
 
         function fiyatHesapla(sira) {
             var fiyat = 0;
@@ -566,7 +627,8 @@
                 }
             }
 
-            document.getElementById("Fiyat" + sira).value = fiyat;
+            document.getElementById("NakliyeBedelTutar_KDVsiz" + sira).value = fiyat;
+            NakliyeTutarHesapla();
         }
 
         function OdemeYapan(input) {

@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Kullanıcı Ekle";
 }
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Kullanıcı Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -27,11 +27,15 @@
 
                 <tr>
 
-                    <td>Adı</td>
-                    <td><input type="text" class="form-control" asp-for="Kullanici_Isim" /></td>
-                    <td>Soyadı</td>
                     <td>
-                        <input type="text" class="form-control" asp-for="Kullanici_Soyisim" />
+                        <span style="color:red;">*</span>Adı
+                    </td>
+                    <td><input type="text" class="form-control" asp-for="Kullanici_Isim" required /></td>
+                    <td>
+                        <span style="color:red;">*</span>Soyadı
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" asp-for="Kullanici_Soyisim" required />
 
                     </td>
 

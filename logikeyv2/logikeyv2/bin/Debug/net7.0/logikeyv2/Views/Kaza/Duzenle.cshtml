@@ -27,16 +27,30 @@
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
-                    <td>Plaka</td>
                     <td>
-                        <select class="form-control" asp-for="AracID" id="AracID">
-                            <option value="0">Seçiniz</option>
+                        <span style="color:red;">*</span>Plaka
+                    </td>
+                    <td>
+                        <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="AracID" id="AracID" required>
+                            <option value="" disabled selected>Seçiniz</option>
                         </select>
                     </td>
                     <td>Kaza Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="KazaTarihi" /></td>
                     <td>Kaza Türü</td>
                     <td>
+                        <a asp-controller="KazaTuru" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="KazaTuruListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="KazaTuruID" id="KazaTuruID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -46,6 +60,12 @@
                 <tr>
                     <td>Sürücü</td>
                     <td>
+                        <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="SurucuID" id="SurucuID">
                             <option value="0">Seçiniz</option>
 
@@ -138,9 +158,9 @@
                         @{
                             if (Model.KazaRaporu != "" && Model.KazaRaporu != null)
                             {
-                                <a href="../upload/@Model.KazaRaporu" target="_blank">
-                                    Göster
-                                </a>
+                                        <a href="../upload/@Model.KazaRaporu" target="_blank">
+                                            Göster
+                                        </a>
                             }
                         }
                     </td>
@@ -153,9 +173,9 @@
                         @{
                             if (Model.KarsiTarafTrafikSigortasi != "" && Model.KarsiTarafTrafikSigortasi != null)
                             {
-                                <a href="../upload/@Model.KarsiTarafTrafikSigortasi" target="_blank">
-                                    Göster
-                                </a>
+                                        <a href="../upload/@Model.KarsiTarafTrafikSigortasi" target="_blank">
+                                            Göster
+                                        </a>
                             }
                         }
                     </td>
@@ -168,9 +188,9 @@
                         @{
                             if (Model.KarsiTarafKaskoPolicesi != "" && Model.KarsiTarafKaskoPolicesi != null)
                             {
-                                <a href="../upload/@Model.KarsiTarafKaskoPolicesi" target="_blank">
-                                    Göster
-                                </a>
+                                        <a href="../upload/@Model.KarsiTarafKaskoPolicesi" target="_blank">
+                                            Göster
+                                        </a>
                             }
                         }
                     </td>
@@ -183,9 +203,9 @@
                         @{
                             if (Model.KarsiTarafRuhsat != "" && Model.KarsiTarafRuhsat != null)
                             {
-                                <a href="../upload/@Model.KarsiTarafRuhsat" target="_blank">
-                                    Göster
-                                </a>
+                                        <a href="../upload/@Model.KarsiTarafRuhsat" target="_blank">
+                                            Göster
+                                        </a>
                             }
                         }
                     </td>
@@ -198,9 +218,9 @@
                         @{
                             if (Model.KarsiTarafEhliyet != "" && Model.KarsiTarafEhliyet != null)
                             {
-                                <a href="../upload/@Model.KarsiTarafEhliyet" target="_blank">
-                                    Göster
-                                </a>
+                                        <a href="../upload/@Model.KarsiTarafEhliyet" target="_blank">
+                                            Göster
+                                        </a>
                             }
                         }
                     </td>
@@ -215,9 +235,9 @@
                         if (Model.KazaResimleri != "" && Model.KazaResimleri != null)
                         {
 
-                            <td>
-                                <a href="../upload/@Model.KazaResimleri" target="_blank">Göster</a>
-                            </td>
+                                    <td>
+                                        <a href="../upload/@Model.KazaResimleri" target="_blank">Göster</a>
+                                    </td>
                         }
 
                         }
@@ -234,66 +254,86 @@
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        //plaka listele
-        $.ajax({
-            url: '../Ajax/PlakaListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#AracID').empty();
-                $('#AracID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+
+        $(document).ready(function () {
+            $('select').select2();
+        });
+    </script>
+    <script>
+        function AracListe() {
+
+            //plaka listele
+            $.ajax({
+                url: '../Ajax/PlakaListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#AracID').empty();
                     $('#AracID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.plaka // Verinin görünen metni
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz", // Verinin görünen metni
+                        disabled: true,
+                        selected: true
                     }));
-                });
-                var AracID = @Json.Serialize(Model.AracID);
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#AracID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.plaka // Verinin görünen metni
+                        }));
+                    });
+                    var AracID = @Json.Serialize(Model.AracID);
 
-                if (AracID !== null) {
-                    document.getElementById("AracID").value = AracID;
+                    if (AracID !== null) {
+                        document.getElementById("AracID").value = AracID;
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
                 }
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
-        //sürücü listele
-        $.ajax({
-            url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#SurucuID').empty();
-                $('#SurucuID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+            });
+        }
+        AracListe();
+        function SurucuListe() {
+
+            //sürücü listele
+            $.ajax({
+                url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#SurucuID').empty();
                     $('#SurucuID').append($('<option>', {
-                        value: item.kullanici_ID, // Verinin değer özelliği
-                        text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
                     }));
-                });
-                var SurucuID = @Json.Serialize(Model.SurucuID);
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#SurucuID').append($('<option>', {
+                            value: item.kullanici_ID, // Verinin değer özelliği
+                            text: item.kullanici_Isim + ' ' + item.kullanici_Soyisim // Verinin görünen metni
+                        }));
+                    });
+                    var SurucuID = @Json.Serialize(Model.SurucuID);
 
-                if (SurucuID !== null) {
-                    document.getElementById("SurucuID").value = SurucuID;
+                    if (SurucuID !== null) {
+                        document.getElementById("SurucuID").value = SurucuID;
+                    }
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
                 }
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+            });
+        }
 
+        SurucuListe();
+
+        function KazaTuruListe() {
         //kaza türü listele
         $.ajax({
             url: '../Ajax/KazaTuruListe', // Verileri sağlayan API'nin endpoint'i
@@ -324,5 +364,7 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        KazaTuruListe();
     </script>
 }

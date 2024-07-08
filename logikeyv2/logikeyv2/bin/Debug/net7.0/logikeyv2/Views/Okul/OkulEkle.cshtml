@@ -27,16 +27,21 @@
 
                 <tr>
 
-                    <td>Okul Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>Okul Adı
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Cari_Unvan" required/></td>
-                    <td>Okul Telefon No</td>
+                    <td>
+                        <span style="color:red;">*</span>Okul Telefon No
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Cari_FirmaTelefon" required /></td>
 
                 </tr>
 
                 <tr>
                     <td>
-                        İl
+
+                        <span style="color:red;">*</span>İl
                         </td>
                         <td>
                         <select class="form-control" asp-for="Cari_IL_ID" id="Cari_IL_ID" onchange="IlDegistir(this.value)" required>
@@ -49,7 +54,9 @@
 
                         </select>
                     </td>
-                    <td>İlçe</td>
+                    <td>
+                        <span style="color:red;">*</span>İlçe
+                    </td>
                     <td>
                         <select class="form-control" asp-for="Cari_ILCE_ID" id="Cari_ILCE_ID" required>
                             <option value="">Seçiniz</option>
@@ -59,41 +66,57 @@
                 </tr>
                 <tr>
 
-                    <td>Adres</td>
+                    <td>
+                        <span style="color:red;">*</span>Adres
+                    </td>
                     <td colspan="5"> <input type="text" class="form-control" asp-for="Cari_Adres" required /></td>
 
                 </tr>
                 <tr>
 
 
-                    <td>Okul Eposta</td>
+                    <td>
+                        <span style="color:red;">*</span>Okul Eposta
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Cari_FirmaEposta" required /></td>
 
-                    <td>Web Sitesi</td>
+                    <td>
+                        <span style="color:red;">*</span>Web Sitesi
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Cari_WebSitesi" required /></td>
 
                 </tr>
 
                 <tr>
 
-                    <td>Okul Müdürü Adı</td>
+                    <td>
+                        <span style="color:red;">*</span>Okul Müdürü Adı
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Cari_YetkiliAdi" required /></td>
 
-                    <td>Okul Müdürü Soyadı</td>
+                    <td>
+                        <span style="color:red;">*</span>Okul Müdürü Soyadı
+                    </td>
                     <td><input type="text" class="form-control" asp-for="Cari_YetkiliSoyadi" required /></td>
 
 
 
                 </tr>
                 <tr>
-                    <td>Okul Müdürü Cep Telefon No</td>
+                    <td>
+                        <span style="color:red;">*</span>Okul Müdürü Cep Telefon No
+                    </td>
                     <td colspan="5"> <input type="text" class="form-control" asp-for="Cari_CepNo" required /></td>
 
                 </tr>
                 <tr>
-                    <td>Banka Adı 1</td>
+                    <td>
+                        <span style="color:red;">*</span>Banka Adı 1
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaAdi1" required /></td>
-                    <td>Banka IBAN No 1</td>
+                    <td>
+                        <span style="color:red;">*</span>Banka IBAN No 1
+                    </td>
                     <td> <input type="text" class="form-control" asp-for="Cari_BankaIBAN1" required /></td>
 
                 </tr>
@@ -120,7 +143,15 @@
 
     </div>
     @section Scripts {
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>  
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                $('select').select2();
+            });
+        </script>
         <script>
             function IlDegistir(IlKodu) {
 

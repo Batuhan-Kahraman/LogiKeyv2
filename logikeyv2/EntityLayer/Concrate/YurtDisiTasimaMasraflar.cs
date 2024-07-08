@@ -18,7 +18,10 @@ namespace EntityLayer.Concrate
         public int MasrafID { get; set; }
         public double? Fiyat { get; set; }
         public int? ParaBirimID { get; set; }
-        
+        public int? HedefKurID { get; set; }
+        public double? HedefKurFiyat { get; set; }
+        public DateTime MasrafTarihi { get; set; }
+
         [Required]
         public int FirmaID { get; set; }
         public bool Durum { get; set; }

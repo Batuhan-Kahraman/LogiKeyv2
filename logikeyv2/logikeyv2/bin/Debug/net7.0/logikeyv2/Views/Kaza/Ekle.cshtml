@@ -26,16 +26,30 @@
             <table class="table table-borderless">
                 <!-- Sahiplik -->
                 <tr>
-                    <td>Plaka</td>
                     <td>
-                        <select class="form-control" asp-for="AracID" id="AracID">
-                            <option value="0">Seçiniz</option>
+                        <span style="color:red;">*</span>Plaka
+                    </td>
+                    <td>
+                        <a asp-controller="Arac" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="AracListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
+                        <select class="form-control" asp-for="AracID" id="AracID" required>
+                            <option value="" selected disabled>Seçiniz</option>
                         </select>
                     </td>
                     <td>Kaza Tarihi</td>
                     <td><input type="date" class="form-control" asp-for="KazaTarihi" /></td>
                     <td>Kaza Türü</td>
                     <td>
+                        <a asp-controller="KazaTuru" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="KazaTuruListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="KazaTuruID" id="KazaTuruID">
                             <option value="0">Seçiniz</option>
                         </select>
@@ -45,6 +59,12 @@
                 <tr>
                     <td>Sürücü</td>
                     <td>
+                        <a asp-controller="Surucu" asp-action="Index" target="_blank" class="me-2">
+                            <span class="text-body fs-5" data-feather="plus"></span>
+                        </a>
+                        <a onclick="SurucuListe()" class="me-2" style="cursor:pointer;">
+                            <span class="text-body fs-5" data-feather="refresh-ccw"></span>
+                        </a>
                         <select class="form-control" asp-for="SurucuID" id="SurucuID">
                             <option value="0">Seçiniz</option>
 
@@ -174,31 +194,55 @@
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        //plaka listele
-        $.ajax({
-            url: '../Ajax/PlakaListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#AracID').empty();
-                $('#AracID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
-                    $('#AracID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.plaka // Verinin görünen metni
-                    }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
+
+        $(document).ready(function () {
+            $('select').select2();
+            const bugün = new Date();
+            let yil = bugün.getFullYear();
+            let ay = ('0' + (bugün.getMonth() + 1)).slice(-2); // Ayı iki haneli yapmak için
+            let gün = ('0' + bugün.getDate()).slice(-2); // Günü iki haneli yapmak için
+            var bugununTarihi = `${yil}-${ay}-${gün}`;
+            $('input[type="date"]').each(function () {
+                $(this).val(bugununTarihi);
+            });
         });
+    </script>
+    <script>
+        function AracListe() {
+
+            //plaka listele
+            $.ajax({
+                url: '../Ajax/PlakaListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#AracID').empty();
+                    $('#AracID').append($('<option>', {
+                        value: "", // Verinin değer özelliği
+                        text: "Seçiniz",// Verinin görünen metni
+                        disabled: true,
+                        selected: true
+                    }));
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#AracID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.plaka // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        AracListe();
+
+        function SurucuListe() {
         //sürücü listele
         $.ajax({
             url: '../Ajax/SurucuListe', // Verileri sağlayan API'nin endpoint'i
@@ -223,30 +267,35 @@
                 console.log('Hata oluştu:', error);
             }
         });
+        }
+        SurucuListe();
 
-        //kaza türü listele
-        $.ajax({
-            url: '../Ajax/KazaTuruListe', // Verileri sağlayan API'nin endpoint'i
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#KazaTuruID').empty();
-                $('#KazaTuruID').append($('<option>', {
-                    value: 0, // Verinin değer özelliği
-                    text: "Seçiniz" // Verinin görünen metni
-                }));
-                // Verileri selectbox'a ekle
-                $.each(data, function (index, item) {
-                    console.log(item);
+        function KazaTuruListe() {
+            //kaza türü listele
+            $.ajax({
+                url: '../Ajax/KazaTuruListe', // Verileri sağlayan API'nin endpoint'i
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#KazaTuruID').empty();
                     $('#KazaTuruID').append($('<option>', {
-                        value: item.id, // Verinin değer özelliği
-                        text: item.adi // Verinin görünen metni
+                        value: 0, // Verinin değer özelliği
+                        text: "Seçiniz" // Verinin görünen metni
                     }));
-                });
-            },
-            error: function (error) {
-                console.log('Hata oluştu:', error);
-            }
-        });
+                    // Verileri selectbox'a ekle
+                    $.each(data, function (index, item) {
+                        console.log(item);
+                        $('#KazaTuruID').append($('<option>', {
+                            value: item.id, // Verinin değer özelliği
+                            text: item.adi // Verinin görünen metni
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log('Hata oluştu:', error);
+                }
+            });
+        }
+        KazaTuruListe();
     </script>
 }

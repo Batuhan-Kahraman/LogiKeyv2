@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Arac Gelir Ekle";
 }
-<div class="col-lg-10 col-xxl-12">
+<div class="col-lg-30 col-xxl-12">
 
     <h2 class="mb-3 lh-sm">Araç Gelir Ekle</h2>
     @if (TempData["Msg"] != null)
@@ -27,13 +27,18 @@
 
                 <tr>
 
-                    <td>Araç Plakası</td>
                     <td>
-                        <select class="form-control" asp-for="Arac_ID" id="KullaniciGrup_ID">
-                            <option value="0">Seçiniz</option>
-                            <option value="1">35 AP 7837</option>
-                            <option value="2">35 ZT 7837</option>
-
+                        <span style="color:red;">*</span>Araç Plakası
+                    </td>
+                    <td>
+                        <select class="form-control" asp-for="Arac_ID" id="Arac_ID" required>
+                            <option value="" disabled selected>Seçiniz</option>
+                            @{
+                                foreach(var item in ViewBag.Arac)
+                                {
+                                    <option value="@item.ID">@item.Plaka</option>
+                                }
+                            }
 
                         </select>
                     </td>
@@ -72,3 +77,15 @@
     </div>
 
 </div>
+
+@section Scripts {
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('select').select2();
+    });
+</script>
+}

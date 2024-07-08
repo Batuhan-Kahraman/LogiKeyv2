@@ -31,6 +31,8 @@ namespace EntityLayer.Concrate
         public int NakliyeKDV { get; set; }
         public int NakliyeToplam { get; set; }
         public int NakliyeFiyat { get; set; }
+        public int NakliyeKDVOrani { get; set; }
+        public int NakliyeParaBirimiID { get; set; }
 
         [Required]
         public int FirmaID { get; set; }

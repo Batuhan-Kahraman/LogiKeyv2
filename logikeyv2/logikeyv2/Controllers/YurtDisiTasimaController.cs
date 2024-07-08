@@ -35,6 +35,7 @@ namespace logikeyv2.Controllers
         YurtDisiAracTurManager YurtDisiAracTurManager = new YurtDisiAracTurManager(new EFYurtDisiAracTurRepository());
         CariHareketManager cariHareketManager = new CariHareketManager(new EFCariHareketRepository());
         UlkeParaBirimManager ulkeParaBirimManager = new UlkeParaBirimManager(new EFUlkeParaBirimRepository());
+        KDVOraniManager kdvManager = new KDVOraniManager(new EFKDVOraniRepository());
         #endregion
 
         public IActionResult Index()
@@ -76,7 +77,7 @@ namespace logikeyv2.Controllers
 
             List<Cari_OdemeYapan> CariOdemeYapan = cari_OdemeYapanManager.GetAllList(x => x.Durum == true && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
             List<UlkeParaBirim> paraBirim = ulkeParaBirimManager.GetAllList(x => x.Durum == 1 && (x.Firma_ID == FirmaID || x.Firma_ID == -2));
-
+            List<KDVOrani> kdvOranList = kdvManager.GetAllList(x => x.Durum && (x.FirmaID == FirmaID || x.FirmaID == -2));
 
             ViewBag.ParaBirimleri = paraBirim;
             ViewBag.CekiciPlaka = cekiciPlaka;
@@ -94,6 +95,7 @@ namespace logikeyv2.Controllers
             ViewBag.GondericiListesi = GondericiListesi;
             ViewBag.CariOdemeYapan = CariOdemeYapan;
             ViewBag.Ucretlendirme = Ucretlendirme;
+            ViewBag.KdvOranlari = kdvOranList;
             var adres = adresManager.List();
 
             var iller = adres.Select(a => new { IL_KODU = a.IL_KODU, Il = a.Il }).Distinct().ToList();
@@ -194,9 +196,11 @@ namespace logikeyv2.Controllers
                                 YurtDisiTasimaDetay.AliciIndirilenAcikAdres = form["AliciIndirilenAcikAdres" + i + "[]"];
                                 YurtDisiTasimaDetay.AliciIndirilenTarihSaat = DateTime.Parse(form["AliciFirmaTarihSaat" + i + "[]"]);
                                 YurtDisiTasimaDetay.NakliyeTutarKDVHaric = int.Parse(form["NakliyeBedelTutar_KDVsiz" + i + "[]"]);
-                                YurtDisiTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeBedelTutar_KDV" + i + "[]"]);
-                                YurtDisiTasimaDetay.NakliyeToplam = int.Parse(form["NakliyeBedeliToplam_KDVli" + i + "[]"]);
+                                YurtDisiTasimaDetay.NakliyeKDVOrani = int.Parse(form["NakliyeKdvOran_KDV" + i + "[]"]);
+                                YurtDisiTasimaDetay.NakliyeKDV = int.Parse(form["NakliyeKdvBedeli" + i + "[]"]);
+                                YurtDisiTasimaDetay.NakliyeToplam = int.Parse(form["Fiyat" + i + "[]"]);
                                 YurtDisiTasimaDetay.NakliyeFiyat = int.Parse(form["Fiyat" + i + "[]"]);
+                                YurtDisiTasimaDetay.NakliyeParaBirimiID = int.Parse(form["NakliyeParaBirimID" + i + "[]"]);
                                 YurtDisiTasimaDetay.YurtDisiTasimaTipiID = int.Parse(form["YurtDisiTasimaTipi_ID" + i+"[]"]);
                                 YurtDisiTasimaDetay.GumruklemeTarihi = DateTime.Parse(form["GumruklemeTarihi" + i+"[]"]);
                                 YurtDisiTasimaDetay.Durum = true;
@@ -217,6 +221,9 @@ namespace logikeyv2.Controllers
                                     tasimaMasraflar.MasrafID = int.Parse(form["Masraflar"+i+"[]"][j]);
                                     tasimaMasraflar.Fiyat = float.Parse(form["MasrafFiyat"+i+"[]"][j]);
                                     tasimaMasraflar.ParaBirimID = int.Parse(form["ParaBirimID"+i+"[]"][j]);
+                                    tasimaMasraflar.HedefKurID = int.Parse(form["HedefKurID" + i + "[]"][j]);
+                                    tasimaMasraflar.HedefKurFiyat = int.Parse(form["HedefKurTutar" + i + "[]"][j]);
+                                    tasimaMasraflar.MasrafTarihi = DateTime.Parse(form["MasrafTarih" + i + "[]"][j]);
                                     tasimaMasraflar.Durum = true;
                                     tasimaMasraflar.FirmaID = FirmaID;
                                     tasimaMasraflar.OlusturmaTarihi = DateTime.Now;

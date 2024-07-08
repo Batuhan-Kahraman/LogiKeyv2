@@ -1,15 +1,6 @@
 ﻿using DataAccessLayer.Concrate;
 using EntityLayer.Concrate;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Http;
 
 
 namespace BusinessLayer.Concrate
